@@ -134,7 +134,7 @@ jobs:
       - run:
           name: Build another multi-architecture backend image
           command: |
-            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_backend -f ./zbook_backend/Dockerfile ./zbook_backend
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_backend -f ./zbook_backend/zbook_backend.Dockerfile ./zbook_backend
 
   build_release_database:
     docker:
