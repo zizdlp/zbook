@@ -8,7 +8,8 @@
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_FRONTEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_BACKEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/BACKEND_TEST/badge.svg)](https://github.com/zizdlp/zbook/actions)
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/8vHcbyGzTmhb4VDmwLbUdr/DJZuANNFzvgDb4u7Vgzu8s/tree/main.svg?style=svg&circle-token=CCIPRJ_FV1eqsKxFxov6HLZ89CbCF_75eb151b58940eb6639059a9589d5bab69789524)](https://dl.circleci.com/status-badge/redirect/circleci/8vHcbyGzTmhb4VDmwLbUdr/DJZuANNFzvgDb4u7Vgzu8s/tree/main)
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/zizdlp/zbook/tree/main.svg?style=svg&circle-token=CCIPRJ_Sbd56Dk24YrU33TSVVcih7_4c5a25d25cb8f5eb8898cda615f5963600916a33)](https://dl.circleci.com/status-badge/redirect/gh/zizdlp/zbook/tree/main)
 
 <p align="center">Welcome to ZBook, a fully open-source full-stack knowledge base management software for teams.</p>
 <p align="center">This repository contains the open-source code used to render and serve ZBook</p>
