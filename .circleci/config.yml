@@ -123,7 +123,7 @@ jobs:
       - run:
           name: Build another multi-architecture frontend image
           command: |
-            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/another_frontend:${CIRCLE_TAG} -t zizdlp/another_frontend:latest -f ./another_frontend/Dockerfile ./another_frontend
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/another_frontend -f ./another_frontend/Dockerfile ./another_frontend
 
   build_release_backend:
     docker:
@@ -134,7 +134,7 @@ jobs:
       - run:
           name: Build another multi-architecture backend image
           command: |
-            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/another_backend:${CIRCLE_TAG} -t zizdlp/another_backend:latest -f ./another_backend/Dockerfile ./another_backend
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/another_backend -f ./another_backend/Dockerfile ./another_backend
 
   build_release_database:
     docker:
@@ -145,7 +145,7 @@ jobs:
       - run:
           name: Build another multi-architecture database image
           command: |
-            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/another_database:${CIRCLE_TAG} -t zizdlp/another_database:latest -f ./another_database/Dockerfile ./another_database
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/another_database -f ./another_database/Dockerfile ./another_database
 
 workflows:
   build-and-test:
