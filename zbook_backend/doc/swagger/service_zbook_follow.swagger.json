@@ -1,0 +1,497 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookFollow"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/create_follow": {
+      "post": {
+        "summary": "CreateFollow",
+        "description": "Use this api to create follow relation between two user",
+        "operationId": "ZBookFollow_CreateFollow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateFollowResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateFollowRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookFollow"
+        ]
+      }
+    },
+    "/v1/delete_follow": {
+      "post": {
+        "summary": "delete follow",
+        "description": "Use this api to delete follow",
+        "operationId": "ZBookFollow_DeleteFollow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteFollowResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteFollowRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookFollow"
+        ]
+      }
+    },
+    "/v1/get_follow_status": {
+      "post": {
+        "summary": "get details of user",
+        "description": "Use this api to get details of user",
+        "operationId": "ZBookFollow_GetFollowStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetFollowStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetFollowStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookFollow"
+        ]
+      }
+    },
+    "/v1/get_follower_count": {
+      "post": {
+        "summary": "list  follower of user",
+        "description": "Use this api to list follower of user",
+        "operationId": "ZBookFollow_GetFollowerCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetFollowerCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetFollowerCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookFollow"
+        ]
+      }
+    },
+    "/v1/get_following_count": {
+      "post": {
+        "summary": "list  following of user",
+        "description": "Use this api to list follower of user",
+        "operationId": "ZBookFollow_GetFollowingCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetFollowingCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetFollowingCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookFollow"
+        ]
+      }
+    },
+    "/v1/list_follower": {
+      "post": {
+        "summary": "list  follower of user",
+        "description": "Use this api to list follower of user",
+        "operationId": "ZBookFollow_ListFollower",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListFollowerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListFollowerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookFollow"
+        ]
+      }
+    },
+    "/v1/list_following": {
+      "post": {
+        "summary": "list  following of user",
+        "description": "Use this api to list following of user",
+        "operationId": "ZBookFollow_ListFollowing",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListFollowingResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListFollowingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookFollow"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCreateFollowRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "1.CreateFollow"
+    },
+    "pbCreateFollowResponse": {
+      "type": "object",
+      "properties": {
+        "follow": {
+          "$ref": "#/definitions/pbFollow"
+        }
+      }
+    },
+    "pbDeleteFollowRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "3.DeleteFollow"
+    },
+    "pbDeleteFollowResponse": {
+      "type": "object",
+      "properties": {
+        "follow": {
+          "$ref": "#/definitions/pbFollow"
+        }
+      }
+    },
+    "pbFollow": {
+      "type": "object",
+      "properties": {
+        "followId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "followerId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "followingId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbGetFollowStatusRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "2.GetFollowStatus"
+    },
+    "pbGetFollowStatusResponse": {
+      "type": "object",
+      "properties": {
+        "isFollowing": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbGetFollowerCountRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "5.GetFollowerCount"
+    },
+    "pbGetFollowerCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetFollowingCountRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "7.GetFollowingCount"
+    },
+    "pbGetFollowingCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbListFollowInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "isFollowing": {
+          "type": "boolean"
+        },
+        "repoCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbListFollowerRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "4.ListFollower"
+    },
+    "pbListFollowerResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListFollowInfo"
+          }
+        }
+      }
+    },
+    "pbListFollowingRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "6.ListFollowing"
+    },
+    "pbListFollowingResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListFollowInfo"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

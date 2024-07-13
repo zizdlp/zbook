@@ -1,0 +1,129 @@
+import { ListDataType } from "@/fetchs/model";
+import ListActiveSessionElement from "./details/ListActiveSessionElement";
+import ListAdminCommentElement from "./details/ListAdminCommentElement";
+import ListAdminRepoElement from "./details/ListAdminRepoElement";
+import ListAdminUserElement from "./details/ListAdminUserElement";
+import ListCommentReportElement from "./details/ListCommentReportElement";
+import ListFollowElement from "./details/ListFollowElement";
+import ListRepoElement from "./details/ListRepoElement";
+import ListRepoVisiElement from "./details/ListRepoVisiElement";
+
+export default function ListElementContainer({
+  model,
+  listType,
+}: {
+  model: any;
+  listType: ListDataType;
+}) {
+  if (
+    listType === ListDataType.LIST_USER_FOLLOWER ||
+    listType == ListDataType.LIST_USER_FOLLOWING
+  ) {
+    return (
+      <ListFollowElement
+        username={model.username}
+        email={model.email}
+        is_following={model.is_following ?? false}
+        repo_count={model.repo_count ?? 0}
+        updated_at={model.updated_at}
+        created_at={model.created_at}
+      />
+    );
+  } else if (listType === ListDataType.LIST_REPO_VISI) {
+    return (
+      <ListRepoVisiElement
+        username={model.username}
+        email={model.email}
+        is_following={model.is_following ?? false}
+        repo_count={model.repo_count ?? 0}
+        updated_at={model.updated_at}
+        created_at={model.created_at}
+      />
+    );
+  } else if (
+    listType === ListDataType.LIST_USER_FAVORITE ||
+    listType === ListDataType.LIST_USER_REPO ||
+    listType === ListDataType.LIST_PUBLIC_REPO
+  ) {
+    return (
+      <ListRepoElement
+        repo_name={model.repo_name}
+        username={model.username}
+        repo_id={model.repo_id}
+        repo_description={model.repo_description}
+        visibility_level={model.visibility_level}
+        git_host={model.git_host}
+        deleted={model.deleted ?? false}
+        updated_at={model.updated_at}
+        like_count={model.like_count ?? 0}
+        is_liked={model.is_liked ?? false}
+        created_at={model.created_at}
+      />
+    );
+  } else if (listType === ListDataType.LIST_ADMIN_USER) {
+    return (
+      <ListAdminUserElement
+        username={model.username}
+        email={model.email}
+        blocked={model.blocked}
+        verified={model.verified}
+        deleted={model.deleted}
+        role={model.role}
+        updated_at={model.updated_at}
+      />
+    );
+  } else if (listType === ListDataType.LIST_ADMIN_SESSION) {
+    return (
+      <ListActiveSessionElement
+        username={model.username}
+        email={model.email}
+        user_agent={model.user_agent}
+        client_ip={model.client_ip}
+        created_at={model.created_at}
+        expires_at={model.expires_at}
+      />
+    );
+  } else if (listType === ListDataType.LIST_ADMIN_REPO) {
+    return (
+      <ListAdminRepoElement
+        repo_name={model.repo_name}
+        username={model.username}
+        repo_id={model.repo_id}
+        repo_description={model.repo_description}
+        visibility_level={model.visibility_level}
+        git_host={model.git_host}
+        deleted={model.deleted ?? false}
+        updated_at={model.updated_at}
+        like_count={model.like_count ?? 0}
+        is_liked={model.is_liked ?? false}
+        created_at={model.created_at}
+      />
+    );
+  } else if (listType === ListDataType.LIST_ADMIN_COMMENT) {
+    return (
+      <ListAdminCommentElement
+        username={model.username}
+        email={model.email}
+        comment_content={model.comment_content}
+        comment_id={model.comment_id}
+        deleted={model.deleted}
+        created_at={model.created_at}
+      />
+    );
+  } else if (listType === ListDataType.LIST_ADMIN_COMMENT_REPORT) {
+    return (
+      <ListCommentReportElement
+        report_id={model.report_id}
+        repo_name={model.repo_name}
+        comment_id={model.comment_id}
+        repo_id={model.repo_id}
+        href={model.href}
+        report_content={model.report_content}
+        comment_content={model.comment_content}
+        created_at={model.created_at}
+        processed={model.processed ?? false}
+        username={model.username}
+      />
+    );
+  }
+}

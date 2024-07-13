@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_user.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { title: "zbook api";
+version: "0.1";
+contact: {
+name:
+  "zizdlp.com";
+url:
+  "https://github.com/zizdlp/zbook";
+email:
+  "zizdlp@gmail.com";
+};
+}
+;
+}
+;
+service ZBookUser {
+  // 1.CreateUser
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/create_user",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to  create new user";
+  summary:
+    "create new user";
+  };
+};
+
+// 2.LoginUser
+rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {
+  option (google.api.http) = {
+    post: "/v1/login_user",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to login  user";
+summary:
+  "login user";
+};
+}
+;
+
+// 3.UpdateUser
+rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
+  option (google.api.http) = {
+    post: "/v1/update_user",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  update  user";
+summary:
+  " update user";
+};
+}
+;
+
+// 4.UpdateUserOnBoarding
+rpc UpdateUserOnBoarding(UpdateUserOnBoardingRequest)
+    returns (UpdateUserOnBoardingResponse) {
+  option (google.api.http) = {
+    post: "/v1/update_user_onboarding",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  update  user";
+summary:
+  " update user";
+};
+}
+;
+
+// 5.QueryUser
+rpc QueryUser(QueryUserRequest) returns (QueryUserResponse) {
+  option (google.api.http) = {
+    post: "/v1/query_user",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "使用用户名关键词检索用户";
+summary:
+  "检索用户";
+};
+}
+;
+
+// 6.GetUserInfo
+rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_user_info",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get details of user";
+summary:
+  "get details of user";
+};
+}
+;
+
+// 7.GetUserAvatar
+rpc GetUserAvatar(GetUserAvatarRequest) returns (GetUserAvatarResponse) {
+  option (google.api.http) = {
+    get: "/v1/get_user_avatar"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this API to verify user's email address";
+summary:
+  "Verify email";
+};
+}
+;
+
+// 8.ListUser
+rpc ListUser(ListUserRequest) returns (ListUserResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_user",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list all user";
+summary:
+  "list all user";
+};
+}
+;
+
+// 9.GetListUserCount
+rpc GetListUserCount(GetListUserCountRequest)
+    returns (GetListUserCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_list_user_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list all user";
+summary:
+  "list all user";
+};
+}
+;
+// 10.GetQueryUserCount
+rpc GetQueryUserCount(GetQueryUserCountRequest)
+    returns (GetQueryUserCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_query_user_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list all user";
+summary:
+  "list all user";
+};
+}
+;
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/models";
+
+message ListRepoReportInfo {
+  int64 report_id                      = 1;
+  int64 user_id                        = 2;
+  int64 repo_id                        = 3;
+  string report_content                = 4;
+  bool processed                       = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+message ListUserRepoVisiblityInfo {
+  string username                      = 1;
+  string email                         = 2;
+  bool is_following                    = 3;
+  bool is_repo_visible                 = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}

@@ -1,0 +1,59 @@
+import RepoSideBar from "@/components/sidebars/RepoSideBar";
+import NotFound from "@/components/loadings/NotFound";
+import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
+import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
+import { auth } from "@/auth";
+import { headers } from "next/headers";
+import { FetchError } from "@/fetchs/util";
+import { logger } from "@/utils/logger";
+export default async function SideBarLayout({
+  reponame,
+  username,
+}: {
+  reponame: string;
+  username: string;
+}) {
+  try {
+    let authname = "";
+    const session = await auth();
+    if (session && session.username && session.role) {
+      authname = session.username;
+    }
+    const xforward = headers().get("x-forwarded-for") ?? "";
+    const agent = headers().get("User-Agent") ?? "";
+    const data = await fetchServerWithAuthWrapper({
+      endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_LAYOUT,
+      xforward: xforward,
+      agent: agent,
+      tags: [],
+      values: {
+        repo_name: reponame,
+        username: username,
+      },
+    });
+    if (data.error) {
+      throw new FetchError(data.message, data.status);
+    }
+    if (data && data.layout) {
+      const stringLayout = data.layout;
+      const jsonLayout = JSON.parse(stringLayout);
+      const sublayouts = jsonLayout.sublayouts;
+      return (
+        <RepoSideBar
+          repo_id={data.repo_id}
+          sublayouts={sublayouts}
+          reponame={reponame}
+          username={data.username}
+          authname={authname}
+          visibility_level={data.visibility_level}
+        />
+      );
+    } else {
+      throw new Error(`Error fetching Repo Layout:${data.message}`);
+    }
+  } catch (error) {
+    let e = error as FetchError;
+    logger.error(`Fetch SideBarlayout:${e.message}`, e.status);
+    return <NotFound />;
+  }
+}

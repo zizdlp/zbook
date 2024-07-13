@@ -1,0 +1,864 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookNotification"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/get_list_comment_notification_unreaded_count": {
+      "post": {
+        "summary": "分页列出指定用户的评论通知归属信息",
+        "description": "分页列出指定用户的评论通知归属信息",
+        "operationId": "ZBookNotification_GetListCommentNotificationUnreadedCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentNotificationUnreadedCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentNotificationUnreadedCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/get_list_follower_notification_unreaded_count": {
+      "post": {
+        "summary": "分页列出指定用户的关注者通知归属信息",
+        "description": "分页列出指定用户的关注者通知归属信息",
+        "operationId": "ZBookNotification_GetListFollowerNotificationUnreadedCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListFollowerNotificationUnreadedCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListFollowerNotificationUnreadedCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/get_list_repo_notification_unreaded_count": {
+      "post": {
+        "summary": "分页列出指定用户的帖子通知归属信息",
+        "description": "分页列出指定用户的帖子通知归属信息",
+        "operationId": "ZBookNotification_GetListRepoNotificationUnreadedCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListRepoNotificationUnreadedCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListRepoNotificationUnreadedCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/get_list_system_notification_unreaded_count": {
+      "post": {
+        "summary": "分页获取指定用户的系统通知",
+        "description": "分页获取指定用户的系统通知",
+        "operationId": "ZBookNotification_GetListSystemNotificationUnreadedCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListSystemNotificationUnreadedCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListSystemNotificationUnreadedCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/get_unread_count": {
+      "post": {
+        "summary": "get_unread_count",
+        "description": "Use this api to get_unread_count",
+        "operationId": "ZBookNotification_GetUnReadCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetUnReadCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetUnReadCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/list_comment_notification": {
+      "post": {
+        "summary": "分页列出指定用户的评论通知归属信息",
+        "description": "分页列出指定用户的评论通知归属信息",
+        "operationId": "ZBookNotification_ListCommentNotification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListCommentNotificationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListCommentNotificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/list_follower_notification": {
+      "post": {
+        "summary": "分页列出指定用户的关注者通知归属信息",
+        "description": "分页列出指定用户的关注者通知归属信息",
+        "operationId": "ZBookNotification_ListFollowerNotification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListFollowerNotificationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListFollowerNotificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/list_repo_notification": {
+      "post": {
+        "summary": "分页列出指定用户的帖子通知归属信息",
+        "description": "分页列出指定用户的帖子通知归属信息",
+        "operationId": "ZBookNotification_ListRepoNotification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListRepoNotificationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListRepoNotificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/list_system_notification": {
+      "post": {
+        "summary": "分页获取指定用户的系统通知",
+        "description": "分页获取指定用户的系统通知",
+        "operationId": "ZBookNotification_ListSystemNotification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListSystemNotificationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListSystemNotificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/mark_comment_notification_readed": {
+      "post": {
+        "summary": "set_comment_noti_read",
+        "description": "Use this api to set_comment_noti_read",
+        "operationId": "ZBookNotification_MarkCommentNotificationReaded",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSetNotiReadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbMarkCommentNotificationReadedRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/mark_follower_notification_readed": {
+      "post": {
+        "summary": "mark_follower_notification_readed",
+        "description": "Use this api to set_follower_noti_read",
+        "operationId": "ZBookNotification_MarkFollowerNotificationReaded",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSetNotiReadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbMarkFollowerNotificationReadedRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/mark_repo_notification_readed": {
+      "post": {
+        "summary": "set_image_noti_read",
+        "description": "Use this api to set_image_noti_read",
+        "operationId": "ZBookNotification_MarkRepoNotificationReaded",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSetNotiReadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbMarkRepoNotificationReadedRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/mark_system_notification_readed": {
+      "post": {
+        "summary": "set_system_noti_read",
+        "description": "Use this api to set_system_noti_read",
+        "operationId": "ZBookNotification_MarkSystemNotificationReaded",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSetNotiReadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbMarkSystemNotificationReadedRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    },
+    "/v1/reset_unread_count": {
+      "post": {
+        "summary": "reset_unread_count",
+        "description": "Use this api to reset_unread_count",
+        "operationId": "ZBookNotification_ResetUnreadCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbResetUnreadCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbResetUnreadCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookNotification"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbGetListCommentNotificationUnreadedCountRequest": {
+      "type": "object",
+      "title": "13.GetListCommentNotificationUnreadedCount"
+    },
+    "pbGetListCommentNotificationUnreadedCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListFollowerNotificationUnreadedCountRequest": {
+      "type": "object",
+      "title": "11.GetListFollowerNotificationUnreadedCount"
+    },
+    "pbGetListFollowerNotificationUnreadedCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListRepoNotificationUnreadedCountRequest": {
+      "type": "object",
+      "title": "12.GetListRepoNotificationUnreadedCount"
+    },
+    "pbGetListRepoNotificationUnreadedCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListSystemNotificationUnreadedCountRequest": {
+      "type": "object",
+      "title": "14.GetListSystemNotificationUnreadedCount"
+    },
+    "pbGetListSystemNotificationUnreadedCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetUnReadCountRequest": {
+      "type": "object",
+      "title": "9.GetUnReadCount"
+    },
+    "pbGetUnReadCountResponse": {
+      "type": "object",
+      "properties": {
+        "unreadCount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "pbListCommentNotificationInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "readed": {
+          "type": "boolean"
+        },
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "commentContent": {
+          "type": "string"
+        },
+        "repoId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "relativePath": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "repoUsername": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListCommentNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "3.ListCommentNotification"
+    },
+    "pbListCommentNotificationResponse": {
+      "type": "object",
+      "properties": {
+        "notifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListCommentNotificationInfo"
+          }
+        }
+      }
+    },
+    "pbListFollowerNotificationInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "readed": {
+          "type": "boolean"
+        },
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbListFollowerNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "1.ListFollowerNotification"
+    },
+    "pbListFollowerNotificationResponse": {
+      "type": "object",
+      "properties": {
+        "notifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListFollowerNotificationInfo"
+          }
+        }
+      }
+    },
+    "pbListRepoNotificationInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "readed": {
+          "type": "boolean"
+        },
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "repoId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "repoName": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListRepoNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "2.ListRepoNotification"
+    },
+    "pbListRepoNotificationResponse": {
+      "type": "object",
+      "properties": {
+        "notifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListRepoNotificationInfo"
+          }
+        }
+      }
+    },
+    "pbListSystemNotificationInfo": {
+      "type": "object",
+      "properties": {
+        "readed": {
+          "type": "boolean"
+        },
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "title": {
+          "type": "string"
+        },
+        "contents": {
+          "type": "string"
+        },
+        "redirectUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListSystemNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "4.ListSystemNotification"
+    },
+    "pbListSystemNotificationResponse": {
+      "type": "object",
+      "properties": {
+        "notifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListSystemNotificationInfo"
+          }
+        }
+      }
+    },
+    "pbMarkCommentNotificationReadedRequest": {
+      "type": "object",
+      "properties": {
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "7.MarkCommentNotificationReaded"
+    },
+    "pbMarkFollowerNotificationReadedRequest": {
+      "type": "object",
+      "properties": {
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "5.MarkFollowerNotificationReaded"
+    },
+    "pbMarkRepoNotificationReadedRequest": {
+      "type": "object",
+      "properties": {
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "8.MarkRepoNotificationReaded"
+    },
+    "pbMarkSystemNotificationReadedRequest": {
+      "type": "object",
+      "properties": {
+        "notiId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "6.MarkSystemNotificationReaded"
+    },
+    "pbResetUnreadCountRequest": {
+      "type": "object",
+      "title": "10.ResetUnreadCount"
+    },
+    "pbResetUnreadCountResponse": {
+      "type": "object"
+    },
+    "pbSetNotiReadResponse": {
+      "type": "object"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

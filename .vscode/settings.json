@@ -1,0 +1,43 @@
+{
+  "markdown-preview-enhanced.enablePreviewZenMode": false,
+  "protoc": {
+    "options": ["--proto_path=proto"]
+  },
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "files.associations": {
+    ".env*": "dotenv",
+    "vector": "cpp",
+    "iosfwd": "cpp"
+  },
+  "go.toolsManagement.autoUpdate": true,
+  "[proto3]": {
+    "editor.defaultFormatter": "zxh404.vscode-proto3"
+  },
+  "clang-format.style": "{ IndentWidth: 2, BasedOnStyle: google, AlignConsecutiveAssignments: AcrossEmptyLines, AlignAfterOpenBracket: AlwaysBreak}",
+  "editor.formatOnSave": true,
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
+  },
+  "i18n-ally.localesPaths": ["./zbook_frontend/messages"], // E.g. "./messages"
+  "i18n-ally.keystyle": "nested"
+}

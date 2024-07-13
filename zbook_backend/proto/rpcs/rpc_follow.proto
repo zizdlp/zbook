@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package pb;
+
+import "models/follow.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.CreateFollow
+message CreateFollowRequest {
+  string username = 1;
+}
+message CreateFollowResponse {
+  Follow follow = 1;
+}
+
+// 2.GetFollowStatus
+message GetFollowStatusRequest {
+  string username = 1;
+}
+message GetFollowStatusResponse {
+  bool is_following = 1;
+}
+
+// 3.DeleteFollow
+message DeleteFollowRequest {
+  string username = 1;
+}
+message DeleteFollowResponse {
+  Follow follow = 1;
+}
+
+// 4.ListFollower
+message ListFollowerRequest {
+  string username = 1;
+  int32 page_id   = 2;
+  int32 page_size = 3;
+  string query    = 4;
+}
+message ListFollowerResponse {
+  repeated ListFollowInfo elements = 1;
+}
+
+// 5.GetFollowerCount
+message GetFollowerCountRequest {
+  string username = 1;
+  string query    = 2;
+}
+message GetFollowerCountResponse {
+  int64 count = 1;
+}
+
+// 6.ListFollowing
+message ListFollowingRequest {
+  string username = 1;
+  int32 page_id   = 2;
+  int32 page_size = 3;
+  string query    = 4;
+}
+message ListFollowingResponse {
+  repeated ListFollowInfo elements = 1;
+}
+
+// 7.GetFollowingCount
+message GetFollowingCountRequest {
+  string username = 1;
+  string query    = 2;
+}
+message GetFollowingCountResponse {
+  int64 count = 1;
+}

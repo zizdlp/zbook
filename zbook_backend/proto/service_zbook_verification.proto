@@ -1,0 +1,95 @@
+// clang-format off
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_verification.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { 
+    title: "zbook api";
+    version: "0.1";
+    contact: {
+      name:
+        "zizdlp.com";
+      url:
+        "https://github.com/zizdlp/zbook";
+      email:
+        "zizdlp@gmail.com";
+    };
+  };
+};
+service ZBookVerification {
+
+  // 1.VerifyEmail
+  rpc VerifyEmail(VerifyEmailRequest) returns (VerifyEmailResponse) {
+    option (google.api.http) = {
+      get : "/v1/verify_email"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this API to verify user's email address";
+      summary: "Verify email";
+      };
+    };
+
+// 2.ResetPassword
+rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse) {
+  option (google.api.http) = {
+    post : "/v1/reset_password",
+    body : "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description : "Use this API to reset password";
+summary:
+  "reset password";
+};
+}
+;
+
+// 3.SendEmailToResetPassword
+rpc SendEmailToResetPassword(SendEmailToResetPasswordRequest)
+    returns (SendEmailToResetPasswordResponse) {
+  option (google.api.http) = {
+    post : "/v1/send_email_to_reset_password",
+    body : "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description : "Use this api to send verify code to your email";
+summary:
+  "Use this api to send verify code to your email";
+};
+}
+;
+
+// 4.SendEmailToVerifyEmail
+rpc SendEmailToVerifyEmail(SendEmailToVerifyEmailRequest)
+    returns (SendEmailToVerifyEmailResponse) {
+  option (google.api.http) = {
+    post : "/v1/send_email_to_verify_email",
+    body : "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description : "Use this api to send verify email to your email";
+summary:
+  "Use this api to send verify email to your email";
+};
+}
+;
+
+// 5.RefreshToken
+rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {
+  option (google.api.http) = {
+    post : "/v1/refresh_token",
+    body : "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description : "Use this api to refresh token";
+summary:
+  "refresh token";
+};
+}
+;
+}

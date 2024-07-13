@@ -1,0 +1,192 @@
+// clang-format off
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_notification.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { 
+    title: "zbook api";
+    version: "0.1";
+    contact: {
+      name:
+        "zizdlp.com";
+      url:
+        "https://github.com/zizdlp/zbook";
+      email:
+        "zizdlp@gmail.com";
+    };
+  };
+};
+service ZBookNotification {
+  // 1.ListFollowerNotification
+  rpc ListFollowerNotification(ListFollowerNotificationRequest) returns (ListFollowerNotificationResponse) {
+    option (google.api.http) = {
+      post: "/v1/list_follower_notification",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页列出指定用户的关注者通知归属信息";
+      summary: "分页列出指定用户的关注者通知归属信息";
+    };
+  };
+
+  // 2.ListRepoNotification
+  rpc ListRepoNotification(ListRepoNotificationRequest) returns (ListRepoNotificationResponse) {
+    option (google.api.http) = {
+      post: "/v1/list_repo_notification",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页列出指定用户的帖子通知归属信息";
+      summary: "分页列出指定用户的帖子通知归属信息";
+    };
+  };
+
+  // 3.ListCommentNotification
+  rpc ListCommentNotification(ListCommentNotificationRequest) returns (ListCommentNotificationResponse) {
+    option (google.api.http) = {
+      post: "/v1/list_comment_notification",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页列出指定用户的评论通知归属信息";
+      summary: "分页列出指定用户的评论通知归属信息";
+    };
+  };
+
+  // 4.ListSystemNotification
+  rpc ListSystemNotification(ListSystemNotificationRequest) returns (ListSystemNotificationResponse) {
+    option (google.api.http) = {
+      post: "/v1/list_system_notification",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页获取指定用户的系统通知";
+      summary: "分页获取指定用户的系统通知";
+    };
+  };
+
+  // 5.MarkFollowerNotificationReaded
+  rpc MarkFollowerNotificationReaded(MarkFollowerNotificationReadedRequest) returns (SetNotiReadResponse) {
+    option (google.api.http) = {
+      post: "/v1/mark_follower_notification_readed",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to set_follower_noti_read";
+      summary: "mark_follower_notification_readed";
+    };
+  };
+
+  // 6.MarkSystemNotificationReaded
+  rpc MarkSystemNotificationReaded(MarkSystemNotificationReadedRequest) returns (SetNotiReadResponse) {
+    option (google.api.http) = {
+      post: "/v1/mark_system_notification_readed",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to set_system_noti_read";
+      summary: "set_system_noti_read";
+    };
+  };
+
+  // 7.MarkCommentNotificationReaded
+  rpc MarkCommentNotificationReaded(MarkCommentNotificationReadedRequest) returns (SetNotiReadResponse) {
+    option (google.api.http) = {
+      post: "/v1/mark_comment_notification_readed",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to set_comment_noti_read";
+      summary: "set_comment_noti_read";
+    };
+  };
+
+  // 8.MarkRepoNotificationReaded
+  rpc MarkRepoNotificationReaded(MarkRepoNotificationReadedRequest) returns (SetNotiReadResponse) {
+    option (google.api.http) = {
+      post: "/v1/mark_repo_notification_readed",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to set_image_noti_read";
+      summary: "set_image_noti_read";
+    };
+  };
+
+  // 9.GetUnReadCount
+  rpc GetUnReadCount(GetUnReadCountRequest) returns (GetUnReadCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_unread_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to get_unread_count";
+      summary: "get_unread_count";
+    };
+  };
+
+  // 10.ResetUnreadCount
+  rpc ResetUnreadCount(ResetUnreadCountRequest) returns (ResetUnreadCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/reset_unread_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to reset_unread_count";
+      summary: "reset_unread_count";
+    };
+  };
+   // 11.GetListFollowerNotificationUnreadedCount
+   rpc GetListFollowerNotificationUnreadedCount(GetListFollowerNotificationUnreadedCountRequest) returns (GetListFollowerNotificationUnreadedCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_list_follower_notification_unreaded_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页列出指定用户的关注者通知归属信息";
+      summary: "分页列出指定用户的关注者通知归属信息";
+    };
+  };
+
+  // 12.GetListRepoNotificationUnreadedCount
+  rpc GetListRepoNotificationUnreadedCount(GetListRepoNotificationUnreadedCountRequest) returns (GetListRepoNotificationUnreadedCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_list_repo_notification_unreaded_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页列出指定用户的帖子通知归属信息";
+      summary: "分页列出指定用户的帖子通知归属信息";
+    };
+  };
+
+  // 13.GetListCommentNotificationUnreadedCount
+  rpc GetListCommentNotificationUnreadedCount(GetListCommentNotificationUnreadedCountRequest) returns (GetListCommentNotificationUnreadedCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_list_comment_notification_unreaded_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页列出指定用户的评论通知归属信息";
+      summary: "分页列出指定用户的评论通知归属信息";
+    };
+  };
+
+  // 14.GetListSystemNotificationUnreadedCount
+  rpc GetListSystemNotificationUnreadedCount(GetListSystemNotificationUnreadedCountRequest) returns (GetListSystemNotificationUnreadedCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_list_system_notification_unreaded_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "分页获取指定用户的系统通知";
+      summary: "分页获取指定用户的系统通知";
+    };
+  };
+}

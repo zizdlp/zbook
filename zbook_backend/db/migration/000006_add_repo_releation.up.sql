@@ -1,0 +1,23 @@
+
+CREATE TABLE "repo_relations" (
+  "relation_id" bigserial PRIMARY KEY,
+  "relation_type" varchar(255) NOT NULL,
+  "user_id" bigint NOT NULL,
+  "repo_id" bigint NOT NULL,
+  "created_at"  timestamptz NOT NULL DEFAULT (now())
+);
+
+ALTER TABLE "repo_relations" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "repo_relations" ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id");
+CREATE UNIQUE INDEX ON "repo_relations" ("user_id","repo_id","relation_type");
+
+CREATE TABLE "repo_visibility" (
+  "visibility_id" bigserial PRIMARY KEY,
+  "repo_id" bigint  NOT NULL,
+  "user_id" bigint NOT NULL,
+  "created_at"  timestamptz NOT NULL DEFAULT (now())
+);
+
+ALTER TABLE "repo_visibility" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "repo_visibility" ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id");
+CREATE UNIQUE INDEX ON "repo_visibility" ("user_id","repo_id");

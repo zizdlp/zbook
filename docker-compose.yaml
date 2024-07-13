@@ -1,0 +1,107 @@
+version: "3"
+
+services:
+  zbook-compose-postgres:
+    container_name: zbook-compose-postgres
+    image: zizdlp/zbook_database
+    # build:
+    #   context: ./zbook_database
+    #   dockerfile: zbook_database.Dockerfile
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=postgres-secret
+      - POSTGRES_DB=zbook
+    expose:
+      - "5342"
+    volumes:
+      - ./zbook_data/database:/var/lib/postgresql/data
+  zbook-compose-redis:
+    container_name: zbook-compose-redis
+    image: redis:7-alpine
+    expose:
+      - "6379"
+    volumes:
+      - ./zbook_data/redis:/data
+  zbook-compose-minio:
+    container_name: zbook-compose-minio
+    image: minio/minio
+    expose:
+      - "9000"
+    ports:
+      - 10001:9001
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=minio-secret
+    command: ["server", "/data", "--console-address", ":9001"]
+    volumes:
+      - ./zbook_data/avatar:/data
+  zbook-compose-backend:
+    container_name: zbook-compose-backend
+    build:
+      context: ./zbook_backend
+      dockerfile: zbook_backend.Dockerfile
+    expose:
+      - "8080"
+      - "9090"
+    ports:
+      - 10099:9099
+    environment:
+      - DB_SOURCE=postgresql://root:postgres-secret@zbook-compose-postgres:5432/zbook?sslmode=disable
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=minio-secret
+      - REQUIRE_EMAIL_VERIFY=false
+      - TOKEN_SYMMETRIC_KEY=12345058901234567890123456789083
+      - WIKI_PATH=/tmp/wiki
+
+      - EMAIL_SENDER_NAME=zbook
+      - EMAIL_SENDER_ADDRESS=example@example.com
+      - EMAIL_SENDER_PASSWORD=email-secret
+      - SMTP_AUTH_ADDR=smtp.qq.com
+      - SMTP_SERVER_ADDR=smtp.qq.com:25
+
+      - REDIS_ADDRESS=zbook-compose-redis:6379
+      - HOME_ADDRESS=http://localhost:3000
+      - MINIO_ADDR=zbook-compose-minio:9000
+
+    depends_on:
+      - zbook-compose-postgres
+      - zbook-compose-redis
+      - zbook-compose-minio
+    volumes:
+      - ./zbook_data/repo:/tmp/wiki
+    entrypoint:
+      [
+        "/app/wait-for.sh",
+        "zbook-compose-minio:9000",
+        "--",
+        "/app/wait-for.sh",
+        "zbook-compose-postgres:5432",
+        "--",
+        "/app/start.sh",
+      ]
+    command: ["/app/main"]
+  zbook-compose-frontend:
+    container_name: zbook-compose-frontend
+    build:
+      context: ./zbook_frontend
+      dockerfile: zbook_frontend.Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      - WEBSOCKET_URL=ws://localhost:10099
+      - BACKEND_URL=http://zbook-compose-backend:8080/
+      - AUTH_URL=http://localhost:3000
+      - AUTH_SECRET=abcadsfasfsdafawefwaefa2
+      - AUTH_TRUST_HOST=true
+      - DOC_REPONAME=docs
+      - DOC_USERNAME=admin
+      - GITHUB_ID=Ov23liMO37mBuIDcpRte
+      - GITHUB_SECRET=4432ad0364a35f4472f98b5bfd76d37dbcdbc92c
+      - GOOGLE_CLIENT_ID=407851235789-p3nrgk97nhsp52hi7rkrc23qasn3qb9i.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+    depends_on:
+      - zbook-compose-backend
+networks:
+  zbook-compose-network:
+    driver: bridge

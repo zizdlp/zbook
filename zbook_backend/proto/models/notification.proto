@@ -1,0 +1,42 @@
+syntax = "proto3";
+package pb;
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/zizdlp/zbook/pb/models";
+
+message ListFollowerNotificationInfo {
+  string username                      = 1;
+  string email                         = 2;
+  bool readed                          = 3;
+  int64 noti_id                        = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+message ListRepoNotificationInfo {
+  string username                      = 1;
+  string email                         = 2;
+  bool readed                          = 3;
+  int64 noti_id                        = 4;
+  google.protobuf.Timestamp created_at = 5;
+  int64 repo_id                        = 6;
+  string repo_name                     = 7;
+}
+message ListCommentNotificationInfo {
+  string username                      = 1;
+  string email                         = 2;
+  bool readed                          = 3;
+  int64 noti_id                        = 4;
+  google.protobuf.Timestamp created_at = 5;
+  string comment_content               = 6;
+  int64 repo_id                        = 7;
+  string relative_path                 = 8;
+  string repo_name                     = 9;
+  string repo_username =10;
+}
+
+message ListSystemNotificationInfo {
+  bool readed                          = 1;
+  int64 noti_id                        = 2;
+  google.protobuf.Timestamp created_at = 3;
+  string title                         = 4;
+  string contents                      = 5;
+  string redirect_url                  = 6;
+}

@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_follow.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { title: "zbook api";
+version: "0.1";
+contact: {
+name:
+  "zizdlp.com";
+url:
+  "https://github.com/zizdlp/zbook";
+email:
+  "zizdlp@gmail.com";
+};
+}
+;
+}
+;
+service ZBookFollow {
+  // 1.CreateFollow
+  rpc CreateFollow(CreateFollowRequest) returns (CreateFollowResponse) {
+    option (google.api.http) = {
+      post: "/v1/create_follow",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to create follow relation between two user";
+  summary:
+    "CreateFollow";
+  };
+};
+
+// 2.GetFollowStatus
+rpc GetFollowStatus(GetFollowStatusRequest) returns (GetFollowStatusResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_follow_status",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get details of user";
+summary:
+  "get details of user";
+};
+}
+;
+
+// 3.DeleteFollow
+rpc DeleteFollow(DeleteFollowRequest) returns (DeleteFollowResponse) {
+  option (google.api.http) = {
+    post: "/v1/delete_follow",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to delete follow";
+summary:
+  "delete follow";
+};
+}
+;
+// 4.ListFollower
+rpc ListFollower(ListFollowerRequest) returns (ListFollowerResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_follower",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list follower of user";
+summary:
+  "list  follower of user";
+};
+}
+;
+// 5.
+rpc GetFollowerCount(GetFollowerCountRequest)
+    returns (GetFollowerCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_follower_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list follower of user";
+summary:
+  "list  follower of user";
+};
+}
+;
+// 6.ListFollowing
+rpc ListFollowing(ListFollowingRequest) returns (ListFollowingResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_following",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list following of user";
+summary:
+  "list  following of user";
+};
+}
+;
+
+// 7.GetFollowingCount
+rpc GetFollowingCount(GetFollowingCountRequest)
+    returns (GetFollowingCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_following_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list follower of user";
+summary:
+  "list  following of user";
+};
+}
+;
+}

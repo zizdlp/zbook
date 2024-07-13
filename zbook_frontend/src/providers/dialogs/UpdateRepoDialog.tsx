@@ -1,0 +1,210 @@
+"use client";
+import { useContext, useRef, useState } from "react";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+
+import DialogComponent from "../../components/DialogComponent";
+import { OperationContext } from "../OperationProvider";
+
+import FormCommitWrapper from "../../components/wrappers/FormCommitWrapper";
+import FormGroupWrapper from "../../components/wrappers/FormGroupWrapper";
+import FormInputWrapper from "../../components/wrappers/FormInputWrapper";
+
+import { HiFingerPrint } from "react-icons/hi";
+import { useTranslations } from "next-intl";
+import {
+  fetchServerWithAuthWrapper,
+  refreshPage,
+} from "@/fetchs/server_with_auth";
+import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
+import { UpdateRepoInfoRequest } from "@/fetchs/server_with_auth_request";
+import FormTextAreaWrapper from "@/components/wrappers/FormTextAreaWrapper";
+import FormListBox from "@/components/wrappers/FormListBox";
+import { FetchError } from "@/fetchs/util";
+export default function UpdateRepoDialog() {
+  const t = useTranslations("Repo");
+  const { updateRepoOpen, setUpdateRepoOpen, operationRepoID } =
+    useContext(OperationContext);
+  const [show, setShow] = useState(false);
+  const cancelButtonRef = useRef(null);
+  function updateRepoValidate(values: any) {
+    const errors: { [key: string]: string } = {};
+    return errors;
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      repo_id: 0,
+      repo_name: "",
+      repo_description: "",
+      git_access_token: "",
+      visibility_level: "",
+      sync_token: "",
+      home_page: "",
+    },
+    validate: updateRepoValidate,
+    onSubmit: onSubmit,
+  });
+  async function onSubmit(values: UpdateRepoInfoRequest) {
+    const id = toast(t("EditingRepository"), {
+      type: "info",
+      isLoading: true,
+    });
+    values.repo_id = operationRepoID;
+    try {
+      const data = await fetchServerWithAuthWrapper({
+        endpoint: FetchServerWithAuthWrapperEndPoint.UPDATE_REPO_INFO,
+        xforward: "",
+        agent: "",
+        tags: [],
+        values: values,
+      });
+      if (data.error) {
+        throw new FetchError(data.message, data.status);
+      }
+      toast.update(id, {
+        render: t("RepositoryEditSucc"),
+        type: "success",
+        isLoading: false,
+        autoClose: 1000,
+      });
+      setUpdateRepoOpen(false);
+      refreshPage("/", true, false);
+      formik.resetForm();
+    } catch (error) {
+      toast.update(id, {
+        render: t("FailedEditRepository"),
+        type: "error",
+        isLoading: false,
+        autoClose: 1000,
+      });
+    }
+  }
+  return (
+    <DialogComponent
+      showDialog={updateRepoOpen}
+      setShowDialog={setUpdateRepoOpen}
+    >
+      <form
+        className="w-fll flex lg:block md:overflow-hidden grow  justify-center overflow-auto  items-center  px-4 py-4  text-slate-700 "
+        onSubmit={formik.handleSubmit}
+      >
+        <div className="sm:overflow-hidden sm:rounded-md w-full">
+          <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
+            <div className="col-span-6 justify-center flex-center">
+              <label
+                htmlFor="repo_name"
+                className="block text-center pt-2 pb-6 text-2xl font-bold text-gray-700 dark:text-slate-50"
+              >
+                {t("EditRepository")}
+              </label>
+            </div>
+
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-6"
+              nameKey="repo_name"
+              showName={t("RepositoryName")}
+              formik={formik}
+            >
+              <FormInputWrapper
+                show={true}
+                name="repo_name"
+                placeholder={t("RepositoryNameTip")}
+                formik={formik}
+                error={formik.errors.repo_name}
+              />
+            </FormGroupWrapper>
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-3"
+              nameKey="home_page"
+              showName={t("Home")}
+              formik={formik}
+            >
+              <FormInputWrapper
+                show={true}
+                name="home_page"
+                placeholder={t("HomeTip")}
+                formik={formik}
+                error={formik.errors.home_page}
+              />
+            </FormGroupWrapper>
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-3"
+              nameKey="visibility_level"
+              showName={t("VisibleToWho")}
+              formik={formik}
+            >
+              <FormListBox
+                options={[
+                  { value: "", label: t("ChooseVisibleToWho") },
+                  { value: "private", label: t("VisibleOnlyCreator") },
+                  { value: "chosen", label: t("VisibleOnlySelected") },
+                  { value: "signed", label: t("VisibleOnlyLogin") },
+                  { value: "public", label: t("VisibleEveryone") },
+                ]}
+                nameKey="visibility_level"
+                formik={formik}
+              />
+            </FormGroupWrapper>
+
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-6"
+              nameKey="repo_description"
+              showName={t("DescribeRepo")}
+              formik={formik}
+            >
+              <FormTextAreaWrapper
+                name="repo_description"
+                placeholder={t("DescribeRepoTip")}
+                row={3}
+                formik={formik}
+                error={formik.errors.repo_description}
+              />
+            </FormGroupWrapper>
+
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-3"
+              nameKey="sync_token"
+              showName={t("GitHubSyncToken")}
+              formik={formik}
+            >
+              <FormInputWrapper
+                show={true}
+                name="sync_token"
+                placeholder={t("GitHubSyncTokenTip")}
+                formik={formik}
+                error={formik.errors.sync_token}
+              />
+            </FormGroupWrapper>
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-3"
+              nameKey="git_access_token"
+              showName={t("TokenPassword")}
+              formik={formik}
+            >
+              <div className="flex items-center space-x-2 relative">
+                <FormInputWrapper
+                  show={show}
+                  name="git_access_token"
+                  placeholder={t("TokenPasswordTip")}
+                  formik={formik}
+                  error={formik.errors.git_access_token}
+                />
+                <div
+                  className="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer"
+                  onClick={() => setShow(!show)}
+                >
+                  <HiFingerPrint size={25} />
+                </div>
+              </div>
+            </FormGroupWrapper>
+          </div>
+          <FormCommitWrapper
+            setOpen={setUpdateRepoOpen}
+            cancelButtonRef={cancelButtonRef}
+          />
+        </div>
+      </form>
+    </DialogComponent>
+  );
+}
