@@ -111,16 +111,16 @@ workflows:
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
-              ignore: /.*/
+              only: release
       - build_backend:
           filters:
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
-              ignore: /.*/
+              only: release
       - build_database:
           filters:
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
-              ignore: /.*/
+              only: release

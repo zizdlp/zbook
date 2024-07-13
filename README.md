@@ -9,7 +9,7 @@
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_BACKEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/BACKEND_TEST/badge.svg)](https://github.com/zizdlp/zbook/actions)
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/zizdlp/zbook/tree/main.svg?style=svg&circle-token=CCIPRJ_Sbd56Dk24YrU33TSVVcih7_4c5a25d25cb8f5eb8898cda615f5963600916a33)](https://dl.circleci.com/status-badge/redirect/gh/zizdlp/zbook/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/zizdlp/zbook/tree/release.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/zizdlp/zbook/tree/release)
 
 <p align="center">Welcome to ZBook, a fully open-source full-stack knowledge base management software for teams.</p>
 <p align="center">This repository contains the open-source code used to render and serve ZBook</p>
