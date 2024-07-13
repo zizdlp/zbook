@@ -1,7 +1,7 @@
 version: 2.1
 
 commands: # a reusable command with parameters
-  task-init:
+  task-docker:
     parameters:
       to:
         default: "build"
@@ -33,6 +33,12 @@ commands: # a reusable command with parameters
           name: Login to Docker Hub
           command: |
             docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+  task-tag:
+    parameters:
+      to:
+        default: "build"
+        type: string
+    steps:
       - run:
           name: Check tag creator
           command: |
@@ -73,7 +79,9 @@ jobs:
     docker:
       - image: ubuntu:22.04
     steps:
-      - task-init:
+      - task-docker:
+        to: "build_frontend"
+      - task-tag:
         to: "build_frontend"
       - run:
           name: Build multi-architecture zbook frontend image
@@ -84,8 +92,10 @@ jobs:
     docker:
       - image: ubuntu:22.04
     steps:
-      - task-init:
-        to: "build_backend"
+      - task-docker:
+        to: "build_frontend"
+      - task-tag:
+        to: "build_frontend"
       - run:
           name: Build multi-architecture zbook backend image
           command: |
@@ -95,15 +105,49 @@ jobs:
     docker:
       - image: ubuntu:22.04
     steps:
-      - task-init:
-        to: "build_database"
+      - task-docker:
+        to: "build_frontend"
+      - task-tag:
+        to: "build_frontend"
       - run:
           name: Build multi-architecture zbook database image
           command: |
             docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_database:${CIRCLE_TAG} -t zizdlp/zbook_database:latest -f ./zbook_database/zbook_database.Dockerfile ./zbook_database --push
 
+  build_release_frontend:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+          to: "build_another_frontend"
+      - run:
+          name: Build another multi-architecture frontend image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_frontend -f ./zbook_frontend/zbook_frontend.Dockerfile ./zbook_frontend
+
+  build_release_backend:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+          to: "build_another_backend"
+      - run:
+          name: Build another multi-architecture backend image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_backend -f ./zbook_backend/zbook_backend.Dockerfile ./zbook_backend
+
+  build_release_database:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+          to: "build_another_database"
+      - run:
+          name: Build another multi-architecture database image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_database -f ./zbook_database/zbook_database.Dockerfile ./zbook_database
+
 workflows:
-  version: 2
   build-and-test:
     jobs:
       - build_frontend:
@@ -111,16 +155,28 @@ workflows:
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
-              only: release
+              ignore: /.*/
       - build_backend:
           filters:
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
-              only: release
+              ignore: /.*/
       - build_database:
           filters:
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/
+      - build_release_frontend:
+          filters:
+            branches:
+              only: release
+      - build_release_backend:
+          filters:
+            branches:
+              only: release
+      - build_release_database:
+          filters:
             branches:
               only: release
