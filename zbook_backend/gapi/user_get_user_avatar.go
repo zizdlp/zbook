@@ -17,7 +17,7 @@ func (server *Server) GetUserAvatar(ctx context.Context, req *rpcs.GetUserAvatar
 		return nil, invalidArgumentError(violations)
 	}
 
-	avatarData, err := storage.DownloadAvatar(server.minioClient, ctx, req.GetUsername(), "avatar")
+	avatarData, err := storage.DownloadFileFromStorage(server.minioClient, ctx, req.GetUsername(), "avatar")
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "download avatar failed: %s", err)
 	}

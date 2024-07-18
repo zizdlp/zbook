@@ -12,6 +12,7 @@ CREATE TABLE "repos" (
   "sync_token" varchar(255) DEFAULT '',
   "visibility_level" varchar(255) NOT NULL,
   "deleted" boolean NOT NULL DEFAULT FALSE,
+  "commit_id" varchar(255) NOT NULL,
   "layout" text NOT NULL DEFAULT '',
   "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updated_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,

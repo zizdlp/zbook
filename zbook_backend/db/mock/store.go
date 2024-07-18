@@ -435,20 +435,6 @@ func (mr *MockStoreMockRecorder) DeleteFollowerNotification(arg0, arg1 interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFollowerNotification", reflect.TypeOf((*MockStore)(nil).DeleteFollowerNotification), arg0, arg1)
 }
 
-// DeleteMarkdown mocks base method.
-func (m *MockStore) DeleteMarkdown(arg0 context.Context, arg1 db.DeleteMarkdownParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteMarkdown", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteMarkdown indicates an expected call of DeleteMarkdown.
-func (mr *MockStoreMockRecorder) DeleteMarkdown(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMarkdown", reflect.TypeOf((*MockStore)(nil).DeleteMarkdown), arg0, arg1)
-}
-
 // DeleteMarkdownByRepo mocks base method.
 func (m *MockStore) DeleteMarkdownByRepo(arg0 context.Context, arg1 int64) error {
 	m.ctrl.T.Helper()
@@ -461,6 +447,20 @@ func (m *MockStore) DeleteMarkdownByRepo(arg0 context.Context, arg1 int64) error
 func (mr *MockStoreMockRecorder) DeleteMarkdownByRepo(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMarkdownByRepo", reflect.TypeOf((*MockStore)(nil).DeleteMarkdownByRepo), arg0, arg1)
+}
+
+// DeleteMarkdownMulti mocks base method.
+func (m *MockStore) DeleteMarkdownMulti(arg0 context.Context, arg1 db.DeleteMarkdownMultiParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteMarkdownMulti", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMarkdownMulti indicates an expected call of DeleteMarkdownMulti.
+func (mr *MockStoreMockRecorder) DeleteMarkdownMulti(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMarkdownMulti", reflect.TypeOf((*MockStore)(nil).DeleteMarkdownMulti), arg0, arg1)
 }
 
 // DeleteOAuth mocks base method.
@@ -476,20 +476,6 @@ func (m *MockStore) DeleteOAuth(arg0 context.Context, arg1 db.DeleteOAuthParams)
 func (mr *MockStoreMockRecorder) DeleteOAuth(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOAuth", reflect.TypeOf((*MockStore)(nil).DeleteOAuth), arg0, arg1)
-}
-
-// DeleteOldMarkdown mocks base method.
-func (m *MockStore) DeleteOldMarkdown(arg0 context.Context, arg1 db.DeleteOldMarkdownParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteOldMarkdown", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteOldMarkdown indicates an expected call of DeleteOldMarkdown.
-func (mr *MockStoreMockRecorder) DeleteOldMarkdown(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOldMarkdown", reflect.TypeOf((*MockStore)(nil).DeleteOldMarkdown), arg0, arg1)
 }
 
 // DeleteRepoRelation mocks base method.
@@ -1701,21 +1687,6 @@ func (mr *MockStoreMockRecorder) QueryFollowing(arg0, arg1 interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryFollowing", reflect.TypeOf((*MockStore)(nil).QueryFollowing), arg0, arg1)
 }
 
-// QueryMd5ForCheck mocks base method.
-func (m *MockStore) QueryMd5ForCheck(arg0 context.Context, arg1 int64) ([]db.QueryMd5ForCheckRow, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryMd5ForCheck", arg0, arg1)
-	ret0, _ := ret[0].([]db.QueryMd5ForCheckRow)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// QueryMd5ForCheck indicates an expected call of QueryMd5ForCheck.
-func (mr *MockStoreMockRecorder) QueryMd5ForCheck(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryMd5ForCheck", reflect.TypeOf((*MockStore)(nil).QueryMd5ForCheck), arg0, arg1)
-}
-
 // QueryRepo mocks base method.
 func (m *MockStore) QueryRepo(arg0 context.Context, arg1 db.QueryRepoParams) ([]db.QueryRepoRow, error) {
 	m.ctrl.T.Helper()
@@ -1904,20 +1875,6 @@ func (m *MockStore) UpdateMarkdownMulti(arg0 context.Context, arg1 db.UpdateMark
 func (mr *MockStoreMockRecorder) UpdateMarkdownMulti(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMarkdownMulti", reflect.TypeOf((*MockStore)(nil).UpdateMarkdownMulti), arg0, arg1)
-}
-
-// UpdateMarkdownVersionKey mocks base method.
-func (m *MockStore) UpdateMarkdownVersionKey(arg0 context.Context, arg1 db.UpdateMarkdownVersionKeyParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateMarkdownVersionKey", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateMarkdownVersionKey indicates an expected call of UpdateMarkdownVersionKey.
-func (mr *MockStoreMockRecorder) UpdateMarkdownVersionKey(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMarkdownVersionKey", reflect.TypeOf((*MockStore)(nil).UpdateMarkdownVersionKey), arg0, arg1)
 }
 
 // UpdateRepoInfo mocks base method.

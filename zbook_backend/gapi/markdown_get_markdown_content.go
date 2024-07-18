@@ -58,8 +58,7 @@ func convertMarkdown(markdown db.Markdown) *models.Markdown {
 		RepoId:       markdown.RepoID,
 		MainContent:  markdown.MainContent,
 		TableContent: markdown.TableContent,
-		Md5:          markdown.Md5,
-		VersionKey:   markdown.VersionKey,
-		CreatedAt:    timestamppb.New(markdown.CreatedAt),
+
+		CreatedAt: timestamppb.New(markdown.CreatedAt),
 	}
 }

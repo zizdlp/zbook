@@ -6,7 +6,6 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zizdlp/zbook/db/sqlc"
-	"github.com/zizdlp/zbook/gitsync"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/util"
 	"github.com/zizdlp/zbook/val"
@@ -26,7 +25,7 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
-	GitProtocol, GitHost, GitUsername, GitRepo, err := gitsync.ParseGitURL(req.GetGitAddr())
+	GitProtocol, GitHost, GitUsername, GitRepo, err := util.ParseGitURL(req.GetGitAddr())
 	if err != nil {
 		return nil, invalidArgumentError(violations)
 	}
@@ -67,7 +66,7 @@ func validateCreateRepoRequest(req *rpcs.CreateRepoRequest) (violations []*errde
 	if err := val.ValidateString(req.GetRepoDescription(), 1, 512); err != nil {
 		violations = append(violations, fieldViolation("repo_description", err))
 	}
-	_, _, _, _, err := gitsync.ParseGitURL(req.GetGitAddr())
+	_, _, _, _, err := util.ParseGitURL(req.GetGitAddr())
 	if err != nil {
 		violations = append(violations, fieldViolation("git_addr", err))
 	}

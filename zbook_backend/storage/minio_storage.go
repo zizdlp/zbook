@@ -33,10 +33,13 @@ func GetMinioClient() (*minio.Client, error) {
 	if err != nil {
 		return nil, err
 	}
+	err = CreateBucket(minioClient, context.Background(), "git-files")
+	if err != nil {
+		return nil, err
+	}
 	return minioClient, nil
 }
-func UploadAvatar(client *minio.Client, ctx context.Context, username string, bucketName string, data []byte) error {
-	objectName := username
+func UploadFileToStorage(client *minio.Client, ctx context.Context, objectName string, bucketName string, data []byte) error {
 	contentType := http.DetectContentType(data)
 
 	reader := bytes.NewReader(data)
@@ -48,8 +51,7 @@ func UploadAvatar(client *minio.Client, ctx context.Context, username string, bu
 	}
 	return nil
 }
-func DownloadAvatar(client *minio.Client, ctx context.Context, username string, bucketName string) ([]byte, error) {
-	objectName := username
+func DownloadFileFromStorage(client *minio.Client, ctx context.Context, objectName string, bucketName string) ([]byte, error) {
 
 	// Get object from MinIO
 	object, err := client.GetObject(ctx, bucketName, objectName, minio.GetObjectOptions{})
@@ -67,9 +69,8 @@ func DownloadAvatar(client *minio.Client, ctx context.Context, username string, 
 	}
 	return data, nil
 }
-func DeleteAvatar(client *minio.Client, ctx context.Context, username string, bucketName string) error {
+func DeleteFileFromStorage(client *minio.Client, ctx context.Context, objectName string, bucketName string) error {
 	//删除一个文件
-	objectName := username
 	err := client.RemoveObject(ctx, bucketName, objectName, minio.RemoveObjectOptions{GovernanceBypass: true})
 	if err != nil {
 		log.Error().Msgf("Delete object failed: %s", err)

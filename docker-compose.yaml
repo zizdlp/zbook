@@ -51,8 +51,6 @@ services:
       - MINIO_ROOT_PASSWORD=minio-secret
       - REQUIRE_EMAIL_VERIFY=false
       - TOKEN_SYMMETRIC_KEY=12345058901234567890123456789083
-      - WIKI_PATH=/tmp/wiki
-
       - EMAIL_SENDER_NAME=zbook
       - EMAIL_SENDER_ADDRESS=example@example.com
       - EMAIL_SENDER_PASSWORD=email-secret
@@ -67,8 +65,6 @@ services:
       - zbook-compose-postgres
       - zbook-compose-redis
       - zbook-compose-minio
-    volumes:
-      - ./zbook_data/repo:/tmp/wiki
     entrypoint:
       [
         "/app/wait-for.sh",

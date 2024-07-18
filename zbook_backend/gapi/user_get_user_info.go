@@ -56,7 +56,7 @@ func (server *Server) GetUserInfo(ctx context.Context, req *rpcs.GetUserInfoRequ
 		}
 	}
 	if req.GetUserImage() {
-		avatarData, err := storage.DownloadAvatar(server.minioClient, ctx, user.Username, "avatar")
+		avatarData, err := storage.DownloadFileFromStorage(server.minioClient, ctx, user.Username, "avatar")
 		if err != nil {
 			log.Error().Msgf("download avatar for %s failed: %s", user.Username, err)
 			user_image_info = &models.UserImageInfo{

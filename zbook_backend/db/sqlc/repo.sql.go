@@ -24,9 +24,10 @@ INSERT INTO repos (
   home_page,
   repo_description,
   sync_token,
+  commit_id,
   visibility_level
-) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) 
-RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, deleted, layout, created_at, updated_at, fts_repo_name
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) 
+RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, deleted, commit_id, layout, created_at, updated_at, fts_repo_name
 `
 
 type CreateRepoParams struct {
@@ -40,6 +41,7 @@ type CreateRepoParams struct {
 	HomePage        string      `json:"home_page"`
 	RepoDescription string      `json:"repo_description"`
 	SyncToken       pgtype.Text `json:"sync_token"`
+	CommitID        string      `json:"commit_id"`
 	VisibilityLevel string      `json:"visibility_level"`
 }
 
@@ -55,6 +57,7 @@ func (q *Queries) CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, e
 		arg.HomePage,
 		arg.RepoDescription,
 		arg.SyncToken,
+		arg.CommitID,
 		arg.VisibilityLevel,
 	)
 	var i Repo
@@ -72,6 +75,7 @@ func (q *Queries) CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, e
 		&i.SyncToken,
 		&i.VisibilityLevel,
 		&i.Deleted,
+		&i.CommitID,
 		&i.Layout,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -339,7 +343,7 @@ func (q *Queries) GetQueryUserOwnRepoCount(ctx context.Context, arg GetQueryUser
 }
 
 const getRepo = `-- name: GetRepo :one
-SELECT repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, deleted, layout, created_at, updated_at, fts_repo_name from repos
+SELECT repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, deleted, commit_id, layout, created_at, updated_at, fts_repo_name from repos
 WHERE repo_id = $1
 `
 
@@ -360,6 +364,7 @@ func (q *Queries) GetRepo(ctx context.Context, repoID int64) (Repo, error) {
 		&i.SyncToken,
 		&i.VisibilityLevel,
 		&i.Deleted,
+		&i.CommitID,
 		&i.Layout,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -369,7 +374,7 @@ func (q *Queries) GetRepo(ctx context.Context, repoID int64) (Repo, error) {
 }
 
 const getRepoBasicInfo = `-- name: GetRepoBasicInfo :one
-SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.home_page, repos.sync_token, repos.visibility_level, repos.deleted, repos.layout, repos.created_at, repos.updated_at, repos.fts_repo_name,
+SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.home_page, repos.sync_token, repos.visibility_level, repos.deleted, repos.commit_id, repos.layout, repos.created_at, repos.updated_at, repos.fts_repo_name,
   users.username, users.email
 FROM repos
 INNER JOIN users ON repos.user_id = users.user_id
@@ -390,6 +395,7 @@ type GetRepoBasicInfoRow struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
@@ -415,6 +421,7 @@ func (q *Queries) GetRepoBasicInfo(ctx context.Context, repoID int64) (GetRepoBa
 		&i.SyncToken,
 		&i.VisibilityLevel,
 		&i.Deleted,
+		&i.CommitID,
 		&i.Layout,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -516,7 +523,7 @@ func (q *Queries) GetRepoPermission(ctx context.Context, repoID int64) (GetRepoP
 
 const listRepo = `-- name: ListRepo :many
 SELECT
-   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.layout, r.created_at, r.updated_at, r.fts_repo_name,
+   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_name,
    (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
    u.username,
    EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $3 ) as is_liked
@@ -565,6 +572,7 @@ type ListRepoRow struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
@@ -603,6 +611,7 @@ func (q *Queries) ListRepo(ctx context.Context, arg ListRepoParams) ([]ListRepoR
 			&i.SyncToken,
 			&i.VisibilityLevel,
 			&i.Deleted,
+			&i.CommitID,
 			&i.Layout,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -623,7 +632,7 @@ func (q *Queries) ListRepo(ctx context.Context, arg ListRepoParams) ([]ListRepoR
 
 const listUserLikeRepo = `-- name: ListUserLikeRepo :many
 SELECT
-   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.layout, r.created_at, r.updated_at, r.fts_repo_name,ur.username,
+   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_name,ur.username,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $3 ) as is_liked
 FROM
@@ -677,6 +686,7 @@ type ListUserLikeRepoRow struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
@@ -716,6 +726,7 @@ func (q *Queries) ListUserLikeRepo(ctx context.Context, arg ListUserLikeRepoPara
 			&i.SyncToken,
 			&i.VisibilityLevel,
 			&i.Deleted,
+			&i.CommitID,
 			&i.Layout,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -736,7 +747,7 @@ func (q *Queries) ListUserLikeRepo(ctx context.Context, arg ListUserLikeRepoPara
 
 const listUserOwnRepo = `-- name: ListUserOwnRepo :many
 SELECT
-   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.layout, r.created_at, r.updated_at, r.fts_repo_name,
+   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_name,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.relation_type = 'like' AND repo_relations.user_id = $3) AS is_liked
 FROM
@@ -785,6 +796,7 @@ type ListUserOwnRepoRow struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
@@ -823,6 +835,7 @@ func (q *Queries) ListUserOwnRepo(ctx context.Context, arg ListUserOwnRepoParams
 			&i.SyncToken,
 			&i.VisibilityLevel,
 			&i.Deleted,
+			&i.CommitID,
 			&i.Layout,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -852,7 +865,7 @@ func (q *Queries) MarkRepoAsDeleted(ctx context.Context, repoID int64) error {
 }
 
 const queryRepo = `-- name: QueryRepo :many
-select r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.layout, r.created_at, r.updated_at, r.fts_repo_name,ts_rank(r.fts_repo_name, plainto_tsquery($3)) as rank,u.username
+select r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_name,ts_rank(r.fts_repo_name, plainto_tsquery($3)) as rank,u.username
 FROM
     repos r
 JOIN 
@@ -899,6 +912,7 @@ type QueryRepoRow struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
@@ -937,6 +951,7 @@ func (q *Queries) QueryRepo(ctx context.Context, arg QueryRepoParams) ([]QueryRe
 			&i.SyncToken,
 			&i.VisibilityLevel,
 			&i.Deleted,
+			&i.CommitID,
 			&i.Layout,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -956,7 +971,7 @@ func (q *Queries) QueryRepo(ctx context.Context, arg QueryRepoParams) ([]QueryRe
 
 const queryUserLikeRepo = `-- name: QueryUserLikeRepo :many
 SELECT
-  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.layout, r.created_at, r.updated_at, r.fts_repo_name,ur.username,
+  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_name,ur.username,
   ts_rank(r.fts_repo_name, plainto_tsquery($3)) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
     EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $4 ) as is_liked
@@ -1011,6 +1026,7 @@ type QueryUserLikeRepoRow struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
@@ -1052,6 +1068,7 @@ func (q *Queries) QueryUserLikeRepo(ctx context.Context, arg QueryUserLikeRepoPa
 			&i.SyncToken,
 			&i.VisibilityLevel,
 			&i.Deleted,
+			&i.CommitID,
 			&i.Layout,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -1073,7 +1090,7 @@ func (q *Queries) QueryUserLikeRepo(ctx context.Context, arg QueryUserLikeRepoPa
 
 const queryUserOwnRepo = `-- name: QueryUserOwnRepo :many
 SELECT
-   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.layout, r.created_at, r.updated_at, r.fts_repo_name,
+   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.deleted, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_name,
    ts_rank(r.fts_repo_name, plainto_tsquery($3)) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $4 ) as is_liked
@@ -1124,6 +1141,7 @@ type QueryUserOwnRepoRow struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
@@ -1164,6 +1182,7 @@ func (q *Queries) QueryUserOwnRepo(ctx context.Context, arg QueryUserOwnRepoPara
 			&i.SyncToken,
 			&i.VisibilityLevel,
 			&i.Deleted,
+			&i.CommitID,
 			&i.Layout,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -1192,7 +1211,7 @@ visibility_level=COALESCE($4,visibility_level),
 git_access_token=COALESCE($5,git_access_token),
 home_page=COALESCE($6,home_page)
 WHERE repo_id = $7
-RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, deleted, layout, created_at, updated_at, fts_repo_name
+RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, deleted, commit_id, layout, created_at, updated_at, fts_repo_name
 `
 
 type UpdateRepoInfoParams struct {
@@ -1230,6 +1249,7 @@ func (q *Queries) UpdateRepoInfo(ctx context.Context, arg UpdateRepoInfoParams) 
 		&i.SyncToken,
 		&i.VisibilityLevel,
 		&i.Deleted,
+		&i.CommitID,
 		&i.Layout,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -1240,16 +1260,17 @@ func (q *Queries) UpdateRepoInfo(ctx context.Context, arg UpdateRepoInfoParams) 
 
 const updateRepoLayout = `-- name: UpdateRepoLayout :exec
 UPDATE repos
-SET layout=$2,updated_at=now()
+SET layout=$2,commit_id=$3,updated_at=now()
 WHERE repo_id = $1
 `
 
 type UpdateRepoLayoutParams struct {
-	RepoID int64  `json:"repo_id"`
-	Layout string `json:"layout"`
+	RepoID   int64  `json:"repo_id"`
+	Layout   string `json:"layout"`
+	CommitID string `json:"commit_id"`
 }
 
 func (q *Queries) UpdateRepoLayout(ctx context.Context, arg UpdateRepoLayoutParams) error {
-	_, err := q.db.Exec(ctx, updateRepoLayout, arg.RepoID, arg.Layout)
+	_, err := q.db.Exec(ctx, updateRepoLayout, arg.RepoID, arg.Layout, arg.CommitID)
 	return err
 }

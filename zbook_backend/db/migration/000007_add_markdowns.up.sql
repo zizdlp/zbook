@@ -5,8 +5,6 @@ CREATE TABLE "markdowns" (
   "repo_id" bigint NOT NULL,
   "main_content" text NOT NULL,
   "table_content" text NOT NULL,
-  "md5" varchar NOT NULL, -- 文件签名，用于判断markdown是否更新
-  "version_key" varchar NOT NULL,
   "updated_at"  timestamptz NOT NULL DEFAULT (now()),
   "created_at"  timestamptz NOT NULL DEFAULT (now()),
   PRIMARY KEY ("relative_path","repo_id")

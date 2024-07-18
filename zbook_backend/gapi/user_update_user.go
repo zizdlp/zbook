@@ -48,7 +48,7 @@ func (server *Server) UpdateUser(ctx context.Context, req *rpcs.UpdateUserReques
 			log.Info().Msgf("compress image for %s failed: %s", authPayload.Username, err)
 		}
 
-		err = storage.UploadAvatar(server.minioClient, context.Background(), authPayload.Username, "avatar", avatar)
+		err = storage.UploadFileToStorage(server.minioClient, context.Background(), authPayload.Username, "avatar", avatar)
 		if err != nil {
 			return nil, status.Errorf(codes.NotFound, "upload avatar failed: %s", err)
 		}
