@@ -2,11 +2,10 @@ package gapi
 
 import (
 	"context"
-	"os"
 	"strconv"
-	"strings"
 
 	"github.com/zizdlp/zbook/pb/rpcs"
+	"github.com/zizdlp/zbook/storage"
 	"github.com/zizdlp/zbook/util"
 	"github.com/zizdlp/zbook/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
@@ -24,28 +23,15 @@ func (server *Server) GetMarkdownImage(ctx context.Context, req *rpcs.GetMarkdow
 	if err != nil {
 		return nil, err
 	}
-	path := "/tmp/wiki/" + strconv.FormatInt(req.GetRepoId(), 10) + "/" + req.GetFilePath()
-
-	// Read the image file
-	data, err := os.ReadFile(path)
+	path := strconv.FormatInt(req.GetRepoId(), 10) + "/" + req.GetFilePath()
+	path = util.NormalizePath(path)
+	avatarData, err := storage.DownloadFileFromStorage(server.minioClient, ctx, path, "git-files")
 	if err != nil {
-		return nil, status.Errorf(codes.NotFound, "file not exist: %s", err)
+		return nil, status.Errorf(codes.Internal, "GetMarkdownFile failed: %s", err)
 	}
-	ext := strings.ToLower(path)
-	if strings.HasSuffix(ext, ".png") || strings.HasSuffix(ext, ".jpg") || strings.HasSuffix(ext, ".jpeg") || strings.HasSuffix(ext, ".webp") {
-		base64, err := util.ReadImageBytes(path)
-		if err != nil {
-			return nil, status.Errorf(codes.Internal, "failed to read image to base64: %v", err)
-		}
-		data, err = util.CompressImage(base64)
-		if err != nil {
-			return nil, status.Errorf(codes.Internal, "failed to compress image: %v", err)
-		}
-	}
-
 	// Create the response with the (potentially compressed) image data
 	rsp := &rpcs.GetMarkdownImageResponse{
-		File: data,
+		File: avatarData,
 	}
 	return rsp, nil
 }

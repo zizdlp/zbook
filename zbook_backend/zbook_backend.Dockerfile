@@ -11,7 +11,7 @@ WORKDIR /app
 COPY --from=builder /app/main .
 
 # Install pngquant
-RUN apk add --no-cache pngquant
+RUN apk add --no-cache pngquant git
 
 # Copy other necessary files
 COPY icons /app/icons

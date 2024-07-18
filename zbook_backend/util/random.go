@@ -11,8 +11,29 @@ import (
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-func init() {
-	rand.Seed(time.Now().UnixNano())
+// NewRandomStringGenerator creates a new RandomStringGenerator
+func NewRandomStringGenerator() *RandomStringGenerator {
+	src := rand.NewSource(time.Now().UnixNano())
+	rng := rand.New(src)
+	return &RandomStringGenerator{rng: rng}
+}
+
+// RandomStringGenerator struct to hold the random generator
+type RandomStringGenerator struct {
+	rng *rand.Rand
+}
+
+// RandomString generates a random string of length n
+func (rsg *RandomStringGenerator) RandomString(n int) string {
+	var sb strings.Builder
+	k := len(alphabet)
+
+	for i := 0; i < n; i++ {
+		c := alphabet[rsg.rng.Intn(k)]
+		sb.WriteByte(c)
+	}
+
+	return sb.String()
 }
 
 // RandomInt generates a random integer between min and max

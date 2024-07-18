@@ -42,7 +42,7 @@ func (server *Server) CreateUser(ctx context.Context, req *rpcs.CreateUserReques
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to read image bytes: %v", err)
 	}
-	err = storage.UploadAvatar(server.minioClient, ctx, req.GetUsername(), "avatar", avatar)
+	err = storage.UploadFileToStorage(server.minioClient, ctx, req.GetUsername(), "avatar", avatar)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to upload avatar: %v", err)
 	}

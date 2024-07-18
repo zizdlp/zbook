@@ -77,8 +77,6 @@ type Markdown struct {
 	RepoID       int64     `json:"repo_id"`
 	MainContent  string    `json:"main_content"`
 	TableContent string    `json:"table_content"`
-	Md5          string    `json:"md5"`
-	VersionKey   string    `json:"version_key"`
 	UpdatedAt    time.Time `json:"updated_at"`
 	CreatedAt    time.Time `json:"created_at"`
 	FtsZh        string    `json:"fts_zh"`
@@ -107,6 +105,7 @@ type Repo struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	Deleted         bool        `json:"deleted"`
+	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`

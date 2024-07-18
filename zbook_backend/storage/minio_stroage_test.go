@@ -24,13 +24,13 @@ func TestMinio(t *testing.T) {
 	username := util.RandomUsername()
 	avatarData, err := GenerateRandomBytes(32)
 	require.NoError(t, err)
-	err = UploadAvatar(minioClient, context.Background(), username, bucketName, avatarData)
+	err = UploadFileToStorage(minioClient, context.Background(), username, bucketName, avatarData)
 	require.NoError(t, err)
-	resData, err := DownloadAvatar(minioClient, context.Background(), username, bucketName)
+	resData, err := DownloadFileFromStorage(minioClient, context.Background(), username, bucketName)
 	require.NoError(t, err)
 	require.Equal(t, avatarData, resData)
 
-	err = DeleteAvatar(minioClient, context.Background(), username, bucketName)
+	err = DeleteFileFromStorage(minioClient, context.Background(), username, bucketName)
 	require.NoError(t, err)
 }
 func GenerateRandomBytes(length int) ([]byte, error) {

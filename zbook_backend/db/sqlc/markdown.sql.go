@@ -15,12 +15,10 @@ INSERT INTO markdowns (
   user_id,
   repo_id,
   main_content,
-  table_content,
-  md5,
-  version_key
+  table_content
 ) VALUES (
-  $1, $2, $3,$4,$5,$6,$7
-) RETURNING markdown_id, relative_path, user_id, repo_id, main_content, table_content, md5, version_key, updated_at, created_at, fts_zh, fts_en
+  $1, $2, $3,$4,$5
+) RETURNING markdown_id, relative_path, user_id, repo_id, main_content, table_content, updated_at, created_at, fts_zh, fts_en
 `
 
 type CreateMarkdownParams struct {
@@ -29,8 +27,6 @@ type CreateMarkdownParams struct {
 	RepoID       int64  `json:"repo_id"`
 	MainContent  string `json:"main_content"`
 	TableContent string `json:"table_content"`
-	Md5          string `json:"md5"`
-	VersionKey   string `json:"version_key"`
 }
 
 func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) (Markdown, error) {
@@ -40,8 +36,6 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 		arg.RepoID,
 		arg.MainContent,
 		arg.TableContent,
-		arg.Md5,
-		arg.VersionKey,
 	)
 	var i Markdown
 	err := row.Scan(
@@ -51,8 +45,6 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 		&i.RepoID,
 		&i.MainContent,
 		&i.TableContent,
-		&i.Md5,
-		&i.VersionKey,
 		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.FtsZh,
@@ -67,17 +59,13 @@ INSERT INTO markdowns  (
   user_id,
   repo_id,
   main_content,
-  table_content,
-  md5,
-  version_key
+  table_content
 )
 SELECT unnest($1::text[]) AS relative_path,
   unnest($2::bigint[]) AS user_id,
   unnest($3::bigint[]) AS repo_id,
   unnest($4::text[]) AS main_content,
-  unnest($5::text[]) AS table_content,
-  unnest($6::text[]) AS md5,
-  unnest($7::text[]) AS version_key
+  unnest($5::text[]) AS table_content
 `
 
 type CreateMarkdownMultiParams struct {
@@ -86,8 +74,6 @@ type CreateMarkdownMultiParams struct {
 	RepoID       []int64  `json:"repo_id"`
 	MainContent  []string `json:"main_content"`
 	TableContent []string `json:"table_content"`
-	Md5          []string `json:"md5"`
-	VersionKey   []string `json:"version_key"`
 }
 
 func (q *Queries) CreateMarkdownMulti(ctx context.Context, arg CreateMarkdownMultiParams) error {
@@ -97,24 +83,7 @@ func (q *Queries) CreateMarkdownMulti(ctx context.Context, arg CreateMarkdownMul
 		arg.RepoID,
 		arg.MainContent,
 		arg.TableContent,
-		arg.Md5,
-		arg.VersionKey,
 	)
-	return err
-}
-
-const deleteMarkdown = `-- name: DeleteMarkdown :exec
-DELETE FROM markdowns
-WHERE relative_path = $1 and repo_id = $2
-`
-
-type DeleteMarkdownParams struct {
-	RelativePath string `json:"relative_path"`
-	RepoID       int64  `json:"repo_id"`
-}
-
-func (q *Queries) DeleteMarkdown(ctx context.Context, arg DeleteMarkdownParams) error {
-	_, err := q.db.Exec(ctx, deleteMarkdown, arg.RelativePath, arg.RepoID)
 	return err
 }
 
@@ -128,24 +97,27 @@ func (q *Queries) DeleteMarkdownByRepo(ctx context.Context, repoID int64) error 
 	return err
 }
 
-const deleteOldMarkdown = `-- name: DeleteOldMarkdown :exec
+const deleteMarkdownMulti = `-- name: DeleteMarkdownMulti :exec
 DELETE FROM markdowns
-WHERE repo_id = $1 and version_key!=$2
+WHERE (relative_path, repo_id) IN (
+  SELECT 
+    unnest($1::text[]), 
+    unnest($2::bigint[])
+)
 `
 
-type DeleteOldMarkdownParams struct {
-	RepoID     int64  `json:"repo_id"`
-	VersionKey string `json:"version_key"`
+type DeleteMarkdownMultiParams struct {
+	RelativePath []string `json:"relative_path"`
+	RepoID       []int64  `json:"repo_id"`
 }
 
-// 每次更新仓库，都会给仓库一个新的版本key:version_key,有旧key的行都会被清理掉
-func (q *Queries) DeleteOldMarkdown(ctx context.Context, arg DeleteOldMarkdownParams) error {
-	_, err := q.db.Exec(ctx, deleteOldMarkdown, arg.RepoID, arg.VersionKey)
+func (q *Queries) DeleteMarkdownMulti(ctx context.Context, arg DeleteMarkdownMultiParams) error {
+	_, err := q.db.Exec(ctx, deleteMarkdownMulti, arg.RelativePath, arg.RepoID)
 	return err
 }
 
 const getMarkdownByID = `-- name: GetMarkdownByID :one
-SELECT markdown_id, relative_path, user_id, repo_id, main_content, table_content, md5, version_key, updated_at, created_at, fts_zh, fts_en FROM markdowns
+SELECT markdown_id, relative_path, user_id, repo_id, main_content, table_content, updated_at, created_at, fts_zh, fts_en FROM markdowns
 WHERE markdown_id = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -160,8 +132,6 @@ func (q *Queries) GetMarkdownByID(ctx context.Context, markdownID int64) (Markdo
 		&i.RepoID,
 		&i.MainContent,
 		&i.TableContent,
-		&i.Md5,
-		&i.VersionKey,
 		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.FtsZh,
@@ -172,7 +142,7 @@ func (q *Queries) GetMarkdownByID(ctx context.Context, markdownID int64) (Markdo
 
 const getMarkdownContent = `-- name: GetMarkdownContent :one
 SELECT 
-  markdowns.markdown_id, markdowns.relative_path, markdowns.user_id, markdowns.repo_id, markdowns.main_content, markdowns.table_content, markdowns.md5, markdowns.version_key, markdowns.updated_at, markdowns.created_at, markdowns.fts_zh, markdowns.fts_en
+  markdowns.markdown_id, markdowns.relative_path, markdowns.user_id, markdowns.repo_id, markdowns.main_content, markdowns.table_content, markdowns.updated_at, markdowns.created_at, markdowns.fts_zh, markdowns.fts_en
 FROM markdowns
 WHERE markdowns.relative_path = $1  and markdowns.repo_id = $2
 LIMIT 1
@@ -193,8 +163,6 @@ func (q *Queries) GetMarkdownContent(ctx context.Context, arg GetMarkdownContent
 		&i.RepoID,
 		&i.MainContent,
 		&i.TableContent,
-		&i.Md5,
-		&i.VersionKey,
 		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.FtsZh,
@@ -217,38 +185,6 @@ func (q *Queries) GetMarkdownRepoID(ctx context.Context, markdownID int64) (int6
 	var repo_id int64
 	err := row.Scan(&repo_id)
 	return repo_id, err
-}
-
-const queryMd5ForCheck = `-- name: QueryMd5ForCheck :many
-SELECT relative_path,md5 FROM markdowns
-WHERE repo_id = $1
-ORDER BY relative_path ASC
-FOR NO KEY UPDATE
-`
-
-type QueryMd5ForCheckRow struct {
-	RelativePath string `json:"relative_path"`
-	Md5          string `json:"md5"`
-}
-
-func (q *Queries) QueryMd5ForCheck(ctx context.Context, repoID int64) ([]QueryMd5ForCheckRow, error) {
-	rows, err := q.db.Query(ctx, queryMd5ForCheck, repoID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []QueryMd5ForCheckRow{}
-	for rows.Next() {
-		var i QueryMd5ForCheckRow
-		if err := rows.Scan(&i.RelativePath, &i.Md5); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
 }
 
 const queryRepoMarkdown = `-- name: QueryRepoMarkdown :many
@@ -459,59 +395,30 @@ func (q *Queries) QueryUserVisibleMarkdown(ctx context.Context, arg QueryUserVis
 
 const updateMarkdownMulti = `-- name: UpdateMarkdownMulti :exec
 UPDATE markdowns AS m
-SET version_key = tmp.version_key,md5=tmp.md5,main_content=tmp.main_content,table_content=tmp.table_content,updated_at=now()
+SET main_content=tmp.main_content,table_content=tmp.table_content,updated_at=now()
 FROM (
   SELECT 
-  unnest($1::text[]) AS version_key,
-  unnest($2::text[]) AS relative_path,
-  unnest($3::text[]) AS main_content,
-  unnest($4::text[]) AS table_content,
-  unnest($5::text[]) AS md5,
-  unnest($6::bigint[]) AS repo_id
+  unnest($1::text[]) AS relative_path,
+  unnest($2::text[]) AS main_content,
+  unnest($3::text[]) AS table_content,
+  unnest($4::bigint[]) AS repo_id
 ) AS tmp
 WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id
 `
 
 type UpdateMarkdownMultiParams struct {
-	VersionKey   []string `json:"version_key"`
 	RelativePath []string `json:"relative_path"`
 	MainContent  []string `json:"main_content"`
 	TableContent []string `json:"table_content"`
-	Md5          []string `json:"md5"`
 	RepoID       []int64  `json:"repo_id"`
 }
 
 func (q *Queries) UpdateMarkdownMulti(ctx context.Context, arg UpdateMarkdownMultiParams) error {
 	_, err := q.db.Exec(ctx, updateMarkdownMulti,
-		arg.VersionKey,
 		arg.RelativePath,
 		arg.MainContent,
 		arg.TableContent,
-		arg.Md5,
 		arg.RepoID,
 	)
-	return err
-}
-
-const updateMarkdownVersionKey = `-- name: UpdateMarkdownVersionKey :exec
-UPDATE markdowns AS m
-SET version_key = tmp.version_key
-FROM (
-  SELECT 
-  unnest($1::text[]) AS version_key,
-  unnest($2::text[]) AS relative_path,
-  unnest($3::bigint[]) AS repo_id
-) AS tmp
-WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id
-`
-
-type UpdateMarkdownVersionKeyParams struct {
-	VersionKey   []string `json:"version_key"`
-	RelativePath []string `json:"relative_path"`
-	RepoID       []int64  `json:"repo_id"`
-}
-
-func (q *Queries) UpdateMarkdownVersionKey(ctx context.Context, arg UpdateMarkdownVersionKeyParams) error {
-	_, err := q.db.Exec(ctx, updateMarkdownVersionKey, arg.VersionKey, arg.RelativePath, arg.RepoID)
 	return err
 }

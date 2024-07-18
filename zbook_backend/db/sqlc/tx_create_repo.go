@@ -3,9 +3,10 @@ package db
 import (
 	"context"
 	"fmt"
-	"strconv"
+	"os"
 
-	"github.com/zizdlp/zbook/gitsync"
+	"github.com/zizdlp/zbook/operations"
+	"github.com/zizdlp/zbook/util"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -29,13 +30,29 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 			return err
 		}
 
-		err = gitsync.Clone(result.Repo.GitProtocol, result.Repo.GitHost, result.Repo.GitUsername, result.Repo.GitRepo, result.Repo.GitAccessToken,
-			"/tmp/wiki/", strconv.FormatInt(result.Repo.RepoID, 10))
-		if err != nil {
-			return status.Errorf(codes.Internal, "无法克隆仓库: %s", err)
+		rsg := util.NewRandomStringGenerator()
+		randomString := rsg.RandomString(32)
+		cloneDir := "/tmp/zbook_repo/" + randomString
+		// 删除目标目录以确保每次测试都是从头开始
+		if _, err := os.Stat(cloneDir); err == nil {
+			os.RemoveAll(cloneDir)
 		}
-		rootPath := "/tmp/wiki/" + strconv.FormatInt(result.Repo.RepoID, 10)
-		err = ConvertFile2DB(ctx, q, rootPath, result.Repo.RepoID, arg.UserID)
+
+		// 调用 Clone 函数
+		gitURL := util.GetGitURL(result.Repo.GitProtocol, result.Repo.GitHost, result.Repo.GitUsername, result.Repo.GitRepo)
+		if arg.GitAccessToken.Valid {
+			err = operations.CloneWithPassword(gitURL, cloneDir, arg.GitUsername, arg.GitAccessToken.String)
+			if err != nil {
+				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
+			}
+		} else {
+			err = operations.Clone(gitURL, cloneDir)
+			if err != nil {
+				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
+			}
+		}
+
+		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, "")
 		if err != nil {
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}

@@ -10,13 +10,14 @@ INSERT INTO repos (
   home_page,
   repo_description,
   sync_token,
+  commit_id,
   visibility_level
-) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) 
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) 
 RETURNING *;
 
 -- name: UpdateRepoLayout :exec
 UPDATE repos
-SET layout=$2,updated_at=now()
+SET layout=$2,commit_id=$3,updated_at=now()
 WHERE repo_id = $1;
 
 -- name: UpdateRepoInfo :one

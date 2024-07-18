@@ -33,11 +33,9 @@ type Querier interface {
 	DeleteCommentRelation(ctx context.Context, arg DeleteCommentRelationParams) error
 	DeleteFollow(ctx context.Context, arg DeleteFollowParams) (int64, error)
 	DeleteFollowerNotification(ctx context.Context, arg DeleteFollowerNotificationParams) (FollowerNotification, error)
-	DeleteMarkdown(ctx context.Context, arg DeleteMarkdownParams) error
 	DeleteMarkdownByRepo(ctx context.Context, repoID int64) error
+	DeleteMarkdownMulti(ctx context.Context, arg DeleteMarkdownMultiParams) error
 	DeleteOAuth(ctx context.Context, arg DeleteOAuthParams) (Oauth, error)
-	// 每次更新仓库，都会给仓库一个新的版本key:version_key,有旧key的行都会被清理掉
-	DeleteOldMarkdown(ctx context.Context, arg DeleteOldMarkdownParams) error
 	DeleteRepoRelation(ctx context.Context, arg DeleteRepoRelationParams) error
 	DeleteRepoVisibility(ctx context.Context, arg DeleteRepoVisibilityParams) error
 	GetCommentBasicInfo(ctx context.Context, commentID int64) (GetCommentBasicInfoRow, error)
@@ -117,7 +115,6 @@ type Querier interface {
 	QueryCommentReport(ctx context.Context, arg QueryCommentReportParams) ([]QueryCommentReportRow, error)
 	QueryFollower(ctx context.Context, arg QueryFollowerParams) ([]QueryFollowerRow, error)
 	QueryFollowing(ctx context.Context, arg QueryFollowingParams) ([]QueryFollowingRow, error)
-	QueryMd5ForCheck(ctx context.Context, repoID int64) ([]QueryMd5ForCheckRow, error)
 	QueryRepo(ctx context.Context, arg QueryRepoParams) ([]QueryRepoRow, error)
 	QueryRepoMarkdown(ctx context.Context, arg QueryRepoMarkdownParams) ([]QueryRepoMarkdownRow, error)
 	QueryRepoVisibilityByRepo(ctx context.Context, arg QueryRepoVisibilityByRepoParams) ([]QueryRepoVisibilityByRepoRow, error)
@@ -130,7 +127,6 @@ type Querier interface {
 	UpdateCommentReportStatus(ctx context.Context, arg UpdateCommentReportStatusParams) error
 	UpdateConfiguration(ctx context.Context, arg UpdateConfigurationParams) error
 	UpdateMarkdownMulti(ctx context.Context, arg UpdateMarkdownMultiParams) error
-	UpdateMarkdownVersionKey(ctx context.Context, arg UpdateMarkdownVersionKeyParams) error
 	UpdateRepoInfo(ctx context.Context, arg UpdateRepoInfoParams) (Repo, error)
 	UpdateRepoLayout(ctx context.Context, arg UpdateRepoLayoutParams) error
 	UpdateUnreadCount(ctx context.Context, userID int64) error

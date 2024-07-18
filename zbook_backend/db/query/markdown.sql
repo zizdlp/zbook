@@ -4,11 +4,9 @@ INSERT INTO markdowns (
   user_id,
   repo_id,
   main_content,
-  table_content,
-  md5,
-  version_key
+  table_content
 ) VALUES (
-  $1, $2, $3,$4,$5,$6,$7
+  $1, $2, $3,$4,$5
 ) RETURNING *;
 
 -- name: CreateMarkdownMulti :exec
@@ -17,24 +15,14 @@ INSERT INTO markdowns  (
   user_id,
   repo_id,
   main_content,
-  table_content,
-  md5,
-  version_key
+  table_content
 )
 SELECT unnest(@relative_path::text[]) AS relative_path,
   unnest(@user_id::bigint[]) AS user_id,
   unnest(@repo_id::bigint[]) AS repo_id,
   unnest(@main_content::text[]) AS main_content,
-  unnest(@table_content::text[]) AS table_content,
-  unnest(@md5::text[]) AS md5,
-  unnest(@version_key::text[]) AS version_key;
+  unnest(@table_content::text[]) AS table_content;
 
-
--- name: QueryMd5ForCheck :many
-SELECT relative_path,md5 FROM markdowns
-WHERE repo_id = $1
-ORDER BY relative_path ASC
-FOR NO KEY UPDATE;
 
 -- name: GetMarkdownContent :one
 SELECT 
@@ -58,42 +46,25 @@ WHERE
   markdown_id = $1;
 
 
-
--- name: UpdateMarkdownVersionKey :exec
-UPDATE markdowns AS m
-SET version_key = tmp.version_key
-FROM (
-  SELECT 
-  unnest(@version_key::text[]) AS version_key,
-  unnest(@relative_path::text[]) AS relative_path,
-  unnest(@repo_id::bigint[]) AS repo_id
-) AS tmp
-WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id;
-
 -- name: UpdateMarkdownMulti :exec
 UPDATE markdowns AS m
-SET version_key = tmp.version_key,md5=tmp.md5,main_content=tmp.main_content,table_content=tmp.table_content,updated_at=now()
+SET main_content=tmp.main_content,table_content=tmp.table_content,updated_at=now()
 FROM (
   SELECT 
-  unnest(@version_key::text[]) AS version_key,
   unnest(@relative_path::text[]) AS relative_path,
   unnest(@main_content::text[]) AS main_content,
   unnest(@table_content::text[]) AS table_content,
-  unnest(@md5::text[]) AS md5,
   unnest(@repo_id::bigint[]) AS repo_id
 ) AS tmp
 WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id;
 
-
--- name: DeleteMarkdown :exec
+-- name: DeleteMarkdownMulti :exec
 DELETE FROM markdowns
-WHERE relative_path = $1 and repo_id = $2;
-
-
--- 每次更新仓库，都会给仓库一个新的版本key:version_key,有旧key的行都会被清理掉
--- name: DeleteOldMarkdown :exec
-DELETE FROM markdowns
-WHERE repo_id = $1 and version_key!=$2;
+WHERE (relative_path, repo_id) IN (
+  SELECT 
+    unnest(@relative_path::text[]), 
+    unnest(@repo_id::bigint[])
+);
 
 -- name: DeleteMarkdownByRepo :exec
 DELETE FROM markdowns

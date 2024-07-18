@@ -19,8 +19,8 @@ class LRUCache {
     if (!this.cache.has(key)) return undefined;
 
     const { value, timestamp } = this.cache.get(key)!;
-    // Check if the cached value is expired (more than 3600 seconds)
-    if (Date.now() - timestamp > 3600 * 1000) {
+    // Check if the cached value is expired (more than 60 seconds)
+    if (Date.now() - timestamp > 60 * 1000) {
       this.cache.delete(key);
       return undefined;
     }

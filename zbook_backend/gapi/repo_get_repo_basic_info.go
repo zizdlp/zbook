@@ -33,7 +33,7 @@ func (server *Server) GetRepoBasicInfo(ctx context.Context, req *rpcs.GetRepoBas
 		}
 		return nil, status.Errorf(codes.Internal, "get repo basic info failed: %s", err)
 	}
-	avatarData, err := storage.DownloadAvatar(server.minioClient, context.Background(), repo.Username, "avatar")
+	avatarData, err := storage.DownloadFileFromStorage(server.minioClient, context.Background(), repo.Username, "avatar")
 	if err != nil {
 		log.Info().Msgf("download avatar for %s failed: %s", repo.Username, err)
 	}
