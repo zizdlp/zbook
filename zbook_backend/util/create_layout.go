@@ -1,6 +1,9 @@
 package util
 
-import "strings"
+import (
+	"sort"
+	"strings"
+)
 
 type Layout struct {
 	Title        string   `json:"title"`
@@ -66,5 +69,24 @@ func CreateLayout(files []string) Layout {
 		}
 	}
 
+	// 对 Sublayouts 进行排序，使得目录在前，文件在后
+	sortLayouts(&root)
+
 	return root
+}
+
+// sortLayouts 对 Sublayouts 进行排序，使得目录在前，文件在后
+func sortLayouts(layout *Layout) {
+	sort.Slice(layout.Sublayouts, func(i, j int) bool {
+		if layout.Sublayouts[i].Isdir != layout.Sublayouts[j].Isdir {
+			return layout.Sublayouts[i].Isdir
+		}
+		return layout.Sublayouts[i].Title < layout.Sublayouts[j].Title
+	})
+
+	for i := range layout.Sublayouts {
+		if layout.Sublayouts[i].Isdir {
+			sortLayouts(&layout.Sublayouts[i])
+		}
+	}
 }
