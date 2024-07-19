@@ -82,7 +82,7 @@ next:
 	cd zbook_frontend && \
 	npm run dev
 compose:
-	docker-compose -f docker-compose.yaml down --volumes
-	docker-compose -f docker-compose.yaml build
-	docker-compose -f docker-compose.yaml up  --remove-orphans 
+	sudo docker-compose -f docker-compose.yaml down --volumes
+	sudo docker-compose -f docker-compose.yaml build
+	sudo docker-compose -f docker-compose.yaml up  --remove-orphans 
 .PHONY: database createdb dropdb migrateup migratedown sqlc mock test server next compose

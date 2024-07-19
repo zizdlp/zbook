@@ -41,9 +41,16 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 		// 调用 Clone 函数
 		gitURL := util.GetGitURL(result.Repo.GitProtocol, result.Repo.GitHost, result.Repo.GitUsername, result.Repo.GitRepo)
 		if arg.GitAccessToken.Valid {
-			err = operations.CloneWithPassword(gitURL, cloneDir, arg.GitUsername, arg.GitAccessToken.String)
-			if err != nil {
-				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
+			if result.Repo.GitHost == "github" {
+				err = operations.CloneWithToken(gitURL, cloneDir, arg.GitAccessToken.String)
+				if err != nil {
+					return status.Errorf(codes.Internal, "clone repo failed: %s", err)
+				}
+			} else {
+				err = operations.CloneWithPassword(gitURL, cloneDir, arg.GitUsername, arg.GitAccessToken.String)
+				if err != nil {
+					return status.Errorf(codes.Internal, "clone repo failed: %s", err)
+				}
 			}
 		} else {
 			err = operations.Clone(gitURL, cloneDir)

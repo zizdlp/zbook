@@ -294,7 +294,7 @@ func createUserRandomRepo(t *testing.T, user User) Repo {
 		GitProtocol:     "http",
 		GitHost:         "github.com",
 		GitUsername:     "zizdlp",
-		GitRepo:         "wiki_demo",
+		GitRepo:         "zbook-user-guide",
 		GitAccessToken:  pgtype.Text{String: util.RandomString(32), Valid: true},
 		RepoName:        util.RandomString(36),
 		RepoDescription: util.RandomString(200),
