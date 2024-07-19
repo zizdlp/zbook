@@ -10,7 +10,7 @@ import (
 
 func TestGetLatestCommitShouldOK(t *testing.T) {
 	// 使用一个公开的 Git 仓库 URL 进行测试
-	gitURL := "https://github.com/zizdlp/wiki_demo.git"
+	gitURL := "https://github.com/zizdlp/zbook-user-guide.git"
 
 	rsg := util.NewRandomStringGenerator()
 	randomString := rsg.RandomString(10)

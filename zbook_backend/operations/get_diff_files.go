@@ -11,12 +11,12 @@ func GetDiffFiles(oldCommitID, newCommitID, repoDir string) ([]string, []string,
 	var cmd *exec.Cmd
 	if oldCommitID == "" {
 		// If oldCommitID is empty, list all files in the repository
-		cmd = exec.Command("git", "ls-files")
+		cmd = exec.Command("sh", "-c", "git ls-files -z | xargs -0 -n1 echo")
 	} else {
 		// Construct the git diff command
-		cmd = exec.Command("git", "diff", "--name-status", oldCommitID, newCommitID)
+		cmd = exec.Command("sh", "-c", fmt.Sprintf("git diff --name-status -z %s %s | xargs -0 -n2 echo", oldCommitID, newCommitID))
 	}
-	cmd.Dir = repoDir // 设置命令执行的工作目录为指定的仓库目录
+	cmd.Dir = repoDir // Set the working directory to the specified repository directory
 
 	// Run the command and capture its output
 	output, err := cmd.Output()

@@ -285,7 +285,7 @@ func (server *Server) LogRedisVisitor(ctx context.Context) (err error) {
 	// 获取当前日期字符串，用于构建 Redis 键和设置过期时间
 	today := time.Now().Format("2006-01-02")
 	redisKey := fmt.Sprintf("%s:%s:%s:%s", "logvisitor", ClientIp, UserAgent, today)
-	log.Info().Msgf("insert rediskey for visitor: %s", redisKey)
+	log.Info().Msgf("inser to redis: %s", redisKey)
 	return server.insertRedisKey(redisKey, 1000000, 24*31) //保留31天，设置较大使用限制
 }
 

@@ -21,12 +21,6 @@ func TestCreateLayout(t *testing.T) {
 		"isdir": true,
 		"sublayouts": [
 			{
-				"title": "a",
-				"relative_path": "a",
-				"isdir": false,
-				"sublayouts": null
-			},
-			{
 				"title": "b",
 				"relative_path": "b",
 				"isdir": true,
@@ -44,6 +38,12 @@ func TestCreateLayout(t *testing.T) {
 						"sublayouts": null
 					}
 				]
+			},
+			{
+				"title": "a",
+				"relative_path": "a",
+				"isdir": false,
+				"sublayouts": null
 			}
 		]
 	}`
