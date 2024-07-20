@@ -471,9 +471,6 @@
         "verified": {
           "type": "boolean"
         },
-        "deleted": {
-          "type": "boolean"
-        },
         "onboarding": {
           "type": "boolean"
         },

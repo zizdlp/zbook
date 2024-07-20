@@ -112,7 +112,6 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY comments.created_at DESC
 LIMIT $1
 OFFSET $2;
@@ -123,8 +122,7 @@ FROM comments
 JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
-JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND mu.deleted = 'false';
+JOIN users as mu ON mu.user_id=repos.user_id;
 
 -- name: QueryComment :many
 SELECT comments.*,ts_rank(comments.fts_comment_content, plainto_tsquery(@query)) as rank,
@@ -134,7 +132,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery(@query) AND users.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery(@query)
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2;
@@ -146,4 +144,4 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery(@query) AND users.deleted = 'false' AND mu.deleted = 'false';
+WHERE comments.fts_comment_content @@ plainto_tsquery(@query);

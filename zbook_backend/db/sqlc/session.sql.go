@@ -107,7 +107,7 @@ select Count(*)
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND users.deleted='false' AND fts_username @@ plainto_tsquery($1)
+WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery($1)
 `
 
 func (q *Queries) GetQueryActiveSessionCount(ctx context.Context, query string) (int64, error) {
@@ -139,11 +139,11 @@ func (q *Queries) GetSession(ctx context.Context, sessionID uuid.UUID) (Session,
 
 const listActiveSession = `-- name: ListActiveSession :many
 SELECT 
-  session_id, sessions.user_id, refresh_token, user_agent, client_ip, expires_at, sessions.created_at, users.user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, users.created_at, updated_at, unread_count, unread_count_updated_at, fts_username 
+  session_id, sessions.user_id, refresh_token, user_agent, client_ip, expires_at, sessions.created_at, users.user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, users.created_at, updated_at, unread_count, unread_count_updated_at, fts_username 
 FROM 
   sessions
 INNER JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND users.deleted='false'
+WHERE sessions.expires_at > NOW()
 ORDER BY sessions.created_at DESC
 LIMIT $1
 OFFSET $2
@@ -168,7 +168,6 @@ type ListActiveSessionRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -202,7 +201,6 @@ func (q *Queries) ListActiveSession(ctx context.Context, arg ListActiveSessionPa
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,
@@ -223,11 +221,11 @@ func (q *Queries) ListActiveSession(ctx context.Context, arg ListActiveSessionPa
 }
 
 const queryActiveSession = `-- name: QueryActiveSession :many
-select sessions.session_id, sessions.user_id, sessions.refresh_token, sessions.user_agent, sessions.client_ip, sessions.expires_at, sessions.created_at,ts_rank(users.fts_username, plainto_tsquery($3)) as rank,users.user_id, users.username, users.email, users.hashed_password, users.blocked, users.verified, users.deleted, users.motto, users.user_role, users.onboarding, users.created_at, users.updated_at, users.unread_count, users.unread_count_updated_at, users.fts_username
+select sessions.session_id, sessions.user_id, sessions.refresh_token, sessions.user_agent, sessions.client_ip, sessions.expires_at, sessions.created_at,ts_rank(users.fts_username, plainto_tsquery($3)) as rank,users.user_id, users.username, users.email, users.hashed_password, users.blocked, users.verified, users.motto, users.user_role, users.onboarding, users.created_at, users.updated_at, users.unread_count, users.unread_count_updated_at, users.fts_username
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND users.deleted='false' AND fts_username @@ plainto_tsquery($3)
+WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery($3)
 ORDER BY
   rank DESC
 LIMIT $1
@@ -255,7 +253,6 @@ type QueryActiveSessionRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -290,7 +287,6 @@ func (q *Queries) QueryActiveSession(ctx context.Context, arg QueryActiveSession
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,

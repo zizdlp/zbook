@@ -34,10 +34,10 @@ service ZBookAdmin {
       summary: "ban user";
       };
   };
-  // 2.MarkUserAsDeleted
-  rpc MarkUserAsDeleted(MarkUserAsDeletedRequest) returns (MarkUserAsDeletedResponse) {
+  // 2.DeleteUser
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
     option (google.api.http) = {
-      post: "/v1/mark_user_as_deleted",
+      post: "/v1/delete_user",
       body: "*",
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {

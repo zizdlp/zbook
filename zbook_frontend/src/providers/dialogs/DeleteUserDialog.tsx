@@ -25,7 +25,7 @@ export default function DeleteUserDialog() {
       submitFunc={async () => {
         try {
           const data = await fetchServerWithAuthWrapper({
-            endpoint: FetchServerWithAuthWrapperEndPoint.MARK_USER_DELETED,
+            endpoint: FetchServerWithAuthWrapperEndPoint.DELETE_USER,
             xforward: "",
             agent: "",
             tags: [],

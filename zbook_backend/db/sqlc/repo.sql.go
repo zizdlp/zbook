@@ -101,19 +101,17 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 WHERE
-    u.deleted = FALSE AND (
-      ($1::text='admin' AND $2::bool ) OR (
-        u.blocked='false' AND (
-          r.visibility_level = 'public'
-          OR 
-          (r.visibility_level = 'signed' AND $2::bool)
-          OR
-          (r.visibility_level = 'chosen' AND $2::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
-          OR
-          ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $2::bool)
-        )
+  ($1::text='admin' AND $2::bool ) OR (
+      u.blocked='false' AND (
+        r.visibility_level = 'public'
+        OR 
+        (r.visibility_level = 'signed' AND $2::bool)
+        OR
+        (r.visibility_level = 'chosen' AND $2::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
+        OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $2::bool)
       )
-    )
+  )
 `
 
 type GetListRepoCountParams struct {
@@ -140,7 +138,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    uq.user_id = $1 AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND ( 
+    uq.user_id = $1 AND rr.relation_type='like' AND ( 
       ($2::text='admin' AND $3::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -183,7 +181,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    u.user_id = $1 AND u.deleted = FALSE AND (
+    u.user_id = $1 AND (
       ($2::text='admin' AND $3::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -225,7 +223,7 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 where r.fts_repo_name @@ plainto_tsquery($1) 
-  AND u.deleted = FALSE AND (
+  AND (
     ($2::text='admin' AND $3::bool ) OR (
       u.blocked='false' AND (
         r.visibility_level = 'public'
@@ -270,7 +268,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery($1) AND uq.user_id = $2 AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
+    r.fts_repo_name @@ plainto_tsquery($1) AND uq.user_id = $2 AND rr.relation_type='like'  AND ( 
       ($3::text='admin' AND $4::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -315,7 +313,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery($1) AND u.user_id = $2 AND u.deleted = FALSE AND (
+    r.fts_repo_name @@ plainto_tsquery($1) AND u.user_id = $2 AND (
       ($3::text='admin' AND $4::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -490,7 +488,7 @@ func (q *Queries) GetRepoLayout(ctx context.Context, arg GetRepoLayoutParams) (G
 const getRepoPermission = `-- name: GetRepoPermission :one
 SELECT 
   repos.visibility_level as visibility_level,
-  users.user_id, users.deleted as user_deleted,users.blocked as user_blocked,users.username,
+  users.user_id,users.blocked as user_blocked,users.username,
   users.user_role as user_role,
   repos.repo_id
 FROM 
@@ -503,7 +501,6 @@ WHERE
 type GetRepoPermissionRow struct {
 	VisibilityLevel string `json:"visibility_level"`
 	UserID          int64  `json:"user_id"`
-	UserDeleted     bool   `json:"user_deleted"`
 	UserBlocked     bool   `json:"user_blocked"`
 	Username        string `json:"username"`
 	UserRole        string `json:"user_role"`
@@ -516,7 +513,6 @@ func (q *Queries) GetRepoPermission(ctx context.Context, repoID int64) (GetRepoP
 	err := row.Scan(
 		&i.VisibilityLevel,
 		&i.UserID,
-		&i.UserDeleted,
 		&i.UserBlocked,
 		&i.Username,
 		&i.UserRole,
@@ -536,19 +532,18 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 WHERE
-    u.deleted = FALSE AND (
-      ($4::text='admin' AND $5::bool ) OR (
-        u.blocked='false' AND (
-          r.visibility_level = 'public'
-          OR 
-          (r.visibility_level = 'signed' AND $5::bool)
-          OR
-          (r.visibility_level = 'chosen' AND $5::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
-          OR
-          ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $5::bool)
-        )
-      )
+  ($4::text='admin' AND $5::bool ) OR (
+    u.blocked='false' AND (
+      r.visibility_level = 'public'
+      OR 
+      (r.visibility_level = 'signed' AND $5::bool)
+      OR
+      (r.visibility_level = 'chosen' AND $5::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
+      OR
+      ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $5::bool)
     )
+  )
+    
 ORDER BY r.repo_id
 LIMIT $1
 OFFSET $2
@@ -646,7 +641,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id -- query user
 WHERE
-    uq.user_id = $4 AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
+    uq.user_id = $4 AND rr.relation_type='like' AND ( 
       ($5::text='admin' AND $6::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -755,7 +750,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    u.user_id = $4 AND u.deleted = FALSE AND (
+    u.user_id = $4 AND (
       ($5::text='admin' AND $6::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -858,7 +853,7 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 where r.fts_repo_name @@ plainto_tsquery($3) 
-  AND u.deleted = FALSE AND (
+  AND (
     ($4::text='admin' AND $5::bool ) OR (
       u.blocked='false' AND (
         r.visibility_level = 'public'
@@ -968,7 +963,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery($3) AND uq.user_id = $5 AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND ( 
+    r.fts_repo_name @@ plainto_tsquery($3) AND uq.user_id = $5 AND rr.relation_type='like' AND ( 
       ($6::text='admin' AND $7::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -1082,7 +1077,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery($3) AND u.user_id = $5 AND u.deleted = FALSE AND (
+    r.fts_repo_name @@ plainto_tsquery($3) AND u.user_id = $5 AND (
       ($6::text='admin' AND $7::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'

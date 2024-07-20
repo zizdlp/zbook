@@ -7,6 +7,10 @@ INSERT INTO users (
   $1, $2, $3
 ) RETURNING *;
 
+-- name: DeleteUser :exec
+DELETE FROM users
+WHERE username = $1;
+
 -- name: UpdateUnreadCount :exec
 UPDATE users
 SET unread_count = (
@@ -52,7 +56,6 @@ SET motto=COALESCE(sqlc.narg(motto),motto),
 hashed_password=COALESCE(sqlc.narg(hashed_password),hashed_password),
 user_role=COALESCE(sqlc.narg(user_role),user_role),
 onboarding=COALESCE(sqlc.narg(onboarding),onboarding),
-deleted=COALESCE(sqlc.narg(deleted),deleted),
 blocked=COALESCE(sqlc.narg(blocked),blocked),
 verified=COALESCE(sqlc.narg(verified),verified)
 WHERE username = sqlc.arg(username)

@@ -63,7 +63,7 @@ JOIN
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
 WHERE 
-    f.following_id = $2 AND u.blocked=false AND u.deleted=false
+    f.following_id = $2 AND u.blocked=false
 `
 
 type GetListFollowerCountParams struct {
@@ -88,7 +88,7 @@ JOIN
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
 WHERE 
-    f.follower_id = $2 AND u.blocked=false AND u.deleted=false
+    f.follower_id = $2 AND u.blocked=false
 `
 
 type GetListFollowingCountParams struct {
@@ -113,7 +113,7 @@ JOIN
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
 WHERE 
-    f.following_id = $2 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false AND u.deleted=false
+    f.following_id = $2 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
 `
 
 type GetQueryFollowerCountParams struct {
@@ -139,7 +139,7 @@ JOIN
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
 WHERE 
-    f.follower_id = $2 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false AND u.deleted=false
+    f.follower_id = $2 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
 `
 
 type GetQueryFollowingCountParams struct {
@@ -179,7 +179,7 @@ func (q *Queries) IsFollowing(ctx context.Context, arg IsFollowingParams) (bool,
 
 const listFollower = `-- name: ListFollower :many
 SELECT 
-    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.deleted, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
+    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
     CASE WHEN MAX(ff.follower_id) IS NOT NULL THEN true ELSE false END AS is_following,
     COUNT(DISTINCT r.repo_id) as repo_count
 FROM 
@@ -190,7 +190,7 @@ LEFT JOIN
     follows ff ON ff.follower_id = $3 AND ff.following_id = u.user_id
 LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
-    f.following_id = $4 AND u.blocked=false AND u.deleted=false
+    f.following_id = $4 AND u.blocked=false
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -213,7 +213,6 @@ type ListFollowerRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -247,7 +246,6 @@ func (q *Queries) ListFollower(ctx context.Context, arg ListFollowerParams) ([]L
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,
@@ -271,7 +269,7 @@ func (q *Queries) ListFollower(ctx context.Context, arg ListFollowerParams) ([]L
 
 const listFollowing = `-- name: ListFollowing :many
 SELECT 
-    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.deleted, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
+    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
     CASE WHEN MAX(ff.follower_id) IS NOT NULL THEN true ELSE false END AS is_following,
     COUNT(DISTINCT r.repo_id) as repo_count
 FROM 
@@ -282,7 +280,7 @@ LEFT JOIN
     follows ff ON ff.follower_id = $3 AND ff.following_id = u.user_id
 LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
-    f.follower_id = $4 AND u.blocked=false AND u.deleted=false AND u.deleted=false
+    f.follower_id = $4 AND u.blocked=false
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -305,7 +303,6 @@ type ListFollowingRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -339,7 +336,6 @@ func (q *Queries) ListFollowing(ctx context.Context, arg ListFollowingParams) ([
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,
@@ -363,7 +359,7 @@ func (q *Queries) ListFollowing(ctx context.Context, arg ListFollowingParams) ([
 
 const queryFollower = `-- name: QueryFollower :many
 SELECT 
-    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.deleted, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
+    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
     ts_rank(u.fts_username, plainto_tsquery($3)) as rank,
     CASE WHEN MAX(ff.follower_id) IS NOT NULL THEN true ELSE false END AS is_following,
     COUNT(DISTINCT r.repo_id) as repo_count
@@ -375,7 +371,7 @@ LEFT JOIN
     follows ff ON ff.follower_id = $4 AND ff.following_id = u.user_id
 LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
-    f.following_id = $5 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false AND u.deleted=false
+    f.following_id = $5 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -399,7 +395,6 @@ type QueryFollowerRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -435,7 +430,6 @@ func (q *Queries) QueryFollower(ctx context.Context, arg QueryFollowerParams) ([
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,
@@ -460,7 +454,7 @@ func (q *Queries) QueryFollower(ctx context.Context, arg QueryFollowerParams) ([
 
 const queryFollowing = `-- name: QueryFollowing :many
 SELECT 
-    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.deleted, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
+    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
     ts_rank(u.fts_username, plainto_tsquery($3)) as rank,
     CASE WHEN MAX(ff.follower_id) IS NOT NULL THEN true ELSE false END AS is_following,
     COUNT(DISTINCT r.repo_id) as repo_count
@@ -472,7 +466,7 @@ LEFT JOIN
     follows ff ON ff.follower_id = $4 AND ff.following_id = u.user_id
 LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
-    f.follower_id = $5 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false AND u.deleted=false
+    f.follower_id = $5 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -496,7 +490,6 @@ type QueryFollowingRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -532,7 +525,6 @@ func (q *Queries) QueryFollowing(ctx context.Context, arg QueryFollowingParams) 
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,

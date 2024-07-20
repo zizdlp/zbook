@@ -43,7 +43,6 @@ message ListUserInfo {
   string email                         = 2;
   bool blocked                         = 3;
   bool verified                        = 4;
-  bool deleted                         = 5;
   bool onboarding                      = 6;
   string role                          = 7;
   google.protobuf.Timestamp updated_at = 8;

@@ -48,7 +48,7 @@ func (q *Queries) GetDailyCreateUserCount(ctx context.Context) ([]GetDailyCreate
 const getListUserCount = `-- name: GetListUserCount :one
 SELECT COUNT(*)
 FROM users u
-WHERE $1::bool AND u.deleted='false' AND ($2::text='admin' OR u.blocked='false')
+WHERE $1::bool AND ($2::text='admin' OR u.blocked='false')
 `
 
 type GetListUserCountParams struct {
@@ -66,7 +66,7 @@ func (q *Queries) GetListUserCount(ctx context.Context, arg GetListUserCountPara
 const getQueryUserCount = `-- name: GetQueryUserCount :one
 select COUNT(*)
 from users 
-where fts_username @@ plainto_tsquery($1) AND $2::bool AND users.deleted='false' AND ($3::text='admin' OR users.blocked='false')
+where fts_username @@ plainto_tsquery($1) AND $2::bool AND ($3::text='admin' OR users.blocked='false')
 `
 
 type GetQueryUserCountParams struct {
@@ -97,7 +97,7 @@ func (q *Queries) GetUnReadCount(ctx context.Context, username string) (int32, e
 }
 
 const getUserByEmail = `-- name: GetUserByEmail :one
-SELECT user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
+SELECT user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 FROM users
 WHERE users.email = $1 
 LIMIT 1
@@ -113,7 +113,6 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 		&i.HashedPassword,
 		&i.Blocked,
 		&i.Verified,
-		&i.Deleted,
 		&i.Motto,
 		&i.UserRole,
 		&i.Onboarding,
@@ -127,7 +126,7 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 }
 
 const getUserByID = `-- name: GetUserByID :one
-SELECT user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
+SELECT user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 FROM users
 WHERE user_id = $1 
 LIMIT 1
@@ -143,7 +142,6 @@ func (q *Queries) GetUserByID(ctx context.Context, userID int64) (User, error) {
 		&i.HashedPassword,
 		&i.Blocked,
 		&i.Verified,
-		&i.Deleted,
 		&i.Motto,
 		&i.UserRole,
 		&i.Onboarding,
@@ -157,7 +155,7 @@ func (q *Queries) GetUserByID(ctx context.Context, userID int64) (User, error) {
 }
 
 const getUserByUsername = `-- name: GetUserByUsername :one
-SELECT user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
+SELECT user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 FROM users
 WHERE username = $1 
 LIMIT 1
@@ -173,7 +171,6 @@ func (q *Queries) GetUserByUsername(ctx context.Context, username string) (User,
 		&i.HashedPassword,
 		&i.Blocked,
 		&i.Verified,
-		&i.Deleted,
 		&i.Motto,
 		&i.UserRole,
 		&i.Onboarding,
@@ -199,7 +196,7 @@ WITH liked_repos_count AS (
   JOIN
       users as uq ON uq.user_id=rr.user_id
   WHERE
-    uq.user_id = $3 AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
+    uq.user_id = $3 AND rr.relation_type='like' AND ( 
       ($1::text='admin' AND $4::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -222,7 +219,7 @@ WITH liked_repos_count AS (
   JOIN
       users as u ON u.user_id=r.user_id
   WHERE
-      u.user_id = $3 AND u.deleted = FALSE AND (
+      u.user_id = $3 AND (
         ($1::text='admin' AND $4::bool ) OR (
           u.blocked='false' AND (
             r.visibility_level = 'public'
@@ -237,11 +234,11 @@ WITH liked_repos_count AS (
       )
 )
 SELECT 
-    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.deleted, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
+    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
     repo_count,
     like_count,
-    (SELECT COUNT(*) FROM follows f1 JOIN users as uf ON uf.user_id = f1.follower_id WHERE f1.following_id = u.user_id and uf.deleted = 'false' and (uf.blocked = 'false' OR $1::text='admin')) AS follower_count,
-    (SELECT COUNT(*) FROM follows f2 JOIN users as uf ON uf.user_id = f2.following_id WHERE f2.follower_id = u.user_id and uf.deleted = 'false' and (uf.blocked = 'false' OR $1::text='admin')) AS following_count,
+    (SELECT COUNT(*) FROM follows f1 JOIN users as uf ON uf.user_id = f1.follower_id WHERE f1.following_id = u.user_id and (uf.blocked = 'false' OR $1::text='admin')) AS follower_count,
+    (SELECT COUNT(*) FROM follows f2 JOIN users as uf ON uf.user_id = f2.following_id WHERE f2.follower_id = u.user_id and (uf.blocked = 'false' OR $1::text='admin')) AS following_count,
     EXISTS(SELECT 1 FROM follows WHERE follows.follower_id = $2 AND follows.following_id = $3) AS is_following
 FROM users u
 JOIN liked_repos_count lrc ON 1=1
@@ -263,7 +260,6 @@ type GetUserInfoRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -294,7 +290,6 @@ func (q *Queries) GetUserInfo(ctx context.Context, arg GetUserInfoParams) (GetUs
 		&i.HashedPassword,
 		&i.Blocked,
 		&i.Verified,
-		&i.Deleted,
 		&i.Motto,
 		&i.UserRole,
 		&i.Onboarding,
@@ -313,9 +308,9 @@ func (q *Queries) GetUserInfo(ctx context.Context, arg GetUserInfoParams) (GetUs
 }
 
 const listUser = `-- name: ListUser :many
-SELECT user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
+SELECT user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 FROM users u
-WHERE $3::bool AND u.deleted='false' AND ($4::text='admin' OR u.blocked='false')
+WHERE $3::bool AND ($4::text='admin' OR u.blocked='false')
 ORDER BY u.created_at DESC
 LIMIT $1
 OFFSET $2
@@ -349,7 +344,6 @@ func (q *Queries) ListUser(ctx context.Context, arg ListUserParams) ([]User, err
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,
@@ -370,9 +364,9 @@ func (q *Queries) ListUser(ctx context.Context, arg ListUserParams) ([]User, err
 }
 
 const queryUser = `-- name: QueryUser :many
-select users.user_id, users.username, users.email, users.hashed_password, users.blocked, users.verified, users.deleted, users.motto, users.user_role, users.onboarding, users.created_at, users.updated_at, users.unread_count, users.unread_count_updated_at, users.fts_username,ts_rank(fts_username, plainto_tsquery($3)) as rank
+select users.user_id, users.username, users.email, users.hashed_password, users.blocked, users.verified, users.motto, users.user_role, users.onboarding, users.created_at, users.updated_at, users.unread_count, users.unread_count_updated_at, users.fts_username,ts_rank(fts_username, plainto_tsquery($3)) as rank
 from users 
-where fts_username @@ plainto_tsquery($3) AND $4::bool AND users.deleted='false' AND ($5::text='admin' OR users.blocked='false')
+where fts_username @@ plainto_tsquery($3) AND $4::bool AND ($5::text='admin' OR users.blocked='false')
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2
@@ -393,7 +387,6 @@ type QueryUserRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -427,7 +420,6 @@ func (q *Queries) QueryUser(ctx context.Context, arg QueryUserParams) ([]QueryUs
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,

@@ -216,7 +216,6 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND mu.deleted = 'false'
 `
 
 func (q *Queries) GetListCommentCount(ctx context.Context) (int64, error) {
@@ -265,7 +264,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($1) AND users.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery($1)
 `
 
 func (q *Queries) GetQueryCommentCount(ctx context.Context, query string) (int64, error) {
@@ -283,7 +282,6 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY comments.created_at DESC
 LIMIT $1
 OFFSET $2
@@ -546,7 +544,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($3) AND users.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery($3)
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2

@@ -6,7 +6,6 @@ CREATE TABLE "users" (
   "hashed_password" VARCHAR NOT NULL,
   "blocked" BOOLEAN NOT NULL DEFAULT FALSE,
   "verified" BOOLEAN NOT NULL DEFAULT FALSE,
-  "deleted" BOOLEAN NOT NULL DEFAULT FALSE,
   "motto" TEXT NOT NULL DEFAULT '',
   "user_role" varchar NOT NULL DEFAULT 'user',
   "onboarding" BOOLEAN NOT NULL DEFAULT FALSE,

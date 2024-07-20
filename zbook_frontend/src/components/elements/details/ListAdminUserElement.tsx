@@ -11,16 +11,13 @@ export default function ListAdminUserElement({
   email,
   blocked,
   verified,
-  deleted,
   role,
   updated_at,
 }: {
   username: string;
   email: string;
-
   blocked: boolean;
   verified: boolean;
-  deleted: boolean;
   role: string;
   updated_at: string;
 }) {

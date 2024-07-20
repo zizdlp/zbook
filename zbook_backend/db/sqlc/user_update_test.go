@@ -54,7 +54,6 @@ func TestUpdateUserBasicInfo(t *testing.T) {
 			Valid:  util.RandomBool(),
 		},
 		Onboarding: util.RandomPGBool(),
-		Deleted:    util.RandomPGBool(),
 		Blocked:    util.RandomPGBool(),
 		Verified:   util.RandomPGBool(),
 	}

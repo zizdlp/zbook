@@ -73,7 +73,7 @@ func (server *Server) LoginByOAuth(ctx context.Context, req *rpcs.LoginByOAuthRe
 		return nil, status.Errorf(codes.Internal, "login in failed: %s", err)
 	}
 
-	err = server.checkUserStatus(ctx, user.Blocked, user.UserRole, user.Verified, user.Deleted)
+	err = server.checkUserStatus(ctx, user.Blocked, user.UserRole, user.Verified)
 	if err != nil {
 		return nil, err
 	}

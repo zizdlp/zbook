@@ -66,7 +66,6 @@ export default function ListElementContainer({
         email={model.email}
         blocked={model.blocked}
         verified={model.verified}
-        deleted={model.deleted}
         role={model.role}
         updated_at={model.updated_at}
       />

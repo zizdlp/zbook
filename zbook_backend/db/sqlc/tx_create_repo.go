@@ -68,7 +68,7 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 		if err != nil {
 			return nil
 		}
-		if !user.Blocked && !user.Deleted && arg.VisibilityLevel == "public" || arg.VisibilityLevel == "signin" {
+		if !user.Blocked && arg.VisibilityLevel == "public" || arg.VisibilityLevel == "signin" {
 
 			arg := GetListFollowerCountParams{
 				CurUserID: arg.UserID,

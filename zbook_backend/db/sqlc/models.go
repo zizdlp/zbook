@@ -161,7 +161,6 @@ type User struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`

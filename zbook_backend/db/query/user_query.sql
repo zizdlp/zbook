@@ -25,7 +25,7 @@ LIMIT 1;
 -- name: ListUser :many
 SELECT *
 FROM users u
-WHERE @signed::bool AND u.deleted='false' AND (@role::text='admin' OR u.blocked='false')
+WHERE @signed::bool AND (@role::text='admin' OR u.blocked='false')
 ORDER BY u.created_at DESC
 LIMIT $1
 OFFSET $2;
@@ -33,12 +33,12 @@ OFFSET $2;
 -- name: GetListUserCount :one
 SELECT COUNT(*)
 FROM users u
-WHERE @signed::bool AND u.deleted='false' AND (@role::text='admin' OR u.blocked='false');
+WHERE @signed::bool AND (@role::text='admin' OR u.blocked='false');
 
 -- name: QueryUser :many
 select users.*,ts_rank(fts_username, plainto_tsquery(@query)) as rank
 from users 
-where fts_username @@ plainto_tsquery(@query) AND @signed::bool AND users.deleted='false' AND (@role::text='admin' OR users.blocked='false')
+where fts_username @@ plainto_tsquery(@query) AND @signed::bool AND (@role::text='admin' OR users.blocked='false')
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2;
@@ -46,7 +46,7 @@ OFFSET $2;
 -- name: GetQueryUserCount :one
 select COUNT(*)
 from users 
-where fts_username @@ plainto_tsquery(@query) AND @signed::bool AND users.deleted='false' AND (@role::text='admin' OR users.blocked='false');
+where fts_username @@ plainto_tsquery(@query) AND @signed::bool AND (@role::text='admin' OR users.blocked='false');
 
 -- name: GetDailyCreateUserCount :many
 SELECT DATE(created_at) AS registration_date, COUNT(*) AS new_users_count
@@ -69,7 +69,7 @@ WITH liked_repos_count AS (
   JOIN
       users as uq ON uq.user_id=rr.user_id
   WHERE
-    uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
+    uq.user_id = @user_id AND rr.relation_type='like' AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -92,7 +92,7 @@ WITH liked_repos_count AS (
   JOIN
       users as u ON u.user_id=r.user_id
   WHERE
-      u.user_id = @user_id AND u.deleted = FALSE AND (
+      u.user_id = @user_id AND (
         (@role::text='admin' AND @signed::bool ) OR (
           u.blocked='false' AND (
             r.visibility_level = 'public'
@@ -110,8 +110,8 @@ SELECT
     u.*,
     repo_count,
     like_count,
-    (SELECT COUNT(*) FROM follows f1 JOIN users as uf ON uf.user_id = f1.follower_id WHERE f1.following_id = u.user_id and uf.deleted = 'false' and (uf.blocked = 'false' OR @role::text='admin')) AS follower_count,
-    (SELECT COUNT(*) FROM follows f2 JOIN users as uf ON uf.user_id = f2.following_id WHERE f2.follower_id = u.user_id and uf.deleted = 'false' and (uf.blocked = 'false' OR @role::text='admin')) AS following_count,
+    (SELECT COUNT(*) FROM follows f1 JOIN users as uf ON uf.user_id = f1.follower_id WHERE f1.following_id = u.user_id and (uf.blocked = 'false' OR @role::text='admin')) AS follower_count,
+    (SELECT COUNT(*) FROM follows f2 JOIN users as uf ON uf.user_id = f2.following_id WHERE f2.follower_id = u.user_id and (uf.blocked = 'false' OR @role::text='admin')) AS following_count,
     EXISTS(SELECT 1 FROM follows WHERE follows.follower_id = @cur_user_id AND follows.following_id = @user_id) AS is_following
 FROM users u
 JOIN liked_repos_count lrc ON 1=1

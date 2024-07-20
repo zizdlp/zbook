@@ -39,6 +39,7 @@ type Querier interface {
 	DeleteRepo(ctx context.Context, repoID int64) error
 	DeleteRepoRelation(ctx context.Context, arg DeleteRepoRelationParams) error
 	DeleteRepoVisibility(ctx context.Context, arg DeleteRepoVisibilityParams) error
+	DeleteUser(ctx context.Context, username string) error
 	GetCommentBasicInfo(ctx context.Context, commentID int64) (GetCommentBasicInfoRow, error)
 	GetCommentDetail(ctx context.Context, arg GetCommentDetailParams) (GetCommentDetailRow, error)
 	GetCommentRepoInfo(ctx context.Context, commentID int64) (Repo, error)

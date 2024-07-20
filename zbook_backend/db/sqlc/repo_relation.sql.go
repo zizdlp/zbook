@@ -129,7 +129,7 @@ func (q *Queries) GetRepoVisibilityByRepoCount(ctx context.Context, repoID int64
 }
 
 const listRepoVisibilityByRepo = `-- name: ListRepoVisibilityByRepo :many
-SELECT u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.deleted, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username
+SELECT u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username
 FROM repos as r
 LEFT JOIN repo_visibility as rv ON rv.repo_id=r.repo_id
 JOIN users as u ON u.user_id = rv.user_id
@@ -161,7 +161,6 @@ func (q *Queries) ListRepoVisibilityByRepo(ctx context.Context, arg ListRepoVisi
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,
@@ -183,7 +182,7 @@ func (q *Queries) ListRepoVisibilityByRepo(ctx context.Context, arg ListRepoVisi
 
 const queryRepoVisibilityByRepo = `-- name: QueryRepoVisibilityByRepo :many
 SELECT
-   u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.deleted, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
+   u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
    CASE WHEN MAX(rv.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
 FROM 
   users as u 
@@ -210,7 +209,6 @@ type QueryRepoVisibilityByRepoRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -243,7 +241,6 @@ func (q *Queries) QueryRepoVisibilityByRepo(ctx context.Context, arg QueryRepoVi
 			&i.HashedPassword,
 			&i.Blocked,
 			&i.Verified,
-			&i.Deleted,
 			&i.Motto,
 			&i.UserRole,
 			&i.Onboarding,

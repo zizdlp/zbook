@@ -64,7 +64,7 @@ export enum FetchServerWithAuthWrapperEndPoint {
   UPDATE_COMMENT_REPORT_STATUS = "update_comment_report_status",
   CREATE_SYSTEM_NOTIFICATION = "create_system_notification",
   DELETE_REPO = "delete_repo",
-  MARK_USER_DELETED = "mark_user_as_deleted",
+  DELETE_USER = "delete_user",
   DELETE_COMMENT = "delete_comment",
   CREATE_COMMENT = "create_comment",
   CREATE_COMMENT_REPORT = "create_comment_report",
