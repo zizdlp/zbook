@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"sync"
 	"time"
 
 	convert "github.com/zizdlp/zbook/markdown/convert"
@@ -29,30 +28,24 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 	// Helper function to process files
 	processFiles := func(files []string, isCreate bool) {
 		filteredMarkdowns := util.FilterDiffFilesByExtensions(files, allowedExtensions)
-		var wg sync.WaitGroup
 		for _, filteredMarkdown := range filteredMarkdowns {
-			wg.Add(1)
-			go func(f string) {
-				defer wg.Done()
-				data, err := os.ReadFile(cloneDir + "/" + f)
-				if err != nil {
-					return
-				}
-				table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
-				if err != nil {
-					return
-				}
-				html := main.String()
-				htmlList := table.String()
-				relativePath := strings.ToLower(strings.TrimSuffix(f, ".md"))
-				if isCreate {
-					createParams.Append(relativePath, userID, repoID, html, htmlList)
-				} else {
-					updateParams.Append(relativePath, repoID, html, htmlList)
-				}
-			}(filteredMarkdown)
+			data, err := os.ReadFile(cloneDir + "/" + filteredMarkdown)
+			if err != nil {
+				continue
+			}
+			table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
+			if err != nil {
+				continue
+			}
+			html := main.String()
+			htmlList := table.String()
+			relativePath := strings.ToLower(strings.TrimSuffix(filteredMarkdown, ".md"))
+			if isCreate {
+				createParams.Append(relativePath, userID, repoID, html, htmlList)
+			} else {
+				updateParams.Append(relativePath, repoID, html, htmlList)
+			}
 		}
-		wg.Wait()
 	}
 
 	// Process added and modified files
@@ -119,6 +112,7 @@ func createMarkdownFiles(ctx context.Context, q *Queries, params *util.CreatePar
 		MainContent:  params.MainContent,
 		TableContent: params.TableContent,
 	}
+	fmt.Println("lens is:", len(params.RelativePath), len(params.RepoID), len(params.UserID), len(params.MainContent), len(params.TableContent))
 	err := q.CreateMarkdownMulti(ctx, argCreate)
 	if err != nil {
 		return err
