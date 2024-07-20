@@ -58,22 +58,13 @@ func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (C
 	return i, err
 }
 
-const deleteCommentAndChildren = `-- name: DeleteCommentAndChildren :exec
-WITH RECURSIVE deleted_comments AS (
-  SELECT comments.comment_id
-  FROM comments
-  WHERE comments.comment_id = $1 -- 要删除的评论的comment_id
-  UNION ALL
-  SELECT c.comment_id
-  FROM comments c
-  INNER JOIN deleted_comments dc ON c.parent_id = dc.comment_id
-)
+const deleteComment = `-- name: DeleteComment :exec
 DELETE FROM comments
-WHERE comments.comment_id IN (SELECT comment_id FROM deleted_comments)
+WHERE comment_id = $1
 `
 
-func (q *Queries) DeleteCommentAndChildren(ctx context.Context, commentID int64) error {
-	_, err := q.db.Exec(ctx, deleteCommentAndChildren, commentID)
+func (q *Queries) DeleteComment(ctx context.Context, commentID int64) error {
+	_, err := q.db.Exec(ctx, deleteComment, commentID)
 	return err
 }
 
@@ -184,7 +175,7 @@ func (q *Queries) GetCommentDetail(ctx context.Context, arg GetCommentDetailPara
 }
 
 const getCommentRepoInfo = `-- name: GetCommentRepoInfo :one
-SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.home_page, repos.sync_token, repos.visibility_level, repos.deleted, repos.commit_id, repos.layout, repos.created_at, repos.updated_at, repos.fts_repo_name
+SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.home_page, repos.sync_token, repos.visibility_level, repos.commit_id, repos.layout, repos.created_at, repos.updated_at, repos.fts_repo_name
 FROM markdowns
 JOIN comments on markdowns.markdown_id=comments.markdown_id
 JOIN repos on markdowns.repo_id = repos.repo_id
@@ -209,7 +200,6 @@ func (q *Queries) GetCommentRepoInfo(ctx context.Context, commentID int64) (Repo
 		&i.HomePage,
 		&i.SyncToken,
 		&i.VisibilityLevel,
-		&i.Deleted,
 		&i.CommitID,
 		&i.Layout,
 		&i.CreatedAt,
@@ -226,7 +216,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE users.deleted = 'false' AND mu.deleted = 'false'
 `
 
 func (q *Queries) GetListCommentCount(ctx context.Context) (int64, error) {
@@ -275,7 +265,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($1) AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery($1) AND users.deleted = 'false' AND mu.deleted = 'false'
 `
 
 func (q *Queries) GetQueryCommentCount(ctx context.Context, query string) (int64, error) {
@@ -293,7 +283,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE users.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY comments.created_at DESC
 LIMIT $1
 OFFSET $2
@@ -556,7 +546,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($3) AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery($3) AND users.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2

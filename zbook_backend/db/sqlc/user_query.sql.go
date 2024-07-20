@@ -199,7 +199,7 @@ WITH liked_repos_count AS (
   JOIN
       users as uq ON uq.user_id=rr.user_id
   WHERE
-    uq.user_id = $3 AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND r.deleted = FALSE  AND ( 
+    uq.user_id = $3 AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
       ($1::text='admin' AND $4::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -222,7 +222,7 @@ WITH liked_repos_count AS (
   JOIN
       users as u ON u.user_id=r.user_id
   WHERE
-      u.user_id = $3 AND u.deleted = FALSE AND r.deleted = FALSE AND (
+      u.user_id = $3 AND u.deleted = FALSE AND (
         ($1::text='admin' AND $4::bool ) OR (
           u.blocked='false' AND (
             r.visibility_level = 'public'

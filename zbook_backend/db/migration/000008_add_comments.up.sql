@@ -14,9 +14,9 @@ CREATE TABLE "comments" (
 
 -- Adding foreign key constraints
 ALTER TABLE "comments" 
-  ADD FOREIGN KEY ("markdown_id") REFERENCES "markdowns" ("markdown_id"),
-  ADD FOREIGN KEY ("parent_id") REFERENCES "comments" ("comment_id"),
-  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id"),
+  ADD FOREIGN KEY ("markdown_id") REFERENCES "markdowns" ("markdown_id") ON DELETE CASCADE,
+  ADD FOREIGN KEY ("parent_id") REFERENCES "comments" ("comment_id") ON DELETE CASCADE,
+  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE,
   ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id") ON DELETE CASCADE;
 
 UPDATE "comments"

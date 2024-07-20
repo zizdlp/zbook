@@ -57,7 +57,7 @@ import {
   ListNotificationRequest,
   MarkCommentNotificationReadedRequest,
   MarkFollowerNotificationReadedRequest,
-  MarkRepoAsDeletedRequest,
+  DeleteRepoRequest,
   MarkRepoNotificationReadedRequest,
   MarkSystemNotificationReadedRequest,
   UpdateCommentReportStatusRequest,
@@ -1255,7 +1255,7 @@ export async function fetchServerWithAuthWrapper({
   tags,
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.MARK_REPO_DELETED;
-  values: MarkRepoAsDeletedRequest;
+  values: DeleteRepoRequest;
   xforward: string;
   agent: string;
   tags: string[];

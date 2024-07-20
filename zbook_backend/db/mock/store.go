@@ -376,18 +376,18 @@ func (mr *MockStoreMockRecorder) CreateVerification(arg0, arg1 interface{}) *gom
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVerification", reflect.TypeOf((*MockStore)(nil).CreateVerification), arg0, arg1)
 }
 
-// DeleteCommentAndChildren mocks base method.
-func (m *MockStore) DeleteCommentAndChildren(arg0 context.Context, arg1 int64) error {
+// DeleteComment mocks base method.
+func (m *MockStore) DeleteComment(arg0 context.Context, arg1 int64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCommentAndChildren", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteComment", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteCommentAndChildren indicates an expected call of DeleteCommentAndChildren.
-func (mr *MockStoreMockRecorder) DeleteCommentAndChildren(arg0, arg1 interface{}) *gomock.Call {
+// DeleteComment indicates an expected call of DeleteComment.
+func (mr *MockStoreMockRecorder) DeleteComment(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCommentAndChildren", reflect.TypeOf((*MockStore)(nil).DeleteCommentAndChildren), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteComment", reflect.TypeOf((*MockStore)(nil).DeleteComment), arg0, arg1)
 }
 
 // DeleteCommentRelation mocks base method.
@@ -492,6 +492,20 @@ func (mr *MockStoreMockRecorder) DeleteOAuth(arg0, arg1 interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOAuth", reflect.TypeOf((*MockStore)(nil).DeleteOAuth), arg0, arg1)
 }
 
+// DeleteRepo mocks base method.
+func (m *MockStore) DeleteRepo(arg0 context.Context, arg1 int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteRepo", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRepo indicates an expected call of DeleteRepo.
+func (mr *MockStoreMockRecorder) DeleteRepo(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRepo", reflect.TypeOf((*MockStore)(nil).DeleteRepo), arg0, arg1)
+}
+
 // DeleteRepoRelation mocks base method.
 func (m *MockStore) DeleteRepoRelation(arg0 context.Context, arg1 db.DeleteRepoRelationParams) error {
 	m.ctrl.T.Helper()
@@ -504,6 +518,20 @@ func (m *MockStore) DeleteRepoRelation(arg0 context.Context, arg1 db.DeleteRepoR
 func (mr *MockStoreMockRecorder) DeleteRepoRelation(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRepoRelation", reflect.TypeOf((*MockStore)(nil).DeleteRepoRelation), arg0, arg1)
+}
+
+// DeleteRepoTx mocks base method.
+func (m *MockStore) DeleteRepoTx(arg0 context.Context, arg1 db.DeleteRepoTxParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteRepoTx", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRepoTx indicates an expected call of DeleteRepoTx.
+func (mr *MockStoreMockRecorder) DeleteRepoTx(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRepoTx", reflect.TypeOf((*MockStore)(nil).DeleteRepoTx), arg0, arg1)
 }
 
 // DeleteRepoVisibility mocks base method.
@@ -1537,34 +1565,6 @@ func (m *MockStore) MarkFollowerNotificationReaded(arg0 context.Context, arg1 db
 func (mr *MockStoreMockRecorder) MarkFollowerNotificationReaded(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkFollowerNotificationReaded", reflect.TypeOf((*MockStore)(nil).MarkFollowerNotificationReaded), arg0, arg1)
-}
-
-// MarkRepoAsDeleted mocks base method.
-func (m *MockStore) MarkRepoAsDeleted(arg0 context.Context, arg1 int64) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MarkRepoAsDeleted", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// MarkRepoAsDeleted indicates an expected call of MarkRepoAsDeleted.
-func (mr *MockStoreMockRecorder) MarkRepoAsDeleted(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkRepoAsDeleted", reflect.TypeOf((*MockStore)(nil).MarkRepoAsDeleted), arg0, arg1)
-}
-
-// MarkRepoAsDeletedTx mocks base method.
-func (m *MockStore) MarkRepoAsDeletedTx(arg0 context.Context, arg1 db.MarkRepoAsDeletedTxParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MarkRepoAsDeletedTx", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// MarkRepoAsDeletedTx indicates an expected call of MarkRepoAsDeletedTx.
-func (mr *MockStoreMockRecorder) MarkRepoAsDeletedTx(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkRepoAsDeletedTx", reflect.TypeOf((*MockStore)(nil).MarkRepoAsDeletedTx), arg0, arg1)
 }
 
 // MarkRepoNotificationReaded mocks base method.

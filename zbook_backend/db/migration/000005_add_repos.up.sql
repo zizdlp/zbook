@@ -11,14 +11,15 @@ CREATE TABLE "repos" (
   "home_page" text NOT NULL,
   "sync_token" varchar(255) DEFAULT '',
   "visibility_level" varchar(255) NOT NULL,
-  "deleted" boolean NOT NULL DEFAULT FALSE,
   "commit_id" varchar(255) NOT NULL,
   "layout" text NOT NULL DEFAULT '',
   "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updated_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "fts_repo_name" TSVECTOR,
-  FOREIGN KEY ("user_id") REFERENCES "users" ("user_id")
+  "fts_repo_name" TSVECTOR
 );
+
+ALTER TABLE "repos"
+  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;
 
 -- 初始化 fts_repo_name
 UPDATE "repos"

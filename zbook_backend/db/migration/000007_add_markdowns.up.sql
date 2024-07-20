@@ -10,9 +10,9 @@ CREATE TABLE "markdowns" (
   PRIMARY KEY ("relative_path","repo_id")
 );
 
-ALTER TABLE "markdowns" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
-
-ALTER TABLE "markdowns" ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id");
+ALTER TABLE "markdowns"
+  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE,
+  ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id") ON DELETE CASCADE;
 
 CREATE UNIQUE INDEX ON "markdowns" ("repo_id","relative_path");
 

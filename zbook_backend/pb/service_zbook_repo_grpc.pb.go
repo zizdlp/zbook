@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	ZBookRepo_CreateRepo_FullMethodName               = "/pb.ZBookRepo/CreateRepo"
 	ZBookRepo_GetRepoLayout_FullMethodName            = "/pb.ZBookRepo/GetRepoLayout"
-	ZBookRepo_MarkRepoAsDeleted_FullMethodName        = "/pb.ZBookRepo/MarkRepoAsDeleted"
+	ZBookRepo_DeleteRepo_FullMethodName               = "/pb.ZBookRepo/DeleteRepo"
 	ZBookRepo_ManualSyncRepo_FullMethodName           = "/pb.ZBookRepo/ManualSyncRepo"
 	ZBookRepo_AutoSyncRepo_FullMethodName             = "/pb.ZBookRepo/AutoSyncRepo"
 	ZBookRepo_UpdateRepoInfo_FullMethodName           = "/pb.ZBookRepo/UpdateRepoInfo"
@@ -44,8 +44,8 @@ type ZBookRepoClient interface {
 	CreateRepo(ctx context.Context, in *rpcs.CreateRepoRequest, opts ...grpc.CallOption) (*rpcs.CreateRepoResponse, error)
 	// 2.GetRepoLayout
 	GetRepoLayout(ctx context.Context, in *rpcs.GetRepoLayoutRequest, opts ...grpc.CallOption) (*rpcs.GetRepoLayoutResponse, error)
-	// 3.MarkRepoAsDeleted
-	MarkRepoAsDeleted(ctx context.Context, in *rpcs.MarkRepoAsDeletedRequest, opts ...grpc.CallOption) (*rpcs.MarkRepoAsDeletedResponse, error)
+	// 3.DeleteRepo
+	DeleteRepo(ctx context.Context, in *rpcs.DeleteRepoRequest, opts ...grpc.CallOption) (*rpcs.DeleteRepoResponse, error)
 	// 4.ManualSyncRepo
 	ManualSyncRepo(ctx context.Context, in *rpcs.ManualSyncRepoRequest, opts ...grpc.CallOption) (*rpcs.ManualSyncRepoResponse, error)
 	// 5.AutoSyncRepo
@@ -96,9 +96,9 @@ func (c *zBookRepoClient) GetRepoLayout(ctx context.Context, in *rpcs.GetRepoLay
 	return out, nil
 }
 
-func (c *zBookRepoClient) MarkRepoAsDeleted(ctx context.Context, in *rpcs.MarkRepoAsDeletedRequest, opts ...grpc.CallOption) (*rpcs.MarkRepoAsDeletedResponse, error) {
-	out := new(rpcs.MarkRepoAsDeletedResponse)
-	err := c.cc.Invoke(ctx, ZBookRepo_MarkRepoAsDeleted_FullMethodName, in, out, opts...)
+func (c *zBookRepoClient) DeleteRepo(ctx context.Context, in *rpcs.DeleteRepoRequest, opts ...grpc.CallOption) (*rpcs.DeleteRepoResponse, error) {
+	out := new(rpcs.DeleteRepoResponse)
+	err := c.cc.Invoke(ctx, ZBookRepo_DeleteRepo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -212,8 +212,8 @@ type ZBookRepoServer interface {
 	CreateRepo(context.Context, *rpcs.CreateRepoRequest) (*rpcs.CreateRepoResponse, error)
 	// 2.GetRepoLayout
 	GetRepoLayout(context.Context, *rpcs.GetRepoLayoutRequest) (*rpcs.GetRepoLayoutResponse, error)
-	// 3.MarkRepoAsDeleted
-	MarkRepoAsDeleted(context.Context, *rpcs.MarkRepoAsDeletedRequest) (*rpcs.MarkRepoAsDeletedResponse, error)
+	// 3.DeleteRepo
+	DeleteRepo(context.Context, *rpcs.DeleteRepoRequest) (*rpcs.DeleteRepoResponse, error)
 	// 4.ManualSyncRepo
 	ManualSyncRepo(context.Context, *rpcs.ManualSyncRepoRequest) (*rpcs.ManualSyncRepoResponse, error)
 	// 5.AutoSyncRepo
@@ -249,8 +249,8 @@ func (UnimplementedZBookRepoServer) CreateRepo(context.Context, *rpcs.CreateRepo
 func (UnimplementedZBookRepoServer) GetRepoLayout(context.Context, *rpcs.GetRepoLayoutRequest) (*rpcs.GetRepoLayoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRepoLayout not implemented")
 }
-func (UnimplementedZBookRepoServer) MarkRepoAsDeleted(context.Context, *rpcs.MarkRepoAsDeletedRequest) (*rpcs.MarkRepoAsDeletedResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MarkRepoAsDeleted not implemented")
+func (UnimplementedZBookRepoServer) DeleteRepo(context.Context, *rpcs.DeleteRepoRequest) (*rpcs.DeleteRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRepo not implemented")
 }
 func (UnimplementedZBookRepoServer) ManualSyncRepo(context.Context, *rpcs.ManualSyncRepoRequest) (*rpcs.ManualSyncRepoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ManualSyncRepo not implemented")
@@ -334,20 +334,20 @@ func _ZBookRepo_GetRepoLayout_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookRepo_MarkRepoAsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.MarkRepoAsDeletedRequest)
+func _ZBookRepo_DeleteRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.DeleteRepoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ZBookRepoServer).MarkRepoAsDeleted(ctx, in)
+		return srv.(ZBookRepoServer).DeleteRepo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ZBookRepo_MarkRepoAsDeleted_FullMethodName,
+		FullMethod: ZBookRepo_DeleteRepo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookRepoServer).MarkRepoAsDeleted(ctx, req.(*rpcs.MarkRepoAsDeletedRequest))
+		return srv.(ZBookRepoServer).DeleteRepo(ctx, req.(*rpcs.DeleteRepoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -566,8 +566,8 @@ var ZBookRepo_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ZBookRepo_GetRepoLayout_Handler,
 		},
 		{
-			MethodName: "MarkRepoAsDeleted",
-			Handler:    _ZBookRepo_MarkRepoAsDeleted_Handler,
+			MethodName: "DeleteRepo",
+			Handler:    _ZBookRepo_DeleteRepo_Handler,
 		},
 		{
 			MethodName: "ManualSyncRepo",

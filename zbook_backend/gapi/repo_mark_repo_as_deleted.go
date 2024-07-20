@@ -13,13 +13,13 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) MarkRepoAsDeleted(ctx context.Context, req *rpcs.MarkRepoAsDeletedRequest) (*rpcs.MarkRepoAsDeletedResponse, error) {
-	violations := validateMarkRepoAsDeletedRequest(req)
+func (server *Server) DeleteRepo(ctx context.Context, req *rpcs.DeleteRepoRequest) (*rpcs.DeleteRepoResponse, error) {
+	violations := validateDeleteRepoRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
 	apiUserDailyLimit := 10000
-	apiKey := "MarkRepoAsDeleted"
+	apiKey := "DeleteRepo"
 	authPayload, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
@@ -36,20 +36,20 @@ func (server *Server) MarkRepoAsDeleted(ctx context.Context, req *rpcs.MarkRepoA
 	if repo.UserID != authPayload.UserID && authPayload.UserRole != util.AdminRole {
 		return nil, status.Errorf(codes.PermissionDenied, "current account do not have enough permission")
 	}
-	arg := db.MarkRepoAsDeletedTxParams{
+	arg := db.DeleteRepoTxParams{
 		RepoID: req.GetRepoId(),
 		UserID: repo.UserID,
 	}
 
-	err = server.store.MarkRepoAsDeletedTx(ctx, arg)
+	err = server.store.DeleteRepoTx(ctx, arg)
 	if err != nil {
 		return nil, err
 	}
 
-	rsp := &rpcs.MarkRepoAsDeletedResponse{}
+	rsp := &rpcs.DeleteRepoResponse{}
 	return rsp, nil
 }
-func validateMarkRepoAsDeletedRequest(req *rpcs.MarkRepoAsDeletedRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateDeleteRepoRequest(req *rpcs.DeleteRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	err := val.ValidateID(req.GetRepoId())
 	if err != nil {
 		violations = append(violations, fieldViolation("repo_id", err))

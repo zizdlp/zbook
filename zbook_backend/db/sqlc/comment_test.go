@@ -105,7 +105,7 @@ func TestDeleteComment(t *testing.T) {
 		CommentID: commenta.CommentID,
 		UserID:    commenta.UserID,
 	}
-	err := testStore.DeleteCommentAndChildren(context.Background(), commenta.CommentID)
+	err := testStore.DeleteComment(context.Background(), commenta.CommentID)
 	require.NoError(t, err)
 	_, err = testStore.GetCommentDetail(context.Background(), arg)
 	require.Error(t, err, ErrRecordNotFound)

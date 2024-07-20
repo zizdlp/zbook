@@ -12,7 +12,6 @@ message RepoBasicInfo {
   string repo_description              = 3;
   string visibility_level              = 4;
   string sync_token                    = 5;
-  bool deleted                         = 6;
   string git_host                      = 7;
   google.protobuf.Timestamp created_at = 8;
   google.protobuf.Timestamp updated_at = 9;
@@ -23,7 +22,6 @@ message ListRepoInfo {
   string repo_name                     = 2;
   string repo_description              = 3;
   string visibility_level              = 4;
-  bool deleted                         = 5;
   string git_host                      = 6;
   int32 like_count                     = 7;
   bool is_liked                        = 8;

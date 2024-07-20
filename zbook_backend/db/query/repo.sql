@@ -32,9 +32,10 @@ home_page=COALESCE(sqlc.narg(home_page),home_page)
 WHERE repo_id = sqlc.arg(repo_id)
 RETURNING *;
 
--- name: MarkRepoAsDeleted :exec
-UPDATE repos
-SET deleted='true'
+
+
+-- name: DeleteRepo :exec
+DELETE FROM repos
 WHERE repo_id = $1;
 
 -- name: GetRepo :one
@@ -55,7 +56,7 @@ WHERE users.username=$1 AND repos.repo_name=$2;
 
 -- name: GetRepoPermission :one
 SELECT 
-  repos.visibility_level as visibility_level,repos.deleted as repo_deleted,
+  repos.visibility_level as visibility_level,
   users.user_id, users.deleted as user_deleted,users.blocked as user_blocked,users.username,
   users.user_role as user_role,
   repos.repo_id
@@ -81,7 +82,7 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 where r.fts_repo_name @@ plainto_tsquery(@query) 
-  AND u.deleted = FALSE AND r.deleted = FALSE AND (
+  AND u.deleted = FALSE AND (
     (@role::text='admin' AND @signed::bool ) OR (
       u.blocked='false' AND (
         r.visibility_level = 'public'
@@ -102,7 +103,7 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 where r.fts_repo_name @@ plainto_tsquery(@query) 
-  AND u.deleted = FALSE AND r.deleted = FALSE AND (
+  AND u.deleted = FALSE AND (
     (@role::text='admin' AND @signed::bool ) OR (
       u.blocked='false' AND (
         r.visibility_level = 'public'
@@ -131,7 +132,7 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 WHERE
-    u.deleted = FALSE AND r.deleted = FALSE AND (
+    u.deleted = FALSE AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -157,7 +158,7 @@ FROM
 JOIN 
   users u ON u.user_id = r.user_id
 WHERE
-    u.deleted = FALSE AND r.deleted = FALSE AND (
+    u.deleted = FALSE AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -178,7 +179,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND u.deleted = FALSE AND r.deleted = FALSE AND (
+    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND u.deleted = FALSE AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -203,7 +204,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND u.deleted = FALSE AND r.deleted = FALSE AND (
+    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND u.deleted = FALSE AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -230,7 +231,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    u.user_id = @user_id AND u.deleted = FALSE AND r.deleted = FALSE AND (
+    u.user_id = @user_id AND u.deleted = FALSE AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -255,7 +256,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    u.user_id = @user_id AND u.deleted = FALSE AND r.deleted = FALSE AND (
+    u.user_id = @user_id AND u.deleted = FALSE AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -283,7 +284,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND r.deleted = FALSE  AND ( 
+    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -312,7 +313,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND r.deleted = FALSE  AND ( 
+    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -341,7 +342,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id -- query user
 WHERE
-    uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND r.deleted = FALSE  AND ( 
+    uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -370,7 +371,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND r.deleted = FALSE  AND ( 
+    uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (

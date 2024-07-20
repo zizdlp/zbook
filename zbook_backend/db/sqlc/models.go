@@ -104,7 +104,6 @@ type Repo struct {
 	HomePage        string      `json:"home_page"`
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
-	Deleted         bool        `json:"deleted"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`

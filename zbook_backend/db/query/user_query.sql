@@ -69,7 +69,7 @@ WITH liked_repos_count AS (
   JOIN
       users as uq ON uq.user_id=rr.user_id
   WHERE
-    uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE AND r.deleted = FALSE  AND ( 
+    uq.user_id = @user_id AND rr.relation_type='like' AND uq.deleted = FALSE AND ur.deleted=FALSE  AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -92,7 +92,7 @@ WITH liked_repos_count AS (
   JOIN
       users as u ON u.user_id=r.user_id
   WHERE
-      u.user_id = @user_id AND u.deleted = FALSE AND r.deleted = FALSE AND (
+      u.user_id = @user_id AND u.deleted = FALSE AND (
         (@role::text='admin' AND @signed::bool ) OR (
           u.blocked='false' AND (
             r.visibility_level = 'public'

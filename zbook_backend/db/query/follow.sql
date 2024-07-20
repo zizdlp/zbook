@@ -30,7 +30,7 @@ JOIN
     follows f ON f.follower_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = @cur_user_id AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND r.deleted = false AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
     f.following_id = @user_id AND u.blocked=false AND u.deleted=false
 GROUP BY 
@@ -52,7 +52,7 @@ JOIN
     follows f ON f.follower_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = @cur_user_id AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND r.deleted = false AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
     f.following_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND u.blocked=false AND u.deleted=false
 GROUP BY 
@@ -97,7 +97,7 @@ JOIN
     follows f ON f.following_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = @cur_user_id AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND r.deleted = false AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
     f.follower_id = @user_id AND u.blocked=false AND u.deleted=false AND u.deleted=false
 GROUP BY 
@@ -119,7 +119,7 @@ JOIN
     follows f ON f.following_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = @cur_user_id AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND r.deleted = false AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
 WHERE 
     f.follower_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND u.blocked=false AND u.deleted=false
 GROUP BY 

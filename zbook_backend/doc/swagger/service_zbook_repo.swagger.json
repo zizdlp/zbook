@@ -93,12 +93,12 @@
       "post": {
         "summary": "delete repo",
         "description": "Use this api to delete repo",
-        "operationId": "ZBookRepo_MarkRepoAsDeleted",
+        "operationId": "ZBookRepo_DeleteRepo",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/pbMarkRepoAsDeletedResponse"
+              "$ref": "#/definitions/pbDeleteRepoResponse"
             }
           },
           "default": {
@@ -114,7 +114,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/pbMarkRepoAsDeletedRequest"
+              "$ref": "#/definitions/pbDeleteRepoRequest"
             }
           }
         ],
@@ -557,6 +557,19 @@
         }
       }
     },
+    "pbDeleteRepoRequest": {
+      "type": "object",
+      "properties": {
+        "repoId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "3.DeleteRepo"
+    },
+    "pbDeleteRepoResponse": {
+      "type": "object"
+    },
     "pbGetListRepoCountRequest": {
       "type": "object",
       "properties": {
@@ -726,9 +739,6 @@
         "visibilityLevel": {
           "type": "string"
         },
-        "deleted": {
-          "type": "boolean"
-        },
         "gitHost": {
           "type": "string"
         },
@@ -856,19 +866,6 @@
       "title": "4.ManualSyncRepo"
     },
     "pbManualSyncRepoResponse": {
-      "type": "object"
-    },
-    "pbMarkRepoAsDeletedRequest": {
-      "type": "object",
-      "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
-        }
-      },
-      "title": "3.MarkRepoAsDeleted"
-    },
-    "pbMarkRepoAsDeletedResponse": {
       "type": "object"
     },
     "pbUpdateRepoInfoRequest": {

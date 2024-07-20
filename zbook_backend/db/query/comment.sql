@@ -10,20 +10,9 @@ INSERT INTO comments (
 RETURNING *;
 
 
-
--- name: DeleteCommentAndChildren :exec
-WITH RECURSIVE deleted_comments AS (
-  SELECT comments.comment_id
-  FROM comments
-  WHERE comments.comment_id = $1 -- 要删除的评论的comment_id
-  UNION ALL
-  SELECT c.comment_id
-  FROM comments c
-  INNER JOIN deleted_comments dc ON c.parent_id = dc.comment_id
-)
+-- name: DeleteComment :exec
 DELETE FROM comments
-WHERE comments.comment_id IN (SELECT comment_id FROM deleted_comments);
-
+WHERE comment_id = $1;
 
 -- name: GetCommentBasicInfo :one
 SELECT comments.comment_id,comments.markdown_id,comments.user_id,comments.parent_id,comments.comment_content,comments.created_at,comments.root_id
@@ -123,7 +112,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE users.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY comments.created_at DESC
 LIMIT $1
 OFFSET $2;
@@ -135,7 +124,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false';
+WHERE users.deleted = 'false' AND mu.deleted = 'false';
 
 -- name: QueryComment :many
 SELECT comments.*,ts_rank(comments.fts_comment_content, plainto_tsquery(@query)) as rank,
@@ -145,7 +134,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery(@query) AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery(@query) AND users.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2;
@@ -157,4 +146,4 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery(@query) AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false';
+WHERE comments.fts_comment_content @@ plainto_tsquery(@query) AND users.deleted = 'false' AND mu.deleted = 'false';

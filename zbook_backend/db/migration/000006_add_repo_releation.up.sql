@@ -7,8 +7,9 @@ CREATE TABLE "repo_relations" (
   "created_at"  timestamptz NOT NULL DEFAULT (now())
 );
 
-ALTER TABLE "repo_relations" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
-ALTER TABLE "repo_relations" ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id");
+ALTER TABLE "repo_relations"
+  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE,
+  ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id") ON DELETE CASCADE;
 CREATE UNIQUE INDEX ON "repo_relations" ("user_id","repo_id","relation_type");
 
 CREATE TABLE "repo_visibility" (
@@ -18,6 +19,7 @@ CREATE TABLE "repo_visibility" (
   "created_at"  timestamptz NOT NULL DEFAULT (now())
 );
 
-ALTER TABLE "repo_visibility" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
-ALTER TABLE "repo_visibility" ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id");
+ALTER TABLE "repo_visibility"
+  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE,
+  ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id") ON DELETE CASCADE;
 CREATE UNIQUE INDEX ON "repo_visibility" ("user_id","repo_id");

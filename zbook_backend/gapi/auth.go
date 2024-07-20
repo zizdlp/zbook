@@ -326,12 +326,12 @@ func (server *Server) isRepoVisibleToCurrentUser(ctx context.Context, RepoID int
 	if err != nil {
 		return status.Errorf(codes.Internal, "get repo failed: %s", err)
 	}
-	if repoInfo.UserDeleted || repoInfo.RepoDeleted {
+	if repoInfo.UserDeleted {
 		return status.Errorf(codes.PermissionDenied, "repo or user account has been deleted")
 	}
 
 	if repoInfo.VisibilityLevel == util.VisibilityPublic {
-		if !repoInfo.UserDeleted && !repoInfo.RepoDeleted {
+		if !repoInfo.UserDeleted {
 			return nil
 		} else {
 			return status.Errorf(codes.PermissionDenied, "current account can not visit this repo")
@@ -345,7 +345,7 @@ func (server *Server) isRepoVisibleToCurrentUser(ctx context.Context, RepoID int
 		return err
 	}
 	if repoInfo.VisibilityLevel == util.VisibilitySigned {
-		if !repoInfo.UserDeleted && !repoInfo.RepoDeleted {
+		if !repoInfo.UserDeleted {
 			return nil
 		} else {
 			return status.Errorf(codes.PermissionDenied, "current account can not visit this repo")
@@ -353,7 +353,7 @@ func (server *Server) isRepoVisibleToCurrentUser(ctx context.Context, RepoID int
 	}
 
 	if repoInfo.VisibilityLevel == util.VisibilityChosed {
-		if !repoInfo.UserDeleted && !repoInfo.RepoDeleted {
+		if !repoInfo.UserDeleted {
 			return nil
 		} else {
 			arg := db.GetRepoVisibilityParams{UserID: authUser.UserID, RepoID: RepoID}
@@ -366,7 +366,7 @@ func (server *Server) isRepoVisibleToCurrentUser(ctx context.Context, RepoID int
 	} else {
 		if authUser.UserRole == util.AdminRole {
 			return nil
-		} else if authUser.UserID == repoInfo.UserID && !repoInfo.UserDeleted && !repoInfo.RepoDeleted {
+		} else if authUser.UserID == repoInfo.UserID && !repoInfo.UserDeleted {
 			return nil
 		} else {
 			return status.Errorf(codes.PermissionDenied, "current account can not visit this repo")

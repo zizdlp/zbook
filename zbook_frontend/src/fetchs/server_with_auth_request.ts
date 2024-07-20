@@ -201,7 +201,7 @@ interface CreateSystemNotificationRequest {
   contents: string;
   redirect_url: string;
 }
-interface MarkRepoAsDeletedRequest {
+interface DeleteRepoRequest {
   repo_id: number;
 }
 interface MarkUserAsDeletedRequest {
@@ -326,7 +326,7 @@ export type {
   MarkRepoNotificationReadedRequest,
   UpdateCommentReportStatusRequest,
   CreateSystemNotificationRequest,
-  MarkRepoAsDeletedRequest,
+  DeleteRepoRequest,
   MarkUserAsDeletedRequest,
   DeleteCommentRequest,
   CreateCommentRequest,

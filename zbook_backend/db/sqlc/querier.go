@@ -30,13 +30,14 @@ type Querier interface {
 	CreateSystemNotification(ctx context.Context, arg CreateSystemNotificationParams) (SystemNotification, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateVerification(ctx context.Context, arg CreateVerificationParams) (Verification, error)
-	DeleteCommentAndChildren(ctx context.Context, commentID int64) error
+	DeleteComment(ctx context.Context, commentID int64) error
 	DeleteCommentRelation(ctx context.Context, arg DeleteCommentRelationParams) error
 	DeleteFollow(ctx context.Context, arg DeleteFollowParams) (int64, error)
 	DeleteFollowerNotification(ctx context.Context, arg DeleteFollowerNotificationParams) (FollowerNotification, error)
 	DeleteMarkdownByRepo(ctx context.Context, repoID int64) error
 	DeleteMarkdownMulti(ctx context.Context, arg DeleteMarkdownMultiParams) error
 	DeleteOAuth(ctx context.Context, arg DeleteOAuthParams) (Oauth, error)
+	DeleteRepo(ctx context.Context, repoID int64) error
 	DeleteRepoRelation(ctx context.Context, arg DeleteRepoRelationParams) error
 	DeleteRepoVisibility(ctx context.Context, arg DeleteRepoVisibilityParams) error
 	GetCommentBasicInfo(ctx context.Context, commentID int64) (GetCommentBasicInfoRow, error)
@@ -106,7 +107,6 @@ type Querier interface {
 	ListUserOwnRepo(ctx context.Context, arg ListUserOwnRepoParams) ([]ListUserOwnRepoRow, error)
 	MarkCommentNotificationReaded(ctx context.Context, arg MarkCommentNotificationReadedParams) (CommentNotification, error)
 	MarkFollowerNotificationReaded(ctx context.Context, arg MarkFollowerNotificationReadedParams) (FollowerNotification, error)
-	MarkRepoAsDeleted(ctx context.Context, repoID int64) error
 	MarkRepoNotificationReaded(ctx context.Context, arg MarkRepoNotificationReadedParams) (RepoNotification, error)
 	MarkSystemNotificationReaded(ctx context.Context, arg MarkSystemNotificationReadedParams) (SystemNotification, error)
 	MarkVerificationAsUsed(ctx context.Context, verificationID uuid.UUID) (Verification, error)
