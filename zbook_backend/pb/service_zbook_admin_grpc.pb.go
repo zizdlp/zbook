@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ZBookAdmin_UpdateUserBlock_FullMethodName           = "/pb.ZBookAdmin/UpdateUserBlock"
-	ZBookAdmin_MarkUserAsDeleted_FullMethodName         = "/pb.ZBookAdmin/MarkUserAsDeleted"
+	ZBookAdmin_DeleteUser_FullMethodName                = "/pb.ZBookAdmin/DeleteUser"
 	ZBookAdmin_CreateSystemNotification_FullMethodName  = "/pb.ZBookAdmin/CreateSystemNotification"
 	ZBookAdmin_UpdateCommentReportStatus_FullMethodName = "/pb.ZBookAdmin/UpdateCommentReportStatus"
 	ZBookAdmin_ListActiveSession_FullMethodName         = "/pb.ZBookAdmin/ListActiveSession"
@@ -47,8 +47,8 @@ const (
 type ZBookAdminClient interface {
 	// 1.UpdateUserBlock
 	UpdateUserBlock(ctx context.Context, in *rpcs.UpdateUserBlockRequest, opts ...grpc.CallOption) (*rpcs.UpdateUserBlockResponse, error)
-	// 2.MarkUserAsDeleted
-	MarkUserAsDeleted(ctx context.Context, in *rpcs.MarkUserAsDeletedRequest, opts ...grpc.CallOption) (*rpcs.MarkUserAsDeletedResponse, error)
+	// 2.DeleteUser
+	DeleteUser(ctx context.Context, in *rpcs.DeleteUserRequest, opts ...grpc.CallOption) (*rpcs.DeleteUserResponse, error)
 	// 3.CreateSystemNotification
 	CreateSystemNotification(ctx context.Context, in *rpcs.CreateSystemNotificationRequest, opts ...grpc.CallOption) (*rpcs.CreateSystemNotificationResponse, error)
 	// 4.UpdateCommentReportStatus
@@ -98,9 +98,9 @@ func (c *zBookAdminClient) UpdateUserBlock(ctx context.Context, in *rpcs.UpdateU
 	return out, nil
 }
 
-func (c *zBookAdminClient) MarkUserAsDeleted(ctx context.Context, in *rpcs.MarkUserAsDeletedRequest, opts ...grpc.CallOption) (*rpcs.MarkUserAsDeletedResponse, error) {
-	out := new(rpcs.MarkUserAsDeletedResponse)
-	err := c.cc.Invoke(ctx, ZBookAdmin_MarkUserAsDeleted_FullMethodName, in, out, opts...)
+func (c *zBookAdminClient) DeleteUser(ctx context.Context, in *rpcs.DeleteUserRequest, opts ...grpc.CallOption) (*rpcs.DeleteUserResponse, error) {
+	out := new(rpcs.DeleteUserResponse)
+	err := c.cc.Invoke(ctx, ZBookAdmin_DeleteUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -248,8 +248,8 @@ func (c *zBookAdminClient) UpdateConfiguration(ctx context.Context, in *rpcs.Upd
 type ZBookAdminServer interface {
 	// 1.UpdateUserBlock
 	UpdateUserBlock(context.Context, *rpcs.UpdateUserBlockRequest) (*rpcs.UpdateUserBlockResponse, error)
-	// 2.MarkUserAsDeleted
-	MarkUserAsDeleted(context.Context, *rpcs.MarkUserAsDeletedRequest) (*rpcs.MarkUserAsDeletedResponse, error)
+	// 2.DeleteUser
+	DeleteUser(context.Context, *rpcs.DeleteUserRequest) (*rpcs.DeleteUserResponse, error)
 	// 3.CreateSystemNotification
 	CreateSystemNotification(context.Context, *rpcs.CreateSystemNotificationRequest) (*rpcs.CreateSystemNotificationResponse, error)
 	// 4.UpdateCommentReportStatus
@@ -290,8 +290,8 @@ type UnimplementedZBookAdminServer struct {
 func (UnimplementedZBookAdminServer) UpdateUserBlock(context.Context, *rpcs.UpdateUserBlockRequest) (*rpcs.UpdateUserBlockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserBlock not implemented")
 }
-func (UnimplementedZBookAdminServer) MarkUserAsDeleted(context.Context, *rpcs.MarkUserAsDeletedRequest) (*rpcs.MarkUserAsDeletedResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MarkUserAsDeleted not implemented")
+func (UnimplementedZBookAdminServer) DeleteUser(context.Context, *rpcs.DeleteUserRequest) (*rpcs.DeleteUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedZBookAdminServer) CreateSystemNotification(context.Context, *rpcs.CreateSystemNotificationRequest) (*rpcs.CreateSystemNotificationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSystemNotification not implemented")
@@ -369,20 +369,20 @@ func _ZBookAdmin_UpdateUserBlock_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookAdmin_MarkUserAsDeleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.MarkUserAsDeletedRequest)
+func _ZBookAdmin_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.DeleteUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ZBookAdminServer).MarkUserAsDeleted(ctx, in)
+		return srv.(ZBookAdminServer).DeleteUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ZBookAdmin_MarkUserAsDeleted_FullMethodName,
+		FullMethod: ZBookAdmin_DeleteUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookAdminServer).MarkUserAsDeleted(ctx, req.(*rpcs.MarkUserAsDeletedRequest))
+		return srv.(ZBookAdminServer).DeleteUser(ctx, req.(*rpcs.DeleteUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -669,8 +669,8 @@ var ZBookAdmin_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ZBookAdmin_UpdateUserBlock_Handler,
 		},
 		{
-			MethodName: "MarkUserAsDeleted",
-			Handler:    _ZBookAdmin_MarkUserAsDeleted_Handler,
+			MethodName: "DeleteUser",
+			Handler:    _ZBookAdmin_DeleteUser_Handler,
 		},
 		{
 			MethodName: "CreateSystemNotification",

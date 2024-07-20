@@ -16,7 +16,6 @@ export default function ListAdminRepoElement({
   username,
   repo_description,
   visibility_level,
-  deleted,
   git_host,
   like_count,
   is_liked,
@@ -28,7 +27,6 @@ export default function ListAdminRepoElement({
   username: string;
   repo_description: string;
   visibility_level: string;
-  deleted: boolean;
   git_host: string;
   like_count: number;
   is_liked: boolean;

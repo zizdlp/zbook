@@ -55,6 +55,40 @@
         ]
       }
     },
+    "/v1/delete_user": {
+      "post": {
+        "summary": "ban user",
+        "description": "Use this api to  ban  user",
+        "operationId": "ZBookAdmin_DeleteUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
     "/v1/get_configuration": {
       "post": {
         "summary": "parse ip",
@@ -463,40 +497,6 @@
         ]
       }
     },
-    "/v1/mark_user_as_deleted": {
-      "post": {
-        "summary": "ban user",
-        "description": "Use this api to  ban  user",
-        "operationId": "ZBookAdmin_MarkUserAsDeleted",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/pbMarkUserAsDeletedResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/pbMarkUserAsDeletedRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ZBookAdmin"
-        ]
-      }
-    },
     "/v1/update_comment_report_status": {
       "post": {
         "summary": " list user",
@@ -659,6 +659,18 @@
           "format": "date-time"
         }
       }
+    },
+    "pbDeleteUserRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "2.DeleteUser"
+    },
+    "pbDeleteUserResponse": {
+      "type": "object"
     },
     "pbGetConfigurationRequest": {
       "type": "object",
@@ -850,9 +862,6 @@
         "email": {
           "type": "string"
         },
-        "deleted": {
-          "type": "boolean"
-        },
         "createdAt": {
           "type": "string",
           "format": "date-time"
@@ -962,23 +971,6 @@
     },
     "pbLogVisitorResponse": {
       "type": "object"
-    },
-    "pbMarkUserAsDeletedRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        }
-      },
-      "title": "2.MarkUserAsDeleted"
-    },
-    "pbMarkUserAsDeletedResponse": {
-      "type": "object",
-      "properties": {
-        "deleted": {
-          "type": "boolean"
-        }
-      }
     },
     "pbUpdateCommentReportStatusRequest": {
       "type": "object",

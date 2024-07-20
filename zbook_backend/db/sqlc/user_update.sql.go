@@ -18,7 +18,7 @@ INSERT INTO users (
   hashed_password
 ) VALUES (
   $1, $2, $3
-) RETURNING user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
+) RETURNING user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 `
 
 type CreateUserParams struct {
@@ -37,7 +37,6 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.HashedPassword,
 		&i.Blocked,
 		&i.Verified,
-		&i.Deleted,
 		&i.Motto,
 		&i.UserRole,
 		&i.Onboarding,
@@ -48,6 +47,16 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.FtsUsername,
 	)
 	return i, err
+}
+
+const deleteUser = `-- name: DeleteUser :exec
+DELETE FROM users
+WHERE username = $1
+`
+
+func (q *Queries) DeleteUser(ctx context.Context, username string) error {
+	_, err := q.db.Exec(ctx, deleteUser, username)
+	return err
 }
 
 const resetUnreadCount = `-- name: ResetUnreadCount :exec
@@ -107,11 +116,10 @@ SET motto=COALESCE($1,motto),
 hashed_password=COALESCE($2,hashed_password),
 user_role=COALESCE($3,user_role),
 onboarding=COALESCE($4,onboarding),
-deleted=COALESCE($5,deleted),
-blocked=COALESCE($6,blocked),
-verified=COALESCE($7,verified)
-WHERE username = $8
-RETURNING user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
+blocked=COALESCE($5,blocked),
+verified=COALESCE($6,verified)
+WHERE username = $7
+RETURNING user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 `
 
 type UpdateUserBasicInfoParams struct {
@@ -119,7 +127,6 @@ type UpdateUserBasicInfoParams struct {
 	HashedPassword pgtype.Text `json:"hashed_password"`
 	UserRole       pgtype.Text `json:"user_role"`
 	Onboarding     pgtype.Bool `json:"onboarding"`
-	Deleted        pgtype.Bool `json:"deleted"`
 	Blocked        pgtype.Bool `json:"blocked"`
 	Verified       pgtype.Bool `json:"verified"`
 	Username       string      `json:"username"`
@@ -131,7 +138,6 @@ func (q *Queries) UpdateUserBasicInfo(ctx context.Context, arg UpdateUserBasicIn
 		arg.HashedPassword,
 		arg.UserRole,
 		arg.Onboarding,
-		arg.Deleted,
 		arg.Blocked,
 		arg.Verified,
 		arg.Username,
@@ -144,7 +150,6 @@ func (q *Queries) UpdateUserBasicInfo(ctx context.Context, arg UpdateUserBasicIn
 		&i.HashedPassword,
 		&i.Blocked,
 		&i.Verified,
-		&i.Deleted,
 		&i.Motto,
 		&i.UserRole,
 		&i.Onboarding,

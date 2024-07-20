@@ -10,12 +10,10 @@ export default function ListAdminCommentElement({
   email,
   comment_id,
   comment_content,
-  deleted,
   created_at,
 }: {
   username: string;
   email: string;
-  deleted: boolean;
   comment_id: number;
   comment_content: string;
   created_at: string;

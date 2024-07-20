@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/util"
@@ -14,13 +13,13 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) MarkUserAsDeleted(ctx context.Context, req *rpcs.MarkUserAsDeletedRequest) (*rpcs.MarkUserAsDeletedResponse, error) {
-	violations := validateMarkUserAsDeletedRequest(req)
+func (server *Server) DeleteUser(ctx context.Context, req *rpcs.DeleteUserRequest) (*rpcs.DeleteUserResponse, error) {
+	violations := validateDeleteUserRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
 	apiUserDailyLimit := 10000
-	apiKey := "MarkUserAsDeleted"
+	apiKey := "DeleteUser"
 	_, err := server.authUser(ctx, []string{util.AdminRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
@@ -33,12 +32,7 @@ func (server *Server) MarkUserAsDeleted(ctx context.Context, req *rpcs.MarkUserA
 		return nil, status.Errorf(codes.PermissionDenied, "admin account cant not be deleted")
 	}
 
-	arg := db.UpdateUserBasicInfoParams{
-		Username: req.GetUsername(),
-		Deleted:  pgtype.Bool{Bool: true, Valid: true},
-	}
-
-	user, err := server.store.UpdateUserBasicInfo(ctx, arg)
+	err = server.store.DeleteUser(ctx, req.GetUsername())
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "user not found: %s", err)
@@ -46,10 +40,10 @@ func (server *Server) MarkUserAsDeleted(ctx context.Context, req *rpcs.MarkUserA
 		return nil, status.Errorf(codes.Internal, "failed to delete user: %s", err)
 	}
 
-	rsp := &rpcs.MarkUserAsDeletedResponse{Deleted: user.Deleted}
+	rsp := &rpcs.DeleteUserResponse{}
 	return rsp, nil
 }
-func validateMarkUserAsDeletedRequest(req *rpcs.MarkUserAsDeletedRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateDeleteUserRequest(req *rpcs.DeleteUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := val.ValidateUsername(req.GetUsername()); err != nil {
 		violations = append(violations, fieldViolation("username", err))
 	}

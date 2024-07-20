@@ -57,11 +57,11 @@ import {
   ListNotificationRequest,
   MarkCommentNotificationReadedRequest,
   MarkFollowerNotificationReadedRequest,
-  MarkRepoAsDeletedRequest,
+  DeleteRepoRequest,
   MarkRepoNotificationReadedRequest,
   MarkSystemNotificationReadedRequest,
   UpdateCommentReportStatusRequest,
-  MarkUserAsDeletedRequest,
+  DeleteUserRequest,
   createRepoRelationRequest,
   deleteRepoRelationRequest,
   listRepoVisibilityRequest,
@@ -1254,8 +1254,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.MARK_REPO_DELETED;
-  values: MarkRepoAsDeletedRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.DELETE_REPO;
+  values: DeleteRepoRequest;
   xforward: string;
   agent: string;
   tags: string[];
@@ -1268,8 +1268,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.MARK_USER_DELETED;
-  values: MarkUserAsDeletedRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.DELETE_USER;
+  values: DeleteUserRequest;
   xforward: string;
   agent: string;
   tags: string[];

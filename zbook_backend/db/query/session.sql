@@ -24,7 +24,7 @@ SELECT
 FROM 
   sessions
 INNER JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND users.deleted='false'
+WHERE sessions.expires_at > NOW()
 ORDER BY sessions.created_at DESC
 LIMIT $1
 OFFSET $2;
@@ -34,14 +34,14 @@ select Count(*)
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND users.deleted='false' AND fts_username @@ plainto_tsquery(@query);
+WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery(@query);
 
 -- name: QueryActiveSession :many
 select sessions.*,ts_rank(users.fts_username, plainto_tsquery(@query)) as rank,users.*
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND users.deleted='false' AND fts_username @@ plainto_tsquery(@query)
+WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery(@query)
 ORDER BY
   rank DESC
 LIMIT $1

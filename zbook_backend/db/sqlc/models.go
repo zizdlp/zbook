@@ -13,6 +13,7 @@ import (
 
 type Comment struct {
 	CommentID         int64       `json:"comment_id"`
+	RepoID            int64       `json:"repo_id"`
 	MarkdownID        int64       `json:"markdown_id"`
 	ParentID          pgtype.Int8 `json:"parent_id"`
 	RootID            pgtype.Int8 `json:"root_id"`
@@ -20,7 +21,6 @@ type Comment struct {
 	Blocked           bool        `json:"blocked"`
 	CommentContent    string      `json:"comment_content"`
 	CreatedAt         time.Time   `json:"created_at"`
-	Deleted           bool        `json:"deleted"`
 	FtsCommentContent string      `json:"fts_comment_content"`
 }
 
@@ -104,7 +104,6 @@ type Repo struct {
 	HomePage        string      `json:"home_page"`
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
-	Deleted         bool        `json:"deleted"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
@@ -162,7 +161,6 @@ type User struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`

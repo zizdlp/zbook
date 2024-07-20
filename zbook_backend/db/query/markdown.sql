@@ -66,10 +66,6 @@ WHERE (relative_path, repo_id) IN (
     unnest(@repo_id::bigint[])
 );
 
--- name: DeleteMarkdownByRepo :exec
-DELETE FROM markdowns
-WHERE repo_id = $1;
-
 
 -- name: QueryUserAllMarkdown :many
 select 

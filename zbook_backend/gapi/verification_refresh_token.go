@@ -30,7 +30,7 @@ func (server *Server) RefreshToken(ctx context.Context, req *rpcs.RefreshTokenRe
 		return nil, status.Errorf(codes.Internal, "get user by username failed: %s", err)
 	}
 
-	err = server.checkUserStatus(ctx, user.Blocked, user.UserRole, user.Verified, user.Deleted)
+	err = server.checkUserStatus(ctx, user.Blocked, user.UserRole, user.Verified)
 	if err != nil {
 		return nil, err
 	}

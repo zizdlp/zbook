@@ -65,6 +65,8 @@ func TestListFollower(t *testing.T) {
 	user2 := createRandomUser(t)
 	user3 := createRandomUser(t)
 	user4 := createRandomUser(t)
+
+	// 3 follower
 	_ = createFollowByUser(t, user2, user1)
 	_ = createFollowByUser(t, user3, user1)
 	_ = createFollowByUser(t, user4, user1)
@@ -82,6 +84,7 @@ func TestListFollower(t *testing.T) {
 		require.Equal(t, followers[0].IsFollowing, false)
 	}
 	{
+		// blocked one,therefore 2 follower
 		arg_update_user := UpdateUserBasicInfoParams{
 			Username: user3.Username,
 			Verified: pgtype.Bool{Bool: true, Valid: true},
@@ -103,6 +106,7 @@ func TestListFollower(t *testing.T) {
 		require.Equal(t, true, followers[0].IsFollowing)
 	}
 	{
+		// unbloced one,therefore 3 follower
 		arg_update_user := UpdateUserBasicInfoParams{
 			Username: user3.Username,
 			Blocked:  pgtype.Bool{Bool: false, Valid: true},
@@ -120,12 +124,8 @@ func TestListFollower(t *testing.T) {
 		require.Equal(t, len(followers), 3)
 	}
 	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+		// delete one, therefore 2 follower
+		testStore.DeleteUser(context.Background(), user4.Username)
 		arg := ListFollowerParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
@@ -208,12 +208,8 @@ func TestQueryFollower(t *testing.T) {
 		require.Equal(t, len(followers), 1)
 	}
 	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+
+		testStore.DeleteUser(context.Background(), user4.Username)
 		arg := QueryFollowerParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
@@ -282,12 +278,7 @@ func TestGetListFollowerCount(t *testing.T) {
 		require.Equal(t, count, int64(3))
 	}
 	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+		testStore.DeleteUser(context.Background(), user4.Username)
 		arg := GetListFollowerCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
@@ -354,12 +345,7 @@ func TestGetQueryFollowerCount(t *testing.T) {
 		require.Equal(t, count, int64(1))
 	}
 	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+		testStore.DeleteUser(context.Background(), user4.Username)
 		arg := GetQueryFollowerCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
@@ -437,12 +423,8 @@ func TestListFollowing(t *testing.T) {
 		require.Equal(t, len(followers), 3)
 	}
 	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+
+		testStore.DeleteUser(context.Background(), user4.Username)
 		arg := ListFollowingParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
@@ -521,12 +503,8 @@ func TestQueryFollowing(t *testing.T) {
 		require.Equal(t, len(followers), 1)
 	}
 	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+
+		testStore.DeleteUser(context.Background(), user4.Username)
 		arg := QueryFollowingParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
@@ -593,21 +571,6 @@ func TestGetListFollowingCount(t *testing.T) {
 		count, err := testStore.GetListFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
 		require.Equal(t, count, int64(3))
-	}
-	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
-		arg := GetListFollowingCountParams{
-			CurUserID: cur_user.UserID,
-			UserID:    user1.UserID,
-		}
-		count, err := testStore.GetListFollowingCount(context.Background(), arg)
-		require.NoError(t, err)
-		require.Equal(t, count, int64(2))
 	}
 }
 
@@ -678,12 +641,8 @@ func TestGetQueryFollowingCount(t *testing.T) {
 		require.Equal(t, count, int64(1))
 	}
 	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user4.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Deleted:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+
+		testStore.DeleteUser(context.Background(), user4.Username)
 		arg := GetQueryFollowingCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,

@@ -7,16 +7,16 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type MarkRepoAsDeletedTxParams struct {
+type DeleteRepoTxParams struct {
 	RepoID int64
 	UserID int64
 }
 
-func (store *SQLStore) MarkRepoAsDeletedTx(ctx context.Context, arg MarkRepoAsDeletedTxParams) error {
+func (store *SQLStore) DeleteRepoTx(ctx context.Context, arg DeleteRepoTxParams) error {
 
 	err := store.execTx(ctx, func(q *Queries) error {
 
-		err := q.MarkRepoAsDeleted(ctx, arg.RepoID)
+		err := q.DeleteRepo(ctx, arg.RepoID)
 		if err != nil {
 			return status.Errorf(codes.Internal, "delete repo failed: %s", err)
 		}

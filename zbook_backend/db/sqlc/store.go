@@ -14,7 +14,7 @@ type Store interface {
 	CreateFollowTx(ctx context.Context, arg CreateFollowTxParams) (CreateFollowTxResult, error)
 	DeleteFollowTx(ctx context.Context, arg DeleteFollowTxParams) (DeleteFollowTxResult, error)
 	CreateCommentTx(ctx context.Context, arg CreateCommentTxParams) (CreateCommentTxResult, error)
-	MarkRepoAsDeletedTx(ctx context.Context, arg MarkRepoAsDeletedTxParams) error
+	DeleteRepoTx(ctx context.Context, arg DeleteRepoTxParams) error
 	CreateSystemNotificationTx(ctx context.Context, arg CreateSystemNotificationTxParams) error
 	CreateRepoTx(ctx context.Context, arg CreateRepoTxParams) (CreateRepoTxResult, error)
 	ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoTxParams) error

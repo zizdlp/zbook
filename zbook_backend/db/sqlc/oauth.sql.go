@@ -86,7 +86,7 @@ func (q *Queries) DeleteOAuth(ctx context.Context, arg DeleteOAuthParams) (Oauth
 }
 
 const getOAuthUser = `-- name: GetOAuthUser :one
-SELECT oauth_id, oauths.user_id, oauth_type, app_id, oauths.created_at, users.user_id, username, email, hashed_password, blocked, verified, deleted, motto, user_role, onboarding, users.created_at, updated_at, unread_count, unread_count_updated_at, fts_username
+SELECT oauth_id, oauths.user_id, oauth_type, app_id, oauths.created_at, users.user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, users.created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 FROM oauths
 JOIN users ON oauths.user_id = users.user_id
 WHERE oauth_type = $1 and app_id = $2 LIMIT 1
@@ -110,7 +110,6 @@ type GetOAuthUserRow struct {
 	HashedPassword       string    `json:"hashed_password"`
 	Blocked              bool      `json:"blocked"`
 	Verified             bool      `json:"verified"`
-	Deleted              bool      `json:"deleted"`
 	Motto                string    `json:"motto"`
 	UserRole             string    `json:"user_role"`
 	Onboarding           bool      `json:"onboarding"`
@@ -136,7 +135,6 @@ func (q *Queries) GetOAuthUser(ctx context.Context, arg GetOAuthUserParams) (Get
 		&i.HashedPassword,
 		&i.Blocked,
 		&i.Verified,
-		&i.Deleted,
 		&i.Motto,
 		&i.UserRole,
 		&i.Onboarding,

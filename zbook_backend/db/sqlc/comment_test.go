@@ -14,6 +14,7 @@ func testCreateRandomComment(t *testing.T) Comment {
 	markdown := testCreateRandomMarkdown(t)
 	arg := CreateCommentParams{
 		UserID:         user.UserID,
+		RepoID:         markdown.RepoID,
 		MarkdownID:     markdown.MarkdownID,
 		ParentID:       pgtype.Int8{Int64: int64(0), Valid: false},
 		RootID:         pgtype.Int8{Int64: int64(0), Valid: false},
@@ -25,6 +26,7 @@ func testCreateRandomComment(t *testing.T) Comment {
 
 	arg_second := CreateCommentParams{
 		UserID:         user.UserID,
+		RepoID:         markdown.RepoID,
 		MarkdownID:     markdown.MarkdownID,
 		ParentID:       pgtype.Int8{Int64: int64(0), Valid: false},
 		RootID:         pgtype.Int8{Int64: int64(0), Valid: false},
@@ -40,6 +42,7 @@ func testCreateRandomCommentOnMd(t *testing.T, markdown Markdown) Comment {
 
 	arg := CreateCommentParams{
 		UserID:         user.UserID,
+		RepoID:         markdown.RepoID,
 		MarkdownID:     markdown.MarkdownID,
 		ParentID:       pgtype.Int8{Int64: int64(0), Valid: false},
 		RootID:         pgtype.Int8{Int64: int64(0), Valid: false},
@@ -51,6 +54,7 @@ func testCreateRandomCommentOnMd(t *testing.T, markdown Markdown) Comment {
 
 	arg_second := CreateCommentParams{
 		UserID:         user.UserID,
+		RepoID:         markdown.RepoID,
 		MarkdownID:     markdown.MarkdownID,
 		ParentID:       pgtype.Int8{Int64: int64(0), Valid: false},
 		RootID:         pgtype.Int8{Int64: int64(0), Valid: false},
@@ -93,4 +97,17 @@ func TestGetCommentDetail(t *testing.T) {
 	require.NoError(t, err)
 	fmt.Println("comment:", comment.IsLiked)
 	fmt.Print("comment:", comment.IsDisliked)
+}
+
+func TestDeleteComment(t *testing.T) {
+	commenta := testCreateRandomComment(t)
+	arg := GetCommentDetailParams{
+		CommentID: commenta.CommentID,
+		UserID:    commenta.UserID,
+	}
+	err := testStore.DeleteComment(context.Background(), commenta.CommentID)
+	require.NoError(t, err)
+	_, err = testStore.GetCommentDetail(context.Background(), arg)
+	require.Error(t, err, ErrRecordNotFound)
+
 }

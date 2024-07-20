@@ -31,11 +31,11 @@ message GetRepoLayoutResponse {
   string visibility_level = 4;
 }
 
-// 3.MarkRepoAsDeleted
-message MarkRepoAsDeletedRequest {
+// 3.DeleteRepo
+message DeleteRepoRequest {
   int64 repo_id = 1;
 }
-message MarkRepoAsDeletedResponse {}
+message DeleteRepoResponse {}
 
 // 4.ManualSyncRepo
 message ManualSyncRepoRequest {

@@ -24,8 +24,7 @@ JOIN users ON users.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
-JOIN users as uc ON comments.user_id = uc.user_id
-WHERE comments.deleted='false' AND users.deleted = 'false' AND repos.deleted = 'false' AND uc.deleted = 'false';
+JOIN users as uc ON comments.user_id = uc.user_id;
 
 -- name: ListCommentReport :many
 SELECT 
@@ -37,7 +36,6 @@ JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users as uc ON comments.user_id = uc.user_id
-WHERE comments.deleted='false' AND users.deleted = 'false' AND repos.deleted = 'false' AND uc.deleted = 'false'
 ORDER BY comment_reports.created_at Desc
 LIMIT $1
 OFFSET $2;
@@ -61,7 +59,7 @@ WHERE (
   OR comment_reports.fts_report_content @@ plainto_tsquery(@query) 
   OR uc.fts_username @@ plainto_tsquery(@query)  
   OR ur.fts_username @@ plainto_tsquery(@query)  
-  )  AND comments.deleted='false' AND ur.deleted = 'false' AND repos.deleted = 'false' AND uc.deleted = 'false'
+  )
 ORDER BY rank Desc
 LIMIT $1
 OFFSET $2;
@@ -80,7 +78,7 @@ WHERE (
   OR comment_reports.fts_report_content @@ plainto_tsquery(@query) 
   OR uc.fts_username @@ plainto_tsquery(@query)  
   OR ur.fts_username @@ plainto_tsquery(@query)  
-  )  AND comments.deleted='false' AND ur.deleted = 'false' AND repos.deleted = 'false' AND uc.deleted = 'false';
+  );
 -- name: UpdateCommentReportStatus :exec
 UPDATE comment_reports
 SET processed=$2

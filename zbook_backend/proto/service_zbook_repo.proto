@@ -50,9 +50,8 @@ summary:
 }
 ;
 
-// 3.MarkRepoAsDeleted
-rpc MarkRepoAsDeleted(MarkRepoAsDeletedRequest)
-    returns (MarkRepoAsDeletedResponse) {
+// 3.DeleteRepo
+rpc DeleteRepo(DeleteRepoRequest) returns (DeleteRepoResponse) {
   option (google.api.http) = {
     post: "/v1/delete_repo",
     body: "*",
