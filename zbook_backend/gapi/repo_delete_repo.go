@@ -6,6 +6,7 @@ import (
 
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
+	"github.com/zizdlp/zbook/storage"
 	"github.com/zizdlp/zbook/util"
 	"github.com/zizdlp/zbook/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
@@ -39,6 +40,9 @@ func (server *Server) DeleteRepo(ctx context.Context, req *rpcs.DeleteRepoReques
 	arg := db.DeleteRepoTxParams{
 		RepoID: req.GetRepoId(),
 		UserID: repo.UserID,
+		AfterDelte: func(repoID int64, userID int64) error {
+			return storage.DeleteFilesByUserIDAndRepoID(server.minioClient, context.Background(), userID, repoID, "git-files")
+		},
 	}
 
 	err = server.store.DeleteRepoTx(ctx, arg)

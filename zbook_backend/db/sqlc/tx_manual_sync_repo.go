@@ -11,7 +11,8 @@ import (
 )
 
 type ManualSyncRepoTxParams struct {
-	RepoID int64
+	RepoID      int64
+	AfterCreate func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error
 }
 
 func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoTxParams) error {
@@ -51,12 +52,24 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 			}
 		}
-		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, repo.CommitID)
+
+		lastCommit, err := operations.GetLatestCommit(cloneDir)
+		if err != nil {
+			return err
+		}
+
+		// 调用 GetDiffFiles 函数
+		addedFiles, deletedFiles, modifiedFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
+		if err != nil {
+			return err
+		}
+
+		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, repo.CommitID, addedFiles, modifiedFiles, deletedFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}
+		return arg.AfterCreate(cloneDir, repo.RepoID, repo.UserID, addedFiles, modifiedFiles, deletedFiles)
 
-		return nil
 	})
 	return err
 }

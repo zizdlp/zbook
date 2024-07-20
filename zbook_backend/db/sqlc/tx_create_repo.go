@@ -14,6 +14,7 @@ import (
 // with go modules disabled
 type CreateRepoTxParams struct {
 	CreateRepoParams
+	AfterCreate func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error
 }
 
 type CreateRepoTxResult struct {
@@ -59,7 +60,18 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 			}
 		}
 
-		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, "")
+		lastCommit, err := operations.GetLatestCommit(cloneDir)
+		if err != nil {
+			return err
+		}
+
+		// 调用 GetDiffFiles 函数
+		addedFiles, deletedFiles, modifiedFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
+		if err != nil {
+			return err
+		}
+
+		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, "", addedFiles, modifiedFiles, deletedFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}
@@ -110,8 +122,7 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 				}
 			}
 		}
-
-		return nil
+		return arg.AfterCreate(cloneDir, result.Repo.RepoID, result.Repo.UserID, addedFiles, modifiedFiles, deletedFiles)
 	})
 	return result, err
 }

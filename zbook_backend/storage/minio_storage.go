@@ -3,8 +3,14 @@ package storage
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"strconv"
+	"strings"
+	"sync"
+	"time"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -92,4 +98,155 @@ func CreateBucket(client *minio.Client, ctx context.Context, bucketName string) 
 		log.Info().Msgf("Bucket created successfully: %s", bucketName)
 		return nil
 	}
+}
+
+func ConvertFile2Storage(client *minio.Client, cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
+	startTime := time.Now()
+
+	allowedGitFileExtensions := map[string]bool{
+		".png":  true,
+		".jpg":  true,
+		".jpeg": true,
+		".svg":  true,
+		".gif":  true,
+		".webp": true,
+	}
+
+	// Helper function to process files (upload or delete)
+	processFiles := func(files []string, action func(string) error) error {
+		var wg sync.WaitGroup
+		for _, file := range files {
+			wg.Add(1)
+			go func(f string) {
+				defer wg.Done()
+				if err := action(f); err != nil {
+					fmt.Printf("failed to process file %s: %v\n", f, err)
+				}
+			}(file)
+		}
+		wg.Wait()
+		return nil
+	}
+
+	// Upload added and modified files
+	uploadFiles := func(file string) error {
+		return uploadGitFile(client, context.Background(), cloneDir, file, repoID, userID)
+	}
+
+	filteredAddedFiles := util.FilterDiffFilesByExtensions(addedFiles, allowedGitFileExtensions)
+	filteredModifiedFiles := util.FilterDiffFilesByExtensions(modifiedFiles, allowedGitFileExtensions)
+
+	if err := processFiles(filteredAddedFiles, uploadFiles); err != nil {
+		return fmt.Errorf("failed to upload added files: %w", err)
+	}
+	if err := processFiles(filteredModifiedFiles, uploadFiles); err != nil {
+		return fmt.Errorf("failed to upload modified files: %w", err)
+	}
+
+	// Delete files
+	deleteFiles := func(file string) error {
+		repoIDStr := strconv.FormatInt(repoID, 10)
+		name := repoIDStr + "/" + file
+		return DeleteFileFromStorage(client, context.Background(), name, "git-files")
+	}
+
+	filteredDeletedFiles := util.FilterDiffFilesByExtensions(deletedFiles, allowedGitFileExtensions)
+
+	if err := processFiles(filteredDeletedFiles, deleteFiles); err != nil {
+		return fmt.Errorf("failed to delete files: %w", err)
+	}
+
+	endTime := time.Now()
+	fmt.Println("process repo file to storage: total execution time:", endTime.Sub(startTime))
+
+	if _, err := os.Stat(cloneDir); err == nil {
+		os.RemoveAll(cloneDir)
+	}
+
+	return nil
+}
+
+func uploadGitFile(minioClient *minio.Client, ctx context.Context, cloneDir string, filePath string, repoID int64, userID int64) error {
+
+	data, err := os.ReadFile(cloneDir + "/" + filePath)
+	if err != nil {
+		return err
+	}
+	ext := strings.ToLower(filePath)
+	if strings.HasSuffix(ext, ".png") || strings.HasSuffix(ext, ".jpg") || strings.HasSuffix(ext, ".jpeg") || strings.HasSuffix(ext, ".webp") {
+		base64, err := util.ReadImageBytes(cloneDir + "/" + filePath)
+		if err != nil {
+			return err
+		}
+		data, err = util.CompressImage(base64)
+		if err != nil {
+			return err
+		}
+	}
+
+	userIDStr := strconv.FormatInt(userID, 10)
+	repoIDStr := strconv.FormatInt(repoID, 10)
+	name := userIDStr + "/" + repoIDStr + "/" + filePath
+	err = UploadFileToStorage(minioClient, ctx, name, "git-files", data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DeleteFilesByUserID 删除指定用户 ID 的所有文件
+func DeleteFilesByUserID(client *minio.Client, ctx context.Context, userID int64, bucketName string) error {
+	userIDStr := strconv.FormatInt(userID, 10)
+
+	// 列出用户的所有文件
+	objectCh := client.ListObjects(ctx, bucketName, minio.ListObjectsOptions{Prefix: userIDStr + "/", Recursive: true})
+
+	// 处理文件删除
+	for obj := range objectCh {
+		if obj.Err != nil {
+			log.Error().Msgf("Failed to list objects: %s", obj.Err)
+			return obj.Err
+		}
+
+		objectName := obj.Key
+		err := DeleteFileFromStorage(client, ctx, objectName, bucketName)
+		if err != nil {
+			log.Error().Msgf("Failed to delete object %s: %s", objectName, err)
+			return err
+		}
+		log.Info().Msgf("Deleted object %s", objectName)
+	}
+
+	return nil
+}
+
+// DeleteFilesByUserIDAndRepoID 删除指定 userID 和 repoID 下的所有文件
+func DeleteFilesByUserIDAndRepoID(client *minio.Client, ctx context.Context, userID int64, repoID int64, bucketName string) error {
+	userIDStr := strconv.FormatInt(userID, 10)
+	repoIDStr := strconv.FormatInt(repoID, 10)
+
+	// 构建删除前缀
+	prefix := userIDStr + "/" + repoIDStr + "/"
+
+	// 列出指定前缀下的所有文件
+	objectCh := client.ListObjects(ctx, bucketName, minio.ListObjectsOptions{Prefix: prefix, Recursive: true})
+
+	// 处理文件删除
+	for obj := range objectCh {
+		if obj.Err != nil {
+			log.Error().Msgf("Failed to list objects: %s", obj.Err)
+			return obj.Err
+		}
+
+		objectName := obj.Key
+		err := DeleteFileFromStorage(client, ctx, objectName, bucketName)
+		if err != nil {
+			log.Error().Msgf("Failed to delete object %s: %s", objectName, err)
+			return err
+		}
+		log.Info().Msgf("Deleted object %s", objectName)
+	}
+
+	return nil
 }

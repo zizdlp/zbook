@@ -5,6 +5,7 @@ import (
 
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
+	"github.com/zizdlp/zbook/storage"
 	"github.com/zizdlp/zbook/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
@@ -30,6 +31,9 @@ func (server *Server) AutoSyncRepo(ctx context.Context, req *rpcs.AutoSyncRepoRe
 
 	arg := db.ManualSyncRepoTxParams{
 		RepoID: req.GetRepoId(),
+		AfterCreate: func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
+			return storage.ConvertFile2Storage(server.minioClient, cloneDir, repoID, userID, addedFiles, modifiedFiles, deletedFiles)
+		},
 	}
 
 	err = server.store.ManualSyncRepoTx(ctx, arg)

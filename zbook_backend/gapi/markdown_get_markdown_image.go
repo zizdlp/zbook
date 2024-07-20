@@ -23,7 +23,11 @@ func (server *Server) GetMarkdownImage(ctx context.Context, req *rpcs.GetMarkdow
 	if err != nil {
 		return nil, err
 	}
-	path := strconv.FormatInt(req.GetRepoId(), 10) + "/" + req.GetFilePath()
+	repo, err := server.store.GetRepoBasicInfo(ctx, req.GetRepoId())
+	if err != nil {
+		return nil, err
+	}
+	path := strconv.FormatInt(repo.UserID, 10) + "/" + strconv.FormatInt(req.GetRepoId(), 10) + "/" + req.GetFilePath()
 	path = util.NormalizePath(path)
 	avatarData, err := storage.DownloadFileFromStorage(server.minioClient, ctx, path, "git-files")
 	if err != nil {

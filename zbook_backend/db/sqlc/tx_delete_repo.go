@@ -8,8 +8,9 @@ import (
 )
 
 type DeleteRepoTxParams struct {
-	RepoID int64
-	UserID int64
+	RepoID     int64
+	UserID     int64
+	AfterDelte func(repoID int64, userID int64) error
 }
 
 func (store *SQLStore) DeleteRepoTx(ctx context.Context, arg DeleteRepoTxParams) error {
@@ -20,7 +21,8 @@ func (store *SQLStore) DeleteRepoTx(ctx context.Context, arg DeleteRepoTxParams)
 		if err != nil {
 			return status.Errorf(codes.Internal, "delete repo failed: %s", err)
 		}
-		return nil
+		return arg.AfterDelte(arg.RepoID, arg.UserID)
 	})
+
 	return err
 }

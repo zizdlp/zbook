@@ -5,169 +5,81 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
+	"sync"
 	"time"
 
-	"github.com/minio/minio-go/v7"
 	convert "github.com/zizdlp/zbook/markdown/convert"
 	md "github.com/zizdlp/zbook/markdown/render"
 	"github.com/zizdlp/zbook/operations"
-	"github.com/zizdlp/zbook/storage"
 	"github.com/zizdlp/zbook/util"
 )
 
-func uploadGitFile(minioClient *minio.Client, ctx context.Context, cloneDir string, filePath string, repoID int64) error {
-
-	data, err := os.ReadFile(cloneDir + "/" + filePath)
-	if err != nil {
-		return err
-	}
-	ext := strings.ToLower(filePath)
-	if strings.HasSuffix(ext, ".png") || strings.HasSuffix(ext, ".jpg") || strings.HasSuffix(ext, ".jpeg") || strings.HasSuffix(ext, ".webp") {
-		base64, err := util.ReadImageBytes(cloneDir + "/" + filePath)
-		if err != nil {
-			return err
-		}
-		data, err = util.CompressImage(base64)
-		if err != nil {
-			return err
-		}
-	}
-
-	repoIDStr := strconv.FormatInt(repoID, 10)
-	name := repoIDStr + "/" + filePath
-	err = storage.UploadFileToStorage(minioClient, ctx, name, "git-files", data)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int64, userID int64, oldCommit string) error {
+func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int64, userID int64, lastCommit string, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
 	startTime := time.Now()
-	minioClient, err := storage.GetMinioClient()
-	if err != nil {
-		return err
-	}
-	// 调用 GetLatestCommit 函数
-	lastCommit, err := operations.GetLatestCommit(cloneDir)
-	if err != nil {
-		return err
-	}
-
-	// 调用 GetDiffFiles 函数
-	addedFiles, deletedFiles, modifiedFiles, err := operations.GetDiffFiles(oldCommit, lastCommit, cloneDir)
-	if err != nil {
-		return err
-	}
 	allowedExtensions := map[string]bool{
 		".md": true,
 	}
-	allowedGitFileExtensions := map[string]bool{
 
-		".png":  true,
-		".jpg":  true,
-		".jpeg": true,
-		".svg":  true,
-		".gif":  true,
-		".webp": true,
-	}
 	markdown := md.GetMarkdownConfig()
 	createParams := &util.CreateParams{}
 	updateParams := &util.UpdateParams{}
 	deleteParams := &util.DeleteParams{}
-	filteredMarkdowns := util.FilterDiffFilesByExtensions(addedFiles, allowedExtensions)
-	for _, filteredMarkdown := range filteredMarkdowns {
-		data, err := os.ReadFile(cloneDir + "/" + filteredMarkdown)
-		if err != nil {
-			return err
-		}
 
-		table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
-		if err != nil {
-			fmt.Println("convert markdown to buffer error:", err)
-			return err
+	// Helper function to process files
+	processFiles := func(files []string, isCreate bool) {
+		filteredMarkdowns := util.FilterDiffFilesByExtensions(files, allowedExtensions)
+		var wg sync.WaitGroup
+		for _, filteredMarkdown := range filteredMarkdowns {
+			wg.Add(1)
+			go func(f string) {
+				defer wg.Done()
+				data, err := os.ReadFile(cloneDir + "/" + f)
+				if err != nil {
+					fmt.Println("read file error:", err)
+					return
+				}
+				table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
+				if err != nil {
+					fmt.Println("convert markdown to buffer error:", err)
+					return
+				}
+				html := main.String()
+				htmlList := table.String()
+				relativePath := strings.ToLower(strings.TrimSuffix(f, ".md"))
+				if isCreate {
+					createParams.Append(relativePath, userID, repoID, html, htmlList)
+				} else {
+					updateParams.Append(relativePath, repoID, html, htmlList)
+				}
+			}(filteredMarkdown)
 		}
-		html := main.String()
-		htmlList := table.String()
-		relativePath := strings.ToLower(strings.TrimSuffix(filteredMarkdown, ".md"))
-		createParams.Append(relativePath, userID, repoID, html, htmlList)
+		wg.Wait()
 	}
 
-	filteredGitFiles := util.FilterDiffFilesByExtensions(addedFiles, allowedGitFileExtensions)
+	// Process added and modified files
+	processFiles(addedFiles, true)
+	processFiles(modifiedFiles, false)
 
-	for _, filteredGitFile := range filteredGitFiles {
-
-		err = uploadGitFile(minioClient, ctx, cloneDir, filteredGitFile, repoID)
-
-		if err != nil {
-			return err
-		}
-	}
-
-	filteredMarkdowns = util.FilterDiffFilesByExtensions(modifiedFiles, allowedExtensions)
-	for _, filteredMarkdown := range filteredMarkdowns {
-		data, err := os.ReadFile(cloneDir + "/" + filteredMarkdown)
-		if err != nil {
-			return err
-		}
-
-		table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
-		if err != nil {
-			fmt.Println("convert markdown to buffer error:", err)
-			return err
-		}
-		html := main.String()
-		htmlList := table.String()
-		relativePath := strings.ToLower(strings.TrimSuffix(filteredMarkdown, ".md"))
-		updateParams.Append(relativePath, repoID, html, htmlList)
-	}
-	filteredGitFiles = util.FilterDiffFilesByExtensions(modifiedFiles, allowedGitFileExtensions)
-
-	for _, filteredGitFile := range filteredGitFiles {
-
-		err = uploadGitFile(minioClient, ctx, cloneDir, filteredGitFile, repoID)
-
-		if err != nil {
-			return err
-		}
-	}
-
-	filteredMarkdowns = util.FilterDiffFilesByExtensions(deletedFiles, allowedExtensions)
+	// Process deleted files
+	filteredMarkdowns := util.FilterDiffFilesByExtensions(deletedFiles, allowedExtensions)
 	for _, filteredMarkdown := range filteredMarkdowns {
 		relativePath := strings.ToLower(strings.TrimSuffix(filteredMarkdown, ".md"))
 		deleteParams.Append(relativePath, repoID)
 	}
-	filteredGitFiles = util.FilterDiffFilesByExtensions(deletedFiles, allowedGitFileExtensions)
 
-	for _, filteredGitFile := range filteredGitFiles {
-		repoIDStr := strconv.FormatInt(repoID, 10)
-		name := repoIDStr + "/" + filteredGitFile
-		err = storage.DeleteFileFromStorage(minioClient, ctx, name, "git-files")
-		if err != nil {
-			return err
-		}
+	// Execute database operations
+	if err := executeDBOperations(ctx, q, createParams, updateParams, deleteParams); err != nil {
+		return err
 	}
 
-	err = createMarkdownFiles(ctx, q, createParams)
-	if err != nil {
-		return fmt.Errorf("create markdown failed: %v", err)
-	}
-	err = updateMarkdownFiles(ctx, q, updateParams)
-	if err != nil {
-		return fmt.Errorf("update markdown failed: %v", err)
-	}
-	err = deleteMarkdownFiles(ctx, q, deleteParams)
-	if err != nil {
-		return fmt.Errorf("delete markdown failed: %v", err)
-	}
+	// Generate layout
 	mdFiles, err := operations.ListMarkdownFiles(cloneDir)
 	if err != nil {
 		return fmt.Errorf("generate layout failed: %v", err)
 	}
-	layout := util.CreateLayout(mdFiles)
 
+	layout := util.CreateLayout(mdFiles)
 	layoutJSON, err := json.MarshalIndent(layout, "", "  ")
 	if err != nil {
 		return fmt.Errorf("generate layout failed: %v", err)
@@ -178,14 +90,26 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 		Layout:   string(layoutJSON),
 		CommitID: lastCommit,
 	}
-	err = q.UpdateRepoLayout(ctx, arg_update_repo_layout)
-	if err != nil {
+	if err := q.UpdateRepoLayout(ctx, arg_update_repo_layout); err != nil {
 		return fmt.Errorf("update repo layout failed: %v", err)
 	}
 
-	endTime := time.Now()
-	fmt.Println("mydebug: total execution time:", endTime.Sub(startTime))
+	fmt.Println("convert md repo to db: total execution time:", time.Since(startTime))
 
+	return nil
+}
+
+// Helper function to execute database operations
+func executeDBOperations(ctx context.Context, q *Queries, createParams *util.CreateParams, updateParams *util.UpdateParams, deleteParams *util.DeleteParams) error {
+	if err := createMarkdownFiles(ctx, q, createParams); err != nil {
+		return fmt.Errorf("create markdown failed: %v", err)
+	}
+	if err := updateMarkdownFiles(ctx, q, updateParams); err != nil {
+		return fmt.Errorf("update markdown failed: %v", err)
+	}
+	if err := deleteMarkdownFiles(ctx, q, deleteParams); err != nil {
+		return fmt.Errorf("delete markdown failed: %v", err)
+	}
 	return nil
 }
 
