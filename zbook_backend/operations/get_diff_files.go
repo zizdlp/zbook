@@ -30,11 +30,10 @@ func GetDiffFiles(oldCommitID, newCommitID, repoDir string) ([]string, []string,
 	var addedFiles []string
 	var modifiedFiles []string
 	var deletedFiles []string
-	fmt.Println("liens:", lines)
 	for _, line := range lines {
-		if oldCommitID == "" {
+		if oldCommitID == "" && len(line) > 0 {
 			addedFiles = append(addedFiles, line)
-		} else {
+		} else if len(line) > 2 {
 			status := line[0]                       // 第一个字符是状态
 			fileName := strings.TrimSpace(line[1:]) // 剩余部分是文件名
 			switch status {
@@ -46,7 +45,6 @@ func GetDiffFiles(oldCommitID, newCommitID, repoDir string) ([]string, []string,
 				deletedFiles = append(deletedFiles, fileName)
 			}
 		}
-
 	}
 
 	return addedFiles, modifiedFiles, deletedFiles, nil
