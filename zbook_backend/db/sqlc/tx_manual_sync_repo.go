@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/zizdlp/zbook/operations"
@@ -11,7 +12,8 @@ import (
 )
 
 type ManualSyncRepoTxParams struct {
-	RepoID int64
+	RepoID      int64
+	AfterCreate func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error
 }
 
 func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoTxParams) error {
@@ -30,7 +32,7 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 		if _, err := os.Stat(cloneDir); err == nil {
 			os.RemoveAll(cloneDir)
 		}
-
+		fmt.Println("=========== clone repo to:", cloneDir)
 		// 调用 Clone 函数
 		gitURL := util.GetGitURL(repo.GitProtocol, repo.GitHost, repo.GitUsername, repo.GitRepo)
 		if repo.GitAccessToken.Valid {
@@ -51,12 +53,25 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 			}
 		}
-		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, repo.CommitID)
+		fmt.Println("=========== clone repo done:", cloneDir)
+
+		lastCommit, err := operations.GetLatestCommit(cloneDir)
+		if err != nil {
+			return err
+		}
+
+		// 调用 GetDiffFiles 函数
+		addedFiles, modifiedFiles, deletedFiles, err := operations.GetDiffFiles(repo.CommitID, lastCommit, cloneDir)
+		if err != nil {
+			return err
+		}
+
+		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, repo.CommitID, addedFiles, modifiedFiles, deletedFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}
+		return arg.AfterCreate(cloneDir, repo.RepoID, repo.UserID, addedFiles, modifiedFiles, deletedFiles)
 
-		return nil
 	})
 	return err
 }

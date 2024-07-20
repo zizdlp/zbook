@@ -7,21 +7,21 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type DeleteRepoTxParams struct {
-	RepoID     int64
+type DeleteUserTxParams struct {
 	UserID     int64
-	AfterDelte func(repoID int64, userID int64) error
+	Username   string
+	AfterDelte func(userID int64, username string) error
 }
 
-func (store *SQLStore) DeleteRepoTx(ctx context.Context, arg DeleteRepoTxParams) error {
+func (store *SQLStore) DeleteUserTx(ctx context.Context, arg DeleteUserTxParams) error {
 
 	err := store.execTx(ctx, func(q *Queries) error {
 
-		err := q.DeleteRepo(ctx, arg.RepoID)
+		err := q.DeleteUser(ctx, arg.Username)
 		if err != nil {
 			return status.Errorf(codes.Internal, "delete repo failed: %s", err)
 		}
-		return arg.AfterDelte(arg.RepoID, arg.UserID)
+		return arg.AfterDelte(arg.UserID, arg.Username)
 	})
 
 	return err

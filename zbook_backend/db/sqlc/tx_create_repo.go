@@ -14,6 +14,7 @@ import (
 // with go modules disabled
 type CreateRepoTxParams struct {
 	CreateRepoParams
+	AfterCreate func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error
 }
 
 type CreateRepoTxResult struct {
@@ -37,7 +38,7 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 		if _, err := os.Stat(cloneDir); err == nil {
 			os.RemoveAll(cloneDir)
 		}
-
+		fmt.Println("=========== create repo to:", cloneDir)
 		// 调用 Clone 函数
 		gitURL := util.GetGitURL(result.Repo.GitProtocol, result.Repo.GitHost, result.Repo.GitUsername, result.Repo.GitRepo)
 		if arg.GitAccessToken.Valid {
@@ -58,8 +59,20 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 			}
 		}
+		fmt.Println("============= create repo done =============")
 
-		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, "")
+		lastCommit, err := operations.GetLatestCommit(cloneDir)
+		if err != nil {
+			return err
+		}
+
+		// 调用 GetDiffFiles 函数
+		addedFiles, modifiedFiles, deletedFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
+		if err != nil {
+			return err
+		}
+
+		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, lastCommit, addedFiles, modifiedFiles, deletedFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}
@@ -98,20 +111,17 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 					}
 					_, err = q.CreateRepoNotification(ctx, arg_noti_follower)
 					if err != nil {
-						fmt.Println("mydebug:create repo noti error:", err)
 						return nil
 					} else {
 						err = q.UpdateUnreadCount(ctx, follows[i].UserID)
 						if err != nil {
-							fmt.Println("mydebug:update unread count error:", err)
 							return nil
 						}
 					}
 				}
 			}
 		}
-
-		return nil
+		return arg.AfterCreate(cloneDir, result.Repo.RepoID, result.Repo.UserID, addedFiles, modifiedFiles, deletedFiles)
 	})
 	return result, err
 }

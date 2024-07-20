@@ -26,31 +26,28 @@ func GetDiffFiles(oldCommitID, newCommitID, repoDir string) ([]string, []string,
 
 	// Split output into lines and trim whitespace
 	lines := strings.Split(strings.TrimSpace(string(output)), "\n")
-
 	// Initialize slices for added, deleted, and modified files
 	var addedFiles []string
-	var deletedFiles []string
 	var modifiedFiles []string
-
+	var deletedFiles []string
+	fmt.Println("liens:", lines)
 	for _, line := range lines {
-		parts := strings.Fields(line)
-		if len(parts) == 2 {
-			status := parts[0]
-			fileName := parts[1]
+		if oldCommitID == "" {
+			addedFiles = append(addedFiles, line)
+		} else {
+			status := line[0]                       // 第一个字符是状态
+			fileName := strings.TrimSpace(line[1:]) // 剩余部分是文件名
 			switch status {
-			case "A":
+			case 'A':
 				addedFiles = append(addedFiles, fileName)
-			case "D":
-				deletedFiles = append(deletedFiles, fileName)
-			case "M":
+			case 'M':
 				modifiedFiles = append(modifiedFiles, fileName)
+			case 'D':
+				deletedFiles = append(deletedFiles, fileName)
 			}
-		} else if len(parts) == 1 && oldCommitID == "" {
-			// If we are listing all files in the repository, mark them as "A" (added)
-			fileName := parts[0]
-			addedFiles = append(addedFiles, fileName)
 		}
+
 	}
 
-	return addedFiles, deletedFiles, modifiedFiles, nil
+	return addedFiles, modifiedFiles, deletedFiles, nil
 }

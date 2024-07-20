@@ -7,6 +7,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
+	storage "github.com/zizdlp/zbook/storage"
 	"github.com/zizdlp/zbook/util"
 	"github.com/zizdlp/zbook/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
@@ -43,6 +44,9 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 			SyncToken:       pgtype.Text{String: req.GetSyncToken(), Valid: req.GetSyncToken() != ""},
 			VisibilityLevel: req.GetVisibilityLevel(),
 			HomePage:        strings.ToLower(req.GetHomePage()),
+		},
+		AfterCreate: func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
+			return storage.ConvertFile2Storage(server.minioClient, cloneDir, repoID, userID, addedFiles, modifiedFiles, deletedFiles)
 		},
 	}
 
