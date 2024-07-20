@@ -36,12 +36,10 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 				defer wg.Done()
 				data, err := os.ReadFile(cloneDir + "/" + f)
 				if err != nil {
-					fmt.Println("read file error:", err)
 					return
 				}
 				table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
 				if err != nil {
-					fmt.Println("convert markdown to buffer error:", err)
 					return
 				}
 				html := main.String()

@@ -59,7 +59,7 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 		}
 
 		// 调用 GetDiffFiles 函数
-		addedFiles, deletedFiles, modifiedFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
+		addedFiles, modifiedFiles, deletedFiles, err := operations.GetDiffFiles(repo.CommitID, lastCommit, cloneDir)
 		if err != nil {
 			return err
 		}

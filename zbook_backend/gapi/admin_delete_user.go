@@ -6,6 +6,7 @@ import (
 
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
+	"github.com/zizdlp/zbook/storage"
 	"github.com/zizdlp/zbook/util"
 	"github.com/zizdlp/zbook/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
@@ -30,6 +31,23 @@ func (server *Server) DeleteUser(ctx context.Context, req *rpcs.DeleteUserReques
 	}
 	if deletedUser.UserRole != util.UserRole {
 		return nil, status.Errorf(codes.PermissionDenied, "admin account cant not be deleted")
+	}
+
+	arg := db.DeleteUserTxParams{
+		UserID:   deletedUser.UserID,
+		Username: deletedUser.Username,
+		AfterDelte: func(userID int64, username string) error {
+			err := storage.DeleteAvatarByUsername(server.minioClient, context.Background(), username)
+			if err != nil {
+				return err
+			}
+			return storage.DeleteFilesByUserID(server.minioClient, context.Background(), userID, "git-files")
+		},
+	}
+
+	err = server.store.DeleteUserTx(ctx, arg)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to delete user: %v", err)
 	}
 
 	err = server.store.DeleteUser(ctx, req.GetUsername())

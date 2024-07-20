@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/zizdlp/zbook/operations"
@@ -66,12 +65,12 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 		}
 
 		// 调用 GetDiffFiles 函数
-		addedFiles, deletedFiles, modifiedFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
+		addedFiles, modifiedFiles, deletedFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
 		if err != nil {
 			return err
 		}
 
-		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, "", addedFiles, modifiedFiles, deletedFiles)
+		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, lastCommit, addedFiles, modifiedFiles, deletedFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}
@@ -110,12 +109,10 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 					}
 					_, err = q.CreateRepoNotification(ctx, arg_noti_follower)
 					if err != nil {
-						fmt.Println("mydebug:create repo noti error:", err)
 						return nil
 					} else {
 						err = q.UpdateUnreadCount(ctx, follows[i].UserID)
 						if err != nil {
-							fmt.Println("mydebug:update unread count error:", err)
 							return nil
 						}
 					}

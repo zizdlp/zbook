@@ -29,8 +29,8 @@ func GetDiffFiles(oldCommitID, newCommitID, repoDir string) ([]string, []string,
 
 	// Initialize slices for added, deleted, and modified files
 	var addedFiles []string
-	var deletedFiles []string
 	var modifiedFiles []string
+	var deletedFiles []string
 
 	for _, line := range lines {
 		parts := strings.Fields(line)
@@ -40,10 +40,10 @@ func GetDiffFiles(oldCommitID, newCommitID, repoDir string) ([]string, []string,
 			switch status {
 			case "A":
 				addedFiles = append(addedFiles, fileName)
-			case "D":
-				deletedFiles = append(deletedFiles, fileName)
 			case "M":
 				modifiedFiles = append(modifiedFiles, fileName)
+			case "D":
+				deletedFiles = append(deletedFiles, fileName)
 			}
 		} else if len(parts) == 1 && oldCommitID == "" {
 			// If we are listing all files in the repository, mark them as "A" (added)
@@ -52,5 +52,5 @@ func GetDiffFiles(oldCommitID, newCommitID, repoDir string) ([]string, []string,
 		}
 	}
 
-	return addedFiles, deletedFiles, modifiedFiles, nil
+	return addedFiles, modifiedFiles, deletedFiles, nil
 }

@@ -548,6 +548,20 @@ func (mr *MockStoreMockRecorder) DeleteUser(arg0, arg1 interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockStore)(nil).DeleteUser), arg0, arg1)
 }
 
+// DeleteUserTx mocks base method.
+func (m *MockStore) DeleteUserTx(arg0 context.Context, arg1 db.DeleteUserTxParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUserTx", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUserTx indicates an expected call of DeleteUserTx.
+func (mr *MockStoreMockRecorder) DeleteUserTx(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserTx", reflect.TypeOf((*MockStore)(nil).DeleteUserTx), arg0, arg1)
+}
+
 // GetCommentBasicInfo mocks base method.
 func (m *MockStore) GetCommentBasicInfo(arg0 context.Context, arg1 int64) (db.GetCommentBasicInfoRow, error) {
 	m.ctrl.T.Helper()

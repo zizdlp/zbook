@@ -196,6 +196,18 @@ func uploadGitFile(minioClient *minio.Client, ctx context.Context, cloneDir stri
 }
 
 // DeleteFilesByUserID 删除指定用户 ID 的所有文件
+func DeleteAvatarByUsername(client *minio.Client, ctx context.Context, username string) error {
+	err := DeleteFileFromStorage(client, ctx, username, "avatar")
+	if err != nil {
+		log.Error().Msgf("Failed to delete object %s: %s", username, err)
+		return err
+	}
+	log.Info().Msgf("Deleted object %s", username)
+
+	return nil
+}
+
+// DeleteFilesByUserID 删除指定用户 ID 的所有文件
 func DeleteFilesByUserID(client *minio.Client, ctx context.Context, userID int64, bucketName string) error {
 	userIDStr := strconv.FormatInt(userID, 10)
 
