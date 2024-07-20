@@ -34,7 +34,6 @@ type Querier interface {
 	DeleteCommentRelation(ctx context.Context, arg DeleteCommentRelationParams) error
 	DeleteFollow(ctx context.Context, arg DeleteFollowParams) (int64, error)
 	DeleteFollowerNotification(ctx context.Context, arg DeleteFollowerNotificationParams) (FollowerNotification, error)
-	DeleteMarkdownByRepo(ctx context.Context, repoID int64) error
 	DeleteMarkdownMulti(ctx context.Context, arg DeleteMarkdownMultiParams) error
 	DeleteOAuth(ctx context.Context, arg DeleteOAuthParams) (Oauth, error)
 	DeleteRepo(ctx context.Context, repoID int64) error

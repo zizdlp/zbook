@@ -87,16 +87,6 @@ func (q *Queries) CreateMarkdownMulti(ctx context.Context, arg CreateMarkdownMul
 	return err
 }
 
-const deleteMarkdownByRepo = `-- name: DeleteMarkdownByRepo :exec
-DELETE FROM markdowns
-WHERE repo_id = $1
-`
-
-func (q *Queries) DeleteMarkdownByRepo(ctx context.Context, repoID int64) error {
-	_, err := q.db.Exec(ctx, deleteMarkdownByRepo, repoID)
-	return err
-}
-
 const deleteMarkdownMulti = `-- name: DeleteMarkdownMulti :exec
 DELETE FROM markdowns
 WHERE (relative_path, repo_id) IN (

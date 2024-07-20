@@ -53,7 +53,6 @@ export default function ListElementContainer({
         repo_description={model.repo_description}
         visibility_level={model.visibility_level}
         git_host={model.git_host}
-        deleted={model.deleted ?? false}
         updated_at={model.updated_at}
         like_count={model.like_count ?? 0}
         is_liked={model.is_liked ?? false}
@@ -92,7 +91,6 @@ export default function ListElementContainer({
         repo_description={model.repo_description}
         visibility_level={model.visibility_level}
         git_host={model.git_host}
-        deleted={model.deleted ?? false}
         updated_at={model.updated_at}
         like_count={model.like_count ?? 0}
         is_liked={model.is_liked ?? false}

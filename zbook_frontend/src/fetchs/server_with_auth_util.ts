@@ -63,7 +63,7 @@ export enum FetchServerWithAuthWrapperEndPoint {
   MARK_SYSTEM_NOTI_READED = "mark_system_notification_readed",
   UPDATE_COMMENT_REPORT_STATUS = "update_comment_report_status",
   CREATE_SYSTEM_NOTIFICATION = "create_system_notification",
-  MARK_REPO_DELETED = "delete_repo",
+  DELETE_REPO = "delete_repo",
   MARK_USER_DELETED = "mark_user_as_deleted",
   DELETE_COMMENT = "delete_comment",
   CREATE_COMMENT = "create_comment",

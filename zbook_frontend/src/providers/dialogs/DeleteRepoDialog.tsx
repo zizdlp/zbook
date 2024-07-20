@@ -26,7 +26,7 @@ export default function DeleteRepoDialog() {
       submitFunc={async () => {
         try {
           const data = await fetchServerWithAuthWrapper({
-            endpoint: FetchServerWithAuthWrapperEndPoint.MARK_REPO_DELETED,
+            endpoint: FetchServerWithAuthWrapperEndPoint.DELETE_REPO,
             xforward: "",
             agent: "",
             tags: [],

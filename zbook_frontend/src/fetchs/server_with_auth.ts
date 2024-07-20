@@ -1254,7 +1254,7 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.MARK_REPO_DELETED;
+  endpoint: FetchServerWithAuthWrapperEndPoint.DELETE_REPO;
   values: DeleteRepoRequest;
   xforward: string;
   agent: string;
