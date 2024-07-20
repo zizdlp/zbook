@@ -46,6 +46,5 @@ message ListAdminCommentInfo {
   string comment_content               = 2;
   string username                      = 3;
   string email                         = 4;
-  bool deleted                         = 5;
-  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp created_at = 5;
 }

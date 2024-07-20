@@ -15,16 +15,18 @@ import (
 const createComment = `-- name: CreateComment :one
 INSERT INTO comments (
   user_id,
+  repo_id,
   markdown_id,
   parent_id, 
   root_id,
   comment_content
-) VALUES ($1,$2,$3,$4,$5)
-RETURNING comment_id, markdown_id, parent_id, root_id, user_id, blocked, comment_content, created_at, deleted, fts_comment_content
+) VALUES ($1,$2,$3,$4,$5,$6)
+RETURNING comment_id, repo_id, markdown_id, parent_id, root_id, user_id, blocked, comment_content, created_at, fts_comment_content
 `
 
 type CreateCommentParams struct {
 	UserID         int64       `json:"user_id"`
+	RepoID         int64       `json:"repo_id"`
 	MarkdownID     int64       `json:"markdown_id"`
 	ParentID       pgtype.Int8 `json:"parent_id"`
 	RootID         pgtype.Int8 `json:"root_id"`
@@ -34,6 +36,7 @@ type CreateCommentParams struct {
 func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (Comment, error) {
 	row := q.db.QueryRow(ctx, createComment,
 		arg.UserID,
+		arg.RepoID,
 		arg.MarkdownID,
 		arg.ParentID,
 		arg.RootID,
@@ -42,6 +45,7 @@ func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (C
 	var i Comment
 	err := row.Scan(
 		&i.CommentID,
+		&i.RepoID,
 		&i.MarkdownID,
 		&i.ParentID,
 		&i.RootID,
@@ -49,16 +53,34 @@ func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (C
 		&i.Blocked,
 		&i.CommentContent,
 		&i.CreatedAt,
-		&i.Deleted,
 		&i.FtsCommentContent,
 	)
 	return i, err
 }
 
+const deleteCommentAndChildren = `-- name: DeleteCommentAndChildren :exec
+WITH RECURSIVE deleted_comments AS (
+  SELECT comments.comment_id
+  FROM comments
+  WHERE comments.comment_id = $1 -- 要删除的评论的comment_id
+  UNION ALL
+  SELECT c.comment_id
+  FROM comments c
+  INNER JOIN deleted_comments dc ON c.parent_id = dc.comment_id
+)
+DELETE FROM comments
+WHERE comments.comment_id IN (SELECT comment_id FROM deleted_comments)
+`
+
+func (q *Queries) DeleteCommentAndChildren(ctx context.Context, commentID int64) error {
+	_, err := q.db.Exec(ctx, deleteCommentAndChildren, commentID)
+	return err
+}
+
 const getCommentBasicInfo = `-- name: GetCommentBasicInfo :one
 SELECT comments.comment_id,comments.markdown_id,comments.user_id,comments.parent_id,comments.comment_content,comments.created_at,comments.root_id
 FROM comments
-WHERE comments.comment_id = $1 and comments.deleted='false'
+WHERE comments.comment_id = $1
 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -89,7 +111,7 @@ func (q *Queries) GetCommentBasicInfo(ctx context.Context, commentID int64) (Get
 }
 
 const getCommentDetail = `-- name: GetCommentDetail :one
-SELECT comments.comment_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.deleted, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
   users.username,users.email,users.motto,users.created_at as user_created_at,
   COUNT(DISTINCT CASE WHEN comment_relations.relation_type = 'like' THEN comment_relations.relation_id END)  AS like_count,
   (SELECT COUNT(*) FROM comments c2 WHERE c2.root_id = comments.comment_id) AS reply_count,
@@ -100,7 +122,7 @@ SELECT comments.comment_id, comments.markdown_id, comments.parent_id, comments.r
 FROM comments
 LEFT JOIN comment_relations ON comments.comment_id = comment_relations.comment_id
 JOIN users ON comments.user_id = users.user_id
-WHERE comments.comment_id = $1 and comments.deleted='false'
+WHERE comments.comment_id = $1
 GROUP BY comments.comment_id,users.user_id
 LIMIT 1
 `
@@ -112,6 +134,7 @@ type GetCommentDetailParams struct {
 
 type GetCommentDetailRow struct {
 	CommentID         int64       `json:"comment_id"`
+	RepoID            int64       `json:"repo_id"`
 	MarkdownID        int64       `json:"markdown_id"`
 	ParentID          pgtype.Int8 `json:"parent_id"`
 	RootID            pgtype.Int8 `json:"root_id"`
@@ -119,7 +142,6 @@ type GetCommentDetailRow struct {
 	Blocked           bool        `json:"blocked"`
 	CommentContent    string      `json:"comment_content"`
 	CreatedAt         time.Time   `json:"created_at"`
-	Deleted           bool        `json:"deleted"`
 	FtsCommentContent string      `json:"fts_comment_content"`
 	Username          string      `json:"username"`
 	Email             string      `json:"email"`
@@ -138,6 +160,7 @@ func (q *Queries) GetCommentDetail(ctx context.Context, arg GetCommentDetailPara
 	var i GetCommentDetailRow
 	err := row.Scan(
 		&i.CommentID,
+		&i.RepoID,
 		&i.MarkdownID,
 		&i.ParentID,
 		&i.RootID,
@@ -145,7 +168,6 @@ func (q *Queries) GetCommentDetail(ctx context.Context, arg GetCommentDetailPara
 		&i.Blocked,
 		&i.CommentContent,
 		&i.CreatedAt,
-		&i.Deleted,
 		&i.FtsCommentContent,
 		&i.Username,
 		&i.Email,
@@ -204,7 +226,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.deleted='false' AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
 `
 
 func (q *Queries) GetListCommentCount(ctx context.Context) (int64, error) {
@@ -219,7 +241,7 @@ SELECT Count(*)
 FROM comments
 LEFT JOIN comment_relations ON comments.comment_id = comment_relations.comment_id
 JOIN users ON comments.user_id = users.user_id
-WHERE comments.markdown_id = $1 AND comments.parent_id IS NULL AND comments.deleted='false'
+WHERE comments.markdown_id = $1 AND comments.parent_id IS NULL
 `
 
 func (q *Queries) GetListCommentLevelOneCount(ctx context.Context, markdownID int64) (int64, error) {
@@ -236,7 +258,7 @@ LEFT JOIN comments pc ON  comments.parent_id = pc.comment_id
 LEFT JOIN users pu ON pu.user_id = pc.user_id
 LEFT JOIN comment_relations ON comments.comment_id = comment_relations.comment_id
 JOIN users ON comments.user_id = users.user_id
-WHERE comments.root_id = $1 AND comments.deleted='false'
+WHERE comments.root_id = $1
 `
 
 func (q *Queries) GetListCommentLevelTwoCount(ctx context.Context, rootID pgtype.Int8) (int64, error) {
@@ -253,7 +275,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($1)  AND comments.deleted='false' AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery($1) AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
 `
 
 func (q *Queries) GetQueryCommentCount(ctx context.Context, query string) (int64, error) {
@@ -264,14 +286,14 @@ func (q *Queries) GetQueryCommentCount(ctx context.Context, query string) (int64
 }
 
 const listComment = `-- name: ListComment :many
-SELECT comments.comment_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.deleted, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
   users.username,users.email,users.created_at as user_created_at
 FROM comments
 JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.deleted='false' AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY comments.created_at DESC
 LIMIT $1
 OFFSET $2
@@ -284,6 +306,7 @@ type ListCommentParams struct {
 
 type ListCommentRow struct {
 	CommentID         int64       `json:"comment_id"`
+	RepoID            int64       `json:"repo_id"`
 	MarkdownID        int64       `json:"markdown_id"`
 	ParentID          pgtype.Int8 `json:"parent_id"`
 	RootID            pgtype.Int8 `json:"root_id"`
@@ -291,7 +314,6 @@ type ListCommentRow struct {
 	Blocked           bool        `json:"blocked"`
 	CommentContent    string      `json:"comment_content"`
 	CreatedAt         time.Time   `json:"created_at"`
-	Deleted           bool        `json:"deleted"`
 	FtsCommentContent string      `json:"fts_comment_content"`
 	Username          string      `json:"username"`
 	Email             string      `json:"email"`
@@ -309,6 +331,7 @@ func (q *Queries) ListComment(ctx context.Context, arg ListCommentParams) ([]Lis
 		var i ListCommentRow
 		if err := rows.Scan(
 			&i.CommentID,
+			&i.RepoID,
 			&i.MarkdownID,
 			&i.ParentID,
 			&i.RootID,
@@ -316,7 +339,6 @@ func (q *Queries) ListComment(ctx context.Context, arg ListCommentParams) ([]Lis
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.Deleted,
 			&i.FtsCommentContent,
 			&i.Username,
 			&i.Email,
@@ -333,7 +355,7 @@ func (q *Queries) ListComment(ctx context.Context, arg ListCommentParams) ([]Lis
 }
 
 const listCommentLevelOne = `-- name: ListCommentLevelOne :many
-SELECT comments.comment_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.deleted, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
   users.username,users.email,users.motto,users.created_at as user_created_at,
   COUNT(DISTINCT CASE WHEN comment_relations.relation_type = 'like' THEN comment_relations.relation_id END)  AS like_count,
   (SELECT COUNT(*) FROM comments c2 WHERE c2.root_id = comments.comment_id) AS reply_count,
@@ -344,7 +366,7 @@ SELECT comments.comment_id, comments.markdown_id, comments.parent_id, comments.r
 FROM comments
 LEFT JOIN comment_relations ON comments.comment_id = comment_relations.comment_id
 JOIN users ON comments.user_id = users.user_id
-WHERE comments.markdown_id = $1 AND comments.parent_id IS NULL AND comments.deleted='false'
+WHERE comments.markdown_id = $1 AND comments.parent_id IS NULL
 GROUP BY comments.comment_id,users.user_id
 ORDER BY comments.created_at DESC
 LIMIT $2
@@ -360,6 +382,7 @@ type ListCommentLevelOneParams struct {
 
 type ListCommentLevelOneRow struct {
 	CommentID         int64       `json:"comment_id"`
+	RepoID            int64       `json:"repo_id"`
 	MarkdownID        int64       `json:"markdown_id"`
 	ParentID          pgtype.Int8 `json:"parent_id"`
 	RootID            pgtype.Int8 `json:"root_id"`
@@ -367,7 +390,6 @@ type ListCommentLevelOneRow struct {
 	Blocked           bool        `json:"blocked"`
 	CommentContent    string      `json:"comment_content"`
 	CreatedAt         time.Time   `json:"created_at"`
-	Deleted           bool        `json:"deleted"`
 	FtsCommentContent string      `json:"fts_comment_content"`
 	Username          string      `json:"username"`
 	Email             string      `json:"email"`
@@ -397,6 +419,7 @@ func (q *Queries) ListCommentLevelOne(ctx context.Context, arg ListCommentLevelO
 		var i ListCommentLevelOneRow
 		if err := rows.Scan(
 			&i.CommentID,
+			&i.RepoID,
 			&i.MarkdownID,
 			&i.ParentID,
 			&i.RootID,
@@ -404,7 +427,6 @@ func (q *Queries) ListCommentLevelOne(ctx context.Context, arg ListCommentLevelO
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.Deleted,
 			&i.FtsCommentContent,
 			&i.Username,
 			&i.Email,
@@ -428,7 +450,7 @@ func (q *Queries) ListCommentLevelOne(ctx context.Context, arg ListCommentLevelO
 }
 
 const listCommentLevelTwo = `-- name: ListCommentLevelTwo :many
-SELECT comments.comment_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.deleted, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
   users.username,users.email,users.motto,users.created_at as user_created_at, pu.username as pusername,
   COUNT(DISTINCT CASE WHEN comment_relations.relation_type = 'like' THEN comment_relations.relation_id END)  AS like_count,
   (SELECT COUNT(*) FROM comments c2 WHERE c2.root_id = comments.comment_id) AS reply_count,
@@ -441,7 +463,7 @@ LEFT JOIN comments pc ON  comments.parent_id = pc.comment_id
 LEFT JOIN users pu ON pu.user_id = pc.user_id
 LEFT JOIN comment_relations ON comments.comment_id = comment_relations.comment_id
 JOIN users ON comments.user_id = users.user_id
-WHERE comments.root_id = $1 AND comments.deleted='false'
+WHERE comments.root_id = $1
 GROUP BY comments.comment_id,users.user_id,pu.username
 ORDER BY comments.created_at
 LIMIT $2
@@ -457,6 +479,7 @@ type ListCommentLevelTwoParams struct {
 
 type ListCommentLevelTwoRow struct {
 	CommentID         int64       `json:"comment_id"`
+	RepoID            int64       `json:"repo_id"`
 	MarkdownID        int64       `json:"markdown_id"`
 	ParentID          pgtype.Int8 `json:"parent_id"`
 	RootID            pgtype.Int8 `json:"root_id"`
@@ -464,7 +487,6 @@ type ListCommentLevelTwoRow struct {
 	Blocked           bool        `json:"blocked"`
 	CommentContent    string      `json:"comment_content"`
 	CreatedAt         time.Time   `json:"created_at"`
-	Deleted           bool        `json:"deleted"`
 	FtsCommentContent string      `json:"fts_comment_content"`
 	Username          string      `json:"username"`
 	Email             string      `json:"email"`
@@ -495,6 +517,7 @@ func (q *Queries) ListCommentLevelTwo(ctx context.Context, arg ListCommentLevelT
 		var i ListCommentLevelTwoRow
 		if err := rows.Scan(
 			&i.CommentID,
+			&i.RepoID,
 			&i.MarkdownID,
 			&i.ParentID,
 			&i.RootID,
@@ -502,7 +525,6 @@ func (q *Queries) ListCommentLevelTwo(ctx context.Context, arg ListCommentLevelT
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.Deleted,
 			&i.FtsCommentContent,
 			&i.Username,
 			&i.Email,
@@ -526,35 +548,15 @@ func (q *Queries) ListCommentLevelTwo(ctx context.Context, arg ListCommentLevelT
 	return items, nil
 }
 
-const markCommentAsDeleted = `-- name: MarkCommentAsDeleted :exec
-WITH RECURSIVE deleted_comments AS (
-  SELECT comments.comment_id
-  FROM comments
-  WHERE comments.comment_id = $1 -- 要删除的评论的comment_id
-  UNION ALL
-  SELECT c.comment_id
-  FROM comments c
-  INNER JOIN deleted_comments dc ON c.parent_id = dc.comment_id
-)
-UPDATE comments
-SET deleted = 'true'
-WHERE comments.comment_id IN (SELECT comment_id FROM deleted_comments)
-`
-
-func (q *Queries) MarkCommentAsDeleted(ctx context.Context, commentID int64) error {
-	_, err := q.db.Exec(ctx, markCommentAsDeleted, commentID)
-	return err
-}
-
 const queryComment = `-- name: QueryComment :many
-SELECT comments.comment_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.deleted, comments.fts_comment_content,ts_rank(comments.fts_comment_content, plainto_tsquery($3)) as rank,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,ts_rank(comments.fts_comment_content, plainto_tsquery($3)) as rank,
   users.username,users.email,users.created_at as user_created_at
 FROM comments
 JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($3)  AND comments.deleted='false' AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
+WHERE comments.fts_comment_content @@ plainto_tsquery($3) AND users.deleted = 'false' AND repos.deleted = 'false' AND mu.deleted = 'false'
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2
@@ -568,6 +570,7 @@ type QueryCommentParams struct {
 
 type QueryCommentRow struct {
 	CommentID         int64       `json:"comment_id"`
+	RepoID            int64       `json:"repo_id"`
 	MarkdownID        int64       `json:"markdown_id"`
 	ParentID          pgtype.Int8 `json:"parent_id"`
 	RootID            pgtype.Int8 `json:"root_id"`
@@ -575,7 +578,6 @@ type QueryCommentRow struct {
 	Blocked           bool        `json:"blocked"`
 	CommentContent    string      `json:"comment_content"`
 	CreatedAt         time.Time   `json:"created_at"`
-	Deleted           bool        `json:"deleted"`
 	FtsCommentContent string      `json:"fts_comment_content"`
 	Rank              float32     `json:"rank"`
 	Username          string      `json:"username"`
@@ -594,6 +596,7 @@ func (q *Queries) QueryComment(ctx context.Context, arg QueryCommentParams) ([]Q
 		var i QueryCommentRow
 		if err := rows.Scan(
 			&i.CommentID,
+			&i.RepoID,
 			&i.MarkdownID,
 			&i.ParentID,
 			&i.RootID,
@@ -601,7 +604,6 @@ func (q *Queries) QueryComment(ctx context.Context, arg QueryCommentParams) ([]Q
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.Deleted,
 			&i.FtsCommentContent,
 			&i.Rank,
 			&i.Username,

@@ -850,9 +850,6 @@
         "email": {
           "type": "string"
         },
-        "deleted": {
-          "type": "boolean"
-        },
         "createdAt": {
           "type": "string",
           "format": "date-time"

@@ -37,7 +37,7 @@ func (server *Server) DeleteComment(ctx context.Context, req *rpcs.DeleteComment
 		return nil, status.Errorf(codes.PermissionDenied, "current account can not delete this comment")
 	}
 
-	err = server.store.MarkCommentAsDeleted(ctx, req.GetCommentId())
+	err = server.store.DeleteCommentAndChildren(ctx, req.GetCommentId())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "delete comment failed: %s", err)
 	}

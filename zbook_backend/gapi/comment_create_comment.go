@@ -3,7 +3,6 @@ package gapi
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
 	"github.com/zizdlp/zbook/pb/rpcs"
@@ -45,13 +44,11 @@ func (server *Server) CreateComment(ctx context.Context, req *rpcs.CreateComment
 	}
 
 	arg := db.CreateCommentTxParams{
-		CreateCommentParams: db.CreateCommentParams{
-			UserID:         authPayload.UserID,
-			MarkdownID:     req.GetMarkdownId(),
-			ParentID:       pgtype.Int8{Int64: req.GetParentId(), Valid: req.GetParentId() != 0},
-			RootID:         pgtype.Int8{Int64: RootID, Valid: RootID != 0},
-			CommentContent: req.GetCommentContent(),
-		},
+		UserID:         authPayload.UserID,
+		MarkdownID:     req.GetMarkdownId(),
+		ParentID:       req.GetParentId(),
+		RootID:         RootID,
+		CommentContent: req.GetCommentContent(),
 	}
 
 	comment, err := server.store.CreateCommentTx(ctx, arg)

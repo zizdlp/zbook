@@ -13,6 +13,7 @@ import (
 
 type Comment struct {
 	CommentID         int64       `json:"comment_id"`
+	RepoID            int64       `json:"repo_id"`
 	MarkdownID        int64       `json:"markdown_id"`
 	ParentID          pgtype.Int8 `json:"parent_id"`
 	RootID            pgtype.Int8 `json:"root_id"`
@@ -20,7 +21,6 @@ type Comment struct {
 	Blocked           bool        `json:"blocked"`
 	CommentContent    string      `json:"comment_content"`
 	CreatedAt         time.Time   `json:"created_at"`
-	Deleted           bool        `json:"deleted"`
 	FtsCommentContent string      `json:"fts_comment_content"`
 }
 

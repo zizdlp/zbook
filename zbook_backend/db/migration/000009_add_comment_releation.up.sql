@@ -7,8 +7,12 @@ CREATE TABLE "comment_relations" (
   "created_at"  timestamptz NOT NULL DEFAULT (now())
 );
 
-ALTER TABLE "comment_relations" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
-ALTER TABLE "comment_relations" ADD FOREIGN KEY ("comment_id") REFERENCES "comments" ("comment_id");
+-- Adding foreign key constraints
+ALTER TABLE "comment_relations"
+  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id"),
+  ADD FOREIGN KEY ("comment_id") REFERENCES "comments" ("comment_id")ON DELETE CASCADE;
+
+
 CREATE UNIQUE INDEX ON "comment_relations" ("user_id","comment_id","relation_type");
 
 -- 4. reports
@@ -22,8 +26,11 @@ CREATE TABLE "comment_reports" (
   fts_report_content tsvector
 );
 
-ALTER TABLE "comment_reports" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
-ALTER TABLE "comment_reports" ADD FOREIGN KEY ("comment_id") REFERENCES "comments" ("comment_id");
+-- Adding foreign key constraints with ON DELETE CASCADE
+ALTER TABLE "comment_reports" 
+  ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id"),
+  ADD FOREIGN KEY ("comment_id") REFERENCES "comments" ("comment_id") ON DELETE CASCADE;
+
 CREATE UNIQUE INDEX ON "comment_reports" ("user_id","comment_id");
 
 UPDATE "comment_reports"

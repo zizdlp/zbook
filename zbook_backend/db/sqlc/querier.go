@@ -30,6 +30,7 @@ type Querier interface {
 	CreateSystemNotification(ctx context.Context, arg CreateSystemNotificationParams) (SystemNotification, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateVerification(ctx context.Context, arg CreateVerificationParams) (Verification, error)
+	DeleteCommentAndChildren(ctx context.Context, commentID int64) error
 	DeleteCommentRelation(ctx context.Context, arg DeleteCommentRelationParams) error
 	DeleteFollow(ctx context.Context, arg DeleteFollowParams) (int64, error)
 	DeleteFollowerNotification(ctx context.Context, arg DeleteFollowerNotificationParams) (FollowerNotification, error)
@@ -103,7 +104,6 @@ type Querier interface {
 	ListUser(ctx context.Context, arg ListUserParams) ([]User, error)
 	ListUserLikeRepo(ctx context.Context, arg ListUserLikeRepoParams) ([]ListUserLikeRepoRow, error)
 	ListUserOwnRepo(ctx context.Context, arg ListUserOwnRepoParams) ([]ListUserOwnRepoRow, error)
-	MarkCommentAsDeleted(ctx context.Context, commentID int64) error
 	MarkCommentNotificationReaded(ctx context.Context, arg MarkCommentNotificationReadedParams) (CommentNotification, error)
 	MarkFollowerNotificationReaded(ctx context.Context, arg MarkFollowerNotificationReadedParams) (FollowerNotification, error)
 	MarkRepoAsDeleted(ctx context.Context, repoID int64) error

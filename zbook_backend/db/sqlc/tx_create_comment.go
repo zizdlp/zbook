@@ -4,12 +4,17 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type CreateCommentTxParams struct {
-	CreateCommentParams
+	UserID         int64
+	MarkdownID     int64
+	ParentID       int64
+	RootID         int64
+	CommentContent string
 }
 
 type CreateCommentTxResult struct {
@@ -22,11 +27,19 @@ func (store *SQLStore) CreateCommentTx(ctx context.Context, arg CreateCommentTxP
 	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
 
-		comment, err := q.GetMarkdownByID(ctx, arg.CreateCommentParams.MarkdownID)
+		comment, err := q.GetMarkdownByID(ctx, arg.MarkdownID)
 		if err != nil {
 			return err
 		}
-		result.Comment, err = q.CreateComment(ctx, arg.CreateCommentParams)
+		arg_create := CreateCommentParams{
+			UserID:         arg.UserID,
+			RepoID:         comment.RepoID,
+			MarkdownID:     arg.MarkdownID,
+			ParentID:       pgtype.Int8{Int64: arg.ParentID, Valid: arg.ParentID != 0},
+			RootID:         pgtype.Int8{Int64: arg.RootID, Valid: arg.RootID != 0},
+			CommentContent: arg.CommentContent,
+		}
+		result.Comment, err = q.CreateComment(ctx, arg_create)
 
 		if err != nil {
 			if ErrorCode(err) == UniqueViolation || ErrorCode(err) == ForeignKeyViolation {
@@ -38,7 +51,7 @@ func (store *SQLStore) CreateCommentTx(ctx context.Context, arg CreateCommentTxP
 
 		// 父评论user，root 评论user，repo user
 		// notify post owner
-		if comment.UserID != arg.CreateCommentParams.UserID {
+		if comment.UserID != arg_create.UserID {
 			arg_noti_post := CreateCommentNotificationParams{
 				UserID:    comment.UserID,
 				CommentID: result.Comment.CommentID,
@@ -56,9 +69,9 @@ func (store *SQLStore) CreateCommentTx(ctx context.Context, arg CreateCommentTxP
 			}
 		}
 
-		if arg.CreateCommentParams.ParentID.Valid {
+		if arg_create.ParentID.Valid {
 			// parentid 应该校验
-			pcomment, err := q.GetCommentBasicInfo(ctx, arg.CreateCommentParams.ParentID.Int64)
+			pcomment, err := q.GetCommentBasicInfo(ctx, arg_create.ParentID.Int64)
 			if err != nil {
 				return err
 			}
@@ -68,7 +81,7 @@ func (store *SQLStore) CreateCommentTx(ctx context.Context, arg CreateCommentTxP
 			}
 
 			// notify pcomment user,
-			if pcomment.UserID != comment.UserID && pcomment.UserID != arg.CreateCommentParams.UserID {
+			if pcomment.UserID != comment.UserID && pcomment.UserID != arg_create.UserID {
 				arg_noti := CreateCommentNotificationParams{
 					UserID:    pcomment.UserID,
 					CommentID: result.Comment.CommentID,
@@ -91,7 +104,7 @@ func (store *SQLStore) CreateCommentTx(ctx context.Context, arg CreateCommentTxP
 				if err != nil {
 					return err
 				}
-				if rootComment.UserID != pcomment.UserID && rootComment.UserID != comment.UserID && rootComment.UserID != arg.UserID {
+				if rootComment.UserID != pcomment.UserID && rootComment.UserID != comment.UserID && rootComment.UserID != arg_create.UserID {
 					arg_noti := CreateCommentNotificationParams{
 						UserID:    rootComment.UserID,
 						CommentID: result.Comment.CommentID,

@@ -376,6 +376,20 @@ func (mr *MockStoreMockRecorder) CreateVerification(arg0, arg1 interface{}) *gom
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVerification", reflect.TypeOf((*MockStore)(nil).CreateVerification), arg0, arg1)
 }
 
+// DeleteCommentAndChildren mocks base method.
+func (m *MockStore) DeleteCommentAndChildren(arg0 context.Context, arg1 int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteCommentAndChildren", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteCommentAndChildren indicates an expected call of DeleteCommentAndChildren.
+func (mr *MockStoreMockRecorder) DeleteCommentAndChildren(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCommentAndChildren", reflect.TypeOf((*MockStore)(nil).DeleteCommentAndChildren), arg0, arg1)
+}
+
 // DeleteCommentRelation mocks base method.
 func (m *MockStore) DeleteCommentRelation(arg0 context.Context, arg1 db.DeleteCommentRelationParams) error {
 	m.ctrl.T.Helper()
@@ -1493,20 +1507,6 @@ func (m *MockStore) ManualSyncRepoTx(arg0 context.Context, arg1 db.ManualSyncRep
 func (mr *MockStoreMockRecorder) ManualSyncRepoTx(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ManualSyncRepoTx", reflect.TypeOf((*MockStore)(nil).ManualSyncRepoTx), arg0, arg1)
-}
-
-// MarkCommentAsDeleted mocks base method.
-func (m *MockStore) MarkCommentAsDeleted(arg0 context.Context, arg1 int64) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MarkCommentAsDeleted", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// MarkCommentAsDeleted indicates an expected call of MarkCommentAsDeleted.
-func (mr *MockStoreMockRecorder) MarkCommentAsDeleted(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkCommentAsDeleted", reflect.TypeOf((*MockStore)(nil).MarkCommentAsDeleted), arg0, arg1)
 }
 
 // MarkCommentNotificationReaded mocks base method.

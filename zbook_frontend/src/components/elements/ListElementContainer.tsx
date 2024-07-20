@@ -106,7 +106,6 @@ export default function ListElementContainer({
         email={model.email}
         comment_content={model.comment_content}
         comment_id={model.comment_id}
-        deleted={model.deleted}
         created_at={model.created_at}
       />
     );
