@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/zizdlp/zbook/operations"
@@ -31,7 +32,7 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 		if _, err := os.Stat(cloneDir); err == nil {
 			os.RemoveAll(cloneDir)
 		}
-
+		fmt.Println("=========== clone repo to:", cloneDir)
 		// 调用 Clone 函数
 		gitURL := util.GetGitURL(repo.GitProtocol, repo.GitHost, repo.GitUsername, repo.GitRepo)
 		if repo.GitAccessToken.Valid {
@@ -52,6 +53,7 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 			}
 		}
+		fmt.Println("=========== clone repo done:", cloneDir)
 
 		lastCommit, err := operations.GetLatestCommit(cloneDir)
 		if err != nil {
