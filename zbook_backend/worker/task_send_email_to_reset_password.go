@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 
 	"github.com/google/uuid"
 	"github.com/hibiken/asynq"
@@ -59,22 +58,23 @@ func (processor *RedisTaskProcessor) ProcessTaskResetPassword(ctx context.Contex
 	if err != nil {
 		return fmt.Errorf("failed to create verify code:%w", err)
 	}
-	subject := "点击如下链接重置密码"
+	subject := "Reset ZBook Password"
 	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Msgf("cannot load config: %s", err)
 	}
 	verifyUrl := fmt.Sprintf("%s/reset_password?verification_id=%s", config.HOMEADDRESS, util.UUIDToString(verification.VerificationID))
-	htmlFilePath := "./email_reset_template.html"
-	content, err := os.ReadFile(htmlFilePath)
-	if err != nil {
-		return fmt.Errorf("failed to get email verify template")
-	}
-	// 使用 fmt.Sprintf 插入变量
-	finalContent := fmt.Sprintf(string(content), user.Username, verifyUrl, verifyUrl, verifyUrl)
+
+	Title := "Reset Your Password"
+	emailSubject := "We received a request to reset your password. Please click the button below to reset your password:"
+	buttonText := "Reset Password"
+	additionalText := "If you did not request a password reset, please ignore this email or contact support if you have questions."
+
+	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
+
 	to := []string{user.Email}
 
-	err = processor.mailer.SendEmail(subject, finalContent, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)
+	err = processor.mailer.SendEmail(subject, emailBody, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)
 	if err != nil {
 		return fmt.Errorf("failed to send Email to reset password: %w", err)
 	}

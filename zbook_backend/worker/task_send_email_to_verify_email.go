@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 
 	"github.com/google/uuid"
 	"github.com/hibiken/asynq"
@@ -64,19 +63,18 @@ func (processor *RedisTaskProcessor) ProcessTaskVerifyEmail(ctx context.Context,
 		return fmt.Errorf("failed to create verify code:%w", err)
 	}
 
-	subject := "欢迎使用ZBook!"
-	verifyUrl := fmt.Sprintf("%s/verify_email?verification_id=%s", config.HOMEADDRESS, util.UUIDToString(verification.VerificationID))
+	subject := "Welcome to ZBook!"
 
-	htmlFilePath := "./email_verify_template.html"
-	content, err := os.ReadFile(htmlFilePath)
-	if err != nil {
-		return fmt.Errorf("failed to get email verify template")
-	}
-	// 使用 fmt.Sprintf 插入变量
-	finalContent := fmt.Sprintf(string(content), user.Username, verifyUrl, verifyUrl, verifyUrl)
+	Title := "Verify Your Email Address"
+	emailSubject := "Thank you for registering with us! Please verify your email address by clicking the button below:"
+	verifyUrl := fmt.Sprintf("%s/verify_email?verification_id=%s", config.HOMEADDRESS, util.UUIDToString(verification.VerificationID))
+	buttonText := "Verify Email"
+	additionalText := "If you did not register for an account, please ignore this email or contact support if you have any questions."
+
+	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
 	to := []string{user.Email}
 
-	err = processor.mailer.SendEmail(subject, finalContent, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)
+	err = processor.mailer.SendEmail(subject, emailBody, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)
 	if err != nil {
 		return fmt.Errorf("failed to send email to verify: %w", err)
 	}

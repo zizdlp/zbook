@@ -2,7 +2,6 @@ package mail
 
 import (
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -29,17 +28,15 @@ func TestSendEmailWithGmail(t *testing.T) {
 	}
 	verifyUrl := "http://localhost:3000/verify_email?verification_id=66ca2c9313264f449648a6e2aa6f8cf0"
 
-	// 读取本地 HTML 文件内容
-	htmlFilePath := "../email_verify_template.html"
-	content, err := os.ReadFile(htmlFilePath)
-	require.NoError(t, err)
+	Title := "Verify Your Email Address"
+	emailSubject := "Thank you for registering with us! Please verify your email address by clicking the button below:"
+	buttonText := "Verify Email"
+	additionalText := "If you did not register for an account, please ignore this email or contact support if you have any questions."
 
-	// 使用 fmt.Sprintf 插入变量
-	finalContent := fmt.Sprintf(string(content), user.Username, verifyUrl, verifyUrl, verifyUrl)
+	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
 
 	to := []string{"zizdlp@gmail.com"}
-	attachFiles := []string{"../README.md"}
 
-	err = sender.SendEmail(subject, finalContent, to, nil, nil, attachFiles, config.SmtpAuthAddress, config.SmtpServerAddress)
+	err = sender.SendEmail(subject, emailBody, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)
 	require.NoError(t, err)
 }
