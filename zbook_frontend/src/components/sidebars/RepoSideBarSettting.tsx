@@ -45,6 +45,7 @@ export default function RepoSideBarSetting({
         values: {
           repo_id: repo_id,
         },
+        timeout: 300000, //600s
       });
       if (data.error) {
         throw new FetchError(data.message, data.status);

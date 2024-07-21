@@ -90,7 +90,7 @@ export default function CreateRepoDialog() {
         agent: "",
         tags: [],
         values: values,
-        timeout: 100000,
+        timeout: 600000, //600s
       });
       if (data.error) {
         throw new FetchError(data.message, data.status);

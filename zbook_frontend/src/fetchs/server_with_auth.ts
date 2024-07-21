@@ -114,7 +114,7 @@ export async function fetchServer(
   agent: string,
   useAuth: boolean,
   tags: string[],
-  timeout = 15000
+  timeout = 15000 //milliseconds,15s
 ) {
   noStore();
   const controller = new AbortController();
@@ -863,12 +863,14 @@ export async function fetchServerWithAuthWrapper({
   xforward,
   agent,
   tags,
+  timeout,
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.MANUAL_SYNC_REPO;
   values: ManualSyncRepoRequest;
   xforward: string;
   agent: string;
   tags: string[];
+  timeout: number;
 }): Promise<any>;
 export async function fetchServerWithAuthWrapper({
   endpoint,
