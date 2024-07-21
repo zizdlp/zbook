@@ -311,7 +311,12 @@ const parseHTMLString = (
         );
       } else if (tagName === "IMG") {
         const srcAttribute = (node as Element).getAttribute("src");
+        const altAttribute = (node as Element).getAttribute("alt");
         if (srcAttribute && srcAttribute.startsWith("http")) {
+          if (altAttribute === "Actions Status") {
+            return null;
+          }
+
           return (
             /* eslint-disable @next/next/no-img-element */
             <img
