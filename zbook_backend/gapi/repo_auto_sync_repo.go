@@ -18,7 +18,11 @@ func (server *Server) AutoSyncRepo(ctx context.Context, req *rpcs.AutoSyncRepoRe
 		return nil, invalidArgumentError(violations)
 	}
 
-	repo, err := server.store.GetRepo(ctx, req.GetRepoId())
+	arg_repo := db.GetRepoByRepoNameParams{
+		Username: req.GetUsername(),
+		RepoName: req.GetRepoName(),
+	}
+	repo, err := server.store.GetRepoByRepoName(ctx, arg_repo)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +34,7 @@ func (server *Server) AutoSyncRepo(ctx context.Context, req *rpcs.AutoSyncRepoRe
 	}
 
 	arg := db.ManualSyncRepoTxParams{
-		RepoID: req.GetRepoId(),
+		RepoID: repo.RepoID,
 		AfterCreate: func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
 			return storage.ConvertFile2Storage(server.minioClient, cloneDir, repoID, userID, addedFiles, modifiedFiles, deletedFiles)
 		},
@@ -47,9 +51,12 @@ func (server *Server) AutoSyncRepo(ctx context.Context, req *rpcs.AutoSyncRepoRe
 	return rsp, nil
 }
 func validateAutoSyncRepoRequest(req *rpcs.AutoSyncRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	err := val.ValidateID(req.GetRepoId())
+	err := val.ValidateString(req.GetRepoName(), 1, 256)
 	if err != nil {
-		violations = append(violations, fieldViolation("repo_id", err))
+		violations = append(violations, fieldViolation("repo_name", err))
+	}
+	if err := val.ValidateUsername(req.GetUsername()); err != nil {
+		violations = append(violations, fieldViolation("username", err))
 	}
 	if err := val.ValidateString(req.GetSyncToken(), 6, 32); err != nil {
 		violations = append(violations, fieldViolation("sync_token", err))

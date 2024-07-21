@@ -436,6 +436,90 @@ func (q *Queries) GetRepoBasicInfo(ctx context.Context, repoID int64) (GetRepoBa
 	return i, err
 }
 
+const getRepoByRepoName = `-- name: GetRepoByRepoName :one
+SELECT repo_id, repos.user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, repos.created_at, repos.updated_at, fts_repo_name, users.user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, users.created_at, users.updated_at, unread_count, unread_count_updated_at, fts_username from repos
+JOIN users on users.user_id= repos.user_id
+WHERE users.username=$1 AND repos.repo_name=$2
+`
+
+type GetRepoByRepoNameParams struct {
+	Username string `json:"username"`
+	RepoName string `json:"repo_name"`
+}
+
+type GetRepoByRepoNameRow struct {
+	RepoID               int64       `json:"repo_id"`
+	UserID               int64       `json:"user_id"`
+	GitProtocol          string      `json:"git_protocol"`
+	GitHost              string      `json:"git_host"`
+	GitUsername          string      `json:"git_username"`
+	GitRepo              string      `json:"git_repo"`
+	GitAccessToken       pgtype.Text `json:"git_access_token"`
+	RepoName             string      `json:"repo_name"`
+	RepoDescription      string      `json:"repo_description"`
+	HomePage             string      `json:"home_page"`
+	SyncToken            pgtype.Text `json:"sync_token"`
+	VisibilityLevel      string      `json:"visibility_level"`
+	CommitID             string      `json:"commit_id"`
+	Layout               string      `json:"layout"`
+	CreatedAt            time.Time   `json:"created_at"`
+	UpdatedAt            time.Time   `json:"updated_at"`
+	FtsRepoName          string      `json:"fts_repo_name"`
+	UserID_2             int64       `json:"user_id_2"`
+	Username             string      `json:"username"`
+	Email                string      `json:"email"`
+	HashedPassword       string      `json:"hashed_password"`
+	Blocked              bool        `json:"blocked"`
+	Verified             bool        `json:"verified"`
+	Motto                string      `json:"motto"`
+	UserRole             string      `json:"user_role"`
+	Onboarding           bool        `json:"onboarding"`
+	CreatedAt_2          time.Time   `json:"created_at_2"`
+	UpdatedAt_2          time.Time   `json:"updated_at_2"`
+	UnreadCount          int32       `json:"unread_count"`
+	UnreadCountUpdatedAt time.Time   `json:"unread_count_updated_at"`
+	FtsUsername          string      `json:"fts_username"`
+}
+
+func (q *Queries) GetRepoByRepoName(ctx context.Context, arg GetRepoByRepoNameParams) (GetRepoByRepoNameRow, error) {
+	row := q.db.QueryRow(ctx, getRepoByRepoName, arg.Username, arg.RepoName)
+	var i GetRepoByRepoNameRow
+	err := row.Scan(
+		&i.RepoID,
+		&i.UserID,
+		&i.GitProtocol,
+		&i.GitHost,
+		&i.GitUsername,
+		&i.GitRepo,
+		&i.GitAccessToken,
+		&i.RepoName,
+		&i.RepoDescription,
+		&i.HomePage,
+		&i.SyncToken,
+		&i.VisibilityLevel,
+		&i.CommitID,
+		&i.Layout,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.FtsRepoName,
+		&i.UserID_2,
+		&i.Username,
+		&i.Email,
+		&i.HashedPassword,
+		&i.Blocked,
+		&i.Verified,
+		&i.Motto,
+		&i.UserRole,
+		&i.Onboarding,
+		&i.CreatedAt_2,
+		&i.UpdatedAt_2,
+		&i.UnreadCount,
+		&i.UnreadCountUpdatedAt,
+		&i.FtsUsername,
+	)
+	return i, err
+}
+
 const getRepoID = `-- name: GetRepoID :one
 SELECT repos.repo_id 
 from repos

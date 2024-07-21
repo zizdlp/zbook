@@ -45,8 +45,9 @@ message ManualSyncRepoResponse {}
 
 // 5.AutoSyncRepo
 message AutoSyncRepoRequest {
-  int64 repo_id     = 1;
-  string sync_token = 2;
+  string username   = 1;
+  string repo_name  = 2;
+  string sync_token = 3;
 }
 message AutoSyncRepoResponse {
   int64 repo_id = 1;
