@@ -1,12 +1,12 @@
 package convert
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
 
 	"github.com/dietsche/rfsnotify"
+	"github.com/rs/zerolog/log"
 )
 
 func StartWatcher(sourceDir, destDir string) error {
@@ -43,7 +43,8 @@ func StartWatcher(sourceDir, destDir string) error {
 				}
 
 			case err := <-watcher.Errors:
-				fmt.Println("Error:", err)
+				log.Error().Err(err).Msg("moniter watch error")
+
 			}
 		}
 	}()
@@ -65,8 +66,7 @@ func StartWatcher(sourceDir, destDir string) error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Println("Watcher started. Press Ctrl+C to stop.")
+	log.Info().Msg("Watcher started. Press Ctrl+C to stop.")
 	// 等待所有子 goroutine 完成
 	wg.Wait()
 	return nil

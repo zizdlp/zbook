@@ -2,7 +2,6 @@ package util
 
 import (
 	"bytes"
-	"fmt"
 	"image"
 	_ "image/gif"
 	_ "image/jpeg"
@@ -19,7 +18,6 @@ func ReadImageBytes(path string) ([]byte, error) {
 	// 打开图片文件
 	file, err := os.Open(path)
 	if err != nil {
-		fmt.Println("open file failed:", err)
 		return nil, err
 	}
 	defer file.Close()
@@ -35,14 +33,12 @@ func ReadImageBytes(path string) ([]byte, error) {
 		// 如果格式不支持，直接返回文件的字节数据
 		fileBytes, readErr := os.ReadFile(path)
 		if readErr != nil {
-			fmt.Printf("read file failed: %s\n", readErr)
 			return nil, readErr
 		}
 		return fileBytes, nil
 	}
 
 	if err != nil {
-		fmt.Printf("decode image file failed: %s\n", err)
 		return nil, err
 	}
 
@@ -52,7 +48,6 @@ func ReadImageBytes(path string) ([]byte, error) {
 	// 将图像编码为 PNG
 	err = png.Encode(buffer, img)
 	if err != nil {
-		fmt.Printf("encode png image failed: %s\n", err)
 		return nil, err
 	}
 

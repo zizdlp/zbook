@@ -76,3 +76,18 @@ func ParseGitURL(gitURL string) (string, string, string, string, error) {
 func NormalizePath(path string) string {
 	return filepath.Clean(path)
 }
+
+func ParserGitCloneError(message string) string {
+	// Convert output to a string
+
+	// Find the start of the error message (e.g., "fatal: ")
+	fatalPrefix := "fatal: "
+	startIndex := strings.Index(message, fatalPrefix)
+	if startIndex != -1 {
+		// Extract the error message part
+		errorMessage := message[startIndex+7:]
+		return errorMessage
+	} else {
+		return message
+	}
+}

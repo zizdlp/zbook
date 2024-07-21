@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	convert "github.com/zizdlp/zbook/markdown/convert"
 	md "github.com/zizdlp/zbook/markdown/render"
 	"github.com/zizdlp/zbook/operations"
@@ -84,9 +85,7 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 	if err := q.UpdateRepoLayout(ctx, arg_update_repo_layout); err != nil {
 		return fmt.Errorf("update repo layout failed: %v", err)
 	}
-
-	fmt.Println("convert md repo to db: total execution time:", time.Since(startTime))
-
+	log.Info().Msgf("convert md repo to db: total execution time:%s", time.Since(startTime))
 	return nil
 }
 
@@ -112,7 +111,6 @@ func createMarkdownFiles(ctx context.Context, q *Queries, params *util.CreatePar
 		MainContent:  params.MainContent,
 		TableContent: params.TableContent,
 	}
-	fmt.Println("lens is:", len(params.RelativePath), len(params.RepoID), len(params.UserID), len(params.MainContent), len(params.TableContent))
 	err := q.CreateMarkdownMulti(ctx, argCreate)
 	if err != nil {
 		return err

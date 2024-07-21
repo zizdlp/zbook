@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"strconv"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/util"
@@ -58,7 +58,7 @@ func (server *Server) LoginByOAuth(ctx context.Context, req *rpcs.LoginByOAuthRe
 		if userIDStr != req.GetAppId() {
 			return nil, status.Errorf(codes.PermissionDenied, "github account does not match: %s", userIDStr)
 		}
-		fmt.Println("github account is matched")
+		log.Info().Msg("github account is matched")
 	}
 
 	arg := db.GetOAuthUserParams{

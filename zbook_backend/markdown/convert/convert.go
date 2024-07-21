@@ -3,13 +3,13 @@ package convert
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/text"
 	md "github.com/zizdlp/zbook/markdown/render"
@@ -43,18 +43,18 @@ func ConvertMd2Html(src_path string, des_path string) {
 	markdown := md.GetMarkdownConfig()
 	data, err := os.ReadFile(src_path)
 	if err != nil {
-		fmt.Println("Read file failed:", err)
+		log.Error().Err(err).Msgf("failed to open file: %s", src_path)
 		return
 	}
 	_, main, err := ConvertMarkdownBuffer(data, markdown)
 	if err != nil {
-		fmt.Println("convertMarkdown to Buffer failed:", err)
+		log.Error().Err(err).Msg("failed to convert markdown")
 		return
 	}
 	// 写入 JSON 字符串到文件
 	err = os.WriteFile(des_path, main.Bytes(), 0644)
 	if err != nil {
-		fmt.Println("write html to file failed:", err)
+		log.Error().Err(err).Msgf("failed to write file: %s", des_path)
 		return
 	}
 }
@@ -62,25 +62,25 @@ func ConvertMdTable2Html(src_path string, des_path string) {
 	markdown := md.GetMarkdownConfig()
 	data, err := os.ReadFile(src_path)
 	if err != nil {
-		fmt.Println("Read file failed:", err)
+		log.Error().Err(err).Msgf("failed to open file: %s", src_path)
 		return
 	}
 	table, main, err := ConvertMarkdownBuffer(data, markdown)
 	if err != nil {
-		fmt.Println("convertMarkdown to Buffer failed:", err)
+		log.Error().Err(err).Msg("failed to convert markdown")
 		return
 	}
 	// 写入 JSON 字符串到文件
 	err = os.WriteFile(des_path, main.Bytes(), 0644)
 	if err != nil {
-		fmt.Println("write html to file failed:", err)
+		log.Error().Err(err).Msgf("failed to write main file: %s", des_path)
 		return
 	}
 
 	// 写入 JSON 字符串到文件
 	err = os.WriteFile(des_path, table.Bytes(), 0644)
 	if err != nil {
-		fmt.Println("write html to file failed:", err)
+		log.Error().Err(err).Msgf("failed to write table file: %s", des_path)
 		return
 	}
 }
@@ -89,12 +89,12 @@ func ConvertMd2Json(src_path string, des_path string) {
 	markdown := md.GetMarkdownConfig()
 	data, err := os.ReadFile(src_path)
 	if err != nil {
-		fmt.Println("Read file failed:", err)
+		log.Error().Err(err).Msgf("failed to open file: %s", src_path)
 		return
 	}
 	table, main, err := ConvertMarkdownBuffer(data, markdown)
 	if err != nil {
-		fmt.Println("convertMarkdown to Buffer failed:", err)
+		log.Error().Err(err).Msg("failed to convert markdown")
 		return
 	}
 
@@ -106,14 +106,14 @@ func ConvertMd2Json(src_path string, des_path string) {
 	// 将 JSON 对象序列化为 JSON 字符串
 	jsonString, err := json.Marshal(jsonObject)
 	if err != nil {
-		fmt.Println("write to json failed:", err)
+		log.Error().Err(err).Msg("failed to parse json")
 		return
 	}
 
 	// 写入 JSON 字符串到文件
 	err = os.WriteFile(des_path, jsonString, 0644)
 	if err != nil {
-		fmt.Println("write html to file failed:", err)
+		log.Error().Err(err).Msgf("failed to write html file: %s", des_path)
 		return
 	}
 }
@@ -178,7 +178,7 @@ func ConvertFolder(srcDir string, destDir string) {
 				// 复制文件
 				err = copyFile(srcPath, destPath)
 				if err != nil {
-					fmt.Printf("复制文件 %s 到 %s 时发生错误：%v\n", srcPath, destPath, err)
+					log.Error().Err(err).Msgf("failed to copy %s to %s", srcPath, destPath)
 					panic(err)
 				}
 			}
@@ -187,7 +187,7 @@ func ConvertFolder(srcDir string, destDir string) {
 	})
 
 	if err != nil {
-		fmt.Println("遍历源目录时发生错误:", err)
+		log.Error().Err(err).Msg("failed to iterate folder")
 		panic(err)
 	}
 
@@ -196,6 +196,6 @@ func ConvertFolder(srcDir string, destDir string) {
 
 	// 计算耗时并输出
 	elapsedTime := endTime.Sub(startTime)
-	fmt.Printf("总耗时：%s\n", elapsedTime)
+	log.Info().Msgf("convert folder time consume:%s", elapsedTime)
 	// RenderLayout(srcDir, destDir)
 }
