@@ -61,7 +61,7 @@ func DownloadFileFromStorage(client *minio.Client, ctx context.Context, objectNa
 	// Get object from MinIO
 	object, err := client.GetObject(ctx, bucketName, objectName, minio.GetObjectOptions{})
 	if err != nil {
-		log.Error().Msgf("Download object failed: %s", err)
+		log.Error().Msgf("Download object:%s failed: %s", objectName, err)
 		return nil, err
 	}
 	defer object.Close()
@@ -69,7 +69,7 @@ func DownloadFileFromStorage(client *minio.Client, ctx context.Context, objectNa
 	// Read object content into a byte slice
 	data, err := io.ReadAll(object)
 	if err != nil {
-		log.Error().Msgf("Read object failed: %s", err)
+		log.Error().Msgf("Read object:%s failed: %s", objectName, err)
 		return nil, err
 	}
 	return data, nil
