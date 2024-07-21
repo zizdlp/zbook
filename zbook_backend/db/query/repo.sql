@@ -48,6 +48,11 @@ from repos
 JOIN users on users.user_id= repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2;
 
+-- name: GetRepoByRepoName :one
+SELECT * from repos
+JOIN users on users.user_id= repos.user_id
+WHERE users.username=$1 AND repos.repo_name=$2;
+
 -- name: GetRepoLayout :one
 SELECT repos.repo_id,layout,repos.user_id,visibility_level FROM repos
 JOIN users on users.user_id = repos.user_id
