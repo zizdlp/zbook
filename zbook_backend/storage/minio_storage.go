@@ -9,7 +9,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/minio/minio-go/v7"
@@ -114,17 +113,12 @@ func ConvertFile2Storage(client *minio.Client, cloneDir string, repoID int64, us
 
 	// Helper function to process files (upload or delete)
 	processFiles := func(files []string, action func(string) error) error {
-		var wg sync.WaitGroup
 		for _, file := range files {
-			wg.Add(1)
-			go func(f string) {
-				defer wg.Done()
-				if err := action(f); err != nil {
-					fmt.Printf("failed to process file %s: %v\n", f, err)
-				}
-			}(file)
+			if err := action(file); err != nil {
+				fmt.Printf("failed to process file %s: %v\n", file, err)
+				return err
+			}
 		}
-		wg.Wait()
 		return nil
 	}
 
@@ -165,7 +159,6 @@ func ConvertFile2Storage(client *minio.Client, cloneDir string, repoID int64, us
 
 	return nil
 }
-
 func uploadGitFile(minioClient *minio.Client, ctx context.Context, cloneDir string, filePath string, repoID int64, userID int64) error {
 
 	data, err := os.ReadFile(cloneDir + "/" + filePath)

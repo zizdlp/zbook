@@ -112,7 +112,6 @@ func createMarkdownFiles(ctx context.Context, q *Queries, params *util.CreatePar
 		MainContent:  params.MainContent,
 		TableContent: params.TableContent,
 	}
-	fmt.Println("lens is:", len(params.RelativePath), len(params.RepoID), len(params.UserID), len(params.MainContent), len(params.TableContent))
 	err := q.CreateMarkdownMulti(ctx, argCreate)
 	if err != nil {
 		return err
