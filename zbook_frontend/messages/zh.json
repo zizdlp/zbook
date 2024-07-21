@@ -10,8 +10,8 @@
   },
   "VerifyEmail": {
     "BackToHome": "返回首页",
-    "VerifiedFailed": "验证成功",
-    "VerifiedSuccess": "验证失败"
+    "VerifiedFailed": "验证失败:",
+    "VerifiedSuccess": "验证成功"
   },
   "NotFoundPage": {
     "title": "页面不存在",

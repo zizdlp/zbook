@@ -10,7 +10,7 @@
   },
   "VerifyEmail": {
     "BackToHome": "Back to home page",
-    "VerifiedFailed": "Verified failed",
+    "VerifiedFailed": "Verified failed:",
     "VerifiedSuccess": "Verified successfully"
   },
 

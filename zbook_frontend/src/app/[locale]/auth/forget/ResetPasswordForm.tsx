@@ -206,7 +206,7 @@ export default function ResetPasswordForm({
           </div>
         </div>
         <div className="md:block hidden w-1/2">
-          <Image src="/login.pngf" alt="LOGO" width={500} height={500} />
+          <Image src="/login.png" alt="LOGO" width={500} height={500} />
         </div>
       </div>
     </div>

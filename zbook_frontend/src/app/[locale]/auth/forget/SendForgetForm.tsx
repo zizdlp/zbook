@@ -22,7 +22,6 @@ export default function SendForgetForm() {
     } else if (!emailRegex.test(values.email)) {
       errors.email = t("InvalidEmailFormat");
     }
-
     return errors;
   }
 
