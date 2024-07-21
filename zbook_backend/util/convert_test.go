@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"regexp"
 	"testing"
 
@@ -16,9 +15,7 @@ func TestUUIDConvert(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, uuid, uuid_recover)
 	valid := isValidUUIDString(uuid_str)
-	fmt.Println(uuid_str)
 	require.True(t, valid, "UUID string contains invalid characters")
-
 }
 
 // isValidUUIDString 检查字符串是否只包含小写字母和数字

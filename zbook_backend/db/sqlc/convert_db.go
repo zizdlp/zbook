@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	convert "github.com/zizdlp/zbook/markdown/convert"
 	md "github.com/zizdlp/zbook/markdown/render"
 	"github.com/zizdlp/zbook/operations"
@@ -84,9 +85,7 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 	if err := q.UpdateRepoLayout(ctx, arg_update_repo_layout); err != nil {
 		return fmt.Errorf("update repo layout failed: %v", err)
 	}
-
-	fmt.Println("convert md repo to db: total execution time:", time.Since(startTime))
-
+	log.Info().Msgf("convert md repo to db: total execution time:%s", time.Since(startTime))
 	return nil
 }
 

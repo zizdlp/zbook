@@ -3,7 +3,6 @@ package gapi
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
@@ -114,7 +113,7 @@ func convertQueryUserAllMarkdown(markdowns []db.QueryUserAllMarkdownRow) []*mode
 	for i := 0; i < len(markdowns); i++ {
 		str, ok := markdowns[i].Coalesce.(string)
 		if !ok {
-			fmt.Println("cannot convert coalesce to string")
+			log.Warn().Msg("cannot convert coalesce to string")
 		}
 		ret_markdowns = append(ret_markdowns,
 			&models.Markdown{

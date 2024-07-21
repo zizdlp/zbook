@@ -2,9 +2,10 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"os"
+	"time"
 
+	"github.com/rs/zerolog/log"
 	"github.com/zizdlp/zbook/operations"
 	"github.com/zizdlp/zbook/util"
 	"google.golang.org/grpc/codes"
@@ -38,7 +39,8 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 		if _, err := os.Stat(cloneDir); err == nil {
 			os.RemoveAll(cloneDir)
 		}
-		fmt.Println("=========== clone repo to:", cloneDir)
+		log.Info().Msgf("clone repo to:%s", cloneDir)
+		startTime := time.Now()
 		// 调用 Clone 函数
 		gitURL := util.GetGitURL(result.Repo.GitProtocol, result.Repo.GitHost, result.Repo.GitUsername, result.Repo.GitRepo)
 		if arg.GitAccessToken.Valid {
@@ -59,7 +61,11 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 			}
 		}
-		fmt.Println("============= clone repo done =============")
+		endTime := time.Now()
+
+		// 计算耗时并输出
+		elapsedTime := endTime.Sub(startTime)
+		log.Info().Msgf("clone repo done, time consume:%s", elapsedTime)
 
 		lastCommit, err := operations.GetLatestCommit(cloneDir)
 		if err != nil {

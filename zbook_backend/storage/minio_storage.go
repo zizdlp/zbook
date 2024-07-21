@@ -115,7 +115,6 @@ func ConvertFile2Storage(client *minio.Client, cloneDir string, repoID int64, us
 	processFiles := func(files []string, action func(string) error) error {
 		for _, file := range files {
 			if err := action(file); err != nil {
-				fmt.Printf("failed to process file %s: %v\n", file, err)
 				return err
 			}
 		}
@@ -151,7 +150,7 @@ func ConvertFile2Storage(client *minio.Client, cloneDir string, repoID int64, us
 	}
 
 	endTime := time.Now()
-	fmt.Println("process repo file to storage: total execution time:", endTime.Sub(startTime))
+	log.Info().Msgf("upload git file to storage: total execution time: %s", endTime.Sub(startTime))
 
 	if _, err := os.Stat(cloneDir); err == nil {
 		os.RemoveAll(cloneDir)

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os/exec"
 	"strings"
+
+	"github.com/zizdlp/zbook/util"
 )
 
 // Clone clones a git repository from the specified URL into the specified directory.
@@ -14,9 +16,8 @@ func Clone(gitURL string, dir string) error {
 	// Run the command and capture its output
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("failed to clone repository: %v, output: %s", err, string(output))
+		return fmt.Errorf(util.ParserGitCloneError(string(output)))
 	}
-
 	return nil
 }
 
@@ -32,7 +33,7 @@ func CloneWithPassword(gitURL, dir, username, password string) error {
 	// Run the command and capture its output
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("failed to clone repository: %v, output: %s", err, string(output))
+		return fmt.Errorf(util.ParserGitCloneError(string(output)))
 	}
 
 	return nil
@@ -49,7 +50,7 @@ func CloneWithToken(gitURL, dir, token string) error {
 	// Run the command and capture its output
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("failed to clone repository: %v, output: %s", err, string(output))
+		return fmt.Errorf(util.ParserGitCloneError(string(output)))
 	}
 
 	return nil

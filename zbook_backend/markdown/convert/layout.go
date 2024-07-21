@@ -32,7 +32,7 @@ func hasMdUnder(Layout *Layout) bool {
 func GenLayout(prefix int, path string, layout *Layout) error {
 	files, err := os.ReadDir(path)
 	if err != nil {
-		return fmt.Errorf("读取目录:%s 失败: %v", path, err)
+		return fmt.Errorf("read path :%s failed: %v", path, err)
 	}
 	left_path := ""
 	if prefix < len(path) {
