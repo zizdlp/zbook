@@ -1,64 +1,67 @@
-<!DOCTYPE html>
+package util
+
+const EmailTemplate = `<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email Verification</title>
-  </head>
   <body
     style="
       font-family: Arial, sans-serif;
-      background-color: #f3f4f6;
+      background-color: #f7f7f7;
       margin: 0;
       padding: 0;
-      color: #333333;
     "
   >
     <div
       style="
-        background-color: #ffffff;
-        max-width: 600px;
+        max-width: 768px;
         margin: 40px auto;
-        padding: 20px;
+        background-color: white;
+        padding: 24px;
         border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       "
     >
-      <div style="text-align: center; padding: 20px 0">
-        <h1 style="margin: 0; font-size: 24px; color: #3b82f6">
-          Email Verification
+      <div
+        style="
+          text-align: center;
+          border-bottom: 1px solid #e5e7eb;
+          padding-bottom: 16px;
+          margin-bottom: 16px;
+        "
+      >
+        <h1
+          style="font-size: 1.5rem; font-weight: bold; color: black; margin: 0"
+        >
+          %s
         </h1>
       </div>
-      <div style="padding: 20px">
-        <p style="font-size: 16px; line-height: 1.5; margin: 10px 0">
-          Hello %s,
-        </p>
-        <p style="font-size: 16px; line-height: 1.5; margin: 10px 0">
-          Thank you for registering with us! Please click the button below to
-          verify your email address.
+      <div style="margin-top: 16px">
+        <p style="font-size: 1.125rem; margin: 0 0 16px">Hello, %s</p>
+        <p style="font-size: 1.125rem; margin: 0 0 16px">
+          %s
         </p>
         <a
           href="%s"
+          target="_blank"
           style="
             display: inline-block;
-            padding: 10px 20px;
-            margin: 20px 0;
-            background-color: #3b82f6;
-            color: #ffffff !important;
-            text-decoration: none;
+            background-color: #2563eb;
+            color: white;
+            padding: 8px 16px;
             border-radius: 4px;
-            text-align: center;
-            font-size: 16px;
             font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
           "
-          >Verify Email Address</a
+          onmouseover="this.style.backgroundColor='#1d4ed8';"
+          onmouseout="this.style.backgroundColor='#2563eb';"
         >
-        <p style="font-size: 16px; line-height: 1.5; margin: 10px 0">
-          If the button above does not work, please copy and paste the following
-          link into your web browser:
+         %s
+        </a>
+        <p style="font-size: 1.125rem; margin: 16px 0">
+         %s
         </p>
-        <p style="font-size: 16px; line-height: 1.5; margin: 10px 0">
-          <a href="%s">%s</a>
+        <p style="font-size: 1.125rem; margin: 16px 0">
+          Thanks,<br />The ZBook Team
         </p>
       </div>
       <div
@@ -104,7 +107,7 @@
           <a
             href="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg"
             style="margin: 0 10px; text-decoration: none; color: #3b82f6"
-            >Youtube</a
+            >YouTube</a
           >
           <a
             href="https://discord.com/channels/1250069935594536960/1250069935594536963"
@@ -112,11 +115,10 @@
             >Discord</a
           >
         </div>
-        <p style="font-size: 14px; color: #888888">© 2024 zizdlp.com</p>
         <p style="font-size: 14px; color: #888888">
-          If you did not register for this account, you can ignore this email.
+          © 2024 zizdlp.com. All rights reserved.
         </p>
       </div>
     </div>
   </body>
-</html>
+</html>`
