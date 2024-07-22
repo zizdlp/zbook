@@ -1,7 +1,6 @@
 import { Link } from "@/navigation";
 import Image from "next/image";
 import RegisterForm from "@/app/[locale]/auth/register/RegisterForm";
-import { useTranslations } from "next-intl";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 export async function generateMetadata(): Promise<Metadata> {
@@ -10,8 +9,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t("Register"),
   };
 }
-export default function Register() {
-  const t = useTranslations("RegisterPage");
+export default async function Register() {
+  const t = await getTranslations("RegisterPage");
   return (
     <div className="overflow-hidden">
       <div className="text-slate-700 dark:text-slate-200 dark:backdrop-blur mx-auto flex items-center max-w-4xl md:p-5">

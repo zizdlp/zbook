@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import MotionBounce from "../../components/MotionBounce";
 import { FaUsers } from "react-icons/fa";
 import { MdVisibility } from "react-icons/md";
@@ -12,8 +11,16 @@ import { MdOutlineFeaturedPlayList } from "react-icons/md";
 
 import { Link } from "@/navigation";
 import FeatureTabGroup from "./FeatureTabGroup";
-export default function TestMe() {
-  const t = useTranslations("HomePage");
+import { getTranslations } from "next-intl/server";
+
+import { redirect } from "@/navigation";
+import { auth } from "@/auth";
+export default async function Home() {
+  const t = await getTranslations("HomePage");
+  const session = await auth();
+  if (session && session.access_token) {
+    redirect(`/workspace/${session.username}`); // Navigate to the new post page
+  }
   return (
     <div>
       <section>

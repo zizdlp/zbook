@@ -36,7 +36,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "GenerateMetaData" });
   return {
     title: {
-      template: "%s - ZBook | " + t("Slogan"),
+      template: "%s - ZBook",
       default: "ZBook | " + t("Slogan"), // a default is required when creating a template
     },
   };

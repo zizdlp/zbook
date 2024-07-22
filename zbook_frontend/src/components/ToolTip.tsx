@@ -19,7 +19,9 @@ export const ToolTip = ({
         {children}
       </div>
       <div
-        className={`absolute whitespace-nowrap bottom-full flex flex-col items-center group-hover:flex ${!show ? "hidden" : null}`}
+        className={`absolute whitespace-nowrap bottom-full flex flex-col items-center group-hover:flex ${
+          !show ? "hidden" : null
+        }`}
       >
         <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-gray-600 shadow-lg rounded-md">
           {message}
