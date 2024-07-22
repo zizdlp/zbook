@@ -5,7 +5,6 @@ import { server_api_base_url, server_api_version } from "@/utils/env_variable";
 import { joinUrlParts } from "@/utils/util";
 import { FetchError, RequestOptions } from "./util";
 import { redirect } from "@/navigation";
-import { logger } from "@/utils/logger"; // our logger import
 import {
   GetDailyActiveUserCountRequest,
   GetDailyCreateUserCountRequest,

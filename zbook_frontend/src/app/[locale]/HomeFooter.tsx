@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-no-literals */
 
-import { useTranslations } from "next-intl";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { FaBilibili } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa";
 import { Link } from "@/navigation";
+import { getTranslations } from "next-intl/server";
 
 async function LinkElement({ url, title }: { url: string; title: string }) {
   return (
@@ -19,7 +19,7 @@ async function LinkElement({ url, title }: { url: string; title: string }) {
   );
 }
 export default async function HomeFooter() {
-  const t = useTranslations("HomePage");
+  const t = await getTranslations("HomePage");
   return (
     <footer className="bg-gradient-to-b from-[#e3d5b1] pt-16  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent text-slate-700 dark:text-slate-500">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

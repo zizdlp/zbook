@@ -51,7 +51,7 @@ func UploadFileToStorage(client *minio.Client, ctx context.Context, objectName s
 
 	_, err := client.PutObject(ctx, bucketName, strings.ToLower(objectName), reader, int64(len(data)), minio.PutObjectOptions{ContentType: contentType})
 	if err != nil {
-		log.Error().Msgf("Upload object failed: %s", err)
+		log.Error().Msgf("Upload object:%s failed: %s", strings.ToLower(objectName), err)
 		return err
 	}
 	return nil
@@ -61,7 +61,7 @@ func DownloadFileFromStorage(client *minio.Client, ctx context.Context, objectNa
 	// Get object from MinIO
 	object, err := client.GetObject(ctx, bucketName, strings.ToLower(objectName), minio.GetObjectOptions{})
 	if err != nil {
-		log.Error().Msgf("Download object:%s failed: %s", objectName, err)
+		log.Error().Msgf("Download object:%s failed: %s", strings.ToLower(objectName), err)
 		return nil, err
 	}
 	defer object.Close()
@@ -78,7 +78,7 @@ func DeleteFileFromStorage(client *minio.Client, ctx context.Context, objectName
 	//删除一个文件
 	err := client.RemoveObject(ctx, bucketName, strings.ToLower(objectName), minio.RemoveObjectOptions{GovernanceBypass: true})
 	if err != nil {
-		log.Error().Msgf("Delete object failed: %s", err)
+		log.Error().Msgf("Delete object: %s failed: %s", strings.ToLower(objectName), err)
 		return err
 	}
 	return nil
