@@ -66,12 +66,26 @@ func TestListUser(t *testing.T) {
 
 func TestGetListUserCount(t *testing.T) {
 
-	count1, err := testStore.GetListUserCount(context.Background())
+	count1, err := testStore.GetListUserCount(context.Background(), util.AdminRole)
 	require.NoError(t, err)
 	createRandomUser(t)
-	count2, err := testStore.GetListUserCount(context.Background())
+	count2, err := testStore.GetListUserCount(context.Background(), util.AdminRole)
 	require.NoError(t, err)
 	require.Equal(t, count2, count1+1)
+
+	count3, err := testStore.GetListUserCount(context.Background(), util.UserRole)
+	require.NoError(t, err)
+
+	user3 := createRandomUser(t)
+	arg_block := UpdateUserBasicInfoParams{
+		Username: user3.Username,
+		Blocked:  pgtype.Bool{Bool: true, Valid: true},
+	}
+	_, err = testStore.UpdateUserBasicInfo(context.Background(), arg_block)
+	require.NoError(t, err)
+	count4, err := testStore.GetListUserCount(context.Background(), util.UserRole)
+	require.NoError(t, err)
+	require.Equal(t, count4, count3)
 }
 
 func TestQueryUser(t *testing.T) {
@@ -88,7 +102,11 @@ func TestQueryUser(t *testing.T) {
 }
 func TestGetQueryUserCount(t *testing.T) {
 	user1 := createRandomUser(t)
-	count, err := testStore.GetQueryUserCount(context.Background(), user1.Username)
+	arg := GetQueryUserCountParams{
+		Role:  util.AdminRole,
+		Query: user1.Username,
+	}
+	count, err := testStore.GetQueryUserCount(context.Background(), arg)
 	require.NoError(t, err)
 	require.True(t, count > 0)
 }
