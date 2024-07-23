@@ -41,7 +41,7 @@ func (server *Server) GetRepoLayout(ctx context.Context, req *rpcs.GetRepoLayout
 		}
 		return nil, status.Errorf(codes.Internal, "get repo layout failed: %s", err)
 	}
-	user, err := server.store.GetUserByID(ctx, repo.UserID)
+	user, err := server.store.GetUserByUsername(ctx, req.GetUsername())
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "user found: %s", err)

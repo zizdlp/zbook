@@ -22,7 +22,7 @@ func (server *Server) UpdateUserOnBoarding(ctx context.Context, req *rpcs.Update
 
 	arg := db.UpdateUserBasicInfoParams{
 		Username:   authPayload.Username,
-		Onboarding: pgtype.Bool{Bool: req.GetOnboarding(), Valid: true},
+		Onboarding: pgtype.Bool{Bool: req.GetOnboarding(), Valid: false},
 	}
 	user, err := server.store.UpdateUserBasicInfo(ctx, arg)
 	if err != nil {

@@ -1,6 +1,5 @@
 -- 删除表
 DROP TABLE IF EXISTS "users";
-DROP TABLE IF EXISTS "configurations";
 
 -- 删除索引
 DROP INDEX IF EXISTS "idx_users_name_email";
