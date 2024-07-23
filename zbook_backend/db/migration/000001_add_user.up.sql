@@ -6,9 +6,9 @@ CREATE TABLE "users" (
   "hashed_password" VARCHAR(255) NOT NULL,
   "blocked" BOOLEAN NOT NULL DEFAULT FALSE,
   "verified" BOOLEAN NOT NULL DEFAULT FALSE,
-  "motto" TEXT NOT NULL DEFAULT '',
+  "motto" TEXT NOT NULL DEFAULT 'Strive for progress, not perfection.',
   "user_role" VARCHAR(50) NOT NULL DEFAULT 'user',
-  "onboarding" BOOLEAN NOT NULL DEFAULT FALSE,
+  "onboarding" BOOLEAN NOT NULL DEFAULT TRUE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "unread_count" INT NOT NULL DEFAULT 0,
@@ -52,11 +52,3 @@ CREATE TRIGGER "trig_users_unread_count_change"
     FOR EACH ROW
     EXECUTE FUNCTION "notify_unread_count_change"();
 
-CREATE TABLE configurations (
-    config_name VARCHAR(255) PRIMARY KEY,
-    config_value BOOLEAN NOT NULL
-);
-
--- 允许注册&登录
-INSERT INTO configurations (config_name, config_value) VALUES ('allow_registration', true);
-INSERT INTO configurations (config_name, config_value) VALUES ('allow_login', true);

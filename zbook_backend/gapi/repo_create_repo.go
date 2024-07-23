@@ -45,6 +45,7 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 			VisibilityLevel: req.GetVisibilityLevel(),
 			HomePage:        strings.ToLower(req.GetHomePage()),
 		},
+		Username: authPayload.Username,
 		AfterCreate: func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
 			return storage.ConvertFile2Storage(server.minioClient, cloneDir, repoID, userID, addedFiles, modifiedFiles, deletedFiles)
 		},

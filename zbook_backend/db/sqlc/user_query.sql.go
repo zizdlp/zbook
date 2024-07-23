@@ -113,35 +113,6 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 	return i, err
 }
 
-const getUserByID = `-- name: GetUserByID :one
-SELECT user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
-FROM users
-WHERE user_id = $1 
-LIMIT 1
-`
-
-func (q *Queries) GetUserByID(ctx context.Context, userID int64) (User, error) {
-	row := q.db.QueryRow(ctx, getUserByID, userID)
-	var i User
-	err := row.Scan(
-		&i.UserID,
-		&i.Username,
-		&i.Email,
-		&i.HashedPassword,
-		&i.Blocked,
-		&i.Verified,
-		&i.Motto,
-		&i.UserRole,
-		&i.Onboarding,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UnreadCount,
-		&i.UnreadCountUpdatedAt,
-		&i.FtsUsername,
-	)
-	return i, err
-}
-
 const getUserByUsername = `-- name: GetUserByUsername :one
 SELECT user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 FROM users

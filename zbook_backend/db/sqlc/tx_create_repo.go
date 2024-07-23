@@ -15,6 +15,7 @@ import (
 // with go modules disabled
 type CreateRepoTxParams struct {
 	CreateRepoParams
+	Username    string
 	AfterCreate func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error
 }
 
@@ -83,7 +84,7 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}
 
-		user, err := q.GetUserByID(ctx, arg.UserID)
+		user, err := q.GetUserByUsername(ctx, arg.Username)
 		if err != nil {
 			return nil
 		}

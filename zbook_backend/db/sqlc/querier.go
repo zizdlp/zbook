@@ -85,7 +85,6 @@ type Querier interface {
 	GetSession(ctx context.Context, sessionID uuid.UUID) (Session, error)
 	GetUnReadCount(ctx context.Context, username string) (int32, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
-	GetUserByID(ctx context.Context, userID int64) (User, error)
 	GetUserByUsername(ctx context.Context, username string) (User, error)
 	GetUserInfo(ctx context.Context, arg GetUserInfoParams) (GetUserInfoRow, error)
 	GetVerification(ctx context.Context, verificationID uuid.UUID) (GetVerificationRow, error)

@@ -27,7 +27,7 @@ export default async function SideBarLayout({
       agent: agent,
       tags: [],
       values: {
-        repo_name: reponame,
+        repo_name: decodeURIComponent(reponame),
         username: username,
       },
     });
