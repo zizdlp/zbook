@@ -21,7 +21,7 @@ func (server *Server) ListUser(ctx context.Context, req *rpcs.ListUserRequest) (
 	}
 	apiUserDailyLimit := 10000
 	apiKey := "ListUser"
-	authPayload, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
+	_, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
 	}
@@ -30,8 +30,6 @@ func (server *Server) ListUser(ctx context.Context, req *rpcs.ListUserRequest) (
 			Limit:  req.GetPageSize(),
 			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
 			Query:  req.GetQuery(),
-			Role:   authPayload.UserRole,
-			Signed: true,
 		}
 		users, err := server.store.QueryUser(ctx, arg)
 		if err != nil {
@@ -45,8 +43,6 @@ func (server *Server) ListUser(ctx context.Context, req *rpcs.ListUserRequest) (
 		arg := db.ListUserParams{
 			Limit:  req.GetPageSize(),
 			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
-			Role:   authPayload.UserRole,
-			Signed: true,
 		}
 
 		users, err := server.store.ListUser(ctx, arg)

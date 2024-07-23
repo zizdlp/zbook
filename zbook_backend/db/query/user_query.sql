@@ -25,20 +25,18 @@ LIMIT 1;
 -- name: ListUser :many
 SELECT *
 FROM users u
-WHERE @signed::bool AND (@role::text='admin' OR u.blocked='false')
 ORDER BY u.created_at DESC
 LIMIT $1
 OFFSET $2;
 
 -- name: GetListUserCount :one
 SELECT COUNT(*)
-FROM users u
-WHERE @signed::bool AND (@role::text='admin' OR u.blocked='false');
+FROM users;
 
 -- name: QueryUser :many
 select users.*,ts_rank(fts_username, plainto_tsquery(@query)) as rank
 from users 
-where fts_username @@ plainto_tsquery(@query) AND @signed::bool AND (@role::text='admin' OR users.blocked='false')
+where fts_username @@ plainto_tsquery(@query)
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2;
@@ -46,7 +44,7 @@ OFFSET $2;
 -- name: GetQueryUserCount :one
 select COUNT(*)
 from users 
-where fts_username @@ plainto_tsquery(@query) AND @signed::bool AND (@role::text='admin' OR users.blocked='false');
+where fts_username @@ plainto_tsquery(@query);
 
 -- name: GetDailyCreateUserCount :many
 SELECT DATE(created_at) AS registration_date, COUNT(*) AS new_users_count

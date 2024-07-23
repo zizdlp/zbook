@@ -833,18 +833,18 @@ func (mr *MockStoreMockRecorder) GetListSystemNotificationUnReadedCount(arg0, ar
 }
 
 // GetListUserCount mocks base method.
-func (m *MockStore) GetListUserCount(arg0 context.Context, arg1 db.GetListUserCountParams) (int64, error) {
+func (m *MockStore) GetListUserCount(arg0 context.Context) (int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetListUserCount", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetListUserCount", arg0)
 	ret0, _ := ret[0].(int64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetListUserCount indicates an expected call of GetListUserCount.
-func (mr *MockStoreMockRecorder) GetListUserCount(arg0, arg1 interface{}) *gomock.Call {
+func (mr *MockStoreMockRecorder) GetListUserCount(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListUserCount", reflect.TypeOf((*MockStore)(nil).GetListUserCount), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListUserCount", reflect.TypeOf((*MockStore)(nil).GetListUserCount), arg0)
 }
 
 // GetListUserLikeRepoCount mocks base method.
@@ -1028,7 +1028,7 @@ func (mr *MockStoreMockRecorder) GetQueryRepoCount(arg0, arg1 interface{}) *gomo
 }
 
 // GetQueryUserCount mocks base method.
-func (m *MockStore) GetQueryUserCount(arg0 context.Context, arg1 db.GetQueryUserCountParams) (int64, error) {
+func (m *MockStore) GetQueryUserCount(arg0 context.Context, arg1 string) (int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetQueryUserCount", arg0, arg1)
 	ret0, _ := ret[0].(int64)

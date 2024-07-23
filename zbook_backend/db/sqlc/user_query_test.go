@@ -145,8 +145,6 @@ func TestListUser(t *testing.T) {
 	arg := ListUserParams{
 		Limit:  1000,
 		Offset: 0,
-		Role:   util.AdminRole,
-		Signed: true,
 	}
 	users, err := testStore.ListUser(context.Background(), arg)
 	require.NoError(t, err)
@@ -166,8 +164,6 @@ func TestQueryUser(t *testing.T) {
 		Limit:  10,
 		Offset: 0,
 		Query:  user1.Username,
-		Role:   util.UserRole,
-		Signed: true,
 	}
 	users, err := testStore.QueryUser(context.Background(), arg)
 	require.NoError(t, err)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/val"
@@ -23,6 +24,7 @@ func (server *Server) GetRepoLayout(ctx context.Context, req *rpcs.GetRepoLayout
 	}
 	repo_id, err := server.store.GetRepoID(ctx, arg_repo)
 	if err != nil {
+		log.Info().Msgf("get repo layout get repo id failed:%s,%s", req.GetUsername(), req.GetRepoName())
 		return nil, status.Errorf(codes.Internal, "get repo id failed: %s", err)
 	}
 
