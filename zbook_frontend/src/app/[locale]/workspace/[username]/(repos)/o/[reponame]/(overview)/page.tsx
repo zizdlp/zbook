@@ -19,7 +19,7 @@ export default async function RepoDetail({
       endpoint: FetchServerWithoutAuthWrapperEndPoint.GET_REPO_ID,
       xforward: xforward,
       agent: agent,
-      values: { repo_name: reponame, username: username },
+      values: { repo_name: decodeURIComponent(reponame), username: username },
     });
     if (data.error) {
       throw new FetchError(data.message, data.status);
