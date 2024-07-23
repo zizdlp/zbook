@@ -47,17 +47,11 @@ func (q *Queries) GetDailyCreateUserCount(ctx context.Context) ([]GetDailyCreate
 
 const getListUserCount = `-- name: GetListUserCount :one
 SELECT COUNT(*)
-FROM users u
-WHERE $1::bool AND ($2::text='admin' OR u.blocked='false')
+FROM users
 `
 
-type GetListUserCountParams struct {
-	Signed bool   `json:"signed"`
-	Role   string `json:"role"`
-}
-
-func (q *Queries) GetListUserCount(ctx context.Context, arg GetListUserCountParams) (int64, error) {
-	row := q.db.QueryRow(ctx, getListUserCount, arg.Signed, arg.Role)
+func (q *Queries) GetListUserCount(ctx context.Context) (int64, error) {
+	row := q.db.QueryRow(ctx, getListUserCount)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -66,17 +60,11 @@ func (q *Queries) GetListUserCount(ctx context.Context, arg GetListUserCountPara
 const getQueryUserCount = `-- name: GetQueryUserCount :one
 select COUNT(*)
 from users 
-where fts_username @@ plainto_tsquery($1) AND $2::bool AND ($3::text='admin' OR users.blocked='false')
+where fts_username @@ plainto_tsquery($1)
 `
 
-type GetQueryUserCountParams struct {
-	Query  string `json:"query"`
-	Signed bool   `json:"signed"`
-	Role   string `json:"role"`
-}
-
-func (q *Queries) GetQueryUserCount(ctx context.Context, arg GetQueryUserCountParams) (int64, error) {
-	row := q.db.QueryRow(ctx, getQueryUserCount, arg.Query, arg.Signed, arg.Role)
+func (q *Queries) GetQueryUserCount(ctx context.Context, query string) (int64, error) {
+	row := q.db.QueryRow(ctx, getQueryUserCount, query)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -310,26 +298,18 @@ func (q *Queries) GetUserInfo(ctx context.Context, arg GetUserInfoParams) (GetUs
 const listUser = `-- name: ListUser :many
 SELECT user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, created_at, updated_at, unread_count, unread_count_updated_at, fts_username
 FROM users u
-WHERE $3::bool AND ($4::text='admin' OR u.blocked='false')
 ORDER BY u.created_at DESC
 LIMIT $1
 OFFSET $2
 `
 
 type ListUserParams struct {
-	Limit  int32  `json:"limit"`
-	Offset int32  `json:"offset"`
-	Signed bool   `json:"signed"`
-	Role   string `json:"role"`
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
 }
 
 func (q *Queries) ListUser(ctx context.Context, arg ListUserParams) ([]User, error) {
-	rows, err := q.db.Query(ctx, listUser,
-		arg.Limit,
-		arg.Offset,
-		arg.Signed,
-		arg.Role,
-	)
+	rows, err := q.db.Query(ctx, listUser, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -366,7 +346,7 @@ func (q *Queries) ListUser(ctx context.Context, arg ListUserParams) ([]User, err
 const queryUser = `-- name: QueryUser :many
 select users.user_id, users.username, users.email, users.hashed_password, users.blocked, users.verified, users.motto, users.user_role, users.onboarding, users.created_at, users.updated_at, users.unread_count, users.unread_count_updated_at, users.fts_username,ts_rank(fts_username, plainto_tsquery($3)) as rank
 from users 
-where fts_username @@ plainto_tsquery($3) AND $4::bool AND ($5::text='admin' OR users.blocked='false')
+where fts_username @@ plainto_tsquery($3)
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2
@@ -376,8 +356,6 @@ type QueryUserParams struct {
 	Limit  int32  `json:"limit"`
 	Offset int32  `json:"offset"`
 	Query  string `json:"query"`
-	Signed bool   `json:"signed"`
-	Role   string `json:"role"`
 }
 
 type QueryUserRow struct {
@@ -399,13 +377,7 @@ type QueryUserRow struct {
 }
 
 func (q *Queries) QueryUser(ctx context.Context, arg QueryUserParams) ([]QueryUserRow, error) {
-	rows, err := q.db.Query(ctx, queryUser,
-		arg.Limit,
-		arg.Offset,
-		arg.Query,
-		arg.Signed,
-		arg.Role,
-	)
+	rows, err := q.db.Query(ctx, queryUser, arg.Limit, arg.Offset, arg.Query)
 	if err != nil {
 		return nil, err
 	}

@@ -16,7 +16,7 @@ import (
 func (server *Server) QueryUser(ctx context.Context, req *rpcs.QueryUserRequest) (*rpcs.QueryUserResponse, error) {
 	apiUserDailyLimit := 10000
 	apiKey := "QueryUser"
-	authPayload, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
+	_, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
 	}
@@ -29,8 +29,6 @@ func (server *Server) QueryUser(ctx context.Context, req *rpcs.QueryUserRequest)
 		Limit:  req.GetPageSize(),
 		Offset: (req.GetPageId() - 1) * req.GetPageSize(),
 		Query:  req.GetQuery(),
-		Role:   authPayload.UserRole,
-		Signed: true,
 	}
 
 	users, err := server.store.QueryUser(ctx, arg)

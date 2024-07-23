@@ -1,14 +1,11 @@
 <h1 align="center">ZBook</h1>
 
 <p align="center">
-  <a href="https://github.com/zizdlp/zbook-user-guide">User Guide</a> - <a href="https://github.com/zizdlp/zbook-user-guide">Developer Guide</a> - <a href="https://discord.com/channels/1250069935594536960/1250069935594536963">Discord</a> - <a href="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg">Youtube</a>
+  <a href="https://github.com/zizdlp/zbook-docs">ZBook Docs</a> - <a href="https://discord.com/channels/1250069935594536960/1250069935594536963">Discord</a> - <a href="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg">Youtube</a>
 </p>
 
-[![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_DATABASE/badge.svg)](https://github.com/zizdlp/zbook/actions)
-[![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_FRONTEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
-[![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_BACKEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
+[![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_MAIN/badge.svg)](https://github.com/zizdlp/zbook/actions)
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/BACKEND_TEST/badge.svg)](https://github.com/zizdlp/zbook/actions)
-
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/zizdlp/zbook/tree/release.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/zizdlp/zbook/tree/release)
 
 [中文版](README_zh.md)

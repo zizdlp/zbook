@@ -1,13 +1,13 @@
 -- 创建 users 表
 CREATE TABLE "users" (
   "user_id" BIGSERIAL PRIMARY KEY,
-  "username" VARCHAR(255) UNIQUE NOT NULL,
-  "email" VARCHAR(255) UNIQUE NOT NULL,
-  "hashed_password" VARCHAR NOT NULL,
+  "username" VARCHAR(255) UNIQUE NOT NULL CHECK (char_length(username) >= 3),
+  "email" VARCHAR(255) UNIQUE NOT NULL CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}$'),
+  "hashed_password" VARCHAR(255) NOT NULL,
   "blocked" BOOLEAN NOT NULL DEFAULT FALSE,
   "verified" BOOLEAN NOT NULL DEFAULT FALSE,
   "motto" TEXT NOT NULL DEFAULT '',
-  "user_role" varchar NOT NULL DEFAULT 'user',
+  "user_role" VARCHAR(50) NOT NULL DEFAULT 'user',
   "onboarding" BOOLEAN NOT NULL DEFAULT FALSE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -52,12 +52,11 @@ CREATE TRIGGER "trig_users_unread_count_change"
     FOR EACH ROW
     EXECUTE FUNCTION "notify_unread_count_change"();
 
-
 CREATE TABLE configurations (
     config_name VARCHAR(255) PRIMARY KEY,
     config_value BOOLEAN NOT NULL
 );
 
--- 允许注册
+-- 允许注册&登录
 INSERT INTO configurations (config_name, config_value) VALUES ('allow_registration', true);
 INSERT INTO configurations (config_name, config_value) VALUES ('allow_login', true);

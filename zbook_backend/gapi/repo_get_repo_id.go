@@ -3,6 +3,7 @@ package gapi
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/val"
@@ -21,8 +22,10 @@ func (server *Server) GetRepoID(ctx context.Context, req *rpcs.GetRepoIDRequest)
 		Username: req.GetUsername(),
 		RepoName: req.GetRepoName(),
 	}
+
 	repo_id, err := server.store.GetRepoID(ctx, arg)
 	if err != nil {
+		log.Info().Msgf("get repo id failed:%s,%s", req.GetUsername(), req.GetRepoName())
 		return nil, status.Errorf(codes.Internal, "get repo id failed: %s", err)
 	}
 	rsp := &rpcs.GetRepoIDResponse{

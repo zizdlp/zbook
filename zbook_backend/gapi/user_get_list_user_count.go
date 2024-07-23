@@ -3,7 +3,6 @@ package gapi
 import (
 	"context"
 
-	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/util"
 	"google.golang.org/grpc/codes"
@@ -13,17 +12,12 @@ import (
 func (server *Server) GetListUserCount(ctx context.Context, req *rpcs.GetListUserCountRequest) (*rpcs.GetListUserCountResponse, error) {
 	apiUserDailyLimit := 10000
 	apiKey := "GetListUserCount"
-	authPayload, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
+	_, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
 	}
 	if req.GetQuery() != "" {
-		arg := db.GetQueryUserCountParams{
-			Signed: true,
-			Role:   authPayload.UserRole,
-			Query:  req.GetQuery(),
-		}
-		user_count, err := server.store.GetQueryUserCount(ctx, arg)
+		user_count, err := server.store.GetQueryUserCount(ctx, req.GetQuery())
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "get query user count failed: %s", err)
 		}
@@ -32,11 +26,7 @@ func (server *Server) GetListUserCount(ctx context.Context, req *rpcs.GetListUse
 		}
 		return rsp, nil
 	} else {
-		arg := db.GetListUserCountParams{
-			Signed: true,
-			Role:   authPayload.UserRole,
-		}
-		user_count, err := server.store.GetListUserCount(ctx, arg)
+		user_count, err := server.store.GetListUserCount(ctx)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "get list user count failed: %s", err)
 		}
