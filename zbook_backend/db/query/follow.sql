@@ -167,7 +167,7 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
 WHERE 
-    f.follower_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND u.blocked=false
+    f.follower_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND (u.blocked='false' OR @role::text='admin')
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -192,4 +192,4 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
 WHERE 
-    f.follower_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND u.blocked=false;
+    f.follower_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND (u.blocked='false' OR @role::text='admin');

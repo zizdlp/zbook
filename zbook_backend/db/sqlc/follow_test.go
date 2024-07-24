@@ -76,6 +76,7 @@ func TestListFollower(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.ListFollower(context.Background(), arg)
 		require.NoError(t, err)
@@ -96,6 +97,7 @@ func TestListFollower(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		createFollowByUser(t, cur_user, user2)
 		followers, err := testStore.ListFollower(context.Background(), arg)
@@ -117,6 +119,7 @@ func TestListFollower(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.ListFollower(context.Background(), arg)
 		require.NoError(t, err)
@@ -131,6 +134,7 @@ func TestListFollower(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.ListFollower(context.Background(), arg)
 		require.NoError(t, err)
@@ -160,6 +164,7 @@ func TestQueryFollower(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.QueryFollower(context.Background(), arg)
 		require.NoError(t, err)
@@ -180,6 +185,7 @@ func TestQueryFollower(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		createFollowByUser(t, cur_user, user2)
 		followers, err := testStore.QueryFollower(context.Background(), arg)
@@ -201,6 +207,7 @@ func TestQueryFollower(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.QueryFollower(context.Background(), arg)
 		require.NoError(t, err)
@@ -216,6 +223,7 @@ func TestQueryFollower(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user4.Username,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.QueryFollower(context.Background(), arg)
 		require.NoError(t, err)
@@ -242,6 +250,7 @@ func TestGetListFollowerCount(t *testing.T) {
 		arg := GetListFollowerCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetListFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -257,6 +266,7 @@ func TestGetListFollowerCount(t *testing.T) {
 		arg := GetListFollowerCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetListFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -272,6 +282,7 @@ func TestGetListFollowerCount(t *testing.T) {
 		arg := GetListFollowerCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetListFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -282,6 +293,7 @@ func TestGetListFollowerCount(t *testing.T) {
 		arg := GetListFollowerCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetListFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -308,6 +320,7 @@ func TestGetQueryFollowerCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -324,6 +337,7 @@ func TestGetQueryFollowerCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -339,6 +353,7 @@ func TestGetQueryFollowerCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -350,6 +365,7 @@ func TestGetQueryFollowerCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user4.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowerCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -377,6 +393,7 @@ func TestListFollowing(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.ListFollowing(context.Background(), arg)
 		require.NoError(t, err)
@@ -396,6 +413,7 @@ func TestListFollowing(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		createFollowByUser(t, cur_user, user2)
 		followers, err := testStore.ListFollowing(context.Background(), arg)
@@ -416,6 +434,7 @@ func TestListFollowing(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.ListFollowing(context.Background(), arg)
 		require.NoError(t, err)
@@ -430,6 +449,7 @@ func TestListFollowing(t *testing.T) {
 			UserID:    user1.UserID,
 			Limit:     5,
 			Offset:    0,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.ListFollowing(context.Background(), arg)
 		require.NoError(t, err)
@@ -455,6 +475,7 @@ func TestQueryFollowing(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.QueryFollowing(context.Background(), arg)
 		require.NoError(t, err)
@@ -475,6 +496,7 @@ func TestQueryFollowing(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		createFollowByUser(t, cur_user, user2)
 		followers, err := testStore.QueryFollowing(context.Background(), arg)
@@ -496,6 +518,7 @@ func TestQueryFollowing(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.QueryFollowing(context.Background(), arg)
 		require.NoError(t, err)
@@ -511,6 +534,7 @@ func TestQueryFollowing(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Query:     user4.Username,
+			Role:      cur_user.UserRole,
 		}
 		followers, err := testStore.QueryFollowing(context.Background(), arg)
 		require.NoError(t, err)
@@ -537,6 +561,7 @@ func TestGetListFollowingCount(t *testing.T) {
 		arg := GetListFollowingCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetListFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -552,6 +577,7 @@ func TestGetListFollowingCount(t *testing.T) {
 		arg := GetListFollowingCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetListFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -567,6 +593,7 @@ func TestGetListFollowingCount(t *testing.T) {
 		arg := GetListFollowingCountParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetListFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -588,6 +615,7 @@ func TestGetQueryFollowingCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -603,6 +631,7 @@ func TestGetQueryFollowingCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -620,6 +649,7 @@ func TestGetQueryFollowingCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -635,6 +665,7 @@ func TestGetQueryFollowingCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user2.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
@@ -647,6 +678,7 @@ func TestGetQueryFollowingCount(t *testing.T) {
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
 			Query:     user4.Username,
+			Role:      cur_user.UserRole,
 		}
 		count, err := testStore.GetQueryFollowingCount(context.Background(), arg)
 		require.NoError(t, err)
