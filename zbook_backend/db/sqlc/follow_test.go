@@ -6,6 +6,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/require"
+	"github.com/zizdlp/zbook/util"
 )
 
 func createFollowByUser(t *testing.T, follower User, following User) Follow {
@@ -65,11 +66,36 @@ func TestListFollower(t *testing.T) {
 	user2 := createRandomUser(t)
 	user3 := createRandomUser(t)
 	user4 := createRandomUser(t)
+	user5 := createRandomUser(t)
 
-	// 3 follower
 	_ = createFollowByUser(t, user2, user1)
 	_ = createFollowByUser(t, user3, user1)
 	_ = createFollowByUser(t, user4, user1)
+	_ = createFollowByUser(t, user5, user1)
+	// blocked 2
+	arg_update_user := UpdateUserBasicInfoParams{
+		Username: user2.Username,
+		Verified: pgtype.Bool{Bool: true, Valid: true},
+		Blocked:  pgtype.Bool{Bool: true, Valid: true},
+	}
+	testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+	// deleted 3
+	testStore.DeleteUser(context.Background(), user3.Username)
+
+	repo51 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo51, util.VisibilityPrivate)
+	repo52 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo52, util.VisibilityChosed)
+	arg_repoV := CreateRepoVisibilityParams{
+		RepoID: repo52.RepoID,
+		UserID: cur_user.UserID,
+	}
+	testStore.CreateRepoVisibility(context.Background(), arg_repoV)
+
+	repo53 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo53, util.VisibilitySigned)
+	repo54 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo54, util.VisibilityPublic)
 	{
 		arg := ListFollowerParams{
 			CurUserID: cur_user.UserID,
@@ -77,70 +103,57 @@ func TestListFollower(t *testing.T) {
 			Limit:     5,
 			Offset:    0,
 			Role:      cur_user.UserRole,
+		}
+		followers, err := testStore.ListFollower(context.Background(), arg)
+		require.NoError(t, err)
+		require.NotEmpty(t, followers)
+		require.Equal(t, len(followers), 2)
+		require.Equal(t, followers[0].IsFollowing, false)
+		require.Equal(t, followers[0].UserID, user5.UserID)
+		require.Equal(t, followers[0].RepoCount, int64(3))
+	}
+	{
+		cur_user2 := createRandomUser(t)
+		arg := ListFollowerParams{
+			CurUserID: cur_user2.UserID,
+			UserID:    user1.UserID,
+			Limit:     5,
+			Offset:    0,
+			Role:      cur_user2.UserRole,
+		}
+		followers, err := testStore.ListFollower(context.Background(), arg)
+		require.NoError(t, err)
+		require.NotEmpty(t, followers)
+		require.Equal(t, len(followers), 2)
+		require.Equal(t, followers[0].IsFollowing, false)
+		require.Equal(t, followers[0].UserID, user5.UserID)
+		require.Equal(t, followers[0].RepoCount, int64(2))
+	}
+	{
+		cur_user3 := createRandomUser(t)
+		arg_basic := UpdateUserBasicInfoParams{
+			Username: cur_user3.Username,
+			UserRole: pgtype.Text{String: util.AdminRole, Valid: true},
+		}
+		user, err := testStore.UpdateUserBasicInfo(context.Background(), arg_basic)
+		require.NoError(t, err)
+		require.Equal(t, user.UserID, cur_user3.UserID)
+		arg := ListFollowerParams{
+			CurUserID: user.UserID,
+			UserID:    user1.UserID,
+			Limit:     5,
+			Offset:    0,
+			Role:      user.UserRole,
 		}
 		followers, err := testStore.ListFollower(context.Background(), arg)
 		require.NoError(t, err)
 		require.NotEmpty(t, followers)
 		require.Equal(t, len(followers), 3)
 		require.Equal(t, followers[0].IsFollowing, false)
+		require.Equal(t, followers[0].UserID, user5.UserID)
+		require.Equal(t, int64(4), followers[0].RepoCount)
 	}
-	{
-		// blocked one,therefore 2 follower
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user3.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Blocked:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
-		arg := ListFollowerParams{
-			CurUserID: cur_user.UserID,
-			UserID:    user1.UserID,
-			Limit:     5,
-			Offset:    0,
-			Role:      cur_user.UserRole,
-		}
-		createFollowByUser(t, cur_user, user2)
-		followers, err := testStore.ListFollower(context.Background(), arg)
-		require.NoError(t, err)
-		require.NotEmpty(t, followers)
-		require.Equal(t, len(followers), 2)
-		require.Equal(t, followers[0].UserID, user2.UserID)
-		require.Equal(t, true, followers[0].IsFollowing)
-	}
-	{
-		// unbloced one,therefore 3 follower
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user3.Username,
-			Blocked:  pgtype.Bool{Bool: false, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
-		arg := ListFollowerParams{
-			CurUserID: cur_user.UserID,
-			UserID:    user1.UserID,
-			Limit:     5,
-			Offset:    0,
-			Role:      cur_user.UserRole,
-		}
-		followers, err := testStore.ListFollower(context.Background(), arg)
-		require.NoError(t, err)
-		require.NotEmpty(t, followers)
-		require.Equal(t, len(followers), 3)
-	}
-	{
-		// delete one, therefore 2 follower
-		testStore.DeleteUser(context.Background(), user4.Username)
-		arg := ListFollowerParams{
-			CurUserID: cur_user.UserID,
-			UserID:    user1.UserID,
-			Limit:     5,
-			Offset:    0,
-			Role:      cur_user.UserRole,
-		}
-		followers, err := testStore.ListFollower(context.Background(), arg)
-		require.NoError(t, err)
-		require.NotEmpty(t, followers)
-		require.Equal(t, len(followers), 2)
-	}
+
 }
 
 func TestQueryFollower(t *testing.T) {
@@ -379,71 +392,37 @@ func TestListFollowing(t *testing.T) {
 	user2 := createRandomUser(t)
 	user3 := createRandomUser(t)
 	user4 := createRandomUser(t)
+	user5 := createRandomUser(t)
+
 	_ = createFollowByUser(t, user1, user2)
 	_ = createFollowByUser(t, user1, user3)
 	_ = createFollowByUser(t, user1, user4)
-	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user2.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
-		arg := ListFollowingParams{
-			CurUserID: cur_user.UserID,
-			UserID:    user1.UserID,
-			Limit:     5,
-			Offset:    0,
-			Role:      cur_user.UserRole,
-		}
-		followers, err := testStore.ListFollowing(context.Background(), arg)
-		require.NoError(t, err)
-		require.NotEmpty(t, followers)
-		require.Equal(t, len(followers), 3)
-		require.Equal(t, followers[0].IsFollowing, false)
+	_ = createFollowByUser(t, user1, user5)
+	// blocked 2
+	arg_update_user := UpdateUserBasicInfoParams{
+		Username: user2.Username,
+		Verified: pgtype.Bool{Bool: true, Valid: true},
+		Blocked:  pgtype.Bool{Bool: true, Valid: true},
 	}
-	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user3.Username,
-			Verified: pgtype.Bool{Bool: true, Valid: true},
-			Blocked:  pgtype.Bool{Bool: true, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
-		arg := ListFollowingParams{
-			CurUserID: cur_user.UserID,
-			UserID:    user1.UserID,
-			Limit:     5,
-			Offset:    0,
-			Role:      cur_user.UserRole,
-		}
-		createFollowByUser(t, cur_user, user2)
-		followers, err := testStore.ListFollowing(context.Background(), arg)
-		require.NoError(t, err)
-		require.NotEmpty(t, followers)
-		require.Equal(t, len(followers), 2)
-		require.Equal(t, followers[0].UserID, user2.UserID)
-		require.Equal(t, true, followers[0].IsFollowing)
-	}
-	{
-		arg_update_user := UpdateUserBasicInfoParams{
-			Username: user3.Username,
-			Blocked:  pgtype.Bool{Bool: false, Valid: true},
-		}
-		testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
-		arg := ListFollowingParams{
-			CurUserID: cur_user.UserID,
-			UserID:    user1.UserID,
-			Limit:     5,
-			Offset:    0,
-			Role:      cur_user.UserRole,
-		}
-		followers, err := testStore.ListFollowing(context.Background(), arg)
-		require.NoError(t, err)
-		require.NotEmpty(t, followers)
-		require.Equal(t, len(followers), 3)
-	}
-	{
+	testStore.UpdateUserBasicInfo(context.Background(), arg_update_user)
+	// deleted 3
+	testStore.DeleteUser(context.Background(), user3.Username)
 
-		testStore.DeleteUser(context.Background(), user4.Username)
+	repo51 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo51, util.VisibilityPrivate)
+	repo52 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo52, util.VisibilityChosed)
+	arg_repoV := CreateRepoVisibilityParams{
+		RepoID: repo52.RepoID,
+		UserID: cur_user.UserID,
+	}
+	testStore.CreateRepoVisibility(context.Background(), arg_repoV)
+
+	repo53 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo53, util.VisibilitySigned)
+	repo54 := createUserRandomRepo(t, user5)
+	updateRepoVisibility(t, repo54, util.VisibilityPublic)
+	{
 		arg := ListFollowingParams{
 			CurUserID: cur_user.UserID,
 			UserID:    user1.UserID,
@@ -451,10 +430,54 @@ func TestListFollowing(t *testing.T) {
 			Offset:    0,
 			Role:      cur_user.UserRole,
 		}
-		followers, err := testStore.ListFollowing(context.Background(), arg)
+		followings, err := testStore.ListFollowing(context.Background(), arg)
 		require.NoError(t, err)
-		require.NotEmpty(t, followers)
-		require.Equal(t, len(followers), 2)
+		require.NotEmpty(t, followings)
+		require.Equal(t, len(followings), 2)
+		require.Equal(t, followings[0].IsFollowing, false)
+		require.Equal(t, followings[0].UserID, user5.UserID)
+		require.Equal(t, followings[0].RepoCount, int64(3))
+	}
+	{
+		cur_user2 := createRandomUser(t)
+		arg := ListFollowingParams{
+			CurUserID: cur_user2.UserID,
+			UserID:    user1.UserID,
+			Limit:     5,
+			Offset:    0,
+			Role:      cur_user2.UserRole,
+		}
+		followings, err := testStore.ListFollowing(context.Background(), arg)
+		require.NoError(t, err)
+		require.NotEmpty(t, followings)
+		require.Equal(t, len(followings), 2)
+		require.Equal(t, followings[0].IsFollowing, false)
+		require.Equal(t, followings[0].UserID, user5.UserID)
+		require.Equal(t, followings[0].RepoCount, int64(2))
+	}
+	{
+		cur_user3 := createRandomUser(t)
+		arg_basic := UpdateUserBasicInfoParams{
+			Username: cur_user3.Username,
+			UserRole: pgtype.Text{String: util.AdminRole, Valid: true},
+		}
+		user, err := testStore.UpdateUserBasicInfo(context.Background(), arg_basic)
+		require.NoError(t, err)
+		require.Equal(t, user.UserID, cur_user3.UserID)
+		arg := ListFollowingParams{
+			CurUserID: user.UserID,
+			UserID:    user1.UserID,
+			Limit:     5,
+			Offset:    0,
+			Role:      user.UserRole,
+		}
+		followings, err := testStore.ListFollowing(context.Background(), arg)
+		require.NoError(t, err)
+		require.NotEmpty(t, followings)
+		require.Equal(t, len(followings), 3)
+		require.Equal(t, followings[0].IsFollowing, false)
+		require.Equal(t, followings[0].UserID, user5.UserID)
+		require.Equal(t, int64(4), followings[0].RepoCount)
 	}
 }
 

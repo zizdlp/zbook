@@ -19,6 +19,22 @@ DELETE FROM follows
 WHERE follower_id= $1 and following_id=$2
 RETURNING follow_id;
 
+CREATE VIEW user_repos AS
+SELECT 
+    r.user_id,
+    r.repo_id,
+    r.visibility_level
+FROM 
+    repos r
+WHERE 
+    r.visibility_level = 'public' OR 
+    r.visibility_level = 'signed' OR
+    (r.visibility_level = 'chosen' AND EXISTS (SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
+    ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin'));
+
+
+
+
 -- name: ListFollower :many
 SELECT 
     u.*,
@@ -34,13 +50,13 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.following_id = @user_id AND (u.blocked='false' OR @role::text='admin')
 GROUP BY 
-    u.user_id
+    u.user_id,f.created_at
 ORDER BY 
-    u.user_id
+    f.created_at DESC
 LIMIT $1
 OFFSET $2;
 
@@ -57,7 +73,7 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.following_id = @user_id AND (u.blocked='false' OR @role::text='admin');
 
@@ -77,7 +93,7 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.following_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND (u.blocked='false' OR @role::text='admin')
 GROUP BY 
@@ -101,7 +117,7 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+       ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.following_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND (u.blocked='false' OR @role::text='admin');
 
@@ -120,13 +136,13 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+       ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.follower_id = @user_id AND (u.blocked='false' OR @role::text='admin')
 GROUP BY 
-    u.user_id
+    u.user_id,f.created_at
 ORDER BY 
-    u.user_id
+    f.created_at DESC
 LIMIT $1
 OFFSET $2;
 
@@ -143,7 +159,7 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.follower_id = @user_id AND (u.blocked='false' OR @role::text='admin');
 
@@ -165,7 +181,7 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.follower_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND (u.blocked='false' OR @role::text='admin')
 GROUP BY 
@@ -190,6 +206,6 @@ LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
         (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id))
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin')))
 WHERE 
     f.follower_id = @user_id and u.fts_username @@ plainto_tsquery(@query) AND (u.blocked='false' OR @role::text='admin');
