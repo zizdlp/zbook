@@ -19,18 +19,6 @@ DELETE FROM follows
 WHERE follower_id= $1 and following_id=$2
 RETURNING follow_id;
 
-CREATE VIEW user_repos AS
-SELECT 
-    r.user_id,
-    r.repo_id,
-    r.visibility_level
-FROM 
-    repos r
-WHERE 
-    r.visibility_level = 'public' OR 
-    r.visibility_level = 'signed' OR
-    (r.visibility_level = 'chosen' AND EXISTS (SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id)) OR
-    ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = @cur_user_id OR @role::text='admin'));
 
 
 
