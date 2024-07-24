@@ -41,6 +41,7 @@ func (server *Server) ListFollowing(ctx context.Context, req *rpcs.ListFollowing
 			UserID:    user.UserID,
 			CurUserID: authPayload.UserID,
 			Query:     req.GetQuery(),
+			Role:      authPayload.UserRole,
 		}
 
 		follows, err := server.store.QueryFollowing(ctx, arg)
@@ -58,6 +59,7 @@ func (server *Server) ListFollowing(ctx context.Context, req *rpcs.ListFollowing
 		Offset:    (req.GetPageId() - 1) * req.GetPageSize(),
 		UserID:    user.UserID,
 		CurUserID: authPayload.UserID,
+		Role:      authPayload.UserRole,
 	}
 
 	follows, err := server.store.ListFollowing(ctx, arg)
