@@ -167,8 +167,7 @@ export default async function ListElementWrapper({
       }
     } else if (listType === ListDataType.LIST_ADMIN_SESSION) {
       data_counts = await fetchServerWithAuthWrapper({
-        endpoint:
-          FetchServerWithAuthWrapperEndPoint.GET_LIST_ACTIVE_SESSION_COUNT,
+        endpoint: FetchServerWithAuthWrapperEndPoint.GET_LIST_SESSION_COUNT,
         xforward: xforward,
         agent: agent,
         tags: [],
@@ -178,7 +177,7 @@ export default async function ListElementWrapper({
         throw new FetchError(data_counts.message, data_counts.status);
       }
       data_elements = await fetchServerWithAuthWrapper({
-        endpoint: FetchServerWithAuthWrapperEndPoint.LIST_ACTIVE_SESSION,
+        endpoint: FetchServerWithAuthWrapperEndPoint.LIST_SESSION,
         xforward: xforward,
         agent: agent,
         tags: [],

@@ -16,7 +16,7 @@ message Session {
   google.protobuf.Timestamp expires_at = 7;
   google.protobuf.Timestamp created_at = 8;
 }
-message ActiveSession {
+message SessionInfo {
   string username                      = 1;
   string user_agent                    = 2;
   string client_ip                     = 3;

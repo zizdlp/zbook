@@ -11,7 +11,7 @@ import {
   GetDailyVisitorCountRequest,
   GetFollowingCountRequest,
   GetFollowerCountRequest,
-  GetListActiveSessionCountRequest,
+  GetListSessionCountRequest,
   GetListCommentCountRequest,
   GetListCommentReportCountRequest,
   GetListRepoCountRequest,
@@ -23,7 +23,7 @@ import {
   GetRepoLayoutRequest,
   GetRepoVisibilityCountRequest,
   GetUserInfoRequest,
-  ListActiveSessionRequest,
+  ListSessionRequest,
   ListCommentReportRequest,
   ListCommentRequest,
   ListFollowingRequest,
@@ -571,8 +571,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.GET_LIST_ACTIVE_SESSION_COUNT;
-  values: GetListActiveSessionCountRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.GET_LIST_SESSION_COUNT;
+  values: GetListSessionCountRequest;
   xforward: string;
   agent: string;
   tags: string[];
@@ -676,8 +676,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.LIST_ACTIVE_SESSION;
-  values: ListActiveSessionRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.LIST_SESSION;
+  values: ListSessionRequest;
   xforward: string;
   agent: string;
   tags: string[];

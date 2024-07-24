@@ -55,13 +55,19 @@ export default function AreaUserChart({
   const { theme } = useTheme();
   const t = useTranslations("AdminOverView");
   const dates: string[] = [];
-  for (let i = 6; i >= 0; i--) {
+  for (let i = 0; i <= 6; ++i) {
     const date = new Date();
     date.setDate(date.getDate() - i);
     dates.push(date.toISOString().split("T")[0]); // 只获取日期部分
   }
-  let newUserArray = getArrary({ counts: newUserCounts, dates: dates });
-  let activeUserArray = getArrary({ counts: activeUserCounts, dates: dates });
+  let newUserArray = getArrary({
+    counts: newUserCounts,
+    dates: dates,
+  }).reverse();
+  let activeUserArray = getArrary({
+    counts: activeUserCounts,
+    dates: dates,
+  }).reverse();
 
   let options = {
     grid: {

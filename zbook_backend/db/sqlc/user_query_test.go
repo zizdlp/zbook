@@ -112,9 +112,13 @@ func TestGetQueryUserCount(t *testing.T) {
 }
 func TestDailyCreateUserCount(t *testing.T) {
 	createRandomUser(t)
-	counts, err := testStore.GetDailyCreateUserCount(context.Background())
+	count1, err := testStore.GetDailyCreateUserCount(context.Background())
 	require.NoError(t, err)
-	require.True(t, len(counts) > 0)
+	require.True(t, len(count1) > 0)
+	createRandomUser(t)
+	count2, err := testStore.GetDailyCreateUserCount(context.Background())
+	require.NoError(t, err)
+	require.Equal(t, count2[0].NewUsersCount, count1[0].NewUsersCount+1)
 }
 
 func TestGetUserInfoByID(t *testing.T) {

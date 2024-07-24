@@ -14,36 +14,38 @@ INSERT INTO sessions (
 SELECT * FROM sessions
 WHERE session_id = $1 LIMIT 1;
 
--- name: GetListActiveSessionCount :one
-SELECT Count(*) FROM sessions
-WHERE sessions.expires_at > NOW() LIMIT 1;
+-- name: GetListSessionCount :one
+SELECT Count(*) FROM sessions;
 
--- name: ListActiveSession :many
+-- name: ListSession :many
 SELECT 
   * 
 FROM 
   sessions
 INNER JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW()
 ORDER BY sessions.created_at DESC
 LIMIT $1
 OFFSET $2;
 
--- name: GetQueryActiveSessionCount :one
+-- name: GetQuerySessionCount :one
 select Count(*)
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery(@query);
+WHERE fts_username @@ plainto_tsquery(@query);
 
--- name: QueryActiveSession :many
-select sessions.*,ts_rank(users.fts_username, plainto_tsquery(@query)) as rank,users.*
+-- name: QuerySession :many
+SELECT 
+  sessions.*,
+  ts_rank(users.fts_username, plainto_tsquery(@query)) as rank,
+  users.*
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery(@query)
+WHERE fts_username @@ plainto_tsquery(@query)
 ORDER BY
-  rank DESC
+  rank DESC,
+  sessions.created_at DESC
 LIMIT $1
 OFFSET $2;
 
@@ -52,4 +54,4 @@ SELECT DATE(created_at) AS registration_date, COUNT(DISTINCT user_id) AS active_
 FROM sessions
 WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
 GROUP BY registration_date
-ORDER BY registration_date;
+ORDER BY registration_date DESC;

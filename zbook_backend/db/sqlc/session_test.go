@@ -46,3 +46,69 @@ func TestGetSession(t *testing.T) {
 	require.NotEmpty(t, session2)
 	require.Equal(t, session2.SessionID, session.SessionID)
 }
+
+func TestGetListSessionCount(t *testing.T) {
+	user := createRandomUser(t)
+	createRandomSession(t, user)
+	count1, err := testStore.GetListSessionCount(context.Background())
+	require.NoError(t, err)
+	createRandomSession(t, user)
+	count2, err := testStore.GetListSessionCount(context.Background())
+	require.NoError(t, err)
+	require.Equal(t, count2, count1+1)
+}
+func TestListSession(t *testing.T) {
+	user := createRandomUser(t)
+	session1 := createRandomSession(t, user)
+	session2 := createRandomSession(t, user)
+	arg := ListSessionParams{
+		Limit:  2,
+		Offset: 0,
+	}
+	sessions, err := testStore.ListSession(context.Background(), arg)
+	require.NoError(t, err)
+	require.Equal(t, 2, len(sessions))
+	require.Equal(t, sessions[0].SessionID, session2.SessionID)
+	require.Equal(t, sessions[1].SessionID, session1.SessionID)
+}
+
+func TestGetQuerySessionCount(t *testing.T) {
+	user := createRandomUser(t)
+	createRandomSession(t, user)
+	count1, err := testStore.GetQuerySessionCount(context.Background(), user.Username)
+	require.NoError(t, err)
+	createRandomSession(t, user)
+	count2, err := testStore.GetQuerySessionCount(context.Background(), user.Username)
+	require.NoError(t, err)
+	require.Equal(t, count2, count1+1)
+}
+func TestQuerySession(t *testing.T) {
+	user := createRandomUser(t)
+	session1 := createRandomSession(t, user)
+	session2 := createRandomSession(t, user)
+	arg := QuerySessionParams{
+		Limit:  2,
+		Offset: 0,
+		Query:  user.Username,
+	}
+	sessions, err := testStore.QuerySession(context.Background(), arg)
+	require.NoError(t, err)
+	require.Equal(t, 2, len(sessions))
+	require.Equal(t, sessions[0].SessionID, session2.SessionID)
+	require.Equal(t, sessions[1].SessionID, session1.SessionID)
+}
+
+func TestGetDailyActiveUserCount(t *testing.T) {
+	user := createRandomUser(t)
+	createRandomSession(t, user)
+	count1, err := testStore.GetDailyActiveUserCount(context.Background())
+	require.NoError(t, err)
+	require.True(t, len(count1) > 0)
+
+	user2 := createRandomUser(t)
+	createRandomSession(t, user2)
+	count2, err := testStore.GetDailyActiveUserCount(context.Background())
+	require.NoError(t, err)
+	require.True(t, len(count2) > 0)
+	require.Equal(t, count2[0].ActiveUsersCount, count1[0].ActiveUsersCount+1)
+}
