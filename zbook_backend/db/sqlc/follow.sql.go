@@ -55,24 +55,30 @@ func (q *Queries) DeleteFollow(ctx context.Context, arg DeleteFollowParams) (int
 
 const getListFollowerCount = `-- name: GetListFollowerCount :one
 SELECT 
-   COUNT(*)
+    COUNT(*)
 FROM 
     users u
 JOIN 
     follows f ON f.follower_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $1))
 WHERE 
-    f.following_id = $2 AND u.blocked=false
+    f.following_id = $2 AND (u.blocked='false' OR $3::text='admin')
 `
 
 type GetListFollowerCountParams struct {
-	CurUserID int64 `json:"cur_user_id"`
-	UserID    int64 `json:"user_id"`
+	CurUserID int64  `json:"cur_user_id"`
+	UserID    int64  `json:"user_id"`
+	Role      string `json:"role"`
 }
 
 func (q *Queries) GetListFollowerCount(ctx context.Context, arg GetListFollowerCountParams) (int64, error) {
-	row := q.db.QueryRow(ctx, getListFollowerCount, arg.CurUserID, arg.UserID)
+	row := q.db.QueryRow(ctx, getListFollowerCount, arg.CurUserID, arg.UserID, arg.Role)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -80,24 +86,30 @@ func (q *Queries) GetListFollowerCount(ctx context.Context, arg GetListFollowerC
 
 const getListFollowingCount = `-- name: GetListFollowingCount :one
 SELECT 
-   COUNT(*)
+    COUNT(*)
 FROM 
     users u
 JOIN 
     follows f ON f.following_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $1))
 WHERE 
-    f.follower_id = $2 AND u.blocked=false
+    f.follower_id = $2 AND (u.blocked='false' OR $3::text='admin')
 `
 
 type GetListFollowingCountParams struct {
-	CurUserID int64 `json:"cur_user_id"`
-	UserID    int64 `json:"user_id"`
+	CurUserID int64  `json:"cur_user_id"`
+	UserID    int64  `json:"user_id"`
+	Role      string `json:"role"`
 }
 
 func (q *Queries) GetListFollowingCount(ctx context.Context, arg GetListFollowingCountParams) (int64, error) {
-	row := q.db.QueryRow(ctx, getListFollowingCount, arg.CurUserID, arg.UserID)
+	row := q.db.QueryRow(ctx, getListFollowingCount, arg.CurUserID, arg.UserID, arg.Role)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -112,18 +124,29 @@ JOIN
     follows f ON f.follower_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $1))
 WHERE 
-    f.following_id = $2 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
+    f.following_id = $2 and u.fts_username @@ plainto_tsquery($3) AND (u.blocked='false' OR $4::text='admin')
 `
 
 type GetQueryFollowerCountParams struct {
 	CurUserID int64  `json:"cur_user_id"`
 	UserID    int64  `json:"user_id"`
 	Query     string `json:"query"`
+	Role      string `json:"role"`
 }
 
 func (q *Queries) GetQueryFollowerCount(ctx context.Context, arg GetQueryFollowerCountParams) (int64, error) {
-	row := q.db.QueryRow(ctx, getQueryFollowerCount, arg.CurUserID, arg.UserID, arg.Query)
+	row := q.db.QueryRow(ctx, getQueryFollowerCount,
+		arg.CurUserID,
+		arg.UserID,
+		arg.Query,
+		arg.Role,
+	)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -138,6 +161,11 @@ JOIN
     follows f ON f.following_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $1 AND ff.following_id = u.user_id
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $1))
 WHERE 
     f.follower_id = $2 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
 `
@@ -188,9 +216,13 @@ JOIN
     follows f ON f.follower_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $3 AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3))
 WHERE 
-    f.following_id = $4 AND u.blocked=false
+    f.following_id = $4 AND (u.blocked='false' OR $5::text='admin')
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -200,10 +232,11 @@ OFFSET $2
 `
 
 type ListFollowerParams struct {
-	Limit     int32 `json:"limit"`
-	Offset    int32 `json:"offset"`
-	CurUserID int64 `json:"cur_user_id"`
-	UserID    int64 `json:"user_id"`
+	Limit     int32  `json:"limit"`
+	Offset    int32  `json:"offset"`
+	CurUserID int64  `json:"cur_user_id"`
+	UserID    int64  `json:"user_id"`
+	Role      string `json:"role"`
 }
 
 type ListFollowerRow struct {
@@ -231,6 +264,7 @@ func (q *Queries) ListFollower(ctx context.Context, arg ListFollowerParams) ([]L
 		arg.Offset,
 		arg.CurUserID,
 		arg.UserID,
+		arg.Role,
 	)
 	if err != nil {
 		return nil, err
@@ -278,9 +312,13 @@ JOIN
     follows f ON f.following_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $3 AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3))
 WHERE 
-    f.follower_id = $4 AND u.blocked=false
+    f.follower_id = $4 AND (u.blocked='false' OR $5::text='admin')
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -290,10 +328,11 @@ OFFSET $2
 `
 
 type ListFollowingParams struct {
-	Limit     int32 `json:"limit"`
-	Offset    int32 `json:"offset"`
-	CurUserID int64 `json:"cur_user_id"`
-	UserID    int64 `json:"user_id"`
+	Limit     int32  `json:"limit"`
+	Offset    int32  `json:"offset"`
+	CurUserID int64  `json:"cur_user_id"`
+	UserID    int64  `json:"user_id"`
+	Role      string `json:"role"`
 }
 
 type ListFollowingRow struct {
@@ -321,6 +360,7 @@ func (q *Queries) ListFollowing(ctx context.Context, arg ListFollowingParams) ([
 		arg.Offset,
 		arg.CurUserID,
 		arg.UserID,
+		arg.Role,
 	)
 	if err != nil {
 		return nil, err
@@ -369,9 +409,13 @@ JOIN
     follows f ON f.follower_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $4 AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $4))
 WHERE 
-    f.following_id = $5 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
+    f.following_id = $5 and u.fts_username @@ plainto_tsquery($3) AND (u.blocked='false' OR $6::text='admin')
 GROUP BY 
     u.user_id
 ORDER BY 
@@ -386,6 +430,7 @@ type QueryFollowerParams struct {
 	Query     string `json:"query"`
 	CurUserID int64  `json:"cur_user_id"`
 	UserID    int64  `json:"user_id"`
+	Role      string `json:"role"`
 }
 
 type QueryFollowerRow struct {
@@ -415,6 +460,7 @@ func (q *Queries) QueryFollower(ctx context.Context, arg QueryFollowerParams) ([
 		arg.Query,
 		arg.CurUserID,
 		arg.UserID,
+		arg.Role,
 	)
 	if err != nil {
 		return nil, err
@@ -464,7 +510,11 @@ JOIN
     follows f ON f.following_id = u.user_id
 LEFT JOIN 
     follows ff ON ff.follower_id = $4 AND ff.following_id = u.user_id
-LEFT JOIN repos r ON r.user_id = u.user_id AND (r.visibility_level = 'public' OR r.visibility_level = 'signed')
+LEFT JOIN repos r ON r.user_id = u.user_id AND (
+        r.visibility_level = 'public' OR 
+        r.visibility_level = 'signed' OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4)) OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $4))
 WHERE 
     f.follower_id = $5 and u.fts_username @@ plainto_tsquery($3) AND u.blocked=false
 GROUP BY 
