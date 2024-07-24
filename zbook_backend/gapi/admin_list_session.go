@@ -14,48 +14,48 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func (server *Server) ListActiveSession(ctx context.Context, req *rpcs.ListActiveSessionRequest) (*rpcs.ListActiveSessionResponse, error) {
-	violations := validateListActiveSessionRequest(req)
+func (server *Server) ListSession(ctx context.Context, req *rpcs.ListSessionRequest) (*rpcs.ListSessionResponse, error) {
+	violations := validateListSessionRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
 	apiUserDailyLimit := 10000
-	apiKey := "ListActiveSession"
+	apiKey := "ListSession"
 	_, err := server.authUser(ctx, []string{util.AdminRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
 	}
 	if req.GetQuery() != "" {
-		arg := db.QueryActiveSessionParams{
+		arg := db.QuerySessionParams{
 			Limit:  req.GetPageSize(),
 			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
 			Query:  req.GetQuery(),
 		}
-		sessions, err := server.store.QueryActiveSession(ctx, arg)
+		sessions, err := server.store.QuerySession(ctx, arg)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "query active session failed: %s", err)
 		}
-		rsp := &rpcs.ListActiveSessionResponse{
+		rsp := &rpcs.ListSessionResponse{
 			Elements: convertListSessionQuery(sessions),
 		}
 		return rsp, nil
 	}
 
-	arg := db.ListActiveSessionParams{
+	arg := db.ListSessionParams{
 		Limit:  req.GetPageSize(),
 		Offset: (req.GetPageId() - 1) * req.GetPageSize(),
 	}
 
-	sessions, err := server.store.ListActiveSession(ctx, arg)
+	sessions, err := server.store.ListSession(ctx, arg)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "list active session failed: %s", err)
 	}
-	rsp := &rpcs.ListActiveSessionResponse{
+	rsp := &rpcs.ListSessionResponse{
 		Elements: convertListSession(sessions),
 	}
 	return rsp, nil
 }
-func validateListActiveSessionRequest(req *rpcs.ListActiveSessionRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateListSessionRequest(req *rpcs.ListSessionRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := val.ValidateInt32ID(req.GetPageId()); err != nil {
 		violations = append(violations, fieldViolation("page_id", err))
 	}
@@ -65,11 +65,11 @@ func validateListActiveSessionRequest(req *rpcs.ListActiveSessionRequest) (viola
 	return violations
 }
 
-func convertListSession(sessions []db.ListActiveSessionRow) []*models.ActiveSession {
-	var ret_sessions []*models.ActiveSession
+func convertListSession(sessions []db.ListSessionRow) []*models.SessionInfo {
+	var ret_sessions []*models.SessionInfo
 	for i := 0; i < len(sessions); i++ {
 		ret_sessions = append(ret_sessions,
-			&models.ActiveSession{
+			&models.SessionInfo{
 				UserAgent: sessions[i].UserAgent,
 				Email:     sessions[i].Email,
 				ClientIp:  sessions[i].ClientIp,
@@ -82,11 +82,11 @@ func convertListSession(sessions []db.ListActiveSessionRow) []*models.ActiveSess
 	return ret_sessions
 }
 
-func convertListSessionQuery(sessions []db.QueryActiveSessionRow) []*models.ActiveSession {
-	var ret_sessions []*models.ActiveSession
+func convertListSessionQuery(sessions []db.QuerySessionRow) []*models.SessionInfo {
+	var ret_sessions []*models.SessionInfo
 	for i := 0; i < len(sessions); i++ {
 		ret_sessions = append(ret_sessions,
-			&models.ActiveSession{
+			&models.SessionInfo{
 				Email:     sessions[i].Email,
 				UserAgent: sessions[i].UserAgent,
 				ClientIp:  sessions[i].ClientIp,

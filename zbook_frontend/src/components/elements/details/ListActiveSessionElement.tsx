@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import ListElementCard from "./ListElementCard";
 import { parseUserAgent } from "@/utils/util";
 import AvatarImageServer from "@/components/AvatarImageServer";
-export default function ListActiveSessionElement({
+export default function ListSessionElement({
   username,
   email,
   user_agent,

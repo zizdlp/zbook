@@ -1,5 +1,5 @@
 import { ListDataType } from "@/fetchs/model";
-import ListActiveSessionElement from "./details/ListActiveSessionElement";
+import ListSessionElement from "./details/ListSessionElement";
 import ListAdminCommentElement from "./details/ListAdminCommentElement";
 import ListAdminRepoElement from "./details/ListAdminRepoElement";
 import ListAdminUserElement from "./details/ListAdminUserElement";
@@ -72,7 +72,7 @@ export default function ListElementContainer({
     );
   } else if (listType === ListDataType.LIST_ADMIN_SESSION) {
     return (
-      <ListActiveSessionElement
+      <ListSessionElement
         username={model.username}
         email={model.email}
         user_agent={model.user_agent}

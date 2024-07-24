@@ -10,7 +10,7 @@ export enum FetchServerWithAuthWrapperEndPoint {
   GET_LIST_USER_LIKE_REPO_COUNT = "get_list_user_like_repo_count",
 
   GET_LIST_USER_COUNT = "get_list_user_count",
-  GET_LIST_ACTIVE_SESSION_COUNT = "get_list_active_session_count",
+  GET_LIST_SESSION_COUNT = "get_list_session_count",
   GET_LIST_COMMENT_REPORT_COUNT = "get_list_comment_report_count",
   GET_LIST_COMMENT_COUNT = "get_list_comment_count",
   GET_LIST_REPO_COUNT = "get_list_repo_count",
@@ -19,7 +19,7 @@ export enum FetchServerWithAuthWrapperEndPoint {
   DAILY_CREATE_USER_COUNT = "get_daily_create_user_count",
 
   LIST_USER = "list_user",
-  LIST_ACTIVE_SESSION = "list_active_session",
+  LIST_SESSION = "list_session",
   LIST_COMMENT_REPORT = "list_comment_report",
   LIST_COMMENT = "list_comment",
   LIST_REPO = "list_repo",

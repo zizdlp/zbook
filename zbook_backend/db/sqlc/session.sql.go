@@ -62,7 +62,7 @@ SELECT DATE(created_at) AS registration_date, COUNT(DISTINCT user_id) AS active_
 FROM sessions
 WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
 GROUP BY registration_date
-ORDER BY registration_date
+ORDER BY registration_date DESC
 `
 
 type GetDailyActiveUserCountRow struct {
@@ -90,28 +90,27 @@ func (q *Queries) GetDailyActiveUserCount(ctx context.Context) ([]GetDailyActive
 	return items, nil
 }
 
-const getListActiveSessionCount = `-- name: GetListActiveSessionCount :one
+const getListSessionCount = `-- name: GetListSessionCount :one
 SELECT Count(*) FROM sessions
-WHERE sessions.expires_at > NOW() LIMIT 1
 `
 
-func (q *Queries) GetListActiveSessionCount(ctx context.Context) (int64, error) {
-	row := q.db.QueryRow(ctx, getListActiveSessionCount)
+func (q *Queries) GetListSessionCount(ctx context.Context) (int64, error) {
+	row := q.db.QueryRow(ctx, getListSessionCount)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
 }
 
-const getQueryActiveSessionCount = `-- name: GetQueryActiveSessionCount :one
+const getQuerySessionCount = `-- name: GetQuerySessionCount :one
 select Count(*)
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery($1)
+WHERE fts_username @@ plainto_tsquery($1)
 `
 
-func (q *Queries) GetQueryActiveSessionCount(ctx context.Context, query string) (int64, error) {
-	row := q.db.QueryRow(ctx, getQueryActiveSessionCount, query)
+func (q *Queries) GetQuerySessionCount(ctx context.Context, query string) (int64, error) {
+	row := q.db.QueryRow(ctx, getQuerySessionCount, query)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -137,24 +136,23 @@ func (q *Queries) GetSession(ctx context.Context, sessionID uuid.UUID) (Session,
 	return i, err
 }
 
-const listActiveSession = `-- name: ListActiveSession :many
+const listSession = `-- name: ListSession :many
 SELECT 
   session_id, sessions.user_id, refresh_token, user_agent, client_ip, expires_at, sessions.created_at, users.user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, users.created_at, updated_at, unread_count, unread_count_updated_at, fts_username 
 FROM 
   sessions
 INNER JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW()
 ORDER BY sessions.created_at DESC
 LIMIT $1
 OFFSET $2
 `
 
-type ListActiveSessionParams struct {
+type ListSessionParams struct {
 	Limit  int32 `json:"limit"`
 	Offset int32 `json:"offset"`
 }
 
-type ListActiveSessionRow struct {
+type ListSessionRow struct {
 	SessionID            uuid.UUID `json:"session_id"`
 	UserID               int64     `json:"user_id"`
 	RefreshToken         string    `json:"refresh_token"`
@@ -178,15 +176,15 @@ type ListActiveSessionRow struct {
 	FtsUsername          string    `json:"fts_username"`
 }
 
-func (q *Queries) ListActiveSession(ctx context.Context, arg ListActiveSessionParams) ([]ListActiveSessionRow, error) {
-	rows, err := q.db.Query(ctx, listActiveSession, arg.Limit, arg.Offset)
+func (q *Queries) ListSession(ctx context.Context, arg ListSessionParams) ([]ListSessionRow, error) {
+	rows, err := q.db.Query(ctx, listSession, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []ListActiveSessionRow{}
+	items := []ListSessionRow{}
 	for rows.Next() {
-		var i ListActiveSessionRow
+		var i ListSessionRow
 		if err := rows.Scan(
 			&i.SessionID,
 			&i.UserID,
@@ -220,25 +218,29 @@ func (q *Queries) ListActiveSession(ctx context.Context, arg ListActiveSessionPa
 	return items, nil
 }
 
-const queryActiveSession = `-- name: QueryActiveSession :many
-select sessions.session_id, sessions.user_id, sessions.refresh_token, sessions.user_agent, sessions.client_ip, sessions.expires_at, sessions.created_at,ts_rank(users.fts_username, plainto_tsquery($3)) as rank,users.user_id, users.username, users.email, users.hashed_password, users.blocked, users.verified, users.motto, users.user_role, users.onboarding, users.created_at, users.updated_at, users.unread_count, users.unread_count_updated_at, users.fts_username
+const querySession = `-- name: QuerySession :many
+SELECT 
+  sessions.session_id, sessions.user_id, sessions.refresh_token, sessions.user_agent, sessions.client_ip, sessions.expires_at, sessions.created_at,
+  ts_rank(users.fts_username, plainto_tsquery($3)) as rank,
+  users.user_id, users.username, users.email, users.hashed_password, users.blocked, users.verified, users.motto, users.user_role, users.onboarding, users.created_at, users.updated_at, users.unread_count, users.unread_count_updated_at, users.fts_username
 FROM 
   sessions
 JOIN users ON users.user_id = sessions.user_id
-WHERE sessions.expires_at > NOW() AND fts_username @@ plainto_tsquery($3)
+WHERE fts_username @@ plainto_tsquery($3)
 ORDER BY
-  rank DESC
+  rank DESC,
+  sessions.created_at DESC
 LIMIT $1
 OFFSET $2
 `
 
-type QueryActiveSessionParams struct {
+type QuerySessionParams struct {
 	Limit  int32  `json:"limit"`
 	Offset int32  `json:"offset"`
 	Query  string `json:"query"`
 }
 
-type QueryActiveSessionRow struct {
+type QuerySessionRow struct {
 	SessionID            uuid.UUID `json:"session_id"`
 	UserID               int64     `json:"user_id"`
 	RefreshToken         string    `json:"refresh_token"`
@@ -263,15 +265,15 @@ type QueryActiveSessionRow struct {
 	FtsUsername          string    `json:"fts_username"`
 }
 
-func (q *Queries) QueryActiveSession(ctx context.Context, arg QueryActiveSessionParams) ([]QueryActiveSessionRow, error) {
-	rows, err := q.db.Query(ctx, queryActiveSession, arg.Limit, arg.Offset, arg.Query)
+func (q *Queries) QuerySession(ctx context.Context, arg QuerySessionParams) ([]QuerySessionRow, error) {
+	rows, err := q.db.Query(ctx, querySession, arg.Limit, arg.Offset, arg.Query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []QueryActiveSessionRow{}
+	items := []QuerySessionRow{}
 	for rows.Next() {
-		var i QueryActiveSessionRow
+		var i QuerySessionRow
 		if err := rows.Scan(
 			&i.SessionID,
 			&i.UserID,

@@ -48,7 +48,7 @@ interface GetListUserLikeRepoCountRequest {
 interface GetListUserCountRequest {
   query: string;
 }
-interface GetListActiveSessionCountRequest {
+interface GetListSessionCountRequest {
   query: string;
 }
 interface GetListCommentReportCountRequest {
@@ -71,7 +71,7 @@ interface ListUserRequest {
   page_size: number;
   query: string;
 }
-interface ListActiveSessionRequest {
+interface ListSessionRequest {
   page_id: number;
   page_size: number;
   query: string;
@@ -359,7 +359,7 @@ export type {
   GetFollowingCountRequest,
   GetListUserOwnRepoCountRequest,
   GetListUserLikeRepoCountRequest,
-  GetListActiveSessionCountRequest,
+  GetListSessionCountRequest,
   GetListCommentReportCountRequest,
   GetListCommentCountRequest,
   GetListRepoCountRequest,
@@ -368,7 +368,7 @@ export type {
   GetDailyCreateUserCountRequest,
   GetListUserCountRequest,
   ListUserRequest,
-  ListActiveSessionRequest,
+  ListSessionRequest,
   ListCommentReportRequest,
   ListCommentRequest,
   ListRepoRequest,

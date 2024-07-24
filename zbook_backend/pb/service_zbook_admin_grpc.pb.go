@@ -26,8 +26,8 @@ const (
 	ZBookAdmin_DeleteUser_FullMethodName                = "/pb.ZBookAdmin/DeleteUser"
 	ZBookAdmin_CreateSystemNotification_FullMethodName  = "/pb.ZBookAdmin/CreateSystemNotification"
 	ZBookAdmin_UpdateCommentReportStatus_FullMethodName = "/pb.ZBookAdmin/UpdateCommentReportStatus"
-	ZBookAdmin_ListActiveSession_FullMethodName         = "/pb.ZBookAdmin/ListActiveSession"
-	ZBookAdmin_GetListActiveSessionCount_FullMethodName = "/pb.ZBookAdmin/GetListActiveSessionCount"
+	ZBookAdmin_ListSession_FullMethodName               = "/pb.ZBookAdmin/ListSession"
+	ZBookAdmin_GetListSessionCount_FullMethodName       = "/pb.ZBookAdmin/GetListSessionCount"
 	ZBookAdmin_ListComment_FullMethodName               = "/pb.ZBookAdmin/ListComment"
 	ZBookAdmin_GetListCommentCount_FullMethodName       = "/pb.ZBookAdmin/GetListCommentCount"
 	ZBookAdmin_ListCommentReport_FullMethodName         = "/pb.ZBookAdmin/ListCommentReport"
@@ -53,10 +53,10 @@ type ZBookAdminClient interface {
 	CreateSystemNotification(ctx context.Context, in *rpcs.CreateSystemNotificationRequest, opts ...grpc.CallOption) (*rpcs.CreateSystemNotificationResponse, error)
 	// 4.UpdateCommentReportStatus
 	UpdateCommentReportStatus(ctx context.Context, in *rpcs.UpdateCommentReportStatusRequest, opts ...grpc.CallOption) (*rpcs.UpdateCommentReportStatusResponse, error)
-	// 5.ListActiveSession
-	ListActiveSession(ctx context.Context, in *rpcs.ListActiveSessionRequest, opts ...grpc.CallOption) (*rpcs.ListActiveSessionResponse, error)
-	// 6.GetListActiveSessionCount
-	GetListActiveSessionCount(ctx context.Context, in *rpcs.GetListActiveSessionCountRequest, opts ...grpc.CallOption) (*rpcs.GetListActiveSessionCountResponse, error)
+	// 5.ListSession
+	ListSession(ctx context.Context, in *rpcs.ListSessionRequest, opts ...grpc.CallOption) (*rpcs.ListSessionResponse, error)
+	// 6.GetListSessionCount
+	GetListSessionCount(ctx context.Context, in *rpcs.GetListSessionCountRequest, opts ...grpc.CallOption) (*rpcs.GetListSessionCountResponse, error)
 	// 7.ListComment
 	ListComment(ctx context.Context, in *rpcs.ListCommentRequest, opts ...grpc.CallOption) (*rpcs.ListCommentResponse, error)
 	// 8.GetListCommentCount
@@ -125,18 +125,18 @@ func (c *zBookAdminClient) UpdateCommentReportStatus(ctx context.Context, in *rp
 	return out, nil
 }
 
-func (c *zBookAdminClient) ListActiveSession(ctx context.Context, in *rpcs.ListActiveSessionRequest, opts ...grpc.CallOption) (*rpcs.ListActiveSessionResponse, error) {
-	out := new(rpcs.ListActiveSessionResponse)
-	err := c.cc.Invoke(ctx, ZBookAdmin_ListActiveSession_FullMethodName, in, out, opts...)
+func (c *zBookAdminClient) ListSession(ctx context.Context, in *rpcs.ListSessionRequest, opts ...grpc.CallOption) (*rpcs.ListSessionResponse, error) {
+	out := new(rpcs.ListSessionResponse)
+	err := c.cc.Invoke(ctx, ZBookAdmin_ListSession_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *zBookAdminClient) GetListActiveSessionCount(ctx context.Context, in *rpcs.GetListActiveSessionCountRequest, opts ...grpc.CallOption) (*rpcs.GetListActiveSessionCountResponse, error) {
-	out := new(rpcs.GetListActiveSessionCountResponse)
-	err := c.cc.Invoke(ctx, ZBookAdmin_GetListActiveSessionCount_FullMethodName, in, out, opts...)
+func (c *zBookAdminClient) GetListSessionCount(ctx context.Context, in *rpcs.GetListSessionCountRequest, opts ...grpc.CallOption) (*rpcs.GetListSessionCountResponse, error) {
+	out := new(rpcs.GetListSessionCountResponse)
+	err := c.cc.Invoke(ctx, ZBookAdmin_GetListSessionCount_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -254,10 +254,10 @@ type ZBookAdminServer interface {
 	CreateSystemNotification(context.Context, *rpcs.CreateSystemNotificationRequest) (*rpcs.CreateSystemNotificationResponse, error)
 	// 4.UpdateCommentReportStatus
 	UpdateCommentReportStatus(context.Context, *rpcs.UpdateCommentReportStatusRequest) (*rpcs.UpdateCommentReportStatusResponse, error)
-	// 5.ListActiveSession
-	ListActiveSession(context.Context, *rpcs.ListActiveSessionRequest) (*rpcs.ListActiveSessionResponse, error)
-	// 6.GetListActiveSessionCount
-	GetListActiveSessionCount(context.Context, *rpcs.GetListActiveSessionCountRequest) (*rpcs.GetListActiveSessionCountResponse, error)
+	// 5.ListSession
+	ListSession(context.Context, *rpcs.ListSessionRequest) (*rpcs.ListSessionResponse, error)
+	// 6.GetListSessionCount
+	GetListSessionCount(context.Context, *rpcs.GetListSessionCountRequest) (*rpcs.GetListSessionCountResponse, error)
 	// 7.ListComment
 	ListComment(context.Context, *rpcs.ListCommentRequest) (*rpcs.ListCommentResponse, error)
 	// 8.GetListCommentCount
@@ -299,11 +299,11 @@ func (UnimplementedZBookAdminServer) CreateSystemNotification(context.Context, *
 func (UnimplementedZBookAdminServer) UpdateCommentReportStatus(context.Context, *rpcs.UpdateCommentReportStatusRequest) (*rpcs.UpdateCommentReportStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentReportStatus not implemented")
 }
-func (UnimplementedZBookAdminServer) ListActiveSession(context.Context, *rpcs.ListActiveSessionRequest) (*rpcs.ListActiveSessionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListActiveSession not implemented")
+func (UnimplementedZBookAdminServer) ListSession(context.Context, *rpcs.ListSessionRequest) (*rpcs.ListSessionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSession not implemented")
 }
-func (UnimplementedZBookAdminServer) GetListActiveSessionCount(context.Context, *rpcs.GetListActiveSessionCountRequest) (*rpcs.GetListActiveSessionCountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetListActiveSessionCount not implemented")
+func (UnimplementedZBookAdminServer) GetListSessionCount(context.Context, *rpcs.GetListSessionCountRequest) (*rpcs.GetListSessionCountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetListSessionCount not implemented")
 }
 func (UnimplementedZBookAdminServer) ListComment(context.Context, *rpcs.ListCommentRequest) (*rpcs.ListCommentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListComment not implemented")
@@ -423,38 +423,38 @@ func _ZBookAdmin_UpdateCommentReportStatus_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookAdmin_ListActiveSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.ListActiveSessionRequest)
+func _ZBookAdmin_ListSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.ListSessionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ZBookAdminServer).ListActiveSession(ctx, in)
+		return srv.(ZBookAdminServer).ListSession(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ZBookAdmin_ListActiveSession_FullMethodName,
+		FullMethod: ZBookAdmin_ListSession_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookAdminServer).ListActiveSession(ctx, req.(*rpcs.ListActiveSessionRequest))
+		return srv.(ZBookAdminServer).ListSession(ctx, req.(*rpcs.ListSessionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookAdmin_GetListActiveSessionCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.GetListActiveSessionCountRequest)
+func _ZBookAdmin_GetListSessionCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.GetListSessionCountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ZBookAdminServer).GetListActiveSessionCount(ctx, in)
+		return srv.(ZBookAdminServer).GetListSessionCount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ZBookAdmin_GetListActiveSessionCount_FullMethodName,
+		FullMethod: ZBookAdmin_GetListSessionCount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookAdminServer).GetListActiveSessionCount(ctx, req.(*rpcs.GetListActiveSessionCountRequest))
+		return srv.(ZBookAdminServer).GetListSessionCount(ctx, req.(*rpcs.GetListSessionCountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -681,12 +681,12 @@ var ZBookAdmin_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ZBookAdmin_UpdateCommentReportStatus_Handler,
 		},
 		{
-			MethodName: "ListActiveSession",
-			Handler:    _ZBookAdmin_ListActiveSession_Handler,
+			MethodName: "ListSession",
+			Handler:    _ZBookAdmin_ListSession_Handler,
 		},
 		{
-			MethodName: "GetListActiveSessionCount",
-			Handler:    _ZBookAdmin_GetListActiveSessionCount_Handler,
+			MethodName: "GetListSessionCount",
+			Handler:    _ZBookAdmin_GetListSessionCount_Handler,
 		},
 		{
 			MethodName: "ListComment",

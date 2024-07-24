@@ -136,54 +136,54 @@ func local_request_ZBookAdmin_UpdateCommentReportStatus_0(ctx context.Context, m
 
 }
 
-func request_ZBookAdmin_ListActiveSession_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookAdminClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.ListActiveSessionRequest
+func request_ZBookAdmin_ListSession_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookAdminClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.ListSessionRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.ListActiveSession(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ListSession(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ZBookAdmin_ListActiveSession_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookAdminServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.ListActiveSessionRequest
+func local_request_ZBookAdmin_ListSession_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookAdminServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.ListSessionRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.ListActiveSession(ctx, &protoReq)
+	msg, err := server.ListSession(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-func request_ZBookAdmin_GetListActiveSessionCount_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookAdminClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.GetListActiveSessionCountRequest
+func request_ZBookAdmin_GetListSessionCount_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookAdminClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.GetListSessionCountRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetListActiveSessionCount(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetListSessionCount(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ZBookAdmin_GetListActiveSessionCount_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookAdminServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.GetListActiveSessionCountRequest
+func local_request_ZBookAdmin_GetListSessionCount_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookAdminServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.GetListSessionCountRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetListActiveSessionCount(ctx, &protoReq)
+	msg, err := server.GetListSessionCount(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -580,7 +580,7 @@ func RegisterZBookAdminHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 
 	})
 
-	mux.Handle("POST", pattern_ZBookAdmin_ListActiveSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookAdmin_ListSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -588,12 +588,12 @@ func RegisterZBookAdminHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookAdmin/ListActiveSession", runtime.WithHTTPPathPattern("/v1/list_active_session"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookAdmin/ListSession", runtime.WithHTTPPathPattern("/v1/list_session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ZBookAdmin_ListActiveSession_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ZBookAdmin_ListSession_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -601,11 +601,11 @@ func RegisterZBookAdminHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 			return
 		}
 
-		forward_ZBookAdmin_ListActiveSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookAdmin_ListSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_ZBookAdmin_GetListActiveSessionCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookAdmin_GetListSessionCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -613,12 +613,12 @@ func RegisterZBookAdminHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookAdmin/GetListActiveSessionCount", runtime.WithHTTPPathPattern("/v1/get_list_active_session_count"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookAdmin/GetListSessionCount", runtime.WithHTTPPathPattern("/v1/get_list_session_count"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ZBookAdmin_GetListActiveSessionCount_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ZBookAdmin_GetListSessionCount_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -626,7 +626,7 @@ func RegisterZBookAdminHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 			return
 		}
 
-		forward_ZBookAdmin_GetListActiveSessionCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookAdmin_GetListSessionCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1034,47 +1034,47 @@ func RegisterZBookAdminHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 
 	})
 
-	mux.Handle("POST", pattern_ZBookAdmin_ListActiveSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookAdmin_ListSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookAdmin/ListActiveSession", runtime.WithHTTPPathPattern("/v1/list_active_session"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookAdmin/ListSession", runtime.WithHTTPPathPattern("/v1/list_session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ZBookAdmin_ListActiveSession_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ZBookAdmin_ListSession_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ZBookAdmin_ListActiveSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookAdmin_ListSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_ZBookAdmin_GetListActiveSessionCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookAdmin_GetListSessionCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookAdmin/GetListActiveSessionCount", runtime.WithHTTPPathPattern("/v1/get_list_active_session_count"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookAdmin/GetListSessionCount", runtime.WithHTTPPathPattern("/v1/get_list_session_count"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ZBookAdmin_GetListActiveSessionCount_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ZBookAdmin_GetListSessionCount_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ZBookAdmin_GetListActiveSessionCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookAdmin_GetListSessionCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1332,9 +1332,9 @@ var (
 
 	pattern_ZBookAdmin_UpdateCommentReportStatus_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_comment_report_status"}, ""))
 
-	pattern_ZBookAdmin_ListActiveSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_active_session"}, ""))
+	pattern_ZBookAdmin_ListSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_session"}, ""))
 
-	pattern_ZBookAdmin_GetListActiveSessionCount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "get_list_active_session_count"}, ""))
+	pattern_ZBookAdmin_GetListSessionCount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "get_list_session_count"}, ""))
 
 	pattern_ZBookAdmin_ListComment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_comment"}, ""))
 
@@ -1368,9 +1368,9 @@ var (
 
 	forward_ZBookAdmin_UpdateCommentReportStatus_0 = runtime.ForwardResponseMessage
 
-	forward_ZBookAdmin_ListActiveSession_0 = runtime.ForwardResponseMessage
+	forward_ZBookAdmin_ListSession_0 = runtime.ForwardResponseMessage
 
-	forward_ZBookAdmin_GetListActiveSessionCount_0 = runtime.ForwardResponseMessage
+	forward_ZBookAdmin_GetListSessionCount_0 = runtime.ForwardResponseMessage
 
 	forward_ZBookAdmin_ListComment_0 = runtime.ForwardResponseMessage
 

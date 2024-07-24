@@ -652,21 +652,6 @@ func (mr *MockStoreMockRecorder) GetDailyCreateUserCount(arg0 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDailyCreateUserCount", reflect.TypeOf((*MockStore)(nil).GetDailyCreateUserCount), arg0)
 }
 
-// GetListActiveSessionCount mocks base method.
-func (m *MockStore) GetListActiveSessionCount(arg0 context.Context) (int64, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetListActiveSessionCount", arg0)
-	ret0, _ := ret[0].(int64)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetListActiveSessionCount indicates an expected call of GetListActiveSessionCount.
-func (mr *MockStoreMockRecorder) GetListActiveSessionCount(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListActiveSessionCount", reflect.TypeOf((*MockStore)(nil).GetListActiveSessionCount), arg0)
-}
-
 // GetListCommentCount mocks base method.
 func (m *MockStore) GetListCommentCount(arg0 context.Context) (int64, error) {
 	m.ctrl.T.Helper()
@@ -817,6 +802,21 @@ func (mr *MockStoreMockRecorder) GetListRepoNotificationUnreadedCount(arg0, arg1
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListRepoNotificationUnreadedCount", reflect.TypeOf((*MockStore)(nil).GetListRepoNotificationUnreadedCount), arg0, arg1)
 }
 
+// GetListSessionCount mocks base method.
+func (m *MockStore) GetListSessionCount(arg0 context.Context) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetListSessionCount", arg0)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetListSessionCount indicates an expected call of GetListSessionCount.
+func (mr *MockStoreMockRecorder) GetListSessionCount(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListSessionCount", reflect.TypeOf((*MockStore)(nil).GetListSessionCount), arg0)
+}
+
 // GetListSystemNotificationUnReadedCount mocks base method.
 func (m *MockStore) GetListSystemNotificationUnReadedCount(arg0 context.Context, arg1 int64) (int64, error) {
 	m.ctrl.T.Helper()
@@ -937,21 +937,6 @@ func (mr *MockStoreMockRecorder) GetOAuthUser(arg0, arg1 interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOAuthUser", reflect.TypeOf((*MockStore)(nil).GetOAuthUser), arg0, arg1)
 }
 
-// GetQueryActiveSessionCount mocks base method.
-func (m *MockStore) GetQueryActiveSessionCount(arg0 context.Context, arg1 string) (int64, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetQueryActiveSessionCount", arg0, arg1)
-	ret0, _ := ret[0].(int64)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetQueryActiveSessionCount indicates an expected call of GetQueryActiveSessionCount.
-func (mr *MockStoreMockRecorder) GetQueryActiveSessionCount(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetQueryActiveSessionCount", reflect.TypeOf((*MockStore)(nil).GetQueryActiveSessionCount), arg0, arg1)
-}
-
 // GetQueryCommentCount mocks base method.
 func (m *MockStore) GetQueryCommentCount(arg0 context.Context, arg1 string) (int64, error) {
 	m.ctrl.T.Helper()
@@ -1025,6 +1010,21 @@ func (m *MockStore) GetQueryRepoCount(arg0 context.Context, arg1 db.GetQueryRepo
 func (mr *MockStoreMockRecorder) GetQueryRepoCount(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetQueryRepoCount", reflect.TypeOf((*MockStore)(nil).GetQueryRepoCount), arg0, arg1)
+}
+
+// GetQuerySessionCount mocks base method.
+func (m *MockStore) GetQuerySessionCount(arg0 context.Context, arg1 string) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetQuerySessionCount", arg0, arg1)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetQuerySessionCount indicates an expected call of GetQuerySessionCount.
+func (mr *MockStoreMockRecorder) GetQuerySessionCount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetQuerySessionCount", reflect.TypeOf((*MockStore)(nil).GetQuerySessionCount), arg0, arg1)
 }
 
 // GetQueryUserCount mocks base method.
@@ -1297,21 +1297,6 @@ func (mr *MockStoreMockRecorder) IsFollowing(arg0, arg1 interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsFollowing", reflect.TypeOf((*MockStore)(nil).IsFollowing), arg0, arg1)
 }
 
-// ListActiveSession mocks base method.
-func (m *MockStore) ListActiveSession(arg0 context.Context, arg1 db.ListActiveSessionParams) ([]db.ListActiveSessionRow, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListActiveSession", arg0, arg1)
-	ret0, _ := ret[0].([]db.ListActiveSessionRow)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ListActiveSession indicates an expected call of ListActiveSession.
-func (mr *MockStoreMockRecorder) ListActiveSession(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListActiveSession", reflect.TypeOf((*MockStore)(nil).ListActiveSession), arg0, arg1)
-}
-
 // ListComment mocks base method.
 func (m *MockStore) ListComment(arg0 context.Context, arg1 db.ListCommentParams) ([]db.ListCommentRow, error) {
 	m.ctrl.T.Helper()
@@ -1477,6 +1462,21 @@ func (mr *MockStoreMockRecorder) ListRepoVisibilityByRepo(arg0, arg1 interface{}
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRepoVisibilityByRepo", reflect.TypeOf((*MockStore)(nil).ListRepoVisibilityByRepo), arg0, arg1)
 }
 
+// ListSession mocks base method.
+func (m *MockStore) ListSession(arg0 context.Context, arg1 db.ListSessionParams) ([]db.ListSessionRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListSession", arg0, arg1)
+	ret0, _ := ret[0].([]db.ListSessionRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListSession indicates an expected call of ListSession.
+func (mr *MockStoreMockRecorder) ListSession(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSession", reflect.TypeOf((*MockStore)(nil).ListSession), arg0, arg1)
+}
+
 // ListSystemNotification mocks base method.
 func (m *MockStore) ListSystemNotification(arg0 context.Context, arg1 db.ListSystemNotificationParams) ([]db.ListSystemNotificationRow, error) {
 	m.ctrl.T.Helper()
@@ -1626,21 +1626,6 @@ func (mr *MockStoreMockRecorder) MarkVerificationAsUsed(arg0, arg1 interface{}) 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkVerificationAsUsed", reflect.TypeOf((*MockStore)(nil).MarkVerificationAsUsed), arg0, arg1)
 }
 
-// QueryActiveSession mocks base method.
-func (m *MockStore) QueryActiveSession(arg0 context.Context, arg1 db.QueryActiveSessionParams) ([]db.QueryActiveSessionRow, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryActiveSession", arg0, arg1)
-	ret0, _ := ret[0].([]db.QueryActiveSessionRow)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// QueryActiveSession indicates an expected call of QueryActiveSession.
-func (mr *MockStoreMockRecorder) QueryActiveSession(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryActiveSession", reflect.TypeOf((*MockStore)(nil).QueryActiveSession), arg0, arg1)
-}
-
 // QueryComment mocks base method.
 func (m *MockStore) QueryComment(arg0 context.Context, arg1 db.QueryCommentParams) ([]db.QueryCommentRow, error) {
 	m.ctrl.T.Helper()
@@ -1744,6 +1729,21 @@ func (m *MockStore) QueryRepoVisibilityByRepo(arg0 context.Context, arg1 db.Quer
 func (mr *MockStoreMockRecorder) QueryRepoVisibilityByRepo(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryRepoVisibilityByRepo", reflect.TypeOf((*MockStore)(nil).QueryRepoVisibilityByRepo), arg0, arg1)
+}
+
+// QuerySession mocks base method.
+func (m *MockStore) QuerySession(arg0 context.Context, arg1 db.QuerySessionParams) ([]db.QuerySessionRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QuerySession", arg0, arg1)
+	ret0, _ := ret[0].([]db.QuerySessionRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QuerySession indicates an expected call of QuerySession.
+func (mr *MockStoreMockRecorder) QuerySession(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QuerySession", reflect.TypeOf((*MockStore)(nil).QuerySession), arg0, arg1)
 }
 
 // QueryUser mocks base method.

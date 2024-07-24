@@ -17,7 +17,7 @@ SELECT DATE(created_at) AS registration_date, COUNT(*) AS new_users_count
 FROM users
 WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
 GROUP BY registration_date
-ORDER BY registration_date
+ORDER BY registration_date DESC
 `
 
 type GetDailyCreateUserCountRow struct {

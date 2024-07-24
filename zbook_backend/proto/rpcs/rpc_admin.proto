@@ -38,21 +38,21 @@ message UpdateCommentReportStatusRequest {
 }
 message UpdateCommentReportStatusResponse {}
 
-// 5.ListActiveSession
-message ListActiveSessionRequest {
+// 5.ListSession
+message ListSessionRequest {
   int32 page_id   = 1;
   int32 page_size = 2;
   string query    = 3;
 }
-message ListActiveSessionResponse {
-  repeated ActiveSession elements = 1;
+message ListSessionResponse {
+  repeated SessionInfo elements = 1;
 }
 
-// 6.GetListActiveSessionCount
-message GetListActiveSessionCountRequest {
+// 6.GetListSessionCount
+message GetListSessionCountRequest {
   string query = 1;
 }
-message GetListActiveSessionCountResponse {
+message GetListSessionCountResponse {
   int64 count = 1;
 }
 

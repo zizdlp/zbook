@@ -259,40 +259,6 @@
         ]
       }
     },
-    "/v1/get_list_active_session_count": {
-      "post": {
-        "summary": "GetActiveSessionCountRequest",
-        "description": "Use this api to GetActiveSessionCountRequest",
-        "operationId": "ZBookAdmin_GetListActiveSessionCount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/pbGetListActiveSessionCountResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/pbGetListActiveSessionCountRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ZBookAdmin"
-        ]
-      }
-    },
     "/v1/get_list_comment_count": {
       "post": {
         "summary": "GetUserPrivateCountResponse",
@@ -361,16 +327,16 @@
         ]
       }
     },
-    "/v1/list_active_session": {
+    "/v1/get_list_session_count": {
       "post": {
-        "summary": "list active session",
-        "description": "Use this api to  list active session",
-        "operationId": "ZBookAdmin_ListActiveSession",
+        "summary": "GetSessionCountRequest",
+        "description": "Use this api to GetSessionCountRequest",
+        "operationId": "ZBookAdmin_GetListSessionCount",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/pbListActiveSessionResponse"
+              "$ref": "#/definitions/pbGetListSessionCountResponse"
             }
           },
           "default": {
@@ -386,7 +352,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/pbListActiveSessionRequest"
+              "$ref": "#/definitions/pbGetListSessionCountRequest"
             }
           }
         ],
@@ -455,6 +421,40 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbListCommentReportRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/list_session": {
+      "post": {
+        "summary": "list active session",
+        "description": "Use this api to  list active session",
+        "operationId": "ZBookAdmin_ListSession",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListSessionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListSessionRequest"
             }
           }
         ],
@@ -601,31 +601,6 @@
     }
   },
   "definitions": {
-    "pbActiveSession": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "userAgent": {
-          "type": "string"
-        },
-        "clientIp": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "expiresAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
     "pbCreateSystemNotificationRequest": {
       "type": "object",
       "properties": {
@@ -768,24 +743,6 @@
         }
       }
     },
-    "pbGetListActiveSessionCountRequest": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "string"
-        }
-      },
-      "title": "6.GetListActiveSessionCount"
-    },
-    "pbGetListActiveSessionCountResponse": {
-      "type": "object",
-      "properties": {
-        "count": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
     "pbGetListCommentCountRequest": {
       "type": "object",
       "properties": {
@@ -817,32 +774,21 @@
         }
       }
     },
-    "pbListActiveSessionRequest": {
+    "pbGetListSessionCountRequest": {
       "type": "object",
       "properties": {
-        "pageId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
         "query": {
           "type": "string"
         }
       },
-      "title": "5.ListActiveSession"
+      "title": "6.GetListSessionCount"
     },
-    "pbListActiveSessionResponse": {
+    "pbGetListSessionCountResponse": {
       "type": "object",
       "properties": {
-        "elements": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/pbActiveSession"
-          }
+        "count": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -965,12 +911,66 @@
         }
       }
     },
+    "pbListSessionRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "5.ListSession"
+    },
+    "pbListSessionResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbSessionInfo"
+          }
+        }
+      }
+    },
     "pbLogVisitorRequest": {
       "type": "object",
       "title": "14.LogVisitor"
     },
     "pbLogVisitorResponse": {
       "type": "object"
+    },
+    "pbSessionInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "userAgent": {
+          "type": "string"
+        },
+        "clientIp": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     },
     "pbUpdateCommentReportStatusRequest": {
       "type": "object",

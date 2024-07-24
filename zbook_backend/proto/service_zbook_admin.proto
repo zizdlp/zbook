@@ -76,11 +76,11 @@ summary:
 }
 ;
 
-// 5.ListActiveSession
-rpc ListActiveSession(ListActiveSessionRequest)
-    returns (ListActiveSessionResponse) {
+// 5.ListSession
+rpc ListSession(ListSessionRequest)
+    returns (ListSessionResponse) {
   option (google.api.http) = {
-    post: "/v1/list_active_session",
+    post: "/v1/list_session",
     body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -91,17 +91,17 @@ summary:
 }
 ;
 
-// 6.GetListActiveSessionCount
-rpc GetListActiveSessionCount(GetListActiveSessionCountRequest)
-    returns (GetListActiveSessionCountResponse) {
+// 6.GetListSessionCount
+rpc GetListSessionCount(GetListSessionCountRequest)
+    returns (GetListSessionCountResponse) {
   option (google.api.http) = {
-    post: "/v1/get_list_active_session_count",
+    post: "/v1/get_list_session_count",
     body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-    description: "Use this api to GetActiveSessionCountRequest";
+    description: "Use this api to GetSessionCountRequest";
 summary:
-  "GetActiveSessionCountRequest";
+  "GetSessionCountRequest";
 };
 }
 ;

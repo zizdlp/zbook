@@ -12,5 +12,3 @@ ALTER TABLE "sessions"
   ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;
 
 CREATE INDEX ON "sessions" ("user_id");
-CREATE INDEX ON "sessions" ("refresh_token");
-CREATE INDEX ON "sessions" ("expires_at");
