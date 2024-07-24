@@ -19,10 +19,6 @@ DELETE FROM follows
 WHERE follower_id= $1 and following_id=$2
 RETURNING follow_id;
 
-
-
-
-
 -- name: ListFollower :many
 SELECT 
     u.*,
