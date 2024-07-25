@@ -86,7 +86,7 @@ FROM
     repos r
 JOIN 
   users u ON u.user_id = r.user_id
-where r.fts_repo_name @@ plainto_tsquery(@query) 
+where (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query))
   AND (
     (@role::text='admin' AND @signed::bool ) OR (
       u.blocked='false' AND (
@@ -102,12 +102,15 @@ where r.fts_repo_name @@ plainto_tsquery(@query)
   );
   
 -- name: QueryRepo :many
-select r.*,ts_rank(r.fts_repo_name, plainto_tsquery(@query)) as rank,u.username
+select 
+  r.*,
+  u.username,
+  ROUND(ts_rank(r.fts_repo_en, plainto_tsquery(@query))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery(@query))) as rank
 FROM
     repos r
 JOIN 
   users u ON u.user_id = r.user_id
-where r.fts_repo_name @@ plainto_tsquery(@query) 
+where (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query))
   AND (
     (@role::text='admin' AND @signed::bool ) OR (
       u.blocked='false' AND (
@@ -181,7 +184,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND (
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND u.user_id = @user_id AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -197,8 +200,8 @@ WHERE
 
 -- name: QueryUserOwnRepo :many
 SELECT
-   r.*,
-   ts_rank(r.fts_repo_name, plainto_tsquery(@query)) as rank,
+  r.*,
+  ROUND(ts_rank(r.fts_repo_en, plainto_tsquery(@query))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery(@query))) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = @cur_user_id ) as is_liked
 FROM
@@ -206,7 +209,7 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND (
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND u.user_id = @user_id AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
@@ -275,7 +278,7 @@ WHERE
 -- name: QueryUserLikeRepo :many
 SELECT
   r.*,ur.username,
-  ts_rank(r.fts_repo_name, plainto_tsquery(@query)) as rank,
+  ROUND(ts_rank(r.fts_repo_en, plainto_tsquery(@query))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery(@query))) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
     EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = @cur_user_id ) as is_liked
 FROM
@@ -286,7 +289,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like' AND ( 
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND uq.user_id = @user_id AND rr.relation_type='like' AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -315,7 +318,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like'  AND ( 
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND uq.user_id = @user_id AND rr.relation_type='like'  AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (

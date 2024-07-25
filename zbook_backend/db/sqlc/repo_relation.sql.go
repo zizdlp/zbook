@@ -78,7 +78,7 @@ func (q *Queries) DeleteRepoVisibility(ctx context.Context, arg DeleteRepoVisibi
 }
 
 const getRepoVisibility = `-- name: GetRepoVisibility :one
-SELECT repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, created_at, updated_at, fts_repo_name
+SELECT repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, created_at, updated_at, fts_repo_en, fts_repo_zh
 FROM repos
 WHERE user_id = $1 and repo_id=$2
 `
@@ -108,7 +108,8 @@ func (q *Queries) GetRepoVisibility(ctx context.Context, arg GetRepoVisibilityPa
 		&i.Layout,
 		&i.CreatedAt,
 		&i.UpdatedAt,
-		&i.FtsRepoName,
+		&i.FtsRepoEn,
+		&i.FtsRepoZh,
 	)
 	return i, err
 }

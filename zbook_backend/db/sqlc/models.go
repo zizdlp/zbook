@@ -108,7 +108,8 @@ type Repo struct {
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
-	FtsRepoName     string      `json:"fts_repo_name"`
+	FtsRepoEn       string      `json:"fts_repo_en"`
+	FtsRepoZh       string      `json:"fts_repo_zh"`
 }
 
 type RepoNotification struct {
