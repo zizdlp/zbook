@@ -634,7 +634,7 @@ WHERE
     )
   )
     
-ORDER BY r.repo_id
+ORDER BY r.created_at DESC
 LIMIT $1
 OFFSET $2
 `
@@ -857,7 +857,7 @@ WHERE
         )
       )
     )
-ORDER BY r.repo_id
+ORDER BY r.created_at DESC
 LIMIT $1
 OFFSET $2
 `

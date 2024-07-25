@@ -311,6 +311,7 @@ func TestListRepo(t *testing.T) {
 	repos, err := testStore.ListRepo(context.Background(), arg)
 	require.NoError(t, err)
 	require.True(t, len(repos) >= 6)
+	require.Equal(t, repos[0].RepoID, repo32.RepoID)
 }
 
 func TestGetQueryUserOwnRepoCount(t *testing.T) {
@@ -359,6 +360,31 @@ func TestQueryUserOwnRepo(t *testing.T) {
 	require.Equal(t, 1, len(repos1))
 }
 
+func TestGetListUserOwnRepoCount(t *testing.T) {
+	cur_user := createRandomUser(t)
+	user1 := createRandomUser(t)
+	repo11 := createUserRandomRepo(t, user1)
+	updateRepoVisibility(t, repo11, util.VisibilityPublic)
+	arg := GetListUserOwnRepoCountParams{
+		UserID:    user1.UserID,
+		Role:      cur_user.UserRole,
+		Signed:    true,
+		CurUserID: cur_user.UserID,
+	}
+	count1, err := testStore.GetListUserOwnRepoCount(context.Background(), arg)
+	require.NoError(t, err)
+	updateRepoVisibility(t, repo11, util.VisibilityPrivate)
+	arg = GetListUserOwnRepoCountParams{
+		UserID:    user1.UserID,
+		Role:      cur_user.UserRole,
+		Signed:    true,
+		CurUserID: cur_user.UserID,
+	}
+	count2, err := testStore.GetListUserOwnRepoCount(context.Background(), arg)
+	require.NoError(t, err)
+	require.Equal(t, count1, int64(1))
+	require.Equal(t, count2, int64(0))
+}
 func TestListUserOwnRepo(t *testing.T) {
 	user1 := createRandomUser(t)
 	user2 := createRandomUser(t)
@@ -449,6 +475,92 @@ func TestListUserOwnRepo(t *testing.T) {
 	}
 }
 
+func TestGetListUserLikeRepoCount(t *testing.T) {
+
+	user1 := createRandomUser(t)
+	user2 := createRandomUser(t)
+	user3 := createRandomUser(t)
+	user4 := createRandomUser(t)
+	repo11 := createUserRandomRepo(t, user1)
+	repo12 := createUserRandomRepo(t, user1)
+	repo13 := createUserRandomRepo(t, user1)
+	repo14 := createUserRandomRepo(t, user1)
+	repo21 := createUserRandomRepo(t, user2)
+	repo22 := createUserRandomRepo(t, user2)
+	repo31 := createUserRandomRepo(t, user3)
+	repo32 := createUserRandomRepo(t, user3)
+
+	testCreateRelationUserRepoRelation(t, user1, repo11, util.RelationTypeLike)
+	testCreateRelationUserRepoRelation(t, user1, repo12, util.RelationTypeLike)
+	testCreateRelationUserRepoRelation(t, user1, repo13, util.RelationTypeLike)
+	testCreateRelationUserRepoRelation(t, user1, repo14, util.RelationTypeLike)
+	testCreateRelationUserRepoRelation(t, user1, repo21, util.RelationTypeLike)
+	testCreateRelationUserRepoRelation(t, user1, repo22, util.RelationTypeLike)
+	testCreateRelationUserRepoRelation(t, user1, repo31, util.RelationTypeLike)
+	testCreateRelationUserRepoRelation(t, user1, repo32, util.RelationTypeLike)
+
+	updateRepoVisibility(t, repo11, util.VisibilityPrivate)
+	updateRepoVisibility(t, repo12, util.VisibilityPublic)
+	updateRepoVisibility(t, repo13, util.VisibilityChosed)
+	updateRepoVisibility(t, repo14, util.VisibilitySigned)
+
+	updateRepoVisibility(t, repo21, util.VisibilityPrivate)
+	updateRepoVisibility(t, repo22, util.VisibilityPublic)
+	updateRepoVisibility(t, repo31, util.VisibilityPublic)
+	updateRepoVisibility(t, repo32, util.VisibilitySigned)
+
+	{
+		// sign out
+		arg := GetListUserLikeRepoCountParams{
+			UserID:    user1.UserID,
+			Role:      util.RandomUserRole(),
+			Signed:    false,
+			CurUserID: 0,
+		}
+		counts, err := testStore.GetListUserLikeRepoCount(context.Background(), arg)
+		require.NoError(t, err)
+		require.Equal(t, counts, int64(3))
+	}
+
+	{
+		// signed
+		arg := GetListUserLikeRepoCountParams{
+			UserID:    user1.UserID,
+			Role:      user4.UserRole,
+			Signed:    true,
+			CurUserID: user4.UserID,
+		}
+		counts, err := testStore.GetListUserLikeRepoCount(context.Background(), arg)
+		require.NoError(t, err)
+		require.Equal(t, counts, int64(5))
+	}
+
+	{
+		// other in group
+		arg := GetListUserLikeRepoCountParams{
+			UserID:    user1.UserID,
+			Role:      user2.UserRole,
+			Signed:    true,
+			CurUserID: user2.UserID,
+		}
+		counts, err := testStore.GetListUserLikeRepoCount(context.Background(), arg)
+		require.NoError(t, err)
+		require.Equal(t, counts, int64(6))
+	}
+
+	{
+		// self
+		arg := GetListUserLikeRepoCountParams{
+			UserID:    user1.UserID,
+			Role:      user1.UserRole,
+			Signed:    true,
+			CurUserID: user1.UserID,
+		}
+		counts, err := testStore.GetListUserLikeRepoCount(context.Background(), arg)
+		require.NoError(t, err)
+		require.Equal(t, counts, int64(7))
+	}
+}
 func TestListUserLikeRepo(t *testing.T) {
 
 	user1 := createRandomUser(t)
@@ -544,6 +656,44 @@ func TestListUserLikeRepo(t *testing.T) {
 	}
 }
 
+func TestQueryUserLikeRepoCount(t *testing.T) {
+	cur_user := createRandomUser(t)
+	user1 := createRandomUser(t)
+	repo11 := createUserRandomRepo(t, user1)
+	testCreateRelationUserRepoRelation(t, user1, repo11, util.RelationTypeLike)
+	updateRepoVisibility(t, repo11, util.VisibilityPublic)
+	arg := GetQueryUserLikeRepoCountParams{
+		Query:     repo11.RepoName,
+		UserID:    user1.UserID,
+		Role:      cur_user.UserRole,
+		Signed:    true,
+		CurUserID: cur_user.UserID,
+	}
+	counts, err := testStore.GetQueryUserLikeRepoCount(context.Background(), arg)
+	require.NoError(t, err)
+	require.Equal(t, int64(1), counts)
+}
+
+func TestQueryUserLikeRepo(t *testing.T) {
+	cur_user := createRandomUser(t)
+	user1 := createRandomUser(t)
+	repo11 := createUserRandomRepo(t, user1)
+	testCreateRelationUserRepoRelation(t, user1, repo11, util.RelationTypeLike)
+	updateRepoVisibility(t, repo11, util.VisibilityPublic)
+	arg := QueryUserLikeRepoParams{
+		Limit:     5,
+		Offset:    0,
+		Query:     repo11.RepoName,
+		UserID:    user1.UserID,
+		Role:      cur_user.UserRole,
+		Signed:    true,
+		CurUserID: cur_user.UserID,
+	}
+	repos1, err := testStore.QueryUserLikeRepo(context.Background(), arg)
+	require.NoError(t, err)
+	require.Equal(t, 1, len(repos1))
+}
+
 func createUserRandomRepo(t *testing.T, user User) Repo {
 	arg := CreateRepoParams{
 		UserID:          user.UserID,
@@ -562,7 +712,6 @@ func createUserRandomRepo(t *testing.T, user User) Repo {
 	require.Equal(t, repo.UserID, user.UserID)
 	return repo
 }
-
 func updateRepoVisibility(t *testing.T, repo Repo, visibility string) {
 	arg := UpdateRepoInfoParams{
 		RepoID:          repo.RepoID,
