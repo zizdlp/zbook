@@ -25,7 +25,6 @@ type Querier interface {
 	CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, error)
 	CreateRepoNotification(ctx context.Context, arg CreateRepoNotificationParams) (RepoNotification, error)
 	CreateRepoRelation(ctx context.Context, arg CreateRepoRelationParams) error
-	CreateRepoVisibility(ctx context.Context, arg CreateRepoVisibilityParams) error
 	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	CreateSystemNotification(ctx context.Context, arg CreateSystemNotificationParams) (SystemNotification, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
@@ -38,7 +37,6 @@ type Querier interface {
 	DeleteOAuth(ctx context.Context, arg DeleteOAuthParams) (Oauth, error)
 	DeleteRepo(ctx context.Context, repoID int64) error
 	DeleteRepoRelation(ctx context.Context, arg DeleteRepoRelationParams) error
-	DeleteRepoVisibility(ctx context.Context, arg DeleteRepoVisibilityParams) error
 	DeleteUser(ctx context.Context, username string) error
 	GetCommentBasicInfo(ctx context.Context, commentID int64) (GetCommentBasicInfoRow, error)
 	GetCommentDetail(ctx context.Context, arg GetCommentDetailParams) (GetCommentDetailRow, error)
@@ -80,7 +78,7 @@ type Querier interface {
 	GetRepoID(ctx context.Context, arg GetRepoIDParams) (int64, error)
 	GetRepoLayout(ctx context.Context, arg GetRepoLayoutParams) (GetRepoLayoutRow, error)
 	GetRepoPermission(ctx context.Context, repoID int64) (GetRepoPermissionRow, error)
-	GetRepoVisibility(ctx context.Context, arg GetRepoVisibilityParams) (Repo, error)
+	GetRepoRelation(ctx context.Context, arg GetRepoRelationParams) (RepoRelation, error)
 	GetRepoVisibilityByRepoCount(ctx context.Context, repoID int64) (int64, error)
 	GetSession(ctx context.Context, sessionID uuid.UUID) (Session, error)
 	GetUnReadCount(ctx context.Context, username string) (int32, error)

@@ -29,23 +29,6 @@ func (q *Queries) CreateRepoRelation(ctx context.Context, arg CreateRepoRelation
 	return err
 }
 
-const createRepoVisibility = `-- name: CreateRepoVisibility :exec
-INSERT INTO repo_visibility (
-  repo_id,
-  user_id
-) VALUES ($1,$2)
-`
-
-type CreateRepoVisibilityParams struct {
-	RepoID int64 `json:"repo_id"`
-	UserID int64 `json:"user_id"`
-}
-
-func (q *Queries) CreateRepoVisibility(ctx context.Context, arg CreateRepoVisibilityParams) error {
-	_, err := q.db.Exec(ctx, createRepoVisibility, arg.RepoID, arg.UserID)
-	return err
-}
-
 const deleteRepoRelation = `-- name: DeleteRepoRelation :exec
 DELETE FROM repo_relations
 WHERE user_id=$1 and repo_id=$2 and relation_type = $3
@@ -62,53 +45,27 @@ func (q *Queries) DeleteRepoRelation(ctx context.Context, arg DeleteRepoRelation
 	return err
 }
 
-const deleteRepoVisibility = `-- name: DeleteRepoVisibility :exec
-DELETE FROM repo_visibility
-WHERE user_id=$1 and repo_id=$2
+const getRepoRelation = `-- name: GetRepoRelation :one
+SELECT relation_id, relation_type, user_id, repo_id, created_at
+FROM repo_relations
+WHERE user_id = $1 and repo_id=$2 and relation_type = $3
 `
 
-type DeleteRepoVisibilityParams struct {
-	UserID int64 `json:"user_id"`
-	RepoID int64 `json:"repo_id"`
+type GetRepoRelationParams struct {
+	UserID       int64  `json:"user_id"`
+	RepoID       int64  `json:"repo_id"`
+	RelationType string `json:"relation_type"`
 }
 
-func (q *Queries) DeleteRepoVisibility(ctx context.Context, arg DeleteRepoVisibilityParams) error {
-	_, err := q.db.Exec(ctx, deleteRepoVisibility, arg.UserID, arg.RepoID)
-	return err
-}
-
-const getRepoVisibility = `-- name: GetRepoVisibility :one
-SELECT repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, created_at, updated_at, fts_repo_name
-FROM repos
-WHERE user_id = $1 and repo_id=$2
-`
-
-type GetRepoVisibilityParams struct {
-	UserID int64 `json:"user_id"`
-	RepoID int64 `json:"repo_id"`
-}
-
-func (q *Queries) GetRepoVisibility(ctx context.Context, arg GetRepoVisibilityParams) (Repo, error) {
-	row := q.db.QueryRow(ctx, getRepoVisibility, arg.UserID, arg.RepoID)
-	var i Repo
+func (q *Queries) GetRepoRelation(ctx context.Context, arg GetRepoRelationParams) (RepoRelation, error) {
+	row := q.db.QueryRow(ctx, getRepoRelation, arg.UserID, arg.RepoID, arg.RelationType)
+	var i RepoRelation
 	err := row.Scan(
-		&i.RepoID,
+		&i.RelationID,
+		&i.RelationType,
 		&i.UserID,
-		&i.GitProtocol,
-		&i.GitHost,
-		&i.GitUsername,
-		&i.GitRepo,
-		&i.GitAccessToken,
-		&i.RepoName,
-		&i.RepoDescription,
-		&i.HomePage,
-		&i.SyncToken,
-		&i.VisibilityLevel,
-		&i.CommitID,
-		&i.Layout,
+		&i.RepoID,
 		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.FtsRepoName,
 	)
 	return i, err
 }
@@ -116,9 +73,9 @@ func (q *Queries) GetRepoVisibility(ctx context.Context, arg GetRepoVisibilityPa
 const getRepoVisibilityByRepoCount = `-- name: GetRepoVisibilityByRepoCount :one
 SELECT COUNT(*)
 FROM repos as r
-LEFT JOIN repo_visibility as rv ON rv.repo_id=r.repo_id
-JOIN users as u ON u.user_id = rv.user_id
-WHERE r.repo_id=$1
+LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
+JOIN users as u ON u.user_id = rr.user_id
+WHERE r.repo_id=$1 AND rr.relation_type = 'visi'
 `
 
 func (q *Queries) GetRepoVisibilityByRepoCount(ctx context.Context, repoID int64) (int64, error) {
@@ -131,10 +88,10 @@ func (q *Queries) GetRepoVisibilityByRepoCount(ctx context.Context, repoID int64
 const listRepoVisibilityByRepo = `-- name: ListRepoVisibilityByRepo :many
 SELECT u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username
 FROM repos as r
-LEFT JOIN repo_visibility as rv ON rv.repo_id=r.repo_id
-JOIN users as u ON u.user_id = rv.user_id
-WHERE r.repo_id=$3
-ORDER BY u.user_id
+LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
+JOIN users as u ON u.user_id = rr.user_id
+WHERE r.repo_id=$3 AND rr.relation_type = 'visi'
+ORDER BY rr.created_at DESC
 LIMIT $1
 OFFSET $2
 `
@@ -183,14 +140,14 @@ func (q *Queries) ListRepoVisibilityByRepo(ctx context.Context, arg ListRepoVisi
 const queryRepoVisibilityByRepo = `-- name: QueryRepoVisibilityByRepo :many
 SELECT
    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
-   CASE WHEN MAX(rv.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
+   CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
 FROM 
   users as u 
 LEFT JOIN 
-    repo_visibility rv ON rv.user_id = u.user_id AND rv.repo_id=$3
-WHERE u.username=$4
-GROUP BY u.user_id
-ORDER BY u.user_id
+    repo_relations rr ON rr.user_id = u.user_id AND rr.repo_id=$3
+WHERE u.username=$4 AND rr.relation_type = 'visi'
+GROUP BY u.user_id,rr.created_at
+ORDER BY rr.created_at DESC
 LIMIT $1
 OFFSET $2
 `

@@ -32,8 +32,6 @@ home_page=COALESCE(sqlc.narg(home_page),home_page)
 WHERE repo_id = sqlc.arg(repo_id)
 RETURNING *;
 
-
-
 -- name: DeleteRepo :exec
 DELETE FROM repos
 WHERE repo_id = $1;
@@ -86,7 +84,7 @@ FROM
     repos r
 JOIN 
   users u ON u.user_id = r.user_id
-where r.fts_repo_name @@ plainto_tsquery(@query) 
+where (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query))
   AND (
     (@role::text='admin' AND @signed::bool ) OR (
       u.blocked='false' AND (
@@ -94,7 +92,7 @@ where r.fts_repo_name @@ plainto_tsquery(@query)
         OR 
         (r.visibility_level = 'signed' AND @signed::bool)
         OR
-        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
         OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
       )
@@ -102,12 +100,15 @@ where r.fts_repo_name @@ plainto_tsquery(@query)
   );
   
 -- name: QueryRepo :many
-select r.*,ts_rank(r.fts_repo_name, plainto_tsquery(@query)) as rank,u.username
+select 
+  r.*,
+  u.username,
+  ROUND(ts_rank(r.fts_repo_en, plainto_tsquery(@query))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery(@query))) as rank
 FROM
     repos r
 JOIN 
   users u ON u.user_id = r.user_id
-where r.fts_repo_name @@ plainto_tsquery(@query) 
+where (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query))
   AND (
     (@role::text='admin' AND @signed::bool ) OR (
       u.blocked='false' AND (
@@ -115,41 +116,13 @@ where r.fts_repo_name @@ plainto_tsquery(@query)
         OR 
         (r.visibility_level = 'signed' AND @signed::bool)
         OR
-        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
         OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
       )
     )
   )
 ORDER BY rank DESC
-LIMIT $1
-OFFSET $2;
-
-
--- name: ListRepo :many
-SELECT
-   r.*,
-   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
-   u.username,
-   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = @cur_user_id ) as is_liked
-FROM
-    repos r
-JOIN 
-  users u ON u.user_id = r.user_id
-WHERE
-  (@role::text='admin' AND @signed::bool ) OR (
-    u.blocked='false' AND (
-      r.visibility_level = 'public'
-      OR 
-      (r.visibility_level = 'signed' AND @signed::bool)
-      OR
-      (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
-      OR
-      ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
-    )
-  )
-    
-ORDER BY r.repo_id
 LIMIT $1
 OFFSET $2;
 
@@ -168,11 +141,40 @@ WHERE
         OR 
         (r.visibility_level = 'signed' AND @signed::bool)
         OR
-        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
         OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
       )
   );
+
+-- name: ListRepo :many
+SELECT
+   r.*,
+   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
+   u.username,
+   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = @cur_user_id ) as is_liked
+FROM
+    repos r
+JOIN 
+  users u ON u.user_id = r.user_id
+WHERE
+  (@role::text='admin' AND @signed::bool ) OR (
+    u.blocked='false' AND (
+      r.visibility_level = 'public'
+      OR 
+      (r.visibility_level = 'signed' AND @signed::bool)
+      OR
+      (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
+      OR
+      ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
+    )
+  )
+    
+ORDER BY r.created_at DESC
+LIMIT $1
+OFFSET $2;
+
+
 -- name: GetQueryUserOwnRepoCount :one
 SELECT
   COUNT(*)
@@ -181,14 +183,14 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND (
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND u.user_id = @user_id AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
           OR 
           (r.visibility_level = 'signed' AND @signed::bool)
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )
@@ -197,8 +199,8 @@ WHERE
 
 -- name: QueryUserOwnRepo :many
 SELECT
-   r.*,
-   ts_rank(r.fts_repo_name, plainto_tsquery(@query)) as rank,
+  r.*,
+  ROUND(ts_rank(r.fts_repo_en, plainto_tsquery(@query))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery(@query))) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = @cur_user_id ) as is_liked
 FROM
@@ -206,14 +208,14 @@ FROM
 JOIN
     users as u ON u.user_id=r.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND u.user_id = @user_id AND (
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND u.user_id = @user_id AND (
       (@role::text='admin' AND @signed::bool ) OR (
         u.blocked='false' AND (
           r.visibility_level = 'public'
           OR 
           (r.visibility_level = 'signed' AND @signed::bool)
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )
@@ -240,13 +242,13 @@ WHERE
           OR 
           (r.visibility_level = 'signed' AND @signed::bool)
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )
       )
     )
-ORDER BY r.repo_id
+ORDER BY r.created_at DESC
 LIMIT $1
 OFFSET $2;
 
@@ -265,7 +267,7 @@ WHERE
           OR 
           (r.visibility_level = 'signed' AND @signed::bool)
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )
@@ -275,7 +277,7 @@ WHERE
 -- name: QueryUserLikeRepo :many
 SELECT
   r.*,ur.username,
-  ts_rank(r.fts_repo_name, plainto_tsquery(@query)) as rank,
+  ROUND(ts_rank(r.fts_repo_en, plainto_tsquery(@query))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery(@query))) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
     EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = @cur_user_id ) as is_liked
 FROM
@@ -286,7 +288,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like' AND ( 
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND uq.user_id = @user_id AND rr.relation_type='like' AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -294,7 +296,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND @signed::bool) 
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )
@@ -315,7 +317,7 @@ JOIN
 JOIN
     users as uq ON uq.user_id=rr.user_id
 WHERE
-    r.fts_repo_name @@ plainto_tsquery(@query) AND uq.user_id = @user_id AND rr.relation_type='like'  AND ( 
+    (r.fts_repo_en @@ plainto_tsquery(@query) OR r.fts_repo_zh @@ plainto_tsquery(@query)) AND uq.user_id = @user_id AND rr.relation_type='like'  AND ( 
       (@role::text='admin' AND @signed::bool ) OR (
         uq.blocked = FALSE AND ur.blocked =FALSE AND 
         (
@@ -323,7 +325,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND @signed::bool) 
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )
@@ -352,7 +354,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND @signed::bool) 
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )
@@ -381,7 +383,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND @signed::bool) 
           OR
-          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+          (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
         )

@@ -86,11 +86,12 @@ func TestListFollower(t *testing.T) {
 	updateRepoVisibility(t, repo51, util.VisibilityPrivate)
 	repo52 := createUserRandomRepo(t, user5)
 	updateRepoVisibility(t, repo52, util.VisibilityChosed)
-	arg_repoV := CreateRepoVisibilityParams{
-		RepoID: repo52.RepoID,
-		UserID: cur_user.UserID,
+	arg_repoV := CreateRepoRelationParams{
+		RepoID:       repo52.RepoID,
+		UserID:       cur_user.UserID,
+		RelationType: util.RelationTypeVisi,
 	}
-	testStore.CreateRepoVisibility(context.Background(), arg_repoV)
+	testStore.CreateRepoRelation(context.Background(), arg_repoV)
 
 	repo53 := createUserRandomRepo(t, user5)
 	updateRepoVisibility(t, repo53, util.VisibilitySigned)
@@ -412,11 +413,12 @@ func TestListFollowing(t *testing.T) {
 	updateRepoVisibility(t, repo51, util.VisibilityPrivate)
 	repo52 := createUserRandomRepo(t, user5)
 	updateRepoVisibility(t, repo52, util.VisibilityChosed)
-	arg_repoV := CreateRepoVisibilityParams{
-		RepoID: repo52.RepoID,
-		UserID: cur_user.UserID,
+	arg_repoV := CreateRepoRelationParams{
+		RepoID:       repo52.RepoID,
+		UserID:       cur_user.UserID,
+		RelationType: util.RelationTypeVisi,
 	}
-	testStore.CreateRepoVisibility(context.Background(), arg_repoV)
+	testStore.CreateRepoRelation(context.Background(), arg_repoV)
 
 	repo53 := createUserRandomRepo(t, user5)
 	updateRepoVisibility(t, repo53, util.VisibilitySigned)

@@ -108,7 +108,8 @@ type Repo struct {
 	Layout          string      `json:"layout"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
-	FtsRepoName     string      `json:"fts_repo_name"`
+	FtsRepoEn       string      `json:"fts_repo_en"`
+	FtsRepoZh       string      `json:"fts_repo_zh"`
 }
 
 type RepoNotification struct {
@@ -124,13 +125,6 @@ type RepoRelation struct {
 	RelationType string    `json:"relation_type"`
 	UserID       int64     `json:"user_id"`
 	RepoID       int64     `json:"repo_id"`
-	CreatedAt    time.Time `json:"created_at"`
-}
-
-type RepoVisibility struct {
-	VisibilityID int64     `json:"visibility_id"`
-	RepoID       int64     `json:"repo_id"`
-	UserID       int64     `json:"user_id"`
 	CreatedAt    time.Time `json:"created_at"`
 }
 

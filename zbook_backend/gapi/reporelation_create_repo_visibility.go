@@ -42,11 +42,12 @@ func (server *Server) CreateRepoVisibility(ctx context.Context, req *rpcs.Create
 		return nil, status.Error(codes.PermissionDenied, "cannot update other user's repo")
 	}
 
-	arg := db.CreateRepoVisibilityParams{
-		RepoID: repo.RepoID,
-		UserID: user.UserID,
+	arg := db.CreateRepoRelationParams{
+		RepoID:       repo.RepoID,
+		UserID:       user.UserID,
+		RelationType: util.RelationTypeVisi,
 	}
-	server.store.CreateRepoVisibility(ctx, arg)
+	server.store.CreateRepoRelation(ctx, arg)
 
 	rsp := &rpcs.CreateRepoVisibilityResponse{}
 	return rsp, nil

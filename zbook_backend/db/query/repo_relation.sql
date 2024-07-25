@@ -9,50 +9,40 @@ INSERT INTO repo_relations (
 DELETE FROM repo_relations
 WHERE user_id=$1 and repo_id=$2 and relation_type = $3;
 
--- name: CreateRepoVisibility :exec
-INSERT INTO repo_visibility (
-  repo_id,
-  user_id
-) VALUES ($1,$2);
-
--- name: DeleteRepoVisibility :exec
-DELETE FROM repo_visibility
-WHERE user_id=$1 and repo_id=$2;
-
-
--- name: GetRepoVisibility :one
+-- name: GetRepoRelation :one
 SELECT *
-FROM repos
-WHERE user_id = $1 and repo_id=$2;
+FROM repo_relations
+WHERE user_id = $1 and repo_id=$2 and relation_type = $3;
 
--- name: ListRepoVisibilityByRepo :many
-SELECT u.*
-FROM repos as r
-LEFT JOIN repo_visibility as rv ON rv.repo_id=r.repo_id
-JOIN users as u ON u.user_id = rv.user_id
-WHERE r.repo_id=$3
-ORDER BY u.user_id
-LIMIT $1
-OFFSET $2;
 
 -- name: GetRepoVisibilityByRepoCount :one
 SELECT COUNT(*)
 FROM repos as r
-LEFT JOIN repo_visibility as rv ON rv.repo_id=r.repo_id
-JOIN users as u ON u.user_id = rv.user_id
-WHERE r.repo_id=$1;
+LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
+JOIN users as u ON u.user_id = rr.user_id
+WHERE r.repo_id=$1 AND rr.relation_type = 'visi';
+
+-- name: ListRepoVisibilityByRepo :many
+SELECT u.*
+FROM repos as r
+LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
+JOIN users as u ON u.user_id = rr.user_id
+WHERE r.repo_id=$3 AND rr.relation_type = 'visi'
+ORDER BY rr.created_at DESC
+LIMIT $1
+OFFSET $2;
 
 
 -- name: QueryRepoVisibilityByRepo :many
 SELECT
    u.*,
-   CASE WHEN MAX(rv.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
+   CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
 FROM 
   users as u 
 LEFT JOIN 
-    repo_visibility rv ON rv.user_id = u.user_id AND rv.repo_id=$3
-WHERE u.username=$4
-GROUP BY u.user_id
-ORDER BY u.user_id
+    repo_relations rr ON rr.user_id = u.user_id AND rr.repo_id=$3
+WHERE u.username=$4 AND rr.relation_type = 'visi'
+GROUP BY u.user_id,rr.created_at
+ORDER BY rr.created_at DESC
 LIMIT $1
 OFFSET $2;
