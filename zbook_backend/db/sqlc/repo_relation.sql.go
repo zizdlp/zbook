@@ -91,7 +91,7 @@ FROM repos as r
 LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
 JOIN users as u ON u.user_id = rr.user_id
 WHERE r.repo_id=$3 AND rr.relation_type = 'visi'
-ORDER BY u.user_id
+ORDER BY rr.created_at DESC
 LIMIT $1
 OFFSET $2
 `
@@ -146,8 +146,8 @@ FROM
 LEFT JOIN 
     repo_relations rr ON rr.user_id = u.user_id AND rr.repo_id=$3
 WHERE u.username=$4 AND rr.relation_type = 'visi'
-GROUP BY u.user_id
-ORDER BY u.user_id
+GROUP BY u.user_id,rr.created_at
+ORDER BY rr.created_at DESC
 LIMIT $1
 OFFSET $2
 `
