@@ -32,8 +32,6 @@ home_page=COALESCE(sqlc.narg(home_page),home_page)
 WHERE repo_id = sqlc.arg(repo_id)
 RETURNING *;
 
-
-
 -- name: DeleteRepo :exec
 DELETE FROM repos
 WHERE repo_id = $1;
@@ -129,6 +127,26 @@ LIMIT $1
 OFFSET $2;
 
 
+-- name: GetListRepoCount :one
+SELECT
+   count(*)
+FROM
+    repos r
+JOIN 
+  users u ON u.user_id = r.user_id
+WHERE
+  (@role::text='admin' AND @signed::bool ) OR (
+      u.blocked='false' AND (
+        r.visibility_level = 'public'
+        OR 
+        (r.visibility_level = 'signed' AND @signed::bool)
+        OR
+        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
+        OR
+        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
+      )
+  );
+
 -- name: ListRepo :many
 SELECT
    r.*,
@@ -157,25 +175,6 @@ LIMIT $1
 OFFSET $2;
 
 
--- name: GetListRepoCount :one
-SELECT
-   count(*)
-FROM
-    repos r
-JOIN 
-  users u ON u.user_id = r.user_id
-WHERE
-  (@role::text='admin' AND @signed::bool ) OR (
-      u.blocked='false' AND (
-        r.visibility_level = 'public'
-        OR 
-        (r.visibility_level = 'signed' AND @signed::bool)
-        OR
-        (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = @cur_user_id))
-        OR
-        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
-      )
-  );
 -- name: GetQueryUserOwnRepoCount :one
 SELECT
   COUNT(*)
