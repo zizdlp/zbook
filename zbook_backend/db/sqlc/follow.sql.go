@@ -65,7 +65,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $1 AND repo_relations.relation_type = 'visi')) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $1 OR $2::text='admin')))
 WHERE 
     f.following_id = $3 AND (u.blocked='false' OR $2::text='admin')
@@ -96,7 +96,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $1 AND repo_relations.relation_type = 'visi')) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $1 OR $2::text='admin')))
 WHERE 
     f.follower_id = $3 AND (u.blocked='false' OR $2::text='admin')
@@ -127,7 +127,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $1 AND repo_relations.relation_type = 'visi')) OR
        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $1 OR $2::text='admin')))
 WHERE 
     f.following_id = $3 and u.fts_username @@ plainto_tsquery($4) AND (u.blocked='false' OR $2::text='admin')
@@ -164,7 +164,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $1)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $1 AND repo_relations.relation_type = 'visi')) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $1 OR $2::text='admin')))
 WHERE 
     f.follower_id = $3 and u.fts_username @@ plainto_tsquery($4) AND (u.blocked='false' OR $2::text='admin')
@@ -225,7 +225,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $3 AND repo_relations.relation_type = 'visi')) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $3 OR $4::text='admin')))
 WHERE 
     f.following_id = $5 AND (u.blocked='false' OR $4::text='admin')
@@ -321,7 +321,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $3 AND repo_relations.relation_type = 'visi')) OR
        ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $3 OR $4::text='admin')))
 WHERE 
     f.follower_id = $5 AND (u.blocked='false' OR $4::text='admin')
@@ -418,7 +418,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $4 AND repo_relations.relation_type = 'visi')) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $4 OR $5::text='admin')))
 WHERE 
     f.following_id = $6 and u.fts_username @@ plainto_tsquery($3) AND (u.blocked='false' OR $5::text='admin')
@@ -519,7 +519,7 @@ LEFT JOIN
 LEFT JOIN repos r ON r.user_id = u.user_id AND (
         r.visibility_level = 'public' OR 
         r.visibility_level = 'signed' OR
-        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4)) OR
+        (r.visibility_level = 'chosen' AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $4 AND repo_relations.relation_type = 'visi')) OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND (r.user_id = $4 OR $5::text='admin')))
 WHERE 
     f.follower_id = $6 and u.fts_username @@ plainto_tsquery($3) AND (u.blocked='false' OR $5::text='admin')

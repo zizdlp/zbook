@@ -42,11 +42,12 @@ func (server *Server) DeleteRepoVisibility(ctx context.Context, req *rpcs.Delete
 		return nil, status.Error(codes.PermissionDenied, "cannot update other user's repo")
 	}
 
-	arg := db.DeleteRepoVisibilityParams{
-		RepoID: repo.RepoID,
-		UserID: user.UserID,
+	arg := db.DeleteRepoRelationParams{
+		RepoID:       repo.RepoID,
+		UserID:       user.UserID,
+		RelationType: util.RelationTypeVisi,
 	}
-	server.store.DeleteRepoVisibility(ctx, arg)
+	server.store.DeleteRepoRelation(ctx, arg)
 
 	rsp := &rpcs.DeleteRepoVisibilityResponse{}
 	return rsp, nil

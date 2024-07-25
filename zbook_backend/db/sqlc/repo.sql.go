@@ -108,7 +108,7 @@ WHERE
         OR 
         (r.visibility_level = 'signed' AND $2::bool)
         OR
-        (r.visibility_level = 'chosen' AND $2::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
+        (r.visibility_level = 'chosen' AND $2::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $3 AND repo_relations.relation_type = 'visi'))
         OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $2::bool)
       )
@@ -147,7 +147,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND $3::bool) 
           OR
-          (r.visibility_level = 'chosen' AND $3::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4))
+          (r.visibility_level = 'chosen' AND $3::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $4 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $4 AND $3::bool)
         )
@@ -189,7 +189,7 @@ WHERE
           OR 
           (r.visibility_level = 'signed' AND $3::bool)
           OR
-          (r.visibility_level = 'chosen' AND $3::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4))
+          (r.visibility_level = 'chosen' AND $3::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $4 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $4 AND $3::bool)
         )
@@ -231,7 +231,7 @@ where (r.fts_repo_en @@ plainto_tsquery($1) OR r.fts_repo_zh @@ plainto_tsquery(
         OR 
         (r.visibility_level = 'signed' AND $3::bool)
         OR
-        (r.visibility_level = 'chosen' AND $3::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4))
+        (r.visibility_level = 'chosen' AND $3::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $4 AND repo_relations.relation_type = 'visi'))
         OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $4 AND $3::bool)
       )
@@ -277,7 +277,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND $4::bool) 
           OR
-          (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $5))
+          (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $5 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $5 AND $4::bool)
         )
@@ -321,7 +321,7 @@ WHERE
           OR 
           (r.visibility_level = 'signed' AND $4::bool)
           OR
-          (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $5))
+          (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $5 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $5 AND $4::bool)
         )
@@ -628,7 +628,7 @@ WHERE
       OR 
       (r.visibility_level = 'signed' AND $5::bool)
       OR
-      (r.visibility_level = 'chosen' AND $5::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
+      (r.visibility_level = 'chosen' AND $5::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $3 AND repo_relations.relation_type = 'visi'))
       OR
       ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $5::bool)
     )
@@ -741,7 +741,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND $6::bool) 
           OR
-          (r.visibility_level = 'chosen' AND $6::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
+          (r.visibility_level = 'chosen' AND $6::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $3 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $6::bool)
         )
@@ -851,7 +851,7 @@ WHERE
           OR 
           (r.visibility_level = 'signed' AND $6::bool)
           OR
-          (r.visibility_level = 'chosen' AND $6::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $3))
+          (r.visibility_level = 'chosen' AND $6::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $3 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $3 AND $6::bool)
         )
@@ -959,7 +959,7 @@ where (r.fts_repo_en @@ plainto_tsquery($3) OR r.fts_repo_zh @@ plainto_tsquery(
         OR 
         (r.visibility_level = 'signed' AND $5::bool)
         OR
-        (r.visibility_level = 'chosen' AND $5::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $6))
+        (r.visibility_level = 'chosen' AND $5::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $6 AND repo_relations.relation_type = 'visi'))
         OR
         ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $6 AND $5::bool)
       )
@@ -1072,7 +1072,7 @@ WHERE
           OR
           (r.visibility_level = 'signed' AND $7::bool) 
           OR
-          (r.visibility_level = 'chosen' AND $7::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4))
+          (r.visibility_level = 'chosen' AND $7::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $4 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $4 AND $7::bool)
         )
@@ -1187,7 +1187,7 @@ WHERE
           OR 
           (r.visibility_level = 'signed' AND $7::bool)
           OR
-          (r.visibility_level = 'chosen' AND $7::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $4))
+          (r.visibility_level = 'chosen' AND $7::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $4 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $4 AND $7::bool)
         )

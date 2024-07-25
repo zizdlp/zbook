@@ -410,11 +410,12 @@ func TestListUserOwnRepo(t *testing.T) {
 
 	{
 		// other in group
-		arg_visiblility := CreateRepoVisibilityParams{
-			UserID: user2.UserID,
-			RepoID: repo13.RepoID,
+		arg_visiblility := CreateRepoRelationParams{
+			UserID:       user2.UserID,
+			RepoID:       repo13.RepoID,
+			RelationType: util.RelationTypeVisi,
 		}
-		testStore.CreateRepoVisibility(context.Background(), arg_visiblility)
+		testStore.CreateRepoRelation(context.Background(), arg_visiblility)
 		arg := ListUserOwnRepoParams{
 			Limit:     10,
 			Offset:    0,

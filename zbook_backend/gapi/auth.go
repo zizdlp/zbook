@@ -340,8 +340,8 @@ func (server *Server) isRepoVisibleToCurrentUser(ctx context.Context, RepoID int
 
 	if repoInfo.VisibilityLevel == util.VisibilityChosed {
 
-		arg := db.GetRepoVisibilityParams{UserID: authUser.UserID, RepoID: RepoID}
-		_, err := server.store.GetRepoVisibility(ctx, arg)
+		arg := db.GetRepoRelationParams{UserID: authUser.UserID, RepoID: RepoID, RelationType: util.RelationTypeVisi}
+		_, err := server.store.GetRepoRelation(ctx, arg)
 		if err != nil && !(authUser.UserRole == util.AdminRole || authUser.UserID == repoInfo.UserID) {
 			return status.Errorf(codes.PermissionDenied, "current account can not visit this repo")
 		}

@@ -128,13 +128,6 @@ type RepoRelation struct {
 	CreatedAt    time.Time `json:"created_at"`
 }
 
-type RepoVisibility struct {
-	VisibilityID int64     `json:"visibility_id"`
-	RepoID       int64     `json:"repo_id"`
-	UserID       int64     `json:"user_id"`
-	CreatedAt    time.Time `json:"created_at"`
-}
-
 type Session struct {
 	SessionID    uuid.UUID `json:"session_id"`
 	UserID       int64     `json:"user_id"`

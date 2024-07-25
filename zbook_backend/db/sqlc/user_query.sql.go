@@ -170,7 +170,7 @@ WITH liked_repos_count AS (
           OR
           (r.visibility_level = 'signed' AND $4::bool) 
           OR
-          (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $2))
+          (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $2 AND repo_relations.relation_type = 'visi'))
           OR
           ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $2 AND $4::bool)
         )
@@ -192,7 +192,7 @@ WITH liked_repos_count AS (
             OR 
             (r.visibility_level = 'signed' AND $4::bool)
             OR
-            (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_visibility WHERE repo_visibility.repo_id = r.repo_id AND repo_visibility.user_id = $2))
+            (r.visibility_level = 'chosen' AND $4::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $2 AND repo_relations.relation_type = 'visi'))
             OR
             ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $2 AND $4::bool)
           )

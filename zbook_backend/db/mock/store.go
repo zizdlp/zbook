@@ -273,20 +273,6 @@ func (mr *MockStoreMockRecorder) CreateRepoTx(arg0, arg1 interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRepoTx", reflect.TypeOf((*MockStore)(nil).CreateRepoTx), arg0, arg1)
 }
 
-// CreateRepoVisibility mocks base method.
-func (m *MockStore) CreateRepoVisibility(arg0 context.Context, arg1 db.CreateRepoVisibilityParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateRepoVisibility", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateRepoVisibility indicates an expected call of CreateRepoVisibility.
-func (mr *MockStoreMockRecorder) CreateRepoVisibility(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRepoVisibility", reflect.TypeOf((*MockStore)(nil).CreateRepoVisibility), arg0, arg1)
-}
-
 // CreateSession mocks base method.
 func (m *MockStore) CreateSession(arg0 context.Context, arg1 db.CreateSessionParams) (db.Session, error) {
 	m.ctrl.T.Helper()
@@ -518,20 +504,6 @@ func (m *MockStore) DeleteRepoTx(arg0 context.Context, arg1 db.DeleteRepoTxParam
 func (mr *MockStoreMockRecorder) DeleteRepoTx(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRepoTx", reflect.TypeOf((*MockStore)(nil).DeleteRepoTx), arg0, arg1)
-}
-
-// DeleteRepoVisibility mocks base method.
-func (m *MockStore) DeleteRepoVisibility(arg0 context.Context, arg1 db.DeleteRepoVisibilityParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteRepoVisibility", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteRepoVisibility indicates an expected call of DeleteRepoVisibility.
-func (mr *MockStoreMockRecorder) DeleteRepoVisibility(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRepoVisibility", reflect.TypeOf((*MockStore)(nil).DeleteRepoVisibility), arg0, arg1)
 }
 
 // DeleteUser mocks base method.
@@ -1162,19 +1134,19 @@ func (mr *MockStoreMockRecorder) GetRepoPermission(arg0, arg1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoPermission", reflect.TypeOf((*MockStore)(nil).GetRepoPermission), arg0, arg1)
 }
 
-// GetRepoVisibility mocks base method.
-func (m *MockStore) GetRepoVisibility(arg0 context.Context, arg1 db.GetRepoVisibilityParams) (db.Repo, error) {
+// GetRepoRelation mocks base method.
+func (m *MockStore) GetRepoRelation(arg0 context.Context, arg1 db.GetRepoRelationParams) (db.RepoRelation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRepoVisibility", arg0, arg1)
-	ret0, _ := ret[0].(db.Repo)
+	ret := m.ctrl.Call(m, "GetRepoRelation", arg0, arg1)
+	ret0, _ := ret[0].(db.RepoRelation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetRepoVisibility indicates an expected call of GetRepoVisibility.
-func (mr *MockStoreMockRecorder) GetRepoVisibility(arg0, arg1 interface{}) *gomock.Call {
+// GetRepoRelation indicates an expected call of GetRepoRelation.
+func (mr *MockStoreMockRecorder) GetRepoRelation(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoVisibility", reflect.TypeOf((*MockStore)(nil).GetRepoVisibility), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoRelation", reflect.TypeOf((*MockStore)(nil).GetRepoRelation), arg0, arg1)
 }
 
 // GetRepoVisibilityByRepoCount mocks base method.
