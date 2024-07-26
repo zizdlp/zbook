@@ -43,8 +43,10 @@ OFFSET $2;
 -- name: QueryCommentReport :many
 SELECT 
   comment_reports.*,markdowns.repo_id,markdowns.relative_path,ur.username,comments.comment_content,
-      ROUND(ts_rank(comments.fts_comment_content, plainto_tsquery(@query))) 
-    + ROUND(ts_rank(comment_reports.fts_report_content, plainto_tsquery(@query)))
+      ROUND(ts_rank(comments.fts_comment_zh, plainto_tsquery(@query))) 
+    + ROUND(ts_rank(comments.fts_comment_en, plainto_tsquery(@query))) 
+    + ROUND(ts_rank(comment_reports.fts_report_zh, plainto_tsquery(@query)))
+    + ROUND(ts_rank(comment_reports.fts_report_en, plainto_tsquery(@query)))
     + ROUND(ts_rank(ur.fts_username, plainto_tsquery(@query))) 
     + ROUND(ts_rank(uc.fts_username, plainto_tsquery(@query))) 
      as rank
@@ -55,8 +57,10 @@ JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users as uc ON comments.user_id = uc.user_id
 WHERE (
-  comments.fts_comment_content @@ plainto_tsquery(@query)
-  OR comment_reports.fts_report_content @@ plainto_tsquery(@query) 
+  comments.fts_comment_zh @@ plainto_tsquery(@query)
+  OR comments.fts_comment_en @@ plainto_tsquery(@query)
+  OR comment_reports.fts_report_zh @@ plainto_tsquery(@query) 
+  OR comment_reports.fts_report_en @@ plainto_tsquery(@query) 
   OR uc.fts_username @@ plainto_tsquery(@query)  
   OR ur.fts_username @@ plainto_tsquery(@query)  
   )
@@ -74,8 +78,10 @@ JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users as uc ON comments.user_id = uc.user_id
 WHERE (
-  comments.fts_comment_content @@ plainto_tsquery(@query)
-  OR comment_reports.fts_report_content @@ plainto_tsquery(@query) 
+  comments.fts_comment_zh @@ plainto_tsquery(@query)
+  OR comments.fts_comment_en @@ plainto_tsquery(@query)
+  OR comment_reports.fts_report_zh @@ plainto_tsquery(@query) 
+  OR comment_reports.fts_report_en @@ plainto_tsquery(@query) 
   OR uc.fts_username @@ plainto_tsquery(@query)  
   OR ur.fts_username @@ plainto_tsquery(@query)  
   );

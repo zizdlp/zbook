@@ -8,7 +8,8 @@ CREATE TABLE "comments" (
   "blocked" boolean NOT NULL DEFAULT 'false',
   "comment_content" text NOT NULL,
   "created_at"  timestamptz NOT NULL DEFAULT (now()),
-  fts_comment_content tsvector
+  fts_comment_zh tsvector,
+  fts_comment_en tsvector
 );
 
 
@@ -20,12 +21,24 @@ ALTER TABLE "comments"
   ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id") ON DELETE CASCADE;
 
 UPDATE "comments"
-SET fts_comment_content = setweight(to_tsvector('jiebacfg', "comment_content"), 'A');
+SET fts_comment_zh = setweight(to_tsvector('jiebacfg', "comment_content"), 'A');
 
-CREATE INDEX markdowns_fts_comment_content_gin_index ON "comments" USING gin (fts_comment_content);
+UPDATE "comments"
+SET fts_comment_en = setweight(to_tsvector('english', "comment_content"), 'A');
 
-CREATE TRIGGER trig_markdowns_insert_update_comment_content
+CREATE INDEX markdowns_fts_comment_zh_gin_index ON "comments" USING gin (fts_comment_zh);
+CREATE INDEX markdowns_fts_comment_en_gin_index ON "comments" USING gin (fts_comment_en);
+
+
+CREATE TRIGGER trig_markdowns_insert_update_comment_zh
   BEFORE INSERT OR UPDATE OF "comment_content"
   ON "comments"
   FOR EACH ROW
-EXECUTE PROCEDURE tsvector_update_trigger(fts_comment_content, 'public.jiebacfg', "comment_content");
+EXECUTE PROCEDURE tsvector_update_trigger(fts_comment_zh, 'public.jiebacfg', "comment_content");
+
+
+CREATE TRIGGER trig_markdowns_insert_update_comment_en
+  BEFORE INSERT OR UPDATE OF "comment_content"
+  ON "comments"
+  FOR EACH ROW
+EXECUTE PROCEDURE tsvector_update_trigger(fts_comment_en, 'pg_catalog.english', "comment_content");

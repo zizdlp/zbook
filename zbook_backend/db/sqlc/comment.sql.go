@@ -21,7 +21,7 @@ INSERT INTO comments (
   root_id,
   comment_content
 ) VALUES ($1,$2,$3,$4,$5,$6)
-RETURNING comment_id, repo_id, markdown_id, parent_id, root_id, user_id, blocked, comment_content, created_at, fts_comment_content
+RETURNING comment_id, repo_id, markdown_id, parent_id, root_id, user_id, blocked, comment_content, created_at, fts_comment_zh, fts_comment_en
 `
 
 type CreateCommentParams struct {
@@ -53,7 +53,8 @@ func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (C
 		&i.Blocked,
 		&i.CommentContent,
 		&i.CreatedAt,
-		&i.FtsCommentContent,
+		&i.FtsCommentZh,
+		&i.FtsCommentEn,
 	)
 	return i, err
 }
@@ -102,7 +103,7 @@ func (q *Queries) GetCommentBasicInfo(ctx context.Context, commentID int64) (Get
 }
 
 const getCommentDetail = `-- name: GetCommentDetail :one
-SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_zh, comments.fts_comment_en,
   users.username,users.email,users.motto,users.created_at as user_created_at,
   COUNT(DISTINCT CASE WHEN comment_relations.relation_type = 'like' THEN comment_relations.relation_id END)  AS like_count,
   (SELECT COUNT(*) FROM comments c2 WHERE c2.root_id = comments.comment_id) AS reply_count,
@@ -124,26 +125,27 @@ type GetCommentDetailParams struct {
 }
 
 type GetCommentDetailRow struct {
-	CommentID         int64       `json:"comment_id"`
-	RepoID            int64       `json:"repo_id"`
-	MarkdownID        int64       `json:"markdown_id"`
-	ParentID          pgtype.Int8 `json:"parent_id"`
-	RootID            pgtype.Int8 `json:"root_id"`
-	UserID            int64       `json:"user_id"`
-	Blocked           bool        `json:"blocked"`
-	CommentContent    string      `json:"comment_content"`
-	CreatedAt         time.Time   `json:"created_at"`
-	FtsCommentContent string      `json:"fts_comment_content"`
-	Username          string      `json:"username"`
-	Email             string      `json:"email"`
-	Motto             string      `json:"motto"`
-	UserCreatedAt     time.Time   `json:"user_created_at"`
-	LikeCount         int64       `json:"like_count"`
-	ReplyCount        int64       `json:"reply_count"`
-	IsLiked           bool        `json:"is_liked"`
-	IsDisliked        bool        `json:"is_disliked"`
-	IsShared          bool        `json:"is_shared"`
-	IsReported        bool        `json:"is_reported"`
+	CommentID      int64       `json:"comment_id"`
+	RepoID         int64       `json:"repo_id"`
+	MarkdownID     int64       `json:"markdown_id"`
+	ParentID       pgtype.Int8 `json:"parent_id"`
+	RootID         pgtype.Int8 `json:"root_id"`
+	UserID         int64       `json:"user_id"`
+	Blocked        bool        `json:"blocked"`
+	CommentContent string      `json:"comment_content"`
+	CreatedAt      time.Time   `json:"created_at"`
+	FtsCommentZh   string      `json:"fts_comment_zh"`
+	FtsCommentEn   string      `json:"fts_comment_en"`
+	Username       string      `json:"username"`
+	Email          string      `json:"email"`
+	Motto          string      `json:"motto"`
+	UserCreatedAt  time.Time   `json:"user_created_at"`
+	LikeCount      int64       `json:"like_count"`
+	ReplyCount     int64       `json:"reply_count"`
+	IsLiked        bool        `json:"is_liked"`
+	IsDisliked     bool        `json:"is_disliked"`
+	IsShared       bool        `json:"is_shared"`
+	IsReported     bool        `json:"is_reported"`
 }
 
 func (q *Queries) GetCommentDetail(ctx context.Context, arg GetCommentDetailParams) (GetCommentDetailRow, error) {
@@ -159,7 +161,8 @@ func (q *Queries) GetCommentDetail(ctx context.Context, arg GetCommentDetailPara
 		&i.Blocked,
 		&i.CommentContent,
 		&i.CreatedAt,
-		&i.FtsCommentContent,
+		&i.FtsCommentZh,
+		&i.FtsCommentEn,
 		&i.Username,
 		&i.Email,
 		&i.Motto,
@@ -265,7 +268,7 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($1)
+WHERE (comments.fts_comment_zh @@ plainto_tsquery($1) OR comments.fts_comment_en @@ plainto_tsquery($1))
 `
 
 func (q *Queries) GetQueryCommentCount(ctx context.Context, query string) (int64, error) {
@@ -276,7 +279,7 @@ func (q *Queries) GetQueryCommentCount(ctx context.Context, query string) (int64
 }
 
 const listComment = `-- name: ListComment :many
-SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_zh, comments.fts_comment_en,
   users.username,users.email,users.created_at as user_created_at
 FROM comments
 JOIN markdowns on markdowns.markdown_id = comments.markdown_id
@@ -294,19 +297,20 @@ type ListCommentParams struct {
 }
 
 type ListCommentRow struct {
-	CommentID         int64       `json:"comment_id"`
-	RepoID            int64       `json:"repo_id"`
-	MarkdownID        int64       `json:"markdown_id"`
-	ParentID          pgtype.Int8 `json:"parent_id"`
-	RootID            pgtype.Int8 `json:"root_id"`
-	UserID            int64       `json:"user_id"`
-	Blocked           bool        `json:"blocked"`
-	CommentContent    string      `json:"comment_content"`
-	CreatedAt         time.Time   `json:"created_at"`
-	FtsCommentContent string      `json:"fts_comment_content"`
-	Username          string      `json:"username"`
-	Email             string      `json:"email"`
-	UserCreatedAt     time.Time   `json:"user_created_at"`
+	CommentID      int64       `json:"comment_id"`
+	RepoID         int64       `json:"repo_id"`
+	MarkdownID     int64       `json:"markdown_id"`
+	ParentID       pgtype.Int8 `json:"parent_id"`
+	RootID         pgtype.Int8 `json:"root_id"`
+	UserID         int64       `json:"user_id"`
+	Blocked        bool        `json:"blocked"`
+	CommentContent string      `json:"comment_content"`
+	CreatedAt      time.Time   `json:"created_at"`
+	FtsCommentZh   string      `json:"fts_comment_zh"`
+	FtsCommentEn   string      `json:"fts_comment_en"`
+	Username       string      `json:"username"`
+	Email          string      `json:"email"`
+	UserCreatedAt  time.Time   `json:"user_created_at"`
 }
 
 func (q *Queries) ListComment(ctx context.Context, arg ListCommentParams) ([]ListCommentRow, error) {
@@ -328,7 +332,8 @@ func (q *Queries) ListComment(ctx context.Context, arg ListCommentParams) ([]Lis
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.FtsCommentContent,
+			&i.FtsCommentZh,
+			&i.FtsCommentEn,
 			&i.Username,
 			&i.Email,
 			&i.UserCreatedAt,
@@ -344,7 +349,7 @@ func (q *Queries) ListComment(ctx context.Context, arg ListCommentParams) ([]Lis
 }
 
 const listCommentLevelOne = `-- name: ListCommentLevelOne :many
-SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_zh, comments.fts_comment_en,
   users.username,users.email,users.motto,users.created_at as user_created_at,
   COUNT(DISTINCT CASE WHEN comment_relations.relation_type = 'like' THEN comment_relations.relation_id END)  AS like_count,
   (SELECT COUNT(*) FROM comments c2 WHERE c2.root_id = comments.comment_id) AS reply_count,
@@ -370,26 +375,27 @@ type ListCommentLevelOneParams struct {
 }
 
 type ListCommentLevelOneRow struct {
-	CommentID         int64       `json:"comment_id"`
-	RepoID            int64       `json:"repo_id"`
-	MarkdownID        int64       `json:"markdown_id"`
-	ParentID          pgtype.Int8 `json:"parent_id"`
-	RootID            pgtype.Int8 `json:"root_id"`
-	UserID            int64       `json:"user_id"`
-	Blocked           bool        `json:"blocked"`
-	CommentContent    string      `json:"comment_content"`
-	CreatedAt         time.Time   `json:"created_at"`
-	FtsCommentContent string      `json:"fts_comment_content"`
-	Username          string      `json:"username"`
-	Email             string      `json:"email"`
-	Motto             string      `json:"motto"`
-	UserCreatedAt     time.Time   `json:"user_created_at"`
-	LikeCount         int64       `json:"like_count"`
-	ReplyCount        int64       `json:"reply_count"`
-	IsLiked           bool        `json:"is_liked"`
-	IsDisliked        bool        `json:"is_disliked"`
-	IsShared          bool        `json:"is_shared"`
-	IsReported        bool        `json:"is_reported"`
+	CommentID      int64       `json:"comment_id"`
+	RepoID         int64       `json:"repo_id"`
+	MarkdownID     int64       `json:"markdown_id"`
+	ParentID       pgtype.Int8 `json:"parent_id"`
+	RootID         pgtype.Int8 `json:"root_id"`
+	UserID         int64       `json:"user_id"`
+	Blocked        bool        `json:"blocked"`
+	CommentContent string      `json:"comment_content"`
+	CreatedAt      time.Time   `json:"created_at"`
+	FtsCommentZh   string      `json:"fts_comment_zh"`
+	FtsCommentEn   string      `json:"fts_comment_en"`
+	Username       string      `json:"username"`
+	Email          string      `json:"email"`
+	Motto          string      `json:"motto"`
+	UserCreatedAt  time.Time   `json:"user_created_at"`
+	LikeCount      int64       `json:"like_count"`
+	ReplyCount     int64       `json:"reply_count"`
+	IsLiked        bool        `json:"is_liked"`
+	IsDisliked     bool        `json:"is_disliked"`
+	IsShared       bool        `json:"is_shared"`
+	IsReported     bool        `json:"is_reported"`
 }
 
 func (q *Queries) ListCommentLevelOne(ctx context.Context, arg ListCommentLevelOneParams) ([]ListCommentLevelOneRow, error) {
@@ -416,7 +422,8 @@ func (q *Queries) ListCommentLevelOne(ctx context.Context, arg ListCommentLevelO
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.FtsCommentContent,
+			&i.FtsCommentZh,
+			&i.FtsCommentEn,
 			&i.Username,
 			&i.Email,
 			&i.Motto,
@@ -439,7 +446,7 @@ func (q *Queries) ListCommentLevelOne(ctx context.Context, arg ListCommentLevelO
 }
 
 const listCommentLevelTwo = `-- name: ListCommentLevelTwo :many
-SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_zh, comments.fts_comment_en,
   users.username,users.email,users.motto,users.created_at as user_created_at, pu.username as pusername,
   COUNT(DISTINCT CASE WHEN comment_relations.relation_type = 'like' THEN comment_relations.relation_id END)  AS like_count,
   (SELECT COUNT(*) FROM comments c2 WHERE c2.root_id = comments.comment_id) AS reply_count,
@@ -467,27 +474,28 @@ type ListCommentLevelTwoParams struct {
 }
 
 type ListCommentLevelTwoRow struct {
-	CommentID         int64       `json:"comment_id"`
-	RepoID            int64       `json:"repo_id"`
-	MarkdownID        int64       `json:"markdown_id"`
-	ParentID          pgtype.Int8 `json:"parent_id"`
-	RootID            pgtype.Int8 `json:"root_id"`
-	UserID            int64       `json:"user_id"`
-	Blocked           bool        `json:"blocked"`
-	CommentContent    string      `json:"comment_content"`
-	CreatedAt         time.Time   `json:"created_at"`
-	FtsCommentContent string      `json:"fts_comment_content"`
-	Username          string      `json:"username"`
-	Email             string      `json:"email"`
-	Motto             string      `json:"motto"`
-	UserCreatedAt     time.Time   `json:"user_created_at"`
-	Pusername         pgtype.Text `json:"pusername"`
-	LikeCount         int64       `json:"like_count"`
-	ReplyCount        int64       `json:"reply_count"`
-	IsLiked           bool        `json:"is_liked"`
-	IsDisliked        bool        `json:"is_disliked"`
-	IsShared          bool        `json:"is_shared"`
-	IsReported        bool        `json:"is_reported"`
+	CommentID      int64       `json:"comment_id"`
+	RepoID         int64       `json:"repo_id"`
+	MarkdownID     int64       `json:"markdown_id"`
+	ParentID       pgtype.Int8 `json:"parent_id"`
+	RootID         pgtype.Int8 `json:"root_id"`
+	UserID         int64       `json:"user_id"`
+	Blocked        bool        `json:"blocked"`
+	CommentContent string      `json:"comment_content"`
+	CreatedAt      time.Time   `json:"created_at"`
+	FtsCommentZh   string      `json:"fts_comment_zh"`
+	FtsCommentEn   string      `json:"fts_comment_en"`
+	Username       string      `json:"username"`
+	Email          string      `json:"email"`
+	Motto          string      `json:"motto"`
+	UserCreatedAt  time.Time   `json:"user_created_at"`
+	Pusername      pgtype.Text `json:"pusername"`
+	LikeCount      int64       `json:"like_count"`
+	ReplyCount     int64       `json:"reply_count"`
+	IsLiked        bool        `json:"is_liked"`
+	IsDisliked     bool        `json:"is_disliked"`
+	IsShared       bool        `json:"is_shared"`
+	IsReported     bool        `json:"is_reported"`
 }
 
 func (q *Queries) ListCommentLevelTwo(ctx context.Context, arg ListCommentLevelTwoParams) ([]ListCommentLevelTwoRow, error) {
@@ -514,7 +522,8 @@ func (q *Queries) ListCommentLevelTwo(ctx context.Context, arg ListCommentLevelT
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.FtsCommentContent,
+			&i.FtsCommentZh,
+			&i.FtsCommentEn,
 			&i.Username,
 			&i.Email,
 			&i.Motto,
@@ -538,14 +547,15 @@ func (q *Queries) ListCommentLevelTwo(ctx context.Context, arg ListCommentLevelT
 }
 
 const queryComment = `-- name: QueryComment :many
-SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_content,ts_rank(comments.fts_comment_content, plainto_tsquery($3)) as rank,
+SELECT comments.comment_id, comments.repo_id, comments.markdown_id, comments.parent_id, comments.root_id, comments.user_id, comments.blocked, comments.comment_content, comments.created_at, comments.fts_comment_zh, comments.fts_comment_en,
+  ROUND(ts_rank(comments.fts_comment_zh, plainto_tsquery($3))) + ROUND(ts_rank(comments.fts_comment_en, plainto_tsquery($3))) as rank,
   users.username,users.email,users.created_at as user_created_at
 FROM comments
 JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery($3)
+WHERE (comments.fts_comment_zh @@ plainto_tsquery($3) OR comments.fts_comment_en @@ plainto_tsquery($3))
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2
@@ -558,20 +568,21 @@ type QueryCommentParams struct {
 }
 
 type QueryCommentRow struct {
-	CommentID         int64       `json:"comment_id"`
-	RepoID            int64       `json:"repo_id"`
-	MarkdownID        int64       `json:"markdown_id"`
-	ParentID          pgtype.Int8 `json:"parent_id"`
-	RootID            pgtype.Int8 `json:"root_id"`
-	UserID            int64       `json:"user_id"`
-	Blocked           bool        `json:"blocked"`
-	CommentContent    string      `json:"comment_content"`
-	CreatedAt         time.Time   `json:"created_at"`
-	FtsCommentContent string      `json:"fts_comment_content"`
-	Rank              float32     `json:"rank"`
-	Username          string      `json:"username"`
-	Email             string      `json:"email"`
-	UserCreatedAt     time.Time   `json:"user_created_at"`
+	CommentID      int64       `json:"comment_id"`
+	RepoID         int64       `json:"repo_id"`
+	MarkdownID     int64       `json:"markdown_id"`
+	ParentID       pgtype.Int8 `json:"parent_id"`
+	RootID         pgtype.Int8 `json:"root_id"`
+	UserID         int64       `json:"user_id"`
+	Blocked        bool        `json:"blocked"`
+	CommentContent string      `json:"comment_content"`
+	CreatedAt      time.Time   `json:"created_at"`
+	FtsCommentZh   string      `json:"fts_comment_zh"`
+	FtsCommentEn   string      `json:"fts_comment_en"`
+	Rank           int32       `json:"rank"`
+	Username       string      `json:"username"`
+	Email          string      `json:"email"`
+	UserCreatedAt  time.Time   `json:"user_created_at"`
 }
 
 func (q *Queries) QueryComment(ctx context.Context, arg QueryCommentParams) ([]QueryCommentRow, error) {
@@ -593,7 +604,8 @@ func (q *Queries) QueryComment(ctx context.Context, arg QueryCommentParams) ([]Q
 			&i.Blocked,
 			&i.CommentContent,
 			&i.CreatedAt,
-			&i.FtsCommentContent,
+			&i.FtsCommentZh,
+			&i.FtsCommentEn,
 			&i.Rank,
 			&i.Username,
 			&i.Email,

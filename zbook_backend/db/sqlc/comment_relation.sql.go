@@ -91,8 +91,10 @@ JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users as uc ON comments.user_id = uc.user_id
 WHERE (
-  comments.fts_comment_content @@ plainto_tsquery($1)
-  OR comment_reports.fts_report_content @@ plainto_tsquery($1) 
+  comments.fts_comment_zh @@ plainto_tsquery($1)
+  OR comments.fts_comment_en @@ plainto_tsquery($1)
+  OR comment_reports.fts_report_zh @@ plainto_tsquery($1) 
+  OR comment_reports.fts_report_en @@ plainto_tsquery($1) 
   OR uc.fts_username @@ plainto_tsquery($1)  
   OR ur.fts_username @@ plainto_tsquery($1)  
   )
@@ -107,7 +109,7 @@ func (q *Queries) GetQueryCommentReportCount(ctx context.Context, query string) 
 
 const listCommentReport = `-- name: ListCommentReport :many
 SELECT 
-  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_content,markdowns.repo_id,markdowns.relative_path,users.username,comments.comment_content,
+  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_zh, comment_reports.fts_report_en,markdowns.repo_id,markdowns.relative_path,users.username,comments.comment_content,
   repos.repo_name
 FROM comment_reports
 JOIN users ON users.user_id = comment_reports.user_id
@@ -126,18 +128,19 @@ type ListCommentReportParams struct {
 }
 
 type ListCommentReportRow struct {
-	ReportID         int64     `json:"report_id"`
-	UserID           int64     `json:"user_id"`
-	CommentID        int64     `json:"comment_id"`
-	ReportContent    string    `json:"report_content"`
-	Processed        bool      `json:"processed"`
-	CreatedAt        time.Time `json:"created_at"`
-	FtsReportContent string    `json:"fts_report_content"`
-	RepoID           int64     `json:"repo_id"`
-	RelativePath     string    `json:"relative_path"`
-	Username         string    `json:"username"`
-	CommentContent   string    `json:"comment_content"`
-	RepoName         string    `json:"repo_name"`
+	ReportID       int64     `json:"report_id"`
+	UserID         int64     `json:"user_id"`
+	CommentID      int64     `json:"comment_id"`
+	ReportContent  string    `json:"report_content"`
+	Processed      bool      `json:"processed"`
+	CreatedAt      time.Time `json:"created_at"`
+	FtsReportZh    string    `json:"fts_report_zh"`
+	FtsReportEn    string    `json:"fts_report_en"`
+	RepoID         int64     `json:"repo_id"`
+	RelativePath   string    `json:"relative_path"`
+	Username       string    `json:"username"`
+	CommentContent string    `json:"comment_content"`
+	RepoName       string    `json:"repo_name"`
 }
 
 func (q *Queries) ListCommentReport(ctx context.Context, arg ListCommentReportParams) ([]ListCommentReportRow, error) {
@@ -156,7 +159,8 @@ func (q *Queries) ListCommentReport(ctx context.Context, arg ListCommentReportPa
 			&i.ReportContent,
 			&i.Processed,
 			&i.CreatedAt,
-			&i.FtsReportContent,
+			&i.FtsReportZh,
+			&i.FtsReportEn,
 			&i.RepoID,
 			&i.RelativePath,
 			&i.Username,
@@ -175,9 +179,11 @@ func (q *Queries) ListCommentReport(ctx context.Context, arg ListCommentReportPa
 
 const queryCommentReport = `-- name: QueryCommentReport :many
 SELECT 
-  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_content,markdowns.repo_id,markdowns.relative_path,ur.username,comments.comment_content,
-      ROUND(ts_rank(comments.fts_comment_content, plainto_tsquery($3))) 
-    + ROUND(ts_rank(comment_reports.fts_report_content, plainto_tsquery($3)))
+  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_zh, comment_reports.fts_report_en,markdowns.repo_id,markdowns.relative_path,ur.username,comments.comment_content,
+      ROUND(ts_rank(comments.fts_comment_zh, plainto_tsquery($3))) 
+    + ROUND(ts_rank(comments.fts_comment_en, plainto_tsquery($3))) 
+    + ROUND(ts_rank(comment_reports.fts_report_zh, plainto_tsquery($3)))
+    + ROUND(ts_rank(comment_reports.fts_report_en, plainto_tsquery($3)))
     + ROUND(ts_rank(ur.fts_username, plainto_tsquery($3))) 
     + ROUND(ts_rank(uc.fts_username, plainto_tsquery($3))) 
      as rank
@@ -188,8 +194,10 @@ JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users as uc ON comments.user_id = uc.user_id
 WHERE (
-  comments.fts_comment_content @@ plainto_tsquery($3)
-  OR comment_reports.fts_report_content @@ plainto_tsquery($3) 
+  comments.fts_comment_zh @@ plainto_tsquery($3)
+  OR comments.fts_comment_en @@ plainto_tsquery($3)
+  OR comment_reports.fts_report_zh @@ plainto_tsquery($3) 
+  OR comment_reports.fts_report_en @@ plainto_tsquery($3) 
   OR uc.fts_username @@ plainto_tsquery($3)  
   OR ur.fts_username @@ plainto_tsquery($3)  
   )
@@ -205,18 +213,19 @@ type QueryCommentReportParams struct {
 }
 
 type QueryCommentReportRow struct {
-	ReportID         int64     `json:"report_id"`
-	UserID           int64     `json:"user_id"`
-	CommentID        int64     `json:"comment_id"`
-	ReportContent    string    `json:"report_content"`
-	Processed        bool      `json:"processed"`
-	CreatedAt        time.Time `json:"created_at"`
-	FtsReportContent string    `json:"fts_report_content"`
-	RepoID           int64     `json:"repo_id"`
-	RelativePath     string    `json:"relative_path"`
-	Username         string    `json:"username"`
-	CommentContent   string    `json:"comment_content"`
-	Rank             int32     `json:"rank"`
+	ReportID       int64     `json:"report_id"`
+	UserID         int64     `json:"user_id"`
+	CommentID      int64     `json:"comment_id"`
+	ReportContent  string    `json:"report_content"`
+	Processed      bool      `json:"processed"`
+	CreatedAt      time.Time `json:"created_at"`
+	FtsReportZh    string    `json:"fts_report_zh"`
+	FtsReportEn    string    `json:"fts_report_en"`
+	RepoID         int64     `json:"repo_id"`
+	RelativePath   string    `json:"relative_path"`
+	Username       string    `json:"username"`
+	CommentContent string    `json:"comment_content"`
+	Rank           int32     `json:"rank"`
 }
 
 func (q *Queries) QueryCommentReport(ctx context.Context, arg QueryCommentReportParams) ([]QueryCommentReportRow, error) {
@@ -235,7 +244,8 @@ func (q *Queries) QueryCommentReport(ctx context.Context, arg QueryCommentReport
 			&i.ReportContent,
 			&i.Processed,
 			&i.CreatedAt,
-			&i.FtsReportContent,
+			&i.FtsReportZh,
+			&i.FtsReportEn,
 			&i.RepoID,
 			&i.RelativePath,
 			&i.Username,
