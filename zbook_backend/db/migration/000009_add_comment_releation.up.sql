@@ -23,7 +23,8 @@ CREATE TABLE "comment_reports" (
   "report_content" varchar NOT NULL DEFAULT '',
   "processed" boolean NOT NULL DEFAULT 'false',
   "created_at"  timestamptz NOT NULL DEFAULT (now()),
-  fts_report_content tsvector
+  fts_report_zh tsvector,
+  fts_report_en tsvector
 );
 
 -- Adding foreign key constraints with ON DELETE CASCADE
@@ -34,12 +35,23 @@ ALTER TABLE "comment_reports"
 CREATE UNIQUE INDEX ON "comment_reports" ("user_id","comment_id");
 
 UPDATE "comment_reports"
-SET fts_report_content = setweight(to_tsvector('jiebacfg', "report_content"), 'A');
+SET fts_report_zh = setweight(to_tsvector('jiebacfg', "report_content"), 'A');
 
-CREATE INDEX markdowns_fts_report_content_gin_index ON "comment_reports" USING gin (fts_report_content);
+UPDATE "comment_reports"
+SET fts_report_en = setweight(to_tsvector('english', "report_content"), 'A');
 
-CREATE TRIGGER trig_markdowns_insert_update_report_content
+
+CREATE INDEX markdowns_fts_report_zh_gin_index ON "comment_reports" USING gin (fts_report_zh);
+CREATE INDEX markdowns_fts_report_en_gin_index ON "comment_reports" USING gin (fts_report_en);
+
+CREATE TRIGGER trig_markdowns_insert_update_report_zh
   BEFORE INSERT OR UPDATE OF "report_content"
   ON "comment_reports"
   FOR EACH ROW
-EXECUTE PROCEDURE tsvector_update_trigger(fts_report_content, 'public.jiebacfg', "report_content");
+EXECUTE PROCEDURE tsvector_update_trigger(fts_report_zh, 'public.jiebacfg', "report_content");
+
+CREATE TRIGGER trig_markdowns_insert_update_report_en
+  BEFORE INSERT OR UPDATE OF "report_content"
+  ON "comment_reports"
+  FOR EACH ROW
+EXECUTE PROCEDURE tsvector_update_trigger(fts_report_en, 'pg_catalog.english', "report_content");

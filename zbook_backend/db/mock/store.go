@@ -1733,21 +1733,6 @@ func (mr *MockStoreMockRecorder) QueryUser(arg0, arg1 interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUser", reflect.TypeOf((*MockStore)(nil).QueryUser), arg0, arg1)
 }
 
-// QueryUserAllMarkdown mocks base method.
-func (m *MockStore) QueryUserAllMarkdown(arg0 context.Context, arg1 db.QueryUserAllMarkdownParams) ([]db.QueryUserAllMarkdownRow, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryUserAllMarkdown", arg0, arg1)
-	ret0, _ := ret[0].([]db.QueryUserAllMarkdownRow)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// QueryUserAllMarkdown indicates an expected call of QueryUserAllMarkdown.
-func (mr *MockStoreMockRecorder) QueryUserAllMarkdown(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserAllMarkdown", reflect.TypeOf((*MockStore)(nil).QueryUserAllMarkdown), arg0, arg1)
-}
-
 // QueryUserLikeRepo mocks base method.
 func (m *MockStore) QueryUserLikeRepo(arg0 context.Context, arg1 db.QueryUserLikeRepoParams) ([]db.QueryUserLikeRepoRow, error) {
 	m.ctrl.T.Helper()
@@ -1763,6 +1748,21 @@ func (mr *MockStoreMockRecorder) QueryUserLikeRepo(arg0, arg1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserLikeRepo", reflect.TypeOf((*MockStore)(nil).QueryUserLikeRepo), arg0, arg1)
 }
 
+// QueryUserMarkdown mocks base method.
+func (m *MockStore) QueryUserMarkdown(arg0 context.Context, arg1 db.QueryUserMarkdownParams) ([]db.QueryUserMarkdownRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryUserMarkdown", arg0, arg1)
+	ret0, _ := ret[0].([]db.QueryUserMarkdownRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueryUserMarkdown indicates an expected call of QueryUserMarkdown.
+func (mr *MockStoreMockRecorder) QueryUserMarkdown(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserMarkdown", reflect.TypeOf((*MockStore)(nil).QueryUserMarkdown), arg0, arg1)
+}
+
 // QueryUserOwnRepo mocks base method.
 func (m *MockStore) QueryUserOwnRepo(arg0 context.Context, arg1 db.QueryUserOwnRepoParams) ([]db.QueryUserOwnRepoRow, error) {
 	m.ctrl.T.Helper()
@@ -1776,21 +1776,6 @@ func (m *MockStore) QueryUserOwnRepo(arg0 context.Context, arg1 db.QueryUserOwnR
 func (mr *MockStoreMockRecorder) QueryUserOwnRepo(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserOwnRepo", reflect.TypeOf((*MockStore)(nil).QueryUserOwnRepo), arg0, arg1)
-}
-
-// QueryUserVisibleMarkdown mocks base method.
-func (m *MockStore) QueryUserVisibleMarkdown(arg0 context.Context, arg1 db.QueryUserVisibleMarkdownParams) ([]db.QueryUserVisibleMarkdownRow, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryUserVisibleMarkdown", arg0, arg1)
-	ret0, _ := ret[0].([]db.QueryUserVisibleMarkdownRow)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// QueryUserVisibleMarkdown indicates an expected call of QueryUserVisibleMarkdown.
-func (mr *MockStoreMockRecorder) QueryUserVisibleMarkdown(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserVisibleMarkdown", reflect.TypeOf((*MockStore)(nil).QueryUserVisibleMarkdown), arg0, arg1)
 }
 
 // ResetPasswordTx mocks base method.

@@ -178,28 +178,26 @@ func (q *Queries) GetMarkdownRepoID(ctx context.Context, markdownID int64) (int6
 }
 
 const queryRepoMarkdown = `-- name: QueryRepoMarkdown :many
-select i.username,i.repo_name, i.markdown_id,i.relative_path,i.user_id,i.repo_id,COALESCE(ts_headline(i.main_content,plainto_tsquery($5),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
-from (
-  select repos.repo_name,users.username, markdown_id,relative_path,users.user_id,repos.repo_id,main_content,ts_rank(fts_zh, plainto_tsquery($5)) as rank
-  from markdowns 
-  JOIN repos on repos.repo_id = markdowns.repo_id
-  JOIN users on users.user_id = repos.user_id
-  where users.user_id = $3 and repos.repo_id=$4  and (fts_zh @@ plainto_tsquery($5) OR fts_en @@ plainto_tsquery($5))
-  ORDER BY
-    rank DESC
-  LIMIT $1
-  OFFSET $2
-) as i
+select 
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  ROUND(ts_rank(fts_zh, plainto_tsquery($4))) + ROUND(ts_rank(fts_en, plainto_tsquery($4))) as rank,
+  COALESCE(ts_headline(main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+from markdowns 
+JOIN repos as r on r.repo_id = markdowns.repo_id
+JOIN users on users.user_id = r.user_id
+where users.user_id = $3 and r.repo_id = $5  and (fts_zh @@ plainto_tsquery($4) OR fts_en @@ plainto_tsquery($4))
 ORDER BY
-  i.rank DESC
+  rank DESC
+LIMIT $1
+OFFSET $2
 `
 
 type QueryRepoMarkdownParams struct {
 	Limit          int32  `json:"limit"`
 	Offset         int32  `json:"offset"`
 	UserID         int64  `json:"user_id"`
-	RepoID         int64  `json:"repo_id"`
 	PlaintoTsquery string `json:"plainto_tsquery"`
+	RepoID         int64  `json:"repo_id"`
 }
 
 type QueryRepoMarkdownRow struct {
@@ -209,6 +207,8 @@ type QueryRepoMarkdownRow struct {
 	RelativePath string      `json:"relative_path"`
 	UserID       int64       `json:"user_id"`
 	RepoID       int64       `json:"repo_id"`
+	MainContent  string      `json:"main_content"`
+	Rank         int32       `json:"rank"`
 	Coalesce     interface{} `json:"coalesce"`
 }
 
@@ -217,8 +217,8 @@ func (q *Queries) QueryRepoMarkdown(ctx context.Context, arg QueryRepoMarkdownPa
 		arg.Limit,
 		arg.Offset,
 		arg.UserID,
-		arg.RepoID,
 		arg.PlaintoTsquery,
+		arg.RepoID,
 	)
 	if err != nil {
 		return nil, err
@@ -227,72 +227,6 @@ func (q *Queries) QueryRepoMarkdown(ctx context.Context, arg QueryRepoMarkdownPa
 	items := []QueryRepoMarkdownRow{}
 	for rows.Next() {
 		var i QueryRepoMarkdownRow
-		if err := rows.Scan(
-			&i.Username,
-			&i.RepoName,
-			&i.MarkdownID,
-			&i.RelativePath,
-			&i.UserID,
-			&i.RepoID,
-			&i.Coalesce,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const queryUserAllMarkdown = `-- name: QueryUserAllMarkdown :many
-select 
-  users.username,repos.repo_name, markdown_id,relative_path,users.user_id,repos.repo_id,main_content,ts_rank(fts_zh, plainto_tsquery($4)) as rank,
-  COALESCE(ts_headline(main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
-from markdowns 
-JOIN repos on repos.repo_id = markdowns.repo_id
-JOIN users on users.user_id = repos.user_id
-where users.user_id = $3  and (fts_zh @@ plainto_tsquery($4) OR fts_en @@ plainto_tsquery($4))
-ORDER BY
-  rank DESC
-LIMIT $1
-OFFSET $2
-`
-
-type QueryUserAllMarkdownParams struct {
-	Limit          int32  `json:"limit"`
-	Offset         int32  `json:"offset"`
-	UserID         int64  `json:"user_id"`
-	PlaintoTsquery string `json:"plainto_tsquery"`
-}
-
-type QueryUserAllMarkdownRow struct {
-	Username     string      `json:"username"`
-	RepoName     string      `json:"repo_name"`
-	MarkdownID   int64       `json:"markdown_id"`
-	RelativePath string      `json:"relative_path"`
-	UserID       int64       `json:"user_id"`
-	RepoID       int64       `json:"repo_id"`
-	MainContent  string      `json:"main_content"`
-	Rank         float32     `json:"rank"`
-	Coalesce     interface{} `json:"coalesce"`
-}
-
-func (q *Queries) QueryUserAllMarkdown(ctx context.Context, arg QueryUserAllMarkdownParams) ([]QueryUserAllMarkdownRow, error) {
-	rows, err := q.db.Query(ctx, queryUserAllMarkdown,
-		arg.Limit,
-		arg.Offset,
-		arg.UserID,
-		arg.PlaintoTsquery,
-	)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []QueryUserAllMarkdownRow{}
-	for rows.Next() {
-		var i QueryUserAllMarkdownRow
 		if err := rows.Scan(
 			&i.Username,
 			&i.RepoName,
@@ -314,56 +248,73 @@ func (q *Queries) QueryUserAllMarkdown(ctx context.Context, arg QueryUserAllMark
 	return items, nil
 }
 
-const queryUserVisibleMarkdown = `-- name: QueryUserVisibleMarkdown :many
-select i.username,i.repo_name, i.markdown_id,i.relative_path,i.user_id,i.repo_id,COALESCE(ts_headline(i.main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
-from (
-  select users.username,repos.repo_name, markdown_id,relative_path,users.user_id,repos.repo_id,main_content,ts_rank(fts_zh, plainto_tsquery($4)) as rank
-  from markdowns 
-  JOIN repos on repos.repo_id = markdowns.repo_id
-  JOIN users on users.user_id = repos.user_id
-  where markdowns.user_id = $3
-        and (fts_zh @@ plainto_tsquery($4) OR fts_en @@ plainto_tsquery($4))
-  ORDER BY
-    rank DESC
-  LIMIT $1
-  OFFSET $2
-) as i
-where i.repo_id IN (SELECT repo_id FROM repos WHERE visibility_level = 'public')
+const queryUserMarkdown = `-- name: QueryUserMarkdown :many
+select 
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  ROUND(ts_rank(fts_zh, plainto_tsquery($4))) + ROUND(ts_rank(fts_en, plainto_tsquery($4))) as rank,
+  COALESCE(ts_headline(main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+from markdowns 
+JOIN repos as r on r.repo_id = markdowns.repo_id
+JOIN users on users.user_id = r.user_id
+where users.user_id = $3  and (fts_zh @@ plainto_tsquery($4) OR fts_en @@ plainto_tsquery($4))
+  AND (
+    ($5::text='admin' AND $6::bool ) OR (
+    users.blocked='false' AND (
+      r.visibility_level = 'public'
+      OR 
+      (r.visibility_level = 'signed' AND $6::bool)
+      OR
+      (r.visibility_level = 'chosen' AND $6::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $7 AND repo_relations.relation_type = 'visi'))
+      OR
+      ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $7 AND $6::bool)
+    )
+  )
+  )
 ORDER BY
-  i.rank DESC
+  rank DESC
+LIMIT $1
+OFFSET $2
 `
 
-type QueryUserVisibleMarkdownParams struct {
+type QueryUserMarkdownParams struct {
 	Limit          int32  `json:"limit"`
 	Offset         int32  `json:"offset"`
 	UserID         int64  `json:"user_id"`
 	PlaintoTsquery string `json:"plainto_tsquery"`
+	Role           string `json:"role"`
+	Signed         bool   `json:"signed"`
+	CurUserID      int64  `json:"cur_user_id"`
 }
 
-type QueryUserVisibleMarkdownRow struct {
+type QueryUserMarkdownRow struct {
 	Username     string      `json:"username"`
 	RepoName     string      `json:"repo_name"`
 	MarkdownID   int64       `json:"markdown_id"`
 	RelativePath string      `json:"relative_path"`
 	UserID       int64       `json:"user_id"`
 	RepoID       int64       `json:"repo_id"`
+	MainContent  string      `json:"main_content"`
+	Rank         int32       `json:"rank"`
 	Coalesce     interface{} `json:"coalesce"`
 }
 
-func (q *Queries) QueryUserVisibleMarkdown(ctx context.Context, arg QueryUserVisibleMarkdownParams) ([]QueryUserVisibleMarkdownRow, error) {
-	rows, err := q.db.Query(ctx, queryUserVisibleMarkdown,
+func (q *Queries) QueryUserMarkdown(ctx context.Context, arg QueryUserMarkdownParams) ([]QueryUserMarkdownRow, error) {
+	rows, err := q.db.Query(ctx, queryUserMarkdown,
 		arg.Limit,
 		arg.Offset,
 		arg.UserID,
 		arg.PlaintoTsquery,
+		arg.Role,
+		arg.Signed,
+		arg.CurUserID,
 	)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []QueryUserVisibleMarkdownRow{}
+	items := []QueryUserMarkdownRow{}
 	for rows.Next() {
-		var i QueryUserVisibleMarkdownRow
+		var i QueryUserMarkdownRow
 		if err := rows.Scan(
 			&i.Username,
 			&i.RepoName,
@@ -371,6 +322,8 @@ func (q *Queries) QueryUserVisibleMarkdown(ctx context.Context, arg QueryUserVis
 			&i.RelativePath,
 			&i.UserID,
 			&i.RepoID,
+			&i.MainContent,
+			&i.Rank,
 			&i.Coalesce,
 		); err != nil {
 			return nil, err

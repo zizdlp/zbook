@@ -12,16 +12,17 @@ import (
 )
 
 type Comment struct {
-	CommentID         int64       `json:"comment_id"`
-	RepoID            int64       `json:"repo_id"`
-	MarkdownID        int64       `json:"markdown_id"`
-	ParentID          pgtype.Int8 `json:"parent_id"`
-	RootID            pgtype.Int8 `json:"root_id"`
-	UserID            int64       `json:"user_id"`
-	Blocked           bool        `json:"blocked"`
-	CommentContent    string      `json:"comment_content"`
-	CreatedAt         time.Time   `json:"created_at"`
-	FtsCommentContent string      `json:"fts_comment_content"`
+	CommentID      int64       `json:"comment_id"`
+	RepoID         int64       `json:"repo_id"`
+	MarkdownID     int64       `json:"markdown_id"`
+	ParentID       pgtype.Int8 `json:"parent_id"`
+	RootID         pgtype.Int8 `json:"root_id"`
+	UserID         int64       `json:"user_id"`
+	Blocked        bool        `json:"blocked"`
+	CommentContent string      `json:"comment_content"`
+	CreatedAt      time.Time   `json:"created_at"`
+	FtsCommentZh   string      `json:"fts_comment_zh"`
+	FtsCommentEn   string      `json:"fts_comment_en"`
 }
 
 type CommentNotification struct {
@@ -41,13 +42,14 @@ type CommentRelation struct {
 }
 
 type CommentReport struct {
-	ReportID         int64     `json:"report_id"`
-	UserID           int64     `json:"user_id"`
-	CommentID        int64     `json:"comment_id"`
-	ReportContent    string    `json:"report_content"`
-	Processed        bool      `json:"processed"`
-	CreatedAt        time.Time `json:"created_at"`
-	FtsReportContent string    `json:"fts_report_content"`
+	ReportID      int64     `json:"report_id"`
+	UserID        int64     `json:"user_id"`
+	CommentID     int64     `json:"comment_id"`
+	ReportContent string    `json:"report_content"`
+	Processed     bool      `json:"processed"`
+	CreatedAt     time.Time `json:"created_at"`
+	FtsReportZh   string    `json:"fts_report_zh"`
+	FtsReportEn   string    `json:"fts_report_en"`
 }
 
 type Configuration struct {

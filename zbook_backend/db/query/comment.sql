@@ -125,14 +125,15 @@ JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id;
 
 -- name: QueryComment :many
-SELECT comments.*,ts_rank(comments.fts_comment_content, plainto_tsquery(@query)) as rank,
+SELECT comments.*,
+  ROUND(ts_rank(comments.fts_comment_zh, plainto_tsquery(@query))) + ROUND(ts_rank(comments.fts_comment_en, plainto_tsquery(@query))) as rank,
   users.username,users.email,users.created_at as user_created_at
 FROM comments
 JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery(@query)
+WHERE (comments.fts_comment_zh @@ plainto_tsquery(@query) OR comments.fts_comment_en @@ plainto_tsquery(@query))
 ORDER BY rank DESC
 LIMIT $1
 OFFSET $2;
@@ -144,4 +145,4 @@ JOIN markdowns on markdowns.markdown_id = comments.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
 JOIN users ON comments.user_id = users.user_id
 JOIN users as mu ON mu.user_id=repos.user_id
-WHERE comments.fts_comment_content @@ plainto_tsquery(@query);
+WHERE (comments.fts_comment_zh @@ plainto_tsquery(@query) OR comments.fts_comment_en @@ plainto_tsquery(@query));

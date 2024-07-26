@@ -1,5 +1,5 @@
 CREATE TABLE "markdowns" (
-  "markdown_id" bigserial UNIQUE NOT NULL,
+  "markdown_id" bigserial PRIMARY KEY,
   "relative_path" text NOT NULL,
   "user_id" bigint NOT NULL,
   "repo_id" bigint NOT NULL,
@@ -7,7 +7,8 @@ CREATE TABLE "markdowns" (
   "table_content" text NOT NULL,
   "updated_at"  timestamptz NOT NULL DEFAULT (now()),
   "created_at"  timestamptz NOT NULL DEFAULT (now()),
-  PRIMARY KEY ("relative_path","repo_id")
+  fts_zh tsvector,
+  fts_en tsvector
 );
 
 ALTER TABLE "markdowns"
@@ -15,10 +16,6 @@ ALTER TABLE "markdowns"
   ADD FOREIGN KEY ("repo_id") REFERENCES "repos" ("repo_id") ON DELETE CASCADE;
 
 CREATE UNIQUE INDEX ON "markdowns" ("repo_id","relative_path");
-
-
-ALTER TABLE "markdowns" ADD COLUMN fts_zh tsvector;
-ALTER TABLE "markdowns" ADD COLUMN fts_en tsvector;
 
 UPDATE "markdowns"
 SET fts_zh = setweight(to_tsvector('jiebacfg', "relative_path"), 'A') ||
