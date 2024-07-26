@@ -223,3 +223,34 @@ func TestDeleteMarkdownMulti(t *testing.T) {
 	err = testStore.DeleteMarkdownMulti(context.Background(), arg_delete)
 	require.NoError(t, err)
 }
+
+func TestQueryUserMarkdown(t *testing.T) {
+	m1 := testCreateRandomMarkdown(t)
+	arg := QueryUserMarkdownParams{
+		Limit:          10,
+		Offset:         0,
+		UserID:         m1.UserID,
+		PlaintoTsquery: m1.MainContent,
+		Role:           util.UserRole,
+		Signed:         true,
+		CurUserID:      0,
+	}
+	rets, err := testStore.QueryUserMarkdown(context.Background(), arg)
+	require.NoError(t, err)
+	require.True(t, len(rets) > 0)
+	require.Equal(t, rets[0].RepoID, m1.RepoID)
+}
+func TestQueryRepoMarkdown(t *testing.T) {
+	m1 := testCreateRandomMarkdown(t)
+	arg := QueryRepoMarkdownParams{
+		Limit:          10,
+		Offset:         0,
+		UserID:         m1.UserID,
+		RepoID:         m1.RepoID,
+		PlaintoTsquery: m1.MainContent,
+	}
+	rets, err := testStore.QueryRepoMarkdown(context.Background(), arg)
+	require.NoError(t, err)
+	require.True(t, len(rets) > 0)
+	require.Equal(t, rets[0].RepoID, m1.RepoID)
+}
