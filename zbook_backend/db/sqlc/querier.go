@@ -117,10 +117,9 @@ type Querier interface {
 	QueryRepoVisibilityByRepo(ctx context.Context, arg QueryRepoVisibilityByRepoParams) ([]QueryRepoVisibilityByRepoRow, error)
 	QuerySession(ctx context.Context, arg QuerySessionParams) ([]QuerySessionRow, error)
 	QueryUser(ctx context.Context, arg QueryUserParams) ([]QueryUserRow, error)
-	QueryUserAllMarkdown(ctx context.Context, arg QueryUserAllMarkdownParams) ([]QueryUserAllMarkdownRow, error)
 	QueryUserLikeRepo(ctx context.Context, arg QueryUserLikeRepoParams) ([]QueryUserLikeRepoRow, error)
+	QueryUserMarkdown(ctx context.Context, arg QueryUserMarkdownParams) ([]QueryUserMarkdownRow, error)
 	QueryUserOwnRepo(ctx context.Context, arg QueryUserOwnRepoParams) ([]QueryUserOwnRepoRow, error)
-	QueryUserVisibleMarkdown(ctx context.Context, arg QueryUserVisibleMarkdownParams) ([]QueryUserVisibleMarkdownRow, error)
 	ResetUnreadCount(ctx context.Context, username string) error
 	UpdateCommentReportStatus(ctx context.Context, arg UpdateCommentReportStatusParams) error
 	UpdateConfiguration(ctx context.Context, arg UpdateConfigurationParams) error

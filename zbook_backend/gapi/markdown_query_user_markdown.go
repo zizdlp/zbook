@@ -26,7 +26,7 @@ func (server *Server) QueryUserMarkdown(ctx context.Context, req *rpcs.QueryUser
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
-	permissionLevel, err := server.getUserPermessionlevel(ctx, authPayload.Username, req.GetUsername())
+	_, err = server.getUserPermessionlevel(ctx, authPayload.Username, req.GetUsername())
 	if err != nil {
 		return nil, err
 	}
@@ -34,45 +34,27 @@ func (server *Server) QueryUserMarkdown(ctx context.Context, req *rpcs.QueryUser
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "get user by username failed: %s", err)
 	}
-	if permissionLevel == 2 { //其他用户
-		arg := db.QueryUserVisibleMarkdownParams{
-			Limit:          req.GetPageSize(),
-			Offset:         (req.GetPageId() - 1) * req.GetPageSize(),
-			PlaintoTsquery: req.GetPlainToTsquery(),
-			UserID:         user.UserID,
-		}
-		markdowns, err := server.store.QueryUserVisibleMarkdown(ctx, arg)
-		if err != nil {
-			if errors.Is(err, db.ErrRecordNotFound) {
-				return nil, status.Errorf(codes.NotFound, "markdown not found: %s", err)
-			}
-			return nil, status.Errorf(codes.Internal, "query user visible markdown failed: %s", err)
-		}
 
-		rsp := &rpcs.QueryUserMarkdownResponse{
-			Elements: convertQueryUserVisibleMarkdown(markdowns),
-		}
-		return rsp, nil
-	} else {
-		arg := db.QueryUserAllMarkdownParams{
-			PlaintoTsquery: req.GetPlainToTsquery(),
-			UserID:         user.UserID,
-			Limit:          req.GetPageSize(),
-			Offset:         (req.GetPageId() - 1) * req.GetPageSize(),
-		}
-		markdowns, err := server.store.QueryUserAllMarkdown(ctx, arg)
-		if err != nil {
-			if errors.Is(err, db.ErrRecordNotFound) {
-				return nil, status.Errorf(codes.NotFound, "markdown not found: %s", err)
-			}
-			return nil, status.Errorf(codes.Internal, "query user all markdown failed: %s", err)
-		}
-
-		rsp := &rpcs.QueryUserMarkdownResponse{
-			Elements: convertQueryUserAllMarkdown(markdowns),
-		}
-		return rsp, nil
+	arg := db.QueryUserMarkdownParams{
+		Limit:          req.GetPageSize(),
+		Offset:         (req.GetPageId() - 1) * req.GetPageSize(),
+		PlaintoTsquery: req.GetPlainToTsquery(),
+		UserID:         user.UserID,
+		Role:           authPayload.UserRole,
+		Signed:         true,
+		CurUserID:      authPayload.UserID,
 	}
+	markdowns, err := server.store.QueryUserMarkdown(ctx, arg)
+	if err != nil {
+		if errors.Is(err, db.ErrRecordNotFound) {
+			return nil, status.Errorf(codes.NotFound, "markdown not found: %s", err)
+		}
+		return nil, status.Errorf(codes.Internal, "query user visible markdown failed: %s", err)
+	}
+	rsp := &rpcs.QueryUserMarkdownResponse{
+		Elements: convertQueryUserVisibleMarkdown(markdowns),
+	}
+	return rsp, nil
 
 }
 func validateQueryUserMarkdownRequest(req *rpcs.QueryUserMarkdownRequest) (violations []*errdetails.BadRequest_FieldViolation) {
@@ -85,7 +67,7 @@ func validateQueryUserMarkdownRequest(req *rpcs.QueryUserMarkdownRequest) (viola
 	return violations
 }
 
-func convertQueryUserVisibleMarkdown(markdowns []db.QueryUserVisibleMarkdownRow) []*models.Markdown {
+func convertQueryUserVisibleMarkdown(markdowns []db.QueryUserMarkdownRow) []*models.Markdown {
 	var ret_markdowns []*models.Markdown
 	for i := 0; i < len(markdowns); i++ {
 		str, ok := markdowns[i].Coalesce.(string)
@@ -93,27 +75,6 @@ func convertQueryUserVisibleMarkdown(markdowns []db.QueryUserVisibleMarkdownRow)
 			if !ok {
 				log.Error().Msg("cannot convert coalesce to string")
 			}
-		}
-		ret_markdowns = append(ret_markdowns,
-			&models.Markdown{
-				MarkdownId:   markdowns[i].MarkdownID,
-				RelativePath: markdowns[i].RelativePath,
-				UserId:       markdowns[i].UserID,
-				RepoId:       markdowns[i].RepoID,
-				MainContent:  str,
-				Username:     markdowns[i].Username,
-				RepoName:     markdowns[i].RepoName,
-			},
-		)
-	}
-	return ret_markdowns
-}
-func convertQueryUserAllMarkdown(markdowns []db.QueryUserAllMarkdownRow) []*models.Markdown {
-	var ret_markdowns []*models.Markdown
-	for i := 0; i < len(markdowns); i++ {
-		str, ok := markdowns[i].Coalesce.(string)
-		if !ok {
-			log.Warn().Msg("cannot convert coalesce to string")
 		}
 		ret_markdowns = append(ret_markdowns,
 			&models.Markdown{
