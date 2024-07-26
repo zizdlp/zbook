@@ -245,7 +245,7 @@ func TestQueryUserMarkdown(t *testing.T) {
 		Offset:         0,
 		UserID:         m1.UserID,
 		PlaintoTsquery: m1.MainContent,
-		Role:           util.UserRole,
+		Role:           util.AdminRole,
 		Signed:         true,
 		CurUserID:      0,
 	}
