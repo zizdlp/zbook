@@ -7,23 +7,23 @@ import { OperationContext } from "@/providers/OperationProvider";
 import { SearchType } from "@/utils/const_value";
 export default function SideBarSearchButton({
   username,
-  repo_id,
+  repo_name,
   searchType,
 }: {
   username: string;
-  repo_id: number;
+  repo_name: string;
   searchType: SearchType;
 }) {
   const { searchDialogOpen, setSearchDialogOpen, setSearchType } =
     useContext(SearchDialogContext);
-  const { setOperationRepoID, setOperationUsername } =
+  const { setOperationRepoName, setOperationUsername } =
     useContext(OperationContext);
   const t = useTranslations("SideBar");
   return (
     <button
       onClick={() => {
         setOperationUsername(username);
-        setOperationRepoID(repo_id);
+        setOperationRepoName(repo_name);
         setSearchType(searchType);
         setSearchDialogOpen(!searchDialogOpen);
       }}

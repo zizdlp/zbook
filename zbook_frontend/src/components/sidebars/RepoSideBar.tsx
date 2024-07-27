@@ -30,8 +30,8 @@ export default function RepoSideBar({
         <div className="h-10 bg-white dark:bg-gray-900"></div>
         <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
           <SideBarSearchButton
-            username=""
-            repo_id={repo_id}
+            username={username}
+            repo_name={reponame}
             searchType={SearchType.REPO_DOCUMENT}
           />
         </div>

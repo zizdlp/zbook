@@ -84,7 +84,7 @@ export default async function UserSideBar({
           <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
             <SideBarSearchButton
               username={username}
-              repo_id={0}
+              repo_name=""
               searchType={SearchType.USER_DOCUMENT}
             />
           </div>

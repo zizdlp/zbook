@@ -244,7 +244,8 @@ interface QueryUserMarkdownRequest {
   page_size: number;
 }
 interface QueryRepoMarkdownRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   plain_to_tsquery: string;
   page_id: number;
   page_size: number;

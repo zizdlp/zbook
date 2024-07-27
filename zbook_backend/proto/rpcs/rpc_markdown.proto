@@ -25,10 +25,11 @@ message GetMarkdownImageResponse {
 
 // 3.QueryRepoMarkdown
 message QueryRepoMarkdownRequest {
-  int64 repo_id           = 1;
-  string plain_to_tsquery = 2;
-  int32 page_id           = 3;
-  int32 page_size         = 4;
+  string username         = 1;
+  string repo_name        = 2;
+  string plain_to_tsquery = 3;
+  int32 page_id           = 4;
+  int32 page_size         = 5;
 }
 message QueryRepoMarkdownResponse {
   repeated Markdown elements = 1;

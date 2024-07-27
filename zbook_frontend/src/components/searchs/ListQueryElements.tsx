@@ -23,7 +23,8 @@ export default function ListQueryElements({
   query: string;
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { operationUsername, operationRepoID } = useContext(OperationContext);
+  const { operationUsername, operationRepoID, operationRepoName } =
+    useContext(OperationContext);
   const t = useTranslations("Searchs");
   const [currentPage, setCurrentPage] = useState(1);
   const isFetchingData = useRef(false);
@@ -82,8 +83,9 @@ export default function ListQueryElements({
                 agent: "",
                 tags: [],
                 values: {
+                  username: operationUsername,
+                  repo_name: operationRepoName,
                   plain_to_tsquery: query,
-                  repo_id: operationRepoID,
                   page_id: currentPage,
                   page_size: 10,
                 },

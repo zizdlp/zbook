@@ -52,6 +52,9 @@ export const OperationContext = createContext<{
   operationRepoID: number;
   setOperationRepoID: React.Dispatch<React.SetStateAction<number>>;
 
+  operationRepoName: string;
+  setOperationRepoName: React.Dispatch<React.SetStateAction<string>>;
+
   operationMarkdownID: number;
   setOperationMarkdownID: React.Dispatch<React.SetStateAction<number>>;
 
@@ -111,6 +114,9 @@ export const OperationContext = createContext<{
   operationRepoID: 0,
   setOperationRepoID: () => {},
 
+  operationRepoName: "",
+  setOperationRepoName: () => {},
+
   operationMarkdownID: 0,
   setOperationMarkdownID: () => {},
 
@@ -158,6 +164,7 @@ export default function OperationProvider({
 
   const [operationUsername, setOperationUsername] = useState("");
   const [operationRepoID, setOperationRepoID] = useState(0);
+  const [operationRepoName, setOperationRepoName] = useState("");
   const [operationMarkdownID, setOperationMarkdownID] = useState(0);
   const [operationParentID, setOperationParentID] = useState(0);
   const [operationCommentID, setOperationCommentID] = useState(0);
@@ -205,6 +212,8 @@ export default function OperationProvider({
 
     operationRepoID,
     setOperationRepoID,
+    operationRepoName,
+    setOperationRepoName,
     operationUsername,
     setOperationUsername,
     operationMarkdownID,
