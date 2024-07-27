@@ -29,38 +29,12 @@ export default function SearchDialog() {
              ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 overflow-x-clip
              overflow-y-auto md:h-96 h-[30rem] scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md  pb-2 md:pb-4"
       >
-        {searchType == 4 && (
-          <ListQueryElements
-            key={query}
-            queryType="repoMarkdown"
-            query={query}
-            setShowDialog={setSearchDialogOpen}
-          />
-        )}
-        {searchType == 3 && (
-          <ListQueryElements
-            key={query}
-            queryType="userMarkdown"
-            query={query}
-            setShowDialog={setSearchDialogOpen}
-          />
-        )}
-        {searchType == 2 && (
-          <ListQueryElements
-            key={query}
-            queryType="repoVisibleUser"
-            query={query}
-            setShowDialog={setSearchDialogOpen}
-          />
-        )}
-        {searchType == 1 && (
-          <ListQueryElements
-            key={query}
-            queryType="queryUser"
-            query={query}
-            setShowDialog={setSearchDialogOpen}
-          />
-        )}
+        <ListQueryElements
+          key={query}
+          searchType={searchType}
+          query={query}
+          setShowDialog={setSearchDialogOpen}
+        />
       </div>
       <SearchFooter />
     </DialogComponent>

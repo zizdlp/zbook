@@ -15,59 +15,47 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) QueryUserMarkdown(ctx context.Context, req *rpcs.QueryUserMarkdownRequest) (*rpcs.QueryUserMarkdownResponse, error) {
+func (server *Server) QueryMarkdown(ctx context.Context, req *rpcs.QueryMarkdownRequest) (*rpcs.QueryMarkdownResponse, error) {
 	apiUserDailyLimit := 10000
-	apiKey := "QueryUserMarkdown"
+	apiKey := "QueryMarkdown"
 	authPayload, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
 	}
-	violations := validateQueryUserMarkdownRequest(req)
+	violations := validateQueryMarkdownRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
-	_, err = server.getUserPermessionlevel(ctx, authPayload.Username, req.GetUsername())
-	if err != nil {
-		return nil, err
-	}
-	user, err := server.store.GetUserByUsername(ctx, req.GetUsername())
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "get user by username failed: %s", err)
-	}
 
-	arg := db.QueryUserMarkdownParams{
+	arg := db.QueryMarkdownParams{
 		Limit:          req.GetPageSize(),
 		Offset:         (req.GetPageId() - 1) * req.GetPageSize(),
 		PlaintoTsquery: req.GetPlainToTsquery(),
-		UserID:         user.UserID,
 		Role:           authPayload.UserRole,
 		Signed:         true,
 		CurUserID:      authPayload.UserID,
 	}
-	markdowns, err := server.store.QueryUserMarkdown(ctx, arg)
+	markdowns, err := server.store.QueryMarkdown(ctx, arg)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "markdown not found: %s", err)
 		}
-		return nil, status.Errorf(codes.Internal, "query user markdown failed: %s", err)
+		return nil, status.Errorf(codes.Internal, "query markdown failed: %s", err)
 	}
-	rsp := &rpcs.QueryUserMarkdownResponse{
-		Elements: convertQueryUserMarkdown(markdowns),
+	rsp := &rpcs.QueryMarkdownResponse{
+		Elements: convertQueryMarkdown(markdowns),
 	}
 	return rsp, nil
 
 }
-func validateQueryUserMarkdownRequest(req *rpcs.QueryUserMarkdownRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateQueryMarkdownRequest(req *rpcs.QueryMarkdownRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := val.ValidateString(req.GetPlainToTsquery(), 1, 512); err != nil {
 		violations = append(violations, fieldViolation("plain_to_tsquery", err))
-	}
-	if err := val.ValidateUsername(req.GetUsername()); err != nil {
-		violations = append(violations, fieldViolation("username", err))
 	}
 	return violations
 }
 
-func convertQueryUserMarkdown(markdowns []db.QueryUserMarkdownRow) []*models.Markdown {
+func convertQueryMarkdown(markdowns []db.QueryMarkdownRow) []*models.Markdown {
 	var ret_markdowns []*models.Markdown
 	for i := 0; i < len(markdowns); i++ {
 		str, ok := markdowns[i].Coalesce.(string)

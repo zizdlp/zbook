@@ -20,24 +20,27 @@ func (server *Server) QueryRepoMarkdown(ctx context.Context, req *rpcs.QueryRepo
 		return nil, invalidArgumentError(violations)
 	}
 
-	err := server.isRepoVisibleToCurrentUser(ctx, req.GetRepoId())
-	if err != nil {
-		return nil, err
+	arg_get := db.GetRepoByRepoNameParams{
+		Username: req.GetUsername(),
+		RepoName: req.GetRepoName(),
 	}
-
-	repo, err := server.store.GetRepo(ctx, req.GetRepoId())
+	repo, err := server.store.GetRepoByRepoName(ctx, arg_get)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "repo not found: %s", err)
 		}
 		return nil, status.Errorf(codes.Internal, "get repo failed : %s", err)
 	}
+	err = server.isRepoVisibleToCurrentUser(ctx, repo.RepoID)
+	if err != nil {
+		return nil, err
+	}
 
 	arg := db.QueryRepoMarkdownParams{
 		Limit:          req.GetPageSize(),
 		Offset:         (req.GetPageId() - 1) * req.GetPageSize(),
 		PlaintoTsquery: req.GetPlainToTsquery(),
-		RepoID:         req.GetRepoId(),
+		RepoID:         repo.RepoID,
 		UserID:         repo.UserID,
 	}
 	markdowns, err := server.store.QueryRepoMarkdown(ctx, arg)
@@ -57,10 +60,11 @@ func validateQueryRepoMarkdownRequest(req *rpcs.QueryRepoMarkdownRequest) (viola
 	if err := val.ValidateString(req.GetPlainToTsquery(), 1, 512); err != nil {
 		violations = append(violations, fieldViolation("plain_to_tsquery", err))
 	}
-
-	err := val.ValidateID(req.GetRepoId())
-	if err != nil {
-		violations = append(violations, fieldViolation("repo_id", err))
+	if err := val.ValidateUsername(req.GetUsername()); err != nil {
+		violations = append(violations, fieldViolation("username", err))
+	}
+	if err := val.ValidateString(req.GetRepoName(), 1, 128); err != nil {
+		violations = append(violations, fieldViolation("repo_name", err))
 	}
 	return violations
 }

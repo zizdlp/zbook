@@ -386,8 +386,13 @@ SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.g
   users.username, users.email
 FROM repos
 INNER JOIN users ON repos.user_id = users.user_id
-WHERE repos.repo_id = $1
+WHERE users.username=$1 AND repos.repo_name=$2
 `
+
+type GetRepoBasicInfoParams struct {
+	Username string `json:"username"`
+	RepoName string `json:"repo_name"`
+}
 
 type GetRepoBasicInfoRow struct {
 	RepoID          int64       `json:"repo_id"`
@@ -412,8 +417,8 @@ type GetRepoBasicInfoRow struct {
 	Email           string      `json:"email"`
 }
 
-func (q *Queries) GetRepoBasicInfo(ctx context.Context, repoID int64) (GetRepoBasicInfoRow, error) {
-	row := q.db.QueryRow(ctx, getRepoBasicInfo, repoID)
+func (q *Queries) GetRepoBasicInfo(ctx context.Context, arg GetRepoBasicInfoParams) (GetRepoBasicInfoRow, error) {
+	row := q.db.QueryRow(ctx, getRepoBasicInfo, arg.Username, arg.RepoName)
 	var i GetRepoBasicInfoRow
 	err := row.Scan(
 		&i.RepoID,

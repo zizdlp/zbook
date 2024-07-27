@@ -1,4 +1,4 @@
-import SearchUserButton from "./SearchUserButton";
+import SideBarSearchButton from "./SideBarSearchButton";
 import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import Image from "next/image";
@@ -14,6 +14,7 @@ import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
 import OAuthWrapper from "./OAuthWrapper";
 import { auth } from "@/auth";
+import { SearchType } from "@/utils/const_value";
 export default async function UserSideBar({
   username,
   authname,
@@ -81,7 +82,11 @@ export default async function UserSideBar({
         <div className="sticky top-0 -ml-0.5 pointer-events-none">
           <div className="h-10 bg-white dark:bg-gray-900"></div>
           <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
-            <SearchUserButton username={username} />
+            <SideBarSearchButton
+              username={username}
+              repo_name=""
+              searchType={SearchType.USER_DOCUMENT}
+            />
           </div>
           <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
         </div>

@@ -46,10 +46,12 @@ class LRUCache {
 const lruCache = new LRUCache(300); // 设定容量为300
 export default async function MarkdownImage({
   path,
-  repo_id,
+  username,
+  repo_name,
 }: {
   path: string;
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }) {
   try {
     // 检查内存缓存
@@ -65,7 +67,8 @@ export default async function MarkdownImage({
       tags: [],
       values: {
         file_path: decodeURIComponent(path),
-        repo_id: repo_id,
+        username: username,
+        repo_name: repo_name,
       },
     });
     if (data.error) {

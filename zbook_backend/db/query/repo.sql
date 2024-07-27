@@ -74,7 +74,7 @@ SELECT repos.*,
   users.username, users.email
 FROM repos
 INNER JOIN users ON repos.user_id = users.user_id
-WHERE repos.repo_id = $1;
+WHERE users.username=$1 AND repos.repo_name=$2;
 
 
 -- name: GetQueryRepoCount :one

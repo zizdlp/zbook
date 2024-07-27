@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { MdOutlineVisibility } from "react-icons/md";
 import { useTranslations } from "next-intl";
 import RepoSideBarButton from "../sidebars/RepoSideBarButton";
+import { SearchType } from "@/utils/const_value";
 export default function ShowVisibleButton({
   repo_id,
   visibility_level,
@@ -20,7 +21,7 @@ export default function ShowVisibleButton({
     <RepoSideBarButton
       onclick={() => {
         setOperationRepoID(repo_id);
-        setSearchType(2); //搜索仓库可见用户
+        setSearchType(SearchType.VISI_USER); //搜索仓库可见用户
         setSearchDialogOpen(true);
       }}
       url="#"

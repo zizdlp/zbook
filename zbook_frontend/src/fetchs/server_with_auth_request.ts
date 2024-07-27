@@ -107,8 +107,9 @@ interface GetUserInfoRequest {
   user_basic: boolean;
   user_image: boolean;
 }
-interface getRepoBasicInfoRequest {
-  repo_id: number;
+interface GetRepoBasicInfoRequest {
+  username: string;
+  repo_name: string;
 }
 
 interface GetRepoLayoutRequest {
@@ -121,7 +122,8 @@ interface GetMarkdownContentRequest {
 }
 
 interface GetMarkdownImageRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   file_path: string;
 }
 interface CreateRepoRequest {
@@ -232,6 +234,11 @@ interface DeleteCommentRelationRequest {
 interface GetCommentCountInfoRequest {
   comment_id: number;
 }
+interface QueryMarkdownRequest {
+  plain_to_tsquery: string;
+  page_id: number;
+  page_size: number;
+}
 interface QueryUserMarkdownRequest {
   username: string;
   plain_to_tsquery: string;
@@ -239,7 +246,8 @@ interface QueryUserMarkdownRequest {
   page_size: number;
 }
 interface QueryRepoMarkdownRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   plain_to_tsquery: string;
   page_id: number;
   page_size: number;
@@ -375,7 +383,7 @@ export type {
   ListRepoVisibilityRequest,
   GetRepoVisibilityCountRequest,
   GetUserInfoRequest,
-  getRepoBasicInfoRequest,
+  GetRepoBasicInfoRequest,
   GetRepoLayoutRequest,
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,
@@ -385,4 +393,5 @@ export type {
   GetDailyVisitorsRequest,
   GetConfigurationRequest,
   UpdateConfigurationRequest,
+  QueryMarkdownRequest,
 };

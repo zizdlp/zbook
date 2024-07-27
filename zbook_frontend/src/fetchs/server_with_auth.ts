@@ -33,7 +33,7 @@ import {
   ListUserLikeRepoRequest,
   ListUserOwnRepoRequest,
   ListUserRequest,
-  getRepoBasicInfoRequest,
+  GetRepoBasicInfoRequest,
   UpdateUserBlockRequest,
   CreateRepoRequest,
   UpdateUserRequest,
@@ -46,6 +46,7 @@ import {
   GetDailyVisitorsRequest,
   GetConfigurationRequest,
   UpdateConfigurationRequest,
+  QueryMarkdownRequest,
 } from "./server_with_auth_request";
 import {
   CreateRepoVisibilityRequest,
@@ -435,7 +436,7 @@ export async function fetchServerWithAuthWrapper({
   tags,
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_BASIC_INFO;
-  values: getRepoBasicInfoRequest;
+  values: GetRepoBasicInfoRequest;
   xforward: string;
   agent: string;
   tags: string[];
@@ -934,6 +935,19 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_REPO_MARKDOWN;
   values: QueryRepoMarkdownRequest;
+  xforward: string;
+  agent: string;
+  tags: string[];
+}): Promise<any>;
+export async function fetchServerWithAuthWrapper({
+  endpoint,
+  values,
+  xforward,
+  agent,
+  tags,
+}: {
+  endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_MARKDOWN;
+  values: QueryMarkdownRequest;
   xforward: string;
   agent: string;
   tags: string[];

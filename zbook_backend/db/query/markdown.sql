@@ -67,6 +67,36 @@ WHERE (relative_path, repo_id) IN (
 );
 
 
+
+
+-- name: QueryMarkdown :many
+select 
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  ROUND(ts_rank(fts_zh, plainto_tsquery($3))) + ROUND(ts_rank(fts_en, plainto_tsquery($3))) as rank,
+  COALESCE(ts_headline(main_content,plainto_tsquery($3),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+from markdowns 
+JOIN repos as r on r.repo_id = markdowns.repo_id
+JOIN users on users.user_id = r.user_id
+where (fts_zh @@ plainto_tsquery($3) OR fts_en @@ plainto_tsquery($3))
+  AND (
+    (@role::text='admin' AND @signed::bool ) OR (
+    users.blocked='false' AND (
+      r.visibility_level = 'public'
+      OR 
+      (r.visibility_level = 'signed' AND @signed::bool)
+      OR
+      (r.visibility_level = 'chosen' AND @signed::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = @cur_user_id AND repo_relations.relation_type = 'visi'))
+      OR
+      ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = @cur_user_id AND @signed::bool)
+    )
+  )
+  )
+ORDER BY
+  rank DESC
+LIMIT $1
+OFFSET $2;
+
+
 -- name: QueryUserMarkdown :many
 select 
   users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,

@@ -48,7 +48,9 @@ export default function SearchMarkdownComponent(props: ProfileProps) {
           <div className="flex-grow overflow-auto">
             <span>{props.MarkdownBasicInfo.relative_path}</span>
             <br />
-            <span>{parse(props.MarkdownBasicInfo.main_content, options)}</span>
+            <span>
+              {parse(props.MarkdownBasicInfo?.main_content ?? "", options)}
+            </span>
           </div>
         </div>
 

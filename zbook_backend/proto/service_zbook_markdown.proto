@@ -82,4 +82,17 @@ summary:
 };
 }
 ;
+// 5.QueryMarkdown
+rpc QueryMarkdown(QueryMarkdownRequest) returns (QueryMarkdownResponse) {
+  option (google.api.http) = {
+    post: "/v1/query_markdown",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  query markdown";
+summary:
+  "query markdown";
+};
+}
+;
 }

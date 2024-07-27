@@ -12,17 +12,19 @@ import SearchMarkdownComponent from "./SearchMarkdownComponent";
 import ListUserElementForVisibility from "./ListUserElementForVisibility";
 import SearchProfileComponent from "./SearchProfileComponent";
 import { FetchError } from "@/fetchs/util";
+import { SearchType } from "@/utils/const_value";
 
 export default function ListQueryElements({
-  queryType,
+  searchType,
   query,
   setShowDialog,
 }: {
-  queryType: string;
+  searchType: SearchType;
   query: string;
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { operationUsername, operationRepoID } = useContext(OperationContext);
+  const { operationUsername, operationRepoID, operationRepoName } =
+    useContext(OperationContext);
   const t = useTranslations("Searchs");
   const [currentPage, setCurrentPage] = useState(1);
   const isFetchingData = useRef(false);
@@ -38,8 +40,24 @@ export default function ListQueryElements({
       try {
         let data = [];
         if (query != "") {
-          switch (queryType) {
-            case "userMarkdown":
+          switch (searchType) {
+            case SearchType.DOCUMENT:
+              data = await fetchServerWithAuthWrapper({
+                endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_MARKDOWN,
+                xforward: "",
+                agent: "",
+                tags: [],
+                values: {
+                  plain_to_tsquery: query,
+                  page_id: currentPage,
+                  page_size: 10,
+                },
+              });
+              if (data.error) {
+                throw new FetchError(data.message, data.status);
+              }
+              break;
+            case SearchType.USER_DOCUMENT:
               data = await fetchServerWithAuthWrapper({
                 endpoint:
                   FetchServerWithAuthWrapperEndPoint.QUERY_USER_MARKDOWN,
@@ -57,7 +75,7 @@ export default function ListQueryElements({
                 throw new FetchError(data.message, data.status);
               }
               break;
-            case "repoMarkdown":
+            case SearchType.REPO_DOCUMENT:
               data = await fetchServerWithAuthWrapper({
                 endpoint:
                   FetchServerWithAuthWrapperEndPoint.QUERY_REPO_MARKDOWN,
@@ -65,8 +83,9 @@ export default function ListQueryElements({
                 agent: "",
                 tags: [],
                 values: {
+                  username: operationUsername,
+                  repo_name: operationRepoName,
                   plain_to_tsquery: query,
-                  repo_id: operationRepoID,
                   page_id: currentPage,
                   page_size: 10,
                 },
@@ -75,7 +94,7 @@ export default function ListQueryElements({
                 throw new FetchError(data.message, data.status);
               }
               break;
-            case "repoVisibleUser":
+            case SearchType.VISI_USER:
               data = await fetchServerWithAuthWrapper({
                 endpoint:
                   FetchServerWithAuthWrapperEndPoint.LIST_REPO_VISIBILITY,
@@ -93,7 +112,7 @@ export default function ListQueryElements({
                 throw new FetchError(data.message, data.status);
               }
               break;
-            case "queryUser":
+            case SearchType.USER:
               data = await fetchServerWithAuthWrapper({
                 endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_USER,
                 xforward: "",
@@ -132,6 +151,9 @@ export default function ListQueryElements({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
+  useEffect(() => {
+    setListModelInfo([]);
+  }, [searchType]);
   return (
     <>
       {listModelInfo.map((doc: any, index) => (
@@ -146,7 +168,7 @@ export default function ListQueryElements({
             }
           }}
         >
-          {queryType == "repoVisibleUser" && (
+          {searchType === SearchType.VISI_USER && (
             <ListUserElementForVisibility
               repo_id={operationRepoID}
               is_visible={doc.is_repo_visible}
@@ -157,12 +179,15 @@ export default function ListQueryElements({
               updated_at={doc.updated_at}
             />
           )}
-          {queryType != "repoVisibleUser" && (
+
+          {searchType != SearchType.VISI_USER && (
             <div onClick={() => setShowDialog(false)}>
-              {(queryType == "repoMarkdown" || queryType == "userMarkdown") && (
+              {(searchType === SearchType.REPO_DOCUMENT ||
+                searchType === SearchType.DOCUMENT ||
+                searchType === SearchType.USER_DOCUMENT) && (
                 <SearchMarkdownComponent MarkdownBasicInfo={doc} />
               )}
-              {queryType == "queryUser" && (
+              {searchType === SearchType.USER && (
                 <SearchProfileComponent ListUserInfo={doc} />
               )}
             </div>
@@ -173,7 +198,8 @@ export default function ListQueryElements({
       {!hasMore &&
         currentPage == 1 &&
         listModelInfo.length == 0 &&
-        (queryType == ("repoVisibleUser" || "queryUser") ? (
+        (searchType === SearchType.USER ||
+        searchType === SearchType.VISI_USER ? (
           <NoItemFound title={t("NoUser")} />
         ) : (
           <NoItemFound title={t("NoMarkdown")} />

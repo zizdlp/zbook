@@ -4,7 +4,6 @@ interface WikiInfoProps {
   sectionIds: string[];
   markdownlist: string;
   markdowntext: string;
-  parsedrepo_id: number;
   prefixPath: string;
   NavBarOpen: boolean;
   markdown_id: number;
@@ -24,7 +23,6 @@ export default async function WikiInfo(props: WikiInfoProps) {
       <HtmlParser
         htmlString={props.markdowntext}
         prefixPath={props.prefixPath}
-        repo_id={props.parsedrepo_id}
         username={props.username}
         repo_name={props.repo_name}
       />

@@ -15,8 +15,9 @@ message GetMarkdownContentResponse {
 
 // 2.GetMarkdownImage
 message GetMarkdownImageRequest {
-  int64 repo_id    = 1;
-  string file_path = 2;
+  string username  = 1;
+  string repo_name = 2;
+  string file_path = 3;
 }
 
 message GetMarkdownImageResponse {
@@ -25,10 +26,11 @@ message GetMarkdownImageResponse {
 
 // 3.QueryRepoMarkdown
 message QueryRepoMarkdownRequest {
-  int64 repo_id           = 1;
-  string plain_to_tsquery = 2;
-  int32 page_id           = 3;
-  int32 page_size         = 4;
+  string username         = 1;
+  string repo_name        = 2;
+  string plain_to_tsquery = 3;
+  int32 page_id           = 4;
+  int32 page_size         = 5;
 }
 message QueryRepoMarkdownResponse {
   repeated Markdown elements = 1;
@@ -43,5 +45,15 @@ message QueryUserMarkdownRequest {
 }
 
 message QueryUserMarkdownResponse {
+  repeated Markdown elements = 1;
+}
+// 4.QueryMarkdown
+message QueryMarkdownRequest {
+  string plain_to_tsquery = 1;
+  int32 page_id           = 2;
+  int32 page_size         = 3;
+}
+
+message QueryMarkdownResponse {
   repeated Markdown elements = 1;
 }

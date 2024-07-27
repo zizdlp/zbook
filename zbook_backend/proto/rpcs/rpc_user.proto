@@ -52,7 +52,7 @@ message QueryUserRequest {
   string query    = 3;
 }
 message QueryUserResponse {
-  repeated ListUserInfo users = 1;
+  repeated ListUserInfo elements = 1;
 }
 
 // 6.GetUserInfo

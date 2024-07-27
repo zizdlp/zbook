@@ -72,6 +72,7 @@ export enum FetchServerWithAuthWrapperEndPoint {
   DELETE_COMMENT_RELATION = "delete_comment_relation",
   GET_COMMENT_COUNT_INFO = "get_comment_count_info",
   QUERY_USER_MARKDOWN = "query_user_markdown",
+  QUERY_MARKDOWN = "query_markdown",
   QUERY_REPO_MARKDOWN = "query_repo_markdown",
   RESET_UNREAD_COUNT = "reset_unread_count",
   GET_UNREAD_COUNT = "get_unread_count",

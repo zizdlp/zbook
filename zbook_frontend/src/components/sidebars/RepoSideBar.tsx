@@ -1,11 +1,12 @@
 "use client";
-import SearchRepoButton from "./SearchRepoButton";
 import SubMenu from "./SubMenu";
 import { MenuStruct } from "@/types/interface";
 import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
 import RepoSideBarSetting from "./RepoSideBarSettting";
 import { usePathname } from "@/navigation";
 import { useLocale } from "next-intl";
+import SideBarSearchButton from "./SideBarSearchButton";
+import { SearchType } from "@/utils/const_value";
 export default function RepoSideBar({
   repo_id,
   sublayouts,
@@ -28,7 +29,11 @@ export default function RepoSideBar({
       <div className="sticky top-0 -ml-0.5 pointer-events-none">
         <div className="h-10 bg-white dark:bg-gray-900"></div>
         <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
-          <SearchRepoButton repo_id={repo_id} />
+          <SideBarSearchButton
+            username={username}
+            repo_name={reponame}
+            searchType={SearchType.REPO_DOCUMENT}
+          />
         </div>
         <div className="h-6 bg-gradient-to-b from-white dark:from-slate-900"></div>
       </div>
