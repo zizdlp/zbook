@@ -232,6 +232,11 @@ interface DeleteCommentRelationRequest {
 interface GetCommentCountInfoRequest {
   comment_id: number;
 }
+interface QueryMarkdownRequest {
+  plain_to_tsquery: string;
+  page_id: number;
+  page_size: number;
+}
 interface QueryUserMarkdownRequest {
   username: string;
   plain_to_tsquery: string;
@@ -385,4 +390,5 @@ export type {
   GetDailyVisitorsRequest,
   GetConfigurationRequest,
   UpdateConfigurationRequest,
+  QueryMarkdownRequest,
 };

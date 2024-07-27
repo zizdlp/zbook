@@ -46,6 +46,7 @@ import {
   GetDailyVisitorsRequest,
   GetConfigurationRequest,
   UpdateConfigurationRequest,
+  QueryMarkdownRequest,
 } from "./server_with_auth_request";
 import {
   CreateRepoVisibilityRequest,
@@ -934,6 +935,19 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_REPO_MARKDOWN;
   values: QueryRepoMarkdownRequest;
+  xforward: string;
+  agent: string;
+  tags: string[];
+}): Promise<any>;
+export async function fetchServerWithAuthWrapper({
+  endpoint,
+  values,
+  xforward,
+  agent,
+  tags,
+}: {
+  endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_MARKDOWN;
+  values: QueryMarkdownRequest;
   xforward: string;
   agent: string;
   tags: string[];

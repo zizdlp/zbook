@@ -39,6 +39,22 @@ export default function ListQueryElements({
         let data = [];
         if (query != "") {
           switch (queryType) {
+            case "markdown":
+              data = await fetchServerWithAuthWrapper({
+                endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_MARKDOWN,
+                xforward: "",
+                agent: "",
+                tags: [],
+                values: {
+                  plain_to_tsquery: query,
+                  page_id: currentPage,
+                  page_size: 10,
+                },
+              });
+              if (data.error) {
+                throw new FetchError(data.message, data.status);
+              }
+              break;
             case "userMarkdown":
               data = await fetchServerWithAuthWrapper({
                 endpoint:
@@ -159,7 +175,9 @@ export default function ListQueryElements({
           )}
           {queryType != "repoVisibleUser" && (
             <div onClick={() => setShowDialog(false)}>
-              {(queryType == "repoMarkdown" || queryType == "userMarkdown") && (
+              {(queryType == "repoMarkdown" ||
+                queryType == "userMarkdown" ||
+                queryType == "markdown") && (
                 <SearchMarkdownComponent MarkdownBasicInfo={doc} />
               )}
               {queryType == "queryUser" && (
