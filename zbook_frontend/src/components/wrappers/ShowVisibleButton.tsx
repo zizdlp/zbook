@@ -1,13 +1,11 @@
 "use client";
 import { OperationContext } from "@/providers/OperationProvider";
-import {
-  SearchDialogContext,
-  SearchType,
-} from "@/providers/SearchDialogProvider";
+import { SearchDialogContext } from "@/providers/SearchDialogProvider";
 import { useContext } from "react";
 import { MdOutlineVisibility } from "react-icons/md";
 import { useTranslations } from "next-intl";
 import RepoSideBarButton from "../sidebars/RepoSideBarButton";
+import { SearchType } from "@/utils/const_value";
 export default function ShowVisibleButton({
   repo_id,
   visibility_level,

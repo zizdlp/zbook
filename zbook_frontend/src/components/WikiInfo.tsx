@@ -24,7 +24,6 @@ export default async function WikiInfo(props: WikiInfoProps) {
       <HtmlParser
         htmlString={props.markdowntext}
         prefixPath={props.prefixPath}
-        repo_id={props.parsedrepo_id}
         username={props.username}
         repo_name={props.repo_name}
       />

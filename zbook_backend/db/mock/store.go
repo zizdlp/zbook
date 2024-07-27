@@ -1060,7 +1060,7 @@ func (mr *MockStoreMockRecorder) GetRepo(arg0, arg1 interface{}) *gomock.Call {
 }
 
 // GetRepoBasicInfo mocks base method.
-func (m *MockStore) GetRepoBasicInfo(arg0 context.Context, arg1 int64) (db.GetRepoBasicInfoRow, error) {
+func (m *MockStore) GetRepoBasicInfo(arg0 context.Context, arg1 db.GetRepoBasicInfoParams) (db.GetRepoBasicInfoRow, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRepoBasicInfo", arg0, arg1)
 	ret0, _ := ret[0].(db.GetRepoBasicInfoRow)

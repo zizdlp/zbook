@@ -189,18 +189,20 @@ func TestGetRepoBasicInfo(t *testing.T) {
 	user2 := createRandomUser(t)
 	user3 := createRandomUser(t)
 	user4 := createRandomUser(t)
-	repo := createRandomRepo(t)
+	repo := createUserRandomRepo(t, user)
 	testStore.CreateRepoRelation(context.Background(), CreateRepoRelationParams{UserID: user.UserID, RepoID: repo.RepoID, RelationType: util.RelationTypeLike})
 	testStore.CreateRepoRelation(context.Background(), CreateRepoRelationParams{UserID: user2.UserID, RepoID: repo.RepoID, RelationType: util.RelationTypeLike})
 	testStore.CreateRepoRelation(context.Background(), CreateRepoRelationParams{UserID: user3.UserID, RepoID: repo.RepoID, RelationType: util.RelationTypeDislike})
 	testStore.CreateRepoRelation(context.Background(), CreateRepoRelationParams{UserID: user4.UserID, RepoID: repo.RepoID, RelationType: util.RelationTypeDislike})
 	{
-
-		repo_info, err := testStore.GetRepoBasicInfo(context.Background(), repo.RepoID)
+		arg := GetRepoBasicInfoParams{
+			Username: user.Username,
+			RepoName: repo.RepoName,
+		}
+		repo_info, err := testStore.GetRepoBasicInfo(context.Background(), arg)
 		require.NoError(t, err)
 		require.Equal(t, repo_info.RepoID, repo.RepoID)
 		require.Equal(t, repo_info.VisibilityLevel, repo.VisibilityLevel)
-
 	}
 
 }

@@ -107,8 +107,9 @@ interface GetUserInfoRequest {
   user_basic: boolean;
   user_image: boolean;
 }
-interface getRepoBasicInfoRequest {
-  repo_id: number;
+interface GetRepoBasicInfoRequest {
+  username: string;
+  repo_name: string;
 }
 
 interface GetRepoLayoutRequest {
@@ -121,7 +122,8 @@ interface GetMarkdownContentRequest {
 }
 
 interface GetMarkdownImageRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   file_path: string;
 }
 interface CreateRepoRequest {
@@ -381,7 +383,7 @@ export type {
   ListRepoVisibilityRequest,
   GetRepoVisibilityCountRequest,
   GetUserInfoRequest,
-  getRepoBasicInfoRequest,
+  GetRepoBasicInfoRequest,
   GetRepoLayoutRequest,
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,

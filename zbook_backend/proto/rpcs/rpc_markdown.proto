@@ -15,8 +15,9 @@ message GetMarkdownContentResponse {
 
 // 2.GetMarkdownImage
 message GetMarkdownImageRequest {
-  int64 repo_id    = 1;
-  string file_path = 2;
+  string username  = 1;
+  string repo_name = 2;
+  string file_path = 3;
 }
 
 message GetMarkdownImageResponse {

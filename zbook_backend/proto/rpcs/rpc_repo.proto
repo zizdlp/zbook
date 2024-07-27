@@ -69,7 +69,8 @@ message UpdateRepoInfoResponse {
 
 // 7.GetRepoBasicInfo
 message GetRepoBasicInfoRequest {
-  int64 repo_id = 1;
+  string username  = 1;
+  string repo_name = 2;
 }
 message GetRepoBasicInfoResponse {
   int64 repo_id                        = 1;

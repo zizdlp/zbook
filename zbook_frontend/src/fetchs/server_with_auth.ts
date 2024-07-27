@@ -33,7 +33,7 @@ import {
   ListUserLikeRepoRequest,
   ListUserOwnRepoRequest,
   ListUserRequest,
-  getRepoBasicInfoRequest,
+  GetRepoBasicInfoRequest,
   UpdateUserBlockRequest,
   CreateRepoRequest,
   UpdateUserRequest,
@@ -436,7 +436,7 @@ export async function fetchServerWithAuthWrapper({
   tags,
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_BASIC_INFO;
-  values: getRepoBasicInfoRequest;
+  values: GetRepoBasicInfoRequest;
   xforward: string;
   agent: string;
   tags: string[];

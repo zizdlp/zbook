@@ -21,17 +21,20 @@ func (server *Server) GetRepoBasicInfo(ctx context.Context, req *rpcs.GetRepoBas
 		return nil, invalidArgumentError(violations)
 	}
 
-	err := server.isRepoVisibleToCurrentUser(ctx, req.GetRepoId())
-	if err != nil {
-		return nil, err
+	arg := db.GetRepoBasicInfoParams{
+		Username: req.GetUsername(),
+		RepoName: req.GetRepoName(),
 	}
-
-	repo, err := server.store.GetRepoBasicInfo(ctx, req.GetRepoId())
+	repo, err := server.store.GetRepoBasicInfo(ctx, arg)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "repo not found: %s", err)
 		}
 		return nil, status.Errorf(codes.Internal, "get repo basic info failed: %s", err)
+	}
+	err = server.isRepoVisibleToCurrentUser(ctx, repo.RepoID)
+	if err != nil {
+		return nil, err
 	}
 	avatarData, err := storage.DownloadFileFromStorage(server.minioClient, context.Background(), repo.Username, "avatar")
 	if err != nil {
@@ -50,9 +53,13 @@ func (server *Server) GetRepoBasicInfo(ctx context.Context, req *rpcs.GetRepoBas
 	return rsp, nil
 }
 func validateGetRepoRequest(req *rpcs.GetRepoBasicInfoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	err := val.ValidateID(req.GetRepoId())
+	err := val.ValidateUsername(req.GetUsername())
 	if err != nil {
-		violations = append(violations, fieldViolation("repo_id", err))
+		violations = append(violations, fieldViolation("username", err))
+	}
+	err = val.ValidateString(req.GetRepoName(), 1, 64)
+	if err != nil {
+		violations = append(violations, fieldViolation("repo_name", err))
 	}
 	return violations
 }

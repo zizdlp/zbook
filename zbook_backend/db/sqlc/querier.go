@@ -73,7 +73,7 @@ type Querier interface {
 	GetQueryUserLikeRepoCount(ctx context.Context, arg GetQueryUserLikeRepoCountParams) (int64, error)
 	GetQueryUserOwnRepoCount(ctx context.Context, arg GetQueryUserOwnRepoCountParams) (int64, error)
 	GetRepo(ctx context.Context, repoID int64) (Repo, error)
-	GetRepoBasicInfo(ctx context.Context, repoID int64) (GetRepoBasicInfoRow, error)
+	GetRepoBasicInfo(ctx context.Context, arg GetRepoBasicInfoParams) (GetRepoBasicInfoRow, error)
 	GetRepoByRepoName(ctx context.Context, arg GetRepoByRepoNameParams) (GetRepoByRepoNameRow, error)
 	GetRepoID(ctx context.Context, arg GetRepoIDParams) (int64, error)
 	GetRepoLayout(ctx context.Context, arg GetRepoLayoutParams) (GetRepoLayoutRow, error)

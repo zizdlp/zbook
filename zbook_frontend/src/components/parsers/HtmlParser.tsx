@@ -32,7 +32,6 @@ function attributesToProps(attributes: NamedNodeMap): {
 const parseHTMLString = (
   htmlString: string,
   prefixPath: string,
-  repo_id: number,
   username: string,
   repo_name: string
 ): React.ReactNode => {
@@ -336,7 +335,8 @@ const parseHTMLString = (
             >
               <MarkdownImage
                 path={prefixPath + "/" + srcAttribute}
-                repo_id={repo_id}
+                username={username}
+                repo_name={repo_name}
               />
             </Suspense>
           );
@@ -422,7 +422,6 @@ const parseHTMLString = (
 interface HtmlParserProps {
   htmlString: string;
   prefixPath: string;
-  repo_id: number;
   username: string;
   repo_name: string;
 }
@@ -430,14 +429,12 @@ interface HtmlParserProps {
 const HtmlParser: React.FC<HtmlParserProps> = ({
   htmlString,
   prefixPath,
-  repo_id,
   username,
   repo_name,
 }) => {
   const parsedHTML = parseHTMLString(
     htmlString,
     prefixPath,
-    repo_id,
     username,
     repo_name
   );
