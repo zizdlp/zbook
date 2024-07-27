@@ -1,10 +1,8 @@
 import { useContext } from "react";
 import { MdPersonSearch } from "react-icons/md";
 import { AiOutlineFileSearch } from "react-icons/ai";
-import {
-  SearchDialogContext,
-  SearchType,
-} from "@/providers/SearchDialogProvider";
+import { SearchDialogContext } from "@/providers/SearchDialogProvider";
+import { SearchType } from "@/utils/const_value";
 
 export default function SwitchType() {
   const { setSearchType, searchType } = useContext(SearchDialogContext);
