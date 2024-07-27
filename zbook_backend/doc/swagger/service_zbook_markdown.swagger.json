@@ -89,6 +89,40 @@
         ]
       }
     },
+    "/v1/query_markdown": {
+      "post": {
+        "summary": "query markdown",
+        "description": "Use this api to  query markdown",
+        "operationId": "ZBookMarkdown_QueryMarkdown",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbQueryMarkdownResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbQueryMarkdownRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookMarkdown"
+        ]
+      }
+    },
     "/v1/query_repo_markdown": {
       "post": {
         "summary": "query markdown repo",
@@ -241,6 +275,35 @@
         },
         "repoName": {
           "type": "string"
+        }
+      }
+    },
+    "pbQueryMarkdownRequest": {
+      "type": "object",
+      "properties": {
+        "plainToTsquery": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "4.QueryMarkdown"
+    },
+    "pbQueryMarkdownResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbMarkdown"
+          }
         }
       }
     },

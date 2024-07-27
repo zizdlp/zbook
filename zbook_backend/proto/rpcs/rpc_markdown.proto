@@ -45,3 +45,13 @@ message QueryUserMarkdownRequest {
 message QueryUserMarkdownResponse {
   repeated Markdown elements = 1;
 }
+// 4.QueryMarkdown
+message QueryMarkdownRequest {
+  string plain_to_tsquery = 1;
+  int32 page_id           = 2;
+  int32 page_size         = 3;
+}
+
+message QueryMarkdownResponse {
+  repeated Markdown elements = 1;
+}

@@ -1658,6 +1658,21 @@ func (mr *MockStoreMockRecorder) QueryFollowing(arg0, arg1 interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryFollowing", reflect.TypeOf((*MockStore)(nil).QueryFollowing), arg0, arg1)
 }
 
+// QueryMarkdown mocks base method.
+func (m *MockStore) QueryMarkdown(arg0 context.Context, arg1 db.QueryMarkdownParams) ([]db.QueryMarkdownRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryMarkdown", arg0, arg1)
+	ret0, _ := ret[0].([]db.QueryMarkdownRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueryMarkdown indicates an expected call of QueryMarkdown.
+func (mr *MockStoreMockRecorder) QueryMarkdown(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryMarkdown", reflect.TypeOf((*MockStore)(nil).QueryMarkdown), arg0, arg1)
+}
+
 // QueryRepo mocks base method.
 func (m *MockStore) QueryRepo(arg0 context.Context, arg1 db.QueryRepoParams) ([]db.QueryRepoRow, error) {
 	m.ctrl.T.Helper()

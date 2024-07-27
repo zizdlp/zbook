@@ -177,6 +177,92 @@ func (q *Queries) GetMarkdownRepoID(ctx context.Context, markdownID int64) (int6
 	return repo_id, err
 }
 
+const queryMarkdown = `-- name: QueryMarkdown :many
+select 
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  ROUND(ts_rank(fts_zh, plainto_tsquery($3))) + ROUND(ts_rank(fts_en, plainto_tsquery($3))) as rank,
+  COALESCE(ts_headline(main_content,plainto_tsquery($3),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+from markdowns 
+JOIN repos as r on r.repo_id = markdowns.repo_id
+JOIN users on users.user_id = r.user_id
+where (fts_zh @@ plainto_tsquery($3) OR fts_en @@ plainto_tsquery($3))
+  AND (
+    ($4::text='admin' AND $5::bool ) OR (
+    users.blocked='false' AND (
+      r.visibility_level = 'public'
+      OR 
+      (r.visibility_level = 'signed' AND $5::bool)
+      OR
+      (r.visibility_level = 'chosen' AND $5::bool AND EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.user_id = $6 AND repo_relations.relation_type = 'visi'))
+      OR
+      ((r.visibility_level = 'private' OR r.visibility_level = 'chosen') AND r.user_id = $6 AND $5::bool)
+    )
+  )
+  )
+ORDER BY
+  rank DESC
+LIMIT $1
+OFFSET $2
+`
+
+type QueryMarkdownParams struct {
+	Limit          int32  `json:"limit"`
+	Offset         int32  `json:"offset"`
+	PlaintoTsquery string `json:"plainto_tsquery"`
+	Role           string `json:"role"`
+	Signed         bool   `json:"signed"`
+	CurUserID      int64  `json:"cur_user_id"`
+}
+
+type QueryMarkdownRow struct {
+	Username     string      `json:"username"`
+	RepoName     string      `json:"repo_name"`
+	MarkdownID   int64       `json:"markdown_id"`
+	RelativePath string      `json:"relative_path"`
+	UserID       int64       `json:"user_id"`
+	RepoID       int64       `json:"repo_id"`
+	MainContent  string      `json:"main_content"`
+	Rank         int32       `json:"rank"`
+	Coalesce     interface{} `json:"coalesce"`
+}
+
+func (q *Queries) QueryMarkdown(ctx context.Context, arg QueryMarkdownParams) ([]QueryMarkdownRow, error) {
+	rows, err := q.db.Query(ctx, queryMarkdown,
+		arg.Limit,
+		arg.Offset,
+		arg.PlaintoTsquery,
+		arg.Role,
+		arg.Signed,
+		arg.CurUserID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []QueryMarkdownRow{}
+	for rows.Next() {
+		var i QueryMarkdownRow
+		if err := rows.Scan(
+			&i.Username,
+			&i.RepoName,
+			&i.MarkdownID,
+			&i.RelativePath,
+			&i.UserID,
+			&i.RepoID,
+			&i.MainContent,
+			&i.Rank,
+			&i.Coalesce,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const queryRepoMarkdown = `-- name: QueryRepoMarkdown :many
 select 
   users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,

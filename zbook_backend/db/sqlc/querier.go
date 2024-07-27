@@ -112,6 +112,7 @@ type Querier interface {
 	QueryCommentReport(ctx context.Context, arg QueryCommentReportParams) ([]QueryCommentReportRow, error)
 	QueryFollower(ctx context.Context, arg QueryFollowerParams) ([]QueryFollowerRow, error)
 	QueryFollowing(ctx context.Context, arg QueryFollowingParams) ([]QueryFollowingRow, error)
+	QueryMarkdown(ctx context.Context, arg QueryMarkdownParams) ([]QueryMarkdownRow, error)
 	QueryRepo(ctx context.Context, arg QueryRepoParams) ([]QueryRepoRow, error)
 	QueryRepoMarkdown(ctx context.Context, arg QueryRepoMarkdownParams) ([]QueryRepoMarkdownRow, error)
 	QueryRepoVisibilityByRepo(ctx context.Context, arg QueryRepoVisibilityByRepoParams) ([]QueryRepoVisibilityByRepoRow, error)
