@@ -4,7 +4,6 @@ interface WikiInfoProps {
   sectionIds: string[];
   markdownlist: string;
   markdowntext: string;
-  parsedrepo_id: number;
   prefixPath: string;
   NavBarOpen: boolean;
   markdown_id: number;

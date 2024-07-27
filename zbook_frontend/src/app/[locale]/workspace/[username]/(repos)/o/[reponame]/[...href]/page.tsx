@@ -87,7 +87,6 @@ export default async function MarkdownPage({
         <WikiInfo
           markdowntext={markdownText}
           markdownlist={markdownList}
-          parsedrepo_id={data.repo_id}
           prefixPath={href}
           NavBarOpen={true}
           sectionIds={sectionIds}
