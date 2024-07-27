@@ -12,7 +12,7 @@ import SearchMarkdownComponent from "./SearchMarkdownComponent";
 import ListUserElementForVisibility from "./ListUserElementForVisibility";
 import SearchProfileComponent from "./SearchProfileComponent";
 import { FetchError } from "@/fetchs/util";
-import { SearchType } from "@/providers/SearchDialogProvider";
+import { SearchType } from "@/utils/const_value";
 
 export default function ListQueryElements({
   searchType,

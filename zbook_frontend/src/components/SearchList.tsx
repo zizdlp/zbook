@@ -7,11 +7,9 @@ import { ListDataType } from "@/fetchs/model";
 import { useTranslations } from "next-intl";
 import { IoMdPersonAdd } from "react-icons/io";
 import { useContext } from "react";
-import {
-  SearchDialogContext,
-  SearchType,
-} from "@/providers/SearchDialogProvider";
+import { SearchDialogContext } from "@/providers/SearchDialogProvider";
 import { OperationContext } from "@/providers/OperationProvider";
+import { SearchType } from "@/utils/const_value";
 
 export default function SearchList({
   listType,

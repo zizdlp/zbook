@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import { MdCancel, MdPersonSearch } from "react-icons/md";
 import { useTranslations } from "next-intl";
 import SwitchType from "./SwitchType";
-import { SearchType } from "@/providers/SearchDialogProvider";
 import { AiOutlineFileSearch } from "react-icons/ai";
+import { SearchType } from "@/utils/const_value";
 type SearchHeaderProps = {
   showDialog: boolean;
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,7 +31,10 @@ export default function SearchHeader(props: SearchHeaderProps) {
     }
   };
   let title = "";
-  if (props.searchType == 1 || props.searchType == 2) {
+  if (
+    props.searchType == SearchType.USER ||
+    props.searchType == SearchType.VISI_USER
+  ) {
     title = t("SearchUser");
   } else {
     title = t("SearchMarkdown");

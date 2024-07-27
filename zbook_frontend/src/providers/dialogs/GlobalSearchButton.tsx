@@ -1,7 +1,8 @@
 "use client";
 import { useContext } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { SearchDialogContext, SearchType } from "../SearchDialogProvider";
+import { SearchDialogContext } from "../SearchDialogProvider";
+import { SearchType } from "@/utils/const_value";
 
 export default function GlobalSearchButton() {
   const { setSearchDialogOpen, setSearchType } =

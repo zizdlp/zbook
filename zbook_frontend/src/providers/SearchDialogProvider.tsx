@@ -1,15 +1,7 @@
 "use client";
 
+import { SearchType } from "@/utils/const_value";
 import React, { createContext, useState } from "react";
-
-// 定义枚举类型
-export enum SearchType {
-  DOCUMENT = 0,
-  USER = 1,
-  USER_DOCUMENT = 2,
-  REPO_DOCUMENT = 3,
-  VISI_USER = 4,
-}
 
 // 更新上下文的类型
 export const SearchDialogContext = createContext<{
