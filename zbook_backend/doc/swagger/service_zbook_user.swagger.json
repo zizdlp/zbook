@@ -573,7 +573,7 @@
     "pbQueryUserResponse": {
       "type": "object",
       "properties": {
-        "users": {
+        "elements": {
           "type": "array",
           "items": {
             "type": "object",

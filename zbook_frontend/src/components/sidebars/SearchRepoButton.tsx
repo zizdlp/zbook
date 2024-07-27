@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useContext } from "react";
-import { SearchDialogContext } from "@/providers/SearchDialogProvider";
+import {
+  SearchDialogContext,
+  SearchType,
+} from "@/providers/SearchDialogProvider";
 import { OperationContext } from "@/providers/OperationProvider";
 import { useTranslations } from "next-intl";
 export default function SearchRepoButton({ repo_id }: { repo_id: number }) {
@@ -13,7 +16,7 @@ export default function SearchRepoButton({ repo_id }: { repo_id: number }) {
     <button
       onClick={() => {
         setOperationRepoID(repo_id);
-        setSearchType(4); //仅展示搜索当前仓库
+        setSearchType(SearchType.REPO_DOCUMENT); //仅展示搜索当前仓库
         setSearchDialogOpen(!searchDialogOpen);
       }}
       type="button"

@@ -2,7 +2,10 @@
 
 import React, { useContext } from "react";
 import { useTranslations } from "next-intl";
-import { SearchDialogContext } from "@/providers/SearchDialogProvider";
+import {
+  SearchDialogContext,
+  SearchType,
+} from "@/providers/SearchDialogProvider";
 import { OperationContext } from "@/providers/OperationProvider";
 export default function SearchUserButton({ username }: { username: string }) {
   const { searchDialogOpen, setSearchDialogOpen, setSearchType } =
@@ -14,7 +17,7 @@ export default function SearchUserButton({ username }: { username: string }) {
     <button
       onClick={() => {
         setOperationUsername(username);
-        setSearchType(3); //搜索当前用户的仓库
+        setSearchType(SearchType.USER_DOCUMENT); //搜索当前用户的仓库
         setSearchDialogOpen(!searchDialogOpen);
       }}
       type="button"

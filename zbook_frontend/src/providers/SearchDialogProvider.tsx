@@ -1,15 +1,26 @@
 "use client";
 
 import React, { createContext, useState } from "react";
+
+// 定义枚举类型
+export enum SearchType {
+  DOCUMENT = 0,
+  USER = 1,
+  USER_DOCUMENT = 2,
+  REPO_DOCUMENT = 3,
+  VISI_USER = 4,
+}
+
+// 更新上下文的类型
 export const SearchDialogContext = createContext<{
   searchDialogOpen: boolean;
   setSearchDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  searchType: number;
-  setSearchType: React.Dispatch<React.SetStateAction<number>>;
+  searchType: SearchType;
+  setSearchType: React.Dispatch<React.SetStateAction<SearchType>>;
 }>({
   searchDialogOpen: true,
   setSearchDialogOpen: () => {},
-  searchType: 0,
+  searchType: SearchType.DOCUMENT,
   setSearchType: () => {},
 });
 
@@ -19,15 +30,16 @@ export default function SearchDialogProvider({
   children: React.ReactNode;
 }) {
   const [searchDialogOpen, setSearchDialogOpen] = useState(false);
-  const [searchType, setSearchType] = useState(0);
+  const [searchType, setSearchType] = useState<SearchType>(SearchType.DOCUMENT);
 
   // Context values passed to consumer
   const value = {
-    searchDialogOpen, // <------ Expose Value to Consumer
-    setSearchDialogOpen, // <------ Expose Setter to Consumer
+    searchDialogOpen,
+    setSearchDialogOpen,
     searchType,
     setSearchType,
   };
+
   return (
     <SearchDialogContext.Provider value={value}>
       {children}

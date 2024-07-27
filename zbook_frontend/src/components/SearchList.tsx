@@ -7,7 +7,10 @@ import { ListDataType } from "@/fetchs/model";
 import { useTranslations } from "next-intl";
 import { IoMdPersonAdd } from "react-icons/io";
 import { useContext } from "react";
-import { SearchDialogContext } from "@/providers/SearchDialogProvider";
+import {
+  SearchDialogContext,
+  SearchType,
+} from "@/providers/SearchDialogProvider";
 import { OperationContext } from "@/providers/OperationProvider";
 
 export default function SearchList({
@@ -95,7 +98,7 @@ export default function SearchList({
           className="absolute right-3 top-1/2 h-[24px] w-[24px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 cursor-pointer hover:text-sky-600 dark:hover:text-sky-400"
           onClick={() => {
             setOperationRepoID(repo_id);
-            setSearchType(2); //搜索仓库可见用户
+            setSearchType(SearchType.VISI_USER); //搜索仓库可见用户
             setSearchDialogOpen(true);
           }}
         />

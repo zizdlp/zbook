@@ -1,6 +1,9 @@
 "use client";
 import { OperationContext } from "@/providers/OperationProvider";
-import { SearchDialogContext } from "@/providers/SearchDialogProvider";
+import {
+  SearchDialogContext,
+  SearchType,
+} from "@/providers/SearchDialogProvider";
 import { useContext } from "react";
 import { MdOutlineVisibility } from "react-icons/md";
 import { useTranslations } from "next-intl";
@@ -20,7 +23,7 @@ export default function ShowVisibleButton({
     <RepoSideBarButton
       onclick={() => {
         setOperationRepoID(repo_id);
-        setSearchType(2); //搜索仓库可见用户
+        setSearchType(SearchType.VISI_USER); //搜索仓库可见用户
         setSearchDialogOpen(true);
       }}
       url="#"

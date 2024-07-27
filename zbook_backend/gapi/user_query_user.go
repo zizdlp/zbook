@@ -41,7 +41,7 @@ func (server *Server) QueryUser(ctx context.Context, req *rpcs.QueryUserRequest)
 	}
 
 	rsp := &rpcs.QueryUserResponse{
-		Users: convertQueryUser(users),
+		Elements: convertQueryUser(users),
 	}
 	return rsp, nil
 
