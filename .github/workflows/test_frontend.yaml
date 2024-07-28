@@ -1,0 +1,33 @@
+name: TEST_FRONTEND
+
+on:
+  push:
+    branches:
+      - "*"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Change directory to frontend
+        run: cd zizdlp_frontend
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: zizdlp_frontend
+
+      - name: Run tests
+        run: npm test
+        working-directory: zizdlp_frontend
