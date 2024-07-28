@@ -14,13 +14,11 @@ import { MdOutlineVisibility } from "react-icons/md";
 export default function RepoSideBarSetting({
   username,
   reponame,
-  repo_id,
   authname,
   visibility_level,
 }: {
   username: string;
   reponame: string;
-  repo_id: number;
   authname: string;
   visibility_level: string;
 }) {
