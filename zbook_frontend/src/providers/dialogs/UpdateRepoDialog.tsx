@@ -21,11 +21,15 @@ import { UpdateRepoInfoRequest } from "@/fetchs/server_with_auth_request";
 import FormTextAreaWrapper from "@/components/wrappers/FormTextAreaWrapper";
 import FormListBox from "@/components/wrappers/FormListBox";
 import { FetchError } from "@/fetchs/util";
-import { isValidateRepoName, isValidGitURL } from "@/utils/validate";
+import { isValidateRepoName } from "@/utils/validate";
 export default function UpdateRepoDialog() {
   const t = useTranslations("Repo");
-  const { updateRepoOpen, setUpdateRepoOpen, operationRepoID } =
-    useContext(OperationContext);
+  const {
+    updateRepoOpen,
+    setUpdateRepoOpen,
+    operationRepoName,
+    operationUsername,
+  } = useContext(OperationContext);
   const [show, setShow] = useState(false);
   const cancelButtonRef = useRef(null);
   function updateRepoValidate(values: any) {
@@ -40,7 +44,8 @@ export default function UpdateRepoDialog() {
 
   const formik = useFormik({
     initialValues: {
-      repo_id: 0,
+      username: "",
+      old_repo_name: "",
       repo_name: "",
       repo_description: "",
       git_access_token: "",
@@ -56,7 +61,8 @@ export default function UpdateRepoDialog() {
       type: "info",
       isLoading: true,
     });
-    values.repo_id = operationRepoID;
+    values.old_repo_name = operationRepoName;
+    values.username = operationUsername;
     try {
       const data = await fetchServerWithAuthWrapper({
         endpoint: FetchServerWithAuthWrapperEndPoint.UPDATE_REPO_INFO,

@@ -47,7 +47,12 @@ export default function ListAdminUserElement({
           </div>
           <div className="flex space-x-1">
             {role == "user" && (
-              <DeleteButton id={0} username={username} dataType={"user"} />
+              <DeleteButton
+                comment_id={0}
+                username={username}
+                repo_name=""
+                dataType={"user"}
+              />
             )}
             {role == "user" && (
               <UpdateBlockButton

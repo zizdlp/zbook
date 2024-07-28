@@ -10,7 +10,6 @@ import RepoButtons from "./RepoButtons";
 
 export default function ListRepoElement({
   authname,
-  repo_id,
   repo_name,
   username,
   repo_description,
@@ -22,7 +21,6 @@ export default function ListRepoElement({
   created_at,
 }: {
   authname: string;
-  repo_id: number;
   repo_name: string;
   username: string;
   repo_description: string;
@@ -67,7 +65,6 @@ export default function ListRepoElement({
               username={username}
               authname={authname}
               reponame={repo_name}
-              repo_id={repo_id}
             />
           </div>
         </>

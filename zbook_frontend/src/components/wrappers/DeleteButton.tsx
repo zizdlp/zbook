@@ -3,12 +3,14 @@ import { OperationContext } from "@/providers/OperationProvider";
 import { useContext } from "react";
 import { useTranslations } from "next-intl";
 export default function DeleteButton({
-  id,
+  comment_id,
   username,
+  repo_name,
   dataType,
 }: {
-  id: number;
+  comment_id: number;
   username: string;
+  repo_name: string;
   dataType: string;
 }) {
   const t = useTranslations("Dialog");
@@ -17,7 +19,7 @@ export default function DeleteButton({
     setDeleteCommentOpen,
     setDeleteUserOpen,
     setOperationCommentID,
-    setOperationRepoID,
+    setOperationRepoName,
     setOperationUsername,
   } = useContext(OperationContext);
   if (dataType == "repo") {
@@ -25,7 +27,8 @@ export default function DeleteButton({
       <div
         className="bg-sky-500 dark:bg-sky-700 text-white rounded-lg py-2 px-4 font-semibold text-sm cursor-pointer hover:bg-sky-600 dark:hover:bg-sky-500"
         onClick={() => {
-          setOperationRepoID(id);
+          setOperationUsername(username);
+          setOperationRepoName(repo_name);
           setDeleteRepoOpen(true);
         }}
       >
@@ -49,7 +52,7 @@ export default function DeleteButton({
       <div
         className="bg-sky-500 dark:bg-sky-700 text-white rounded-lg py-2 px-4 font-semibold text-sm cursor-pointer hover:bg-sky-600 dark:hover:bg-sky-500"
         onClick={() => {
-          setOperationCommentID(id);
+          setOperationCommentID(comment_id);
           setDeleteCommentOpen(true);
         }}
       >

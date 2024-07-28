@@ -264,7 +264,8 @@ interface ManualSyncRepoRequest {
   repo_name: string;
 }
 interface UpdateRepoInfoRequest {
-  repo_id: number;
+  username: string;
+  old_repo_name: string;
   repo_name: string;
   repo_description: string;
   git_access_token: string;

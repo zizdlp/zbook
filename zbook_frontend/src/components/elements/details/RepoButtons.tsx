@@ -8,17 +8,14 @@ export default function RepoButtons({
   username,
   reponame,
   authname,
-  repo_id,
 }: {
   username: string;
   reponame: string;
   authname: string;
-  repo_id: number;
 }) {
   const {
     setUpdateRepoOpen,
     setDeleteRepoOpen,
-    setOperationRepoID,
     setOperationUsername,
     setOperationRepoName,
   } = useContext(OperationContext);
@@ -29,7 +26,8 @@ export default function RepoButtons({
     <>
       <BiEdit
         onClick={() => {
-          setOperationRepoID(repo_id);
+          setOperationUsername(username);
+          setOperationRepoName(reponame);
           setUpdateRepoOpen(true);
         }}
         className="p-1 w-7 h-7 cursor-pointer text-gray-500 bg-gray-200 rounded dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-900 dark:text-gray-400"
