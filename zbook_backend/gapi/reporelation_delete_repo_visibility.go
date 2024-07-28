@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/util"
@@ -31,7 +32,16 @@ func (server *Server) DeleteRepoVisibility(ctx context.Context, req *rpcs.Delete
 		return nil, status.Errorf(codes.Internal, "get user by username failed: %s", err)
 	}
 
-	repo, err := server.store.GetRepo(ctx, req.GetRepoId())
+	arg_repo := db.GetRepoIDParams{
+		Username: req.GetRepoUsername(),
+		RepoName: req.GetRepoName(),
+	}
+	repo_id, err := server.store.GetRepoID(ctx, arg_repo)
+	if err != nil {
+		log.Info().Msgf("get repo layout get repo id failed:%s,%s", req.GetUsername(), req.GetRepoName())
+		return nil, status.Errorf(codes.Internal, "get repo id failed: %s", err)
+	}
+	repo, err := server.store.GetRepo(ctx, repo_id)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "repo not found: %s", err)
@@ -53,9 +63,17 @@ func (server *Server) DeleteRepoVisibility(ctx context.Context, req *rpcs.Delete
 	return rsp, nil
 }
 func validateDeleteRepoVisibilityRequest(req *rpcs.DeleteRepoVisibilityRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	err := val.ValidateID(req.GetRepoId())
+	err := val.ValidateUsername(req.GetUsername())
 	if err != nil {
-		violations = append(violations, fieldViolation("repo_id", err))
+		violations = append(violations, fieldViolation("username", err))
+	}
+	err = val.ValidateUsername(req.GetRepoUsername())
+	if err != nil {
+		violations = append(violations, fieldViolation("repo_username", err))
+	}
+	err = val.ValidateRepoName(req.GetRepoName())
+	if err != nil {
+		violations = append(violations, fieldViolation("repo_name", err))
 	}
 	return violations
 }

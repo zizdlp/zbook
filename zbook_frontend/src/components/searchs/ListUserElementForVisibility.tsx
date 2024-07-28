@@ -2,7 +2,8 @@ import UpdateVisibleButton from "../wrappers/UpdateVisibilityButton";
 import AvatarImageClient from "../AvatarImageClient";
 export default function ListUserElementForVisibility({
   username,
-  repo_id,
+  repo_username,
+  repo_name,
   is_visible,
   email,
   is_following,
@@ -10,7 +11,8 @@ export default function ListUserElementForVisibility({
   updated_at,
 }: {
   username: string;
-  repo_id: number;
+  repo_username: string;
+  repo_name: string;
   is_visible: boolean;
   email: string;
   is_following: boolean;
@@ -37,7 +39,8 @@ export default function ListUserElementForVisibility({
       <div className="pr-4">
         <UpdateVisibleButton
           username={username}
-          repo_id={repo_id}
+          repo_username={repo_username}
+          repo_name={repo_name}
           is_visible={is_visible}
         />
       </div>

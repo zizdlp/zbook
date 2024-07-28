@@ -24,15 +24,17 @@ message DeleteRepoRelationResponse {}
 
 // 3.CreateRepoVisibility
 message CreateRepoVisibilityRequest {
-  int64 repo_id   = 1;
-  string username = 2;
+  string repo_username = 1;
+  string repo_name     = 2;
+  string username      = 3;
 }
 message CreateRepoVisibilityResponse {}
 
 // 4.DeleteRepoVisibility
 message DeleteRepoVisibilityRequest {
-  int64 repo_id   = 1;
-  string username = 2;
+  string repo_username = 1;
+  string repo_name     = 2;
+  string username      = 3;
 }
 message DeleteRepoVisibilityResponse {}
 

@@ -155,11 +155,13 @@ interface deleteRepoRelationRequest {
   relation_type: string;
 }
 interface CreateRepoVisibilityRequest {
-  repo_id: number;
+  repo_username: string;
+  repo_name: string;
   username: string;
 }
 interface DeleteRepoVisibilityRequest {
-  repo_id: number;
+  repo_username: string;
+  repo_name: string;
   username: string;
 }
 interface ListNotificationRequest {
