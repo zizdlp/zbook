@@ -57,7 +57,7 @@ func (server *Server) DeleteRepo(ctx context.Context, req *rpcs.DeleteRepoReques
 	return rsp, nil
 }
 func validateDeleteRepoRequest(req *rpcs.DeleteRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	err := val.ValidateString(req.GetRepoName(), 1, 32)
+	err := val.ValidateRepoName(req.GetRepoName())
 	if err != nil {
 		violations = append(violations, fieldViolation("repo_name", err))
 	}

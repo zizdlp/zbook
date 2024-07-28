@@ -43,7 +43,10 @@ export default async function ListRepoVisi({
       endpoint: FetchServerWithoutAuthWrapperEndPoint.GET_REPO_ID,
       xforward: xforward,
       agent: agent,
-      values: { repo_name: params.reponame, username: params.username },
+      values: {
+        repo_name: decodeURIComponent(params.reponame),
+        username: params.username,
+      },
     });
 
     if (data.error) {

@@ -65,7 +65,7 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 	return rsp, nil
 }
 func validateCreateRepoRequest(req *rpcs.CreateRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	if err := val.ValidateString(req.GetRepoName(), 1, 128); err != nil {
+	if err := val.ValidateRepoName(req.GetRepoName()); err != nil {
 		violations = append(violations, fieldViolation("repo_name", err))
 	}
 	if err := val.ValidateString(req.GetRepoDescription(), 1, 512); err != nil {

@@ -20,7 +20,7 @@ export default async function RepoDetail({
       tags: [],
       values: {
         username: username,
-        repo_name: reponame,
+        repo_name: decodeURIComponent(reponame),
       },
     });
     if (repo_data.error) {
