@@ -21,7 +21,7 @@ func TestValidateRepoName(t *testing.T) {
 
 	reponame = "wiki documents this is a good job,well done,wiki documents this is a good job,well donewiki documents this is a good job,well done,wiki documents this is a good job,well done"
 	err = ValidateRepoName(reponame)
-	require.EqualError(t, err, "repository name length is not within the valid range:[3,64]")
+	require.EqualError(t, err, "repository name length is not within the valid range:[2,64]")
 
 	reponame = "@"
 	err = ValidateRepoName(reponame)
