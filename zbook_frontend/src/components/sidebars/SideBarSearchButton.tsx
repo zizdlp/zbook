@@ -23,7 +23,7 @@ export default function SideBarSearchButton({
     <button
       onClick={() => {
         setOperationUsername(username);
-        setOperationRepoName(repo_name);
+        setOperationRepoName(decodeURIComponent(repo_name));
         setSearchType(searchType);
         setSearchDialogOpen(!searchDialogOpen);
       }}

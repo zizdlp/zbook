@@ -8,6 +8,7 @@ import parse, {
   Element,
 } from "html-react-parser";
 import { MarkdownBasicInfo } from "@/fetchs/model";
+import SearchItemWrapper from "./SearchItemWrapper";
 interface ProfileProps {
   MarkdownBasicInfo: MarkdownBasicInfo;
 }
@@ -26,10 +27,7 @@ export default function SearchMarkdownComponent(props: ProfileProps) {
   };
   const prefix = "/workspace/";
   return (
-    <div
-      className="rounded-md md:rounded-xl my-2 md:my-3 py-2 bg-white dark:bg-slate-700
-      hover:dark:bg-sky-900 hover:bg-sky-500 hover:text-white border-[0.05rem] border-slate-300/75 dark:border-0 flex items-center justify-between"
-    >
+    <SearchItemWrapper>
       <Link
         href={
           `${prefix}` +
@@ -41,11 +39,11 @@ export default function SearchMarkdownComponent(props: ProfileProps) {
         }
         className="flex items-center justify-between w-full px-2"
       >
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center overflow-scroll">
           <div className="p-2">
             <CgHashtag className="w-5 h-5" />
           </div>
-          <div className="flex-grow overflow-auto">
+          <div className="flex-grow overflow-scroll">
             <span>{props.MarkdownBasicInfo.relative_path}</span>
             <br />
             <span>
@@ -58,6 +56,6 @@ export default function SearchMarkdownComponent(props: ProfileProps) {
           <BiChevronRight className="w-5 h-5" />
         </div>
       </Link>
-    </div>
+    </SearchItemWrapper>
   );
 }

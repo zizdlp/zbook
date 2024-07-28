@@ -19,6 +19,7 @@ export default function SearchDialog() {
       <SearchHeader
         showDialog={searchDialogOpen}
         setShowDialog={setSearchDialogOpen}
+        query={query}
         setquery={setquery}
         searchType={searchType}
       />

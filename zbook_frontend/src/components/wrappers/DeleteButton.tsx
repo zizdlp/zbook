@@ -28,7 +28,7 @@ export default function DeleteButton({
         className="bg-sky-500 dark:bg-sky-700 text-white rounded-lg py-2 px-4 font-semibold text-sm cursor-pointer hover:bg-sky-600 dark:hover:bg-sky-500"
         onClick={() => {
           setOperationUsername(username);
-          setOperationRepoName(repo_name);
+          setOperationRepoName(decodeURIComponent(repo_name));
           setDeleteRepoOpen(true);
         }}
       >

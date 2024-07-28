@@ -24,7 +24,7 @@ export default function DialogComponent(props: DialogCompentProps) {
         >
           <div className="fixed inset-0 overflow-y-auto dark:text-slate-300 md:p-20 flex flex-col justify-start pt-4 md:justify-center lg:p-28">
             <div className="mx-4 md:mx-[max(0px,calc(50%-25rem))] ">
-              <Dialog.Panel className="flex overflow-hidden flex-col  border rounded-md md:rounded-lg bg-white/85 dark:bg-slate-800/95 border-white/85 dark:border-slate-800/85">
+              <Dialog.Panel className="flex overflow-hidden flex-col  border rounded-md md:rounded-lg bg-white/85 dark:bg-slate-800/85 border-white/85 dark:border-slate-800/85">
                 {props.children}
               </Dialog.Panel>
             </div>
