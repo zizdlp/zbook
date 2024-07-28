@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x, 20.x]
 
     steps:
       - name: Checkout repository
@@ -22,12 +22,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Change directory to frontend
-        run: cd zizdlp_frontend
+        run: cd zbook_frontend
 
       - name: Install dependencies
         run: npm install
-        working-directory: zizdlp_frontend
+        working-directory: zbook_frontend
 
       - name: Run tests
         run: npm test
-        working-directory: zizdlp_frontend
+        working-directory: zbook_frontend
