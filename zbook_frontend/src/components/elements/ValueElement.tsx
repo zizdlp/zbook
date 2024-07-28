@@ -1,4 +1,4 @@
-import { ToolTip } from "../ToolTip";
+import ToolTip from "@/components/ToolTip";
 import { ReactNode } from "react";
 export default function ValueElement({
   tip,

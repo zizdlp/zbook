@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
-import { ToolTip } from "../ToolTip";
+import ToolTip from "@/components/ToolTip";
 import { useTranslations } from "next-intl";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
