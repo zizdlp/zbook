@@ -5,11 +5,13 @@ import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_ut
 import React, { useState } from "react";
 export default function UpdateVisibleButton({
   username,
-  repo_id,
+  repo_name,
+  repo_username,
   is_visible,
 }: {
   username: string;
-  repo_id: number;
+  repo_name: string;
+  repo_username: string;
   is_visible: boolean;
 }) {
   const [isVisible, setIsVisible] = useState(is_visible);
@@ -22,7 +24,8 @@ export default function UpdateVisibleButton({
         agent: "",
         tags: [],
         values: {
-          repo_id: repo_id,
+          repo_name: repo_name,
+          repo_username: repo_username,
           username: username,
         },
       }).then((data: any) => {
@@ -35,7 +38,8 @@ export default function UpdateVisibleButton({
         agent: "",
         tags: [],
         values: {
-          repo_id: repo_id,
+          repo_name: repo_name,
+          repo_username: repo_username,
           username: username,
         },
       }).then((data: any) => {

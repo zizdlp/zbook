@@ -207,17 +207,4 @@ summary:
 };
 }
 ;
-// 15.GetRepoID
-rpc GetRepoID(GetRepoIDRequest) returns (GetRepoIDResponse) {
-  option (google.api.http) = {
-    post: "/v1/get_repo_id",
-    body: "*",
-  };
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-    description: "Use this api to get_repo_id";
-summary:
-  "get_repo_id";
-};
-}
-;
 }

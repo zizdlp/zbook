@@ -41,7 +41,6 @@ func (server *Server) GetRepoBasicInfo(ctx context.Context, req *rpcs.GetRepoBas
 		log.Info().Msgf("download avatar for %s failed: %s", repo.Username, err)
 	}
 	rsp := &rpcs.GetRepoBasicInfoResponse{
-		RepoId:          repo.RepoID,
 		Username:        repo.Username,
 		Email:           repo.Email,
 		UpdatedAt:       timestamppb.New(repo.UpdatedAt),

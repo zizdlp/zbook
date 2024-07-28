@@ -37,26 +37,14 @@ export default async function MarkdownPage({
     // await new Promise((resolve) => setTimeout(resolve, delay));
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";
-    const data = await fetchServerWithoutAuthWrapper({
-      endpoint: FetchServerWithoutAuthWrapperEndPoint.GET_REPO_ID,
-      xforward: xforward,
-      agent: agent,
-      values: {
-        repo_name: decodeURIComponent(params.reponame),
-        username: params.username,
-      },
-    });
-
-    if (data.error) {
-      throw new FetchError(data.message, data.status);
-    }
     const verify_result = await fetchServerWithAuthWrapper({
       endpoint: FetchServerWithAuthWrapperEndPoint.GET_MARKDOWN_CONTENT,
       xforward: xforward,
       agent: agent,
       tags: [],
       values: {
-        repo_id: data.repo_id,
+        username: params.username,
+        repo_name: decodeURIComponent(params.reponame),
         relative_path: decodeURIComponent(params.href).split(",").join("/"),
       },
     });

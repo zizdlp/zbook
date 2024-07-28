@@ -21,10 +21,6 @@ interface createOAuthLinkRequest {
 interface refreshTokenRequest {
   refresh_token: string;
 }
-interface getRepoIDRequest {
-  username: string;
-  repo_name: string;
-}
 interface LoginUserRequest {
   email: string;
   password: string;
@@ -41,7 +37,6 @@ export type {
   ResetPasswordRequest,
   createOAuthLinkRequest,
   refreshTokenRequest,
-  getRepoIDRequest,
   LoginUserRequest,
   LoginByOAuthRequest,
 };

@@ -6,8 +6,9 @@ option go_package = "github.com/zizdlp/zbook/pb/rpcs";
 
 // 1.GetMarkdownContent
 message GetMarkdownContentRequest {
-  int64 repo_id        = 1;
-  string relative_path = 2;
+  string username      = 1;
+  string repo_name     = 2;
+  string relative_path = 3;
 }
 message GetMarkdownContentResponse {
   Markdown markdown = 1;

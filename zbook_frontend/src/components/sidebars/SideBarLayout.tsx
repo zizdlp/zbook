@@ -40,7 +40,6 @@ export default async function SideBarLayout({
       const sublayouts = jsonLayout.sublayouts;
       return (
         <RepoSideBar
-          repo_id={data.repo_id}
           sublayouts={sublayouts}
           reponame={reponame}
           username={data.username}

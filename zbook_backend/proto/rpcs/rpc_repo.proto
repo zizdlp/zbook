@@ -15,9 +15,7 @@ message CreateRepoRequest {
   string visibility_level = 6;
   string home_page        = 7;
 }
-message CreateRepoResponse {
-  int64 repo_id = 1;
-}
+message CreateRepoResponse {}
 
 // 2.GetRepoLayout
 message GetRepoLayoutRequest {
@@ -25,7 +23,6 @@ message GetRepoLayoutRequest {
   string repo_name = 2;
 }
 message GetRepoLayoutResponse {
-  int64 repo_id           = 1;
   string username         = 2;
   string layout           = 3;
   string visibility_level = 4;
@@ -40,7 +37,8 @@ message DeleteRepoResponse {}
 
 // 4.ManualSyncRepo
 message ManualSyncRepoRequest {
-  int64 repo_id = 1;
+  string username  = 1;
+  string repo_name = 2;
 }
 message ManualSyncRepoResponse {}
 
@@ -50,23 +48,20 @@ message AutoSyncRepoRequest {
   string repo_name  = 2;
   string sync_token = 3;
 }
-message AutoSyncRepoResponse {
-  int64 repo_id = 1;
-}
+message AutoSyncRepoResponse {}
 
 // 6.UpdateRepoInfo
 message UpdateRepoInfoRequest {
-  int64 repo_id           = 1;
-  string repo_name        = 2;
-  string git_access_token = 3;
-  string repo_description = 4;
-  string visibility_level = 5;
-  string sync_token       = 6;
-  string home_page        = 7;
+  string username         = 1;
+  string old_repo_name    = 2;
+  string repo_name        = 3;
+  string git_access_token = 4;
+  string repo_description = 5;
+  string visibility_level = 6;
+  string sync_token       = 7;
+  string home_page        = 8;
 }
-message UpdateRepoInfoResponse {
-  int64 repo_id = 1;
-}
+message UpdateRepoInfoResponse {}
 
 // 7.GetRepoBasicInfo
 message GetRepoBasicInfoRequest {
@@ -74,7 +69,6 @@ message GetRepoBasicInfoRequest {
   string repo_name = 2;
 }
 message GetRepoBasicInfoResponse {
-  int64 repo_id                        = 1;
   string repo_name                     = 2;
   string username                      = 3;
   string email                         = 4;
@@ -139,13 +133,4 @@ message GetListRepoCountRequest {
 }
 message GetListRepoCountResponse {
   int64 count = 1;
-}
-
-// 15.GetRepoID
-message GetRepoIDRequest {
-  string username  = 1;
-  string repo_name = 2;
-}
-message GetRepoIDResponse {
-  int64 repo_id = 1;
 }

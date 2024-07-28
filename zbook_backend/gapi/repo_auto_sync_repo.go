@@ -45,9 +45,7 @@ func (server *Server) AutoSyncRepo(ctx context.Context, req *rpcs.AutoSyncRepoRe
 		return nil, status.Errorf(codes.Internal, "manual sync repo failed: %s", err)
 	}
 
-	rsp := &rpcs.AutoSyncRepoResponse{
-		RepoId: repo.RepoID,
-	}
+	rsp := &rpcs.AutoSyncRepoResponse{}
 	return rsp, nil
 }
 func validateAutoSyncRepoRequest(req *rpcs.AutoSyncRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {

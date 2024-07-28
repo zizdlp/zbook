@@ -23,8 +23,7 @@ export default function ListQueryElements({
   query: string;
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { operationUsername, operationRepoID, operationRepoName } =
-    useContext(OperationContext);
+  const { operationUsername, operationRepoName } = useContext(OperationContext);
   const t = useTranslations("Searchs");
   const [currentPage, setCurrentPage] = useState(1);
   const isFetchingData = useRef(false);
@@ -102,7 +101,8 @@ export default function ListQueryElements({
                 agent: "",
                 tags: [],
                 values: {
-                  repo_id: operationRepoID,
+                  username: operationUsername,
+                  repo_name: operationUsername,
                   query: query,
                   page_id: currentPage,
                   page_size: 10,
@@ -167,7 +167,8 @@ export default function ListQueryElements({
         >
           {searchType === SearchType.VISI_USER && (
             <ListUserElementForVisibility
-              repo_id={operationRepoID}
+              repo_username={operationUsername}
+              repo_name={operationRepoName}
               is_visible={doc.is_repo_visible}
               username={doc.username}
               email={doc.email}

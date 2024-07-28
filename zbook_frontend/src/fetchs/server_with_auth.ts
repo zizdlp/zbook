@@ -64,7 +64,6 @@ import {
   DeleteUserRequest,
   createRepoRelationRequest,
   deleteRepoRelationRequest,
-  listRepoVisibilityRequest,
   DeleteCommentRequest,
   CreateCommentRequest,
   CreateCommentReportRequest,
@@ -1026,19 +1025,6 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.DELETE_COMMENT_RELATION;
   values: DeleteCommentRelationRequest;
-  xforward: string;
-  agent: string;
-  tags: string[];
-}): Promise<any>;
-export async function fetchServerWithAuthWrapper({
-  endpoint,
-  values,
-  xforward,
-  agent,
-  tags,
-}: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.LIST_REPO_VISIBILITY;
-  values: listRepoVisibilityRequest;
   xforward: string;
   agent: string;
   tags: string[];

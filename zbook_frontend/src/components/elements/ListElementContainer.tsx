@@ -52,7 +52,6 @@ export default function ListElementContainer({
         authname={authname}
         repo_name={model.repo_name}
         username={model.username}
-        repo_id={model.repo_id}
         repo_description={model.repo_description}
         visibility_level={model.visibility_level}
         git_host={model.git_host}
@@ -89,7 +88,6 @@ export default function ListElementContainer({
       <ListAdminRepoElement
         repo_name={model.repo_name}
         username={model.username}
-        repo_id={model.repo_id}
         repo_description={model.repo_description}
         visibility_level={model.visibility_level}
         git_host={model.git_host}
@@ -115,8 +113,8 @@ export default function ListElementContainer({
         report_id={model.report_id}
         repo_name={model.repo_name}
         comment_id={model.comment_id}
-        repo_id={model.repo_id}
-        href={model.href}
+        repo_username={model.repo_username}
+        relative_path={model.relative_path}
         report_content={model.report_content}
         comment_content={model.comment_content}
         created_at={model.created_at}

@@ -33,7 +33,6 @@ const (
 	ZBookRepo_GetListUserLikeRepoCount_FullMethodName = "/pb.ZBookRepo/GetListUserLikeRepoCount"
 	ZBookRepo_ListRepo_FullMethodName                 = "/pb.ZBookRepo/ListRepo"
 	ZBookRepo_GetListRepoCount_FullMethodName         = "/pb.ZBookRepo/GetListRepoCount"
-	ZBookRepo_GetRepoID_FullMethodName                = "/pb.ZBookRepo/GetRepoID"
 )
 
 // ZBookRepoClient is the client API for ZBookRepo service.
@@ -66,8 +65,6 @@ type ZBookRepoClient interface {
 	ListRepo(ctx context.Context, in *rpcs.ListRepoRequest, opts ...grpc.CallOption) (*rpcs.ListRepoResponse, error)
 	// 14.GetListRepoCount
 	GetListRepoCount(ctx context.Context, in *rpcs.GetListRepoCountRequest, opts ...grpc.CallOption) (*rpcs.GetListRepoCountResponse, error)
-	// 15.GetRepoID
-	GetRepoID(ctx context.Context, in *rpcs.GetRepoIDRequest, opts ...grpc.CallOption) (*rpcs.GetRepoIDResponse, error)
 }
 
 type zBookRepoClient struct {
@@ -195,15 +192,6 @@ func (c *zBookRepoClient) GetListRepoCount(ctx context.Context, in *rpcs.GetList
 	return out, nil
 }
 
-func (c *zBookRepoClient) GetRepoID(ctx context.Context, in *rpcs.GetRepoIDRequest, opts ...grpc.CallOption) (*rpcs.GetRepoIDResponse, error) {
-	out := new(rpcs.GetRepoIDResponse)
-	err := c.cc.Invoke(ctx, ZBookRepo_GetRepoID_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ZBookRepoServer is the server API for ZBookRepo service.
 // All implementations must embed UnimplementedZBookRepoServer
 // for forward compatibility
@@ -234,8 +222,6 @@ type ZBookRepoServer interface {
 	ListRepo(context.Context, *rpcs.ListRepoRequest) (*rpcs.ListRepoResponse, error)
 	// 14.GetListRepoCount
 	GetListRepoCount(context.Context, *rpcs.GetListRepoCountRequest) (*rpcs.GetListRepoCountResponse, error)
-	// 15.GetRepoID
-	GetRepoID(context.Context, *rpcs.GetRepoIDRequest) (*rpcs.GetRepoIDResponse, error)
 	mustEmbedUnimplementedZBookRepoServer()
 }
 
@@ -281,9 +267,6 @@ func (UnimplementedZBookRepoServer) ListRepo(context.Context, *rpcs.ListRepoRequ
 }
 func (UnimplementedZBookRepoServer) GetListRepoCount(context.Context, *rpcs.GetListRepoCountRequest) (*rpcs.GetListRepoCountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetListRepoCount not implemented")
-}
-func (UnimplementedZBookRepoServer) GetRepoID(context.Context, *rpcs.GetRepoIDRequest) (*rpcs.GetRepoIDResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRepoID not implemented")
 }
 func (UnimplementedZBookRepoServer) mustEmbedUnimplementedZBookRepoServer() {}
 
@@ -532,24 +515,6 @@ func _ZBookRepo_GetListRepoCount_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookRepo_GetRepoID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.GetRepoIDRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ZBookRepoServer).GetRepoID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ZBookRepo_GetRepoID_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookRepoServer).GetRepoID(ctx, req.(*rpcs.GetRepoIDRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ZBookRepo_ServiceDesc is the grpc.ServiceDesc for ZBookRepo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -608,10 +573,6 @@ var ZBookRepo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetListRepoCount",
 			Handler:    _ZBookRepo_GetListRepoCount_Handler,
-		},
-		{
-			MethodName: "GetRepoID",
-			Handler:    _ZBookRepo_GetRepoID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

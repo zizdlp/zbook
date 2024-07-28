@@ -8,14 +8,12 @@ import { useLocale } from "next-intl";
 import SideBarSearchButton from "./SideBarSearchButton";
 import { SearchType } from "@/utils/const_value";
 export default function RepoSideBar({
-  repo_id,
   sublayouts,
   username,
   reponame,
   authname,
   visibility_level,
 }: {
-  repo_id: number;
   sublayouts: MenuStruct[];
   username: string;
   reponame: string;
@@ -40,7 +38,6 @@ export default function RepoSideBar({
 
       <RepoSideBarSetting
         username={username}
-        repo_id={repo_id}
         reponame={reponame}
         authname={authname}
         visibility_level={visibility_level}

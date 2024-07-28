@@ -49,9 +49,6 @@ export const OperationContext = createContext<{
   mutationUpdateComment: boolean; // update comment
   setMutationUpdateComment: React.Dispatch<React.SetStateAction<boolean>>;
 
-  operationRepoID: number;
-  setOperationRepoID: React.Dispatch<React.SetStateAction<number>>;
-
   operationRepoName: string;
   setOperationRepoName: React.Dispatch<React.SetStateAction<string>>;
 
@@ -111,9 +108,6 @@ export const OperationContext = createContext<{
   mutationDeleteComment: false,
   setMutationDeleteComment: () => {},
 
-  operationRepoID: 0,
-  setOperationRepoID: () => {},
-
   operationRepoName: "",
   setOperationRepoName: () => {},
 
@@ -163,7 +157,6 @@ export default function OperationProvider({
   const [mutationDeleteComment, setMutationDeleteComment] = useState(false);
 
   const [operationUsername, setOperationUsername] = useState("");
-  const [operationRepoID, setOperationRepoID] = useState(0);
   const [operationRepoName, setOperationRepoName] = useState("");
   const [operationMarkdownID, setOperationMarkdownID] = useState(0);
   const [operationParentID, setOperationParentID] = useState(0);
@@ -210,8 +203,6 @@ export default function OperationProvider({
     mutationDeleteComment,
     setMutationDeleteComment,
 
-    operationRepoID,
-    setOperationRepoID,
     operationRepoName,
     setOperationRepoName,
     operationUsername,

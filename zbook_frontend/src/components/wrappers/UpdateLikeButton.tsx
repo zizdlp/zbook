@@ -8,11 +8,13 @@ import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
 
 export default async function UpdateLikeButton({
-  repo_id,
+  username,
+  repo_name,
   is_liked,
   like_count,
 }: {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   is_liked: boolean;
   like_count: number;
 }) {
@@ -28,7 +30,8 @@ export default async function UpdateLikeButton({
           agent: agent,
           tags: [],
           values: {
-            repo_id: repo_id,
+            username: username,
+            repo_name: repo_name,
             relation_type: "like",
           },
         });
@@ -42,7 +45,8 @@ export default async function UpdateLikeButton({
           agent: agent,
           tags: [],
           values: {
-            repo_id: repo_id,
+            username: username,
+            repo_name: repo_name,
             relation_type: "like",
           },
         });

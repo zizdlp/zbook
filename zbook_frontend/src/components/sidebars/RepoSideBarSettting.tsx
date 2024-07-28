@@ -1,10 +1,7 @@
 "use client";
 import { AiOutlineSync } from "react-icons/ai";
 import { toast } from "react-toastify";
-import React, { useContext } from "react";
 import { IoBookOutline } from "react-icons/io5";
-
-import { OperationContext } from "@/providers/OperationProvider";
 import {
   fetchServerWithAuthWrapper,
   refreshPage,
@@ -17,19 +14,15 @@ import { MdOutlineVisibility } from "react-icons/md";
 export default function RepoSideBarSetting({
   username,
   reponame,
-  repo_id,
   authname,
   visibility_level,
 }: {
   username: string;
   reponame: string;
-  repo_id: number;
   authname: string;
   visibility_level: string;
 }) {
   const t = useTranslations("SideBar");
-  const { setUpdateRepoOpen, setOperationRepoID, setDeleteRepoOpen } =
-    useContext(OperationContext);
   async function manualSyncRepoHandler() {
     const id = toast(t("SynchronizingRepository"), {
       type: "info",
@@ -42,7 +35,8 @@ export default function RepoSideBarSetting({
         agent: "",
         tags: [],
         values: {
-          repo_id: repo_id,
+          repo_name: reponame,
+          username: username,
         },
         timeout: 300000, //600s
       });
@@ -55,7 +49,6 @@ export default function RepoSideBarSetting({
         isLoading: false,
         autoClose: 500,
       });
-      setOperationRepoID(repo_id);
       refreshPage("#", true, false);
     } catch (error) {
       toast.update(id, {

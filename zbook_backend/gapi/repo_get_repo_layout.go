@@ -50,7 +50,6 @@ func (server *Server) GetRepoLayout(ctx context.Context, req *rpcs.GetRepoLayout
 	}
 
 	rsp := &rpcs.GetRepoLayoutResponse{
-		RepoId:          repo.RepoID,
 		Layout:          repo.Layout,
 		Username:        user.Username,
 		VisibilityLevel: repo.VisibilityLevel,

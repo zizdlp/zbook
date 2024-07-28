@@ -6,7 +6,7 @@ import ToolTip from "@/components/ToolTip";
 describe("ToolTip", () => {
   it("shows the message when hovering over the child element", () => {
     const message = "This is a tooltip";
-    render(
+    const container = render(
       <ToolTip message={message}>
         <button>Hover over me</button>
       </ToolTip>
@@ -26,5 +26,6 @@ describe("ToolTip", () => {
 
     // The tooltip should be hidden again
     expect(screen.queryByText(message)).not.toBeInTheDocument();
+    expect(container).toMatchSnapshot();
   });
 });

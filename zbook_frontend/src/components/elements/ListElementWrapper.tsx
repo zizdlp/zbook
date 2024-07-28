@@ -13,14 +13,14 @@ export default async function ListElementWrapper({
   username,
   query,
   currentPage,
-  repo_id,
+  repo_name,
   listType,
 }: {
   authname: string;
   username: string;
   query: string;
   currentPage: number;
-  repo_id: number;
+  repo_name: string;
   listType: ListDataType;
 }) {
   try {
@@ -195,7 +195,8 @@ export default async function ListElementWrapper({
         agent: agent,
         tags: [],
         values: {
-          repo_id: repo_id,
+          username: username,
+          repo_name: repo_name,
         },
       });
       if (data_counts.error) {
@@ -207,7 +208,8 @@ export default async function ListElementWrapper({
         agent: agent,
         tags: [],
         values: {
-          repo_id: repo_id,
+          username: username,
+          repo_name: repo_name,
           query: query,
           page_id: currentPage,
           page_size: 10,

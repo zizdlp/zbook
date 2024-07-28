@@ -11,7 +11,6 @@ import { useTranslations } from "next-intl";
 import DeleteButton from "@/components/wrappers/DeleteButton";
 import ListElementCard from "./ListElementCard";
 export default function ListAdminRepoElement({
-  repo_id,
   repo_name,
   username,
   repo_description,
@@ -22,7 +21,6 @@ export default function ListAdminRepoElement({
   updated_at,
   created_at,
 }: {
-  repo_id: number;
   repo_name: string;
   username: string;
   repo_description: string;
@@ -58,7 +56,12 @@ export default function ListAdminRepoElement({
               </Link>
             </div>
           </div>
-          <DeleteButton id={repo_id} username={""} dataType={"repo"} />
+          <DeleteButton
+            comment_id={0}
+            username={username}
+            repo_name={repo_name}
+            dataType={"repo"}
+          />
         </>
       }
       content={repo_description}

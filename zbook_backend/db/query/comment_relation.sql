@@ -18,23 +18,26 @@ INSERT INTO comment_reports (
 
 
 -- name: GetListCommentReportCount :one
-SELECT COUNT(*)
+SELECT 
+  COUNT(*)
 FROM comment_reports
 JOIN users ON users.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
+JOIN users ura ON ura.user_id = repos.user_id
 JOIN users as uc ON comments.user_id = uc.user_id;
 
 -- name: ListCommentReport :many
 SELECT 
-  comment_reports.*,markdowns.repo_id,markdowns.relative_path,users.username,comments.comment_content,
-  repos.repo_name
+  comment_reports.*,users.username,comments.comment_content,
+  repos.repo_name,ura.username as repo_username,markdowns.relative_path
 FROM comment_reports
 JOIN users ON users.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
+JOIN users as ura ON ura.user_id = repos.user_id
 JOIN users as uc ON comments.user_id = uc.user_id
 ORDER BY comment_reports.created_at Desc
 LIMIT $1
@@ -42,19 +45,23 @@ OFFSET $2;
 
 -- name: QueryCommentReport :many
 SELECT 
-  comment_reports.*,markdowns.repo_id,markdowns.relative_path,ur.username,comments.comment_content,
+  comment_reports.*,ur.username,comments.comment_content,
+    repos.repo_name,ura.username as repo_username,markdowns.relative_path,
       ROUND(ts_rank(comments.fts_comment_zh, plainto_tsquery(@query))) 
     + ROUND(ts_rank(comments.fts_comment_en, plainto_tsquery(@query))) 
     + ROUND(ts_rank(comment_reports.fts_report_zh, plainto_tsquery(@query)))
     + ROUND(ts_rank(comment_reports.fts_report_en, plainto_tsquery(@query)))
     + ROUND(ts_rank(ur.fts_username, plainto_tsquery(@query))) 
     + ROUND(ts_rank(uc.fts_username, plainto_tsquery(@query))) 
+    + ROUND(ts_rank(repos.fts_repo_en, plainto_tsquery(@query))) 
+    + ROUND(ts_rank(repos.fts_repo_zh, plainto_tsquery(@query))) 
      as rank
 FROM comment_reports
 JOIN users as ur ON ur.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
+JOIN users as ura ON ura.user_id = repos.user_id
 JOIN users as uc ON comments.user_id = uc.user_id
 WHERE (
   comments.fts_comment_zh @@ plainto_tsquery(@query)
@@ -63,6 +70,8 @@ WHERE (
   OR comment_reports.fts_report_en @@ plainto_tsquery(@query) 
   OR uc.fts_username @@ plainto_tsquery(@query)  
   OR ur.fts_username @@ plainto_tsquery(@query)  
+  OR repos.fts_repo_en @@ plainto_tsquery(@query)  
+  OR repos.fts_repo_zh @@ plainto_tsquery(@query)  
   )
 ORDER BY rank Desc
 LIMIT $1
@@ -70,7 +79,7 @@ OFFSET $2;
 
 -- name: GetQueryCommentReportCount :one
 SELECT 
-  Count(*)
+  COUNT(*)
 FROM comment_reports
 JOIN users as ur ON ur.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id

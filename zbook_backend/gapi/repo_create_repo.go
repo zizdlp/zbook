@@ -51,7 +51,7 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 		},
 	}
 
-	txResult, err := server.store.CreateRepoTx(ctx, arg)
+	_, err = server.store.CreateRepoTx(ctx, arg)
 	if err != nil {
 		if db.ErrorCode(err) == db.UniqueViolation || db.ErrorCode(err) == db.ForeignKeyViolation {
 			return nil, status.Errorf(codes.AlreadyExists, "repo already exist: %s", err)
@@ -59,9 +59,7 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 		return nil, status.Errorf(codes.Internal, "create repo failed: %s", err)
 	}
 
-	rsp := &rpcs.CreateRepoResponse{
-		RepoId: txResult.Repo.RepoID,
-	}
+	rsp := &rpcs.CreateRepoResponse{}
 	return rsp, nil
 }
 func validateCreateRepoRequest(req *rpcs.CreateRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {

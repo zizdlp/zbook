@@ -95,10 +95,12 @@ interface ListRepoVisibilityRequest {
   page_id: number;
   page_size: number;
   query: string;
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }
 interface GetRepoVisibilityCountRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }
 
 interface GetUserInfoRequest {
@@ -117,7 +119,8 @@ interface GetRepoLayoutRequest {
   repo_name: string;
 }
 interface GetMarkdownContentRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   relative_path: string;
 }
 
@@ -140,27 +143,25 @@ interface UpdateUserRequest {
   password: string;
   avatar: string;
 }
-interface listRepoVisibilityRequest {
-  query: string;
-  repo_id: number;
-  page_id: number;
-  page_size: number;
-}
 
 interface createRepoRelationRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   relation_type: string;
 }
 interface deleteRepoRelationRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   relation_type: string;
 }
 interface CreateRepoVisibilityRequest {
-  repo_id: number;
+  repo_username: string;
+  repo_name: string;
   username: string;
 }
 interface DeleteRepoVisibilityRequest {
-  repo_id: number;
+  repo_username: string;
+  repo_name: string;
   username: string;
 }
 interface ListNotificationRequest {
@@ -257,10 +258,12 @@ interface GetUnReadCountRequest {}
 interface ResetUnreadCountRequest {}
 
 interface ManualSyncRepoRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }
 interface UpdateRepoInfoRequest {
-  repo_id: number;
+  username: string;
+  old_repo_name: string;
   repo_name: string;
   repo_description: string;
   git_access_token: string;
@@ -321,7 +324,6 @@ export type {
   GetListRepoNotificationUnreadedCountRequest,
   GetListFollowerNotificationUnreadedCountRequest,
   GetListSystemNotificationUnreadedCountRequest,
-  listRepoVisibilityRequest,
   createRepoRelationRequest,
   deleteRepoRelationRequest,
   CreateRepoVisibilityRequest,

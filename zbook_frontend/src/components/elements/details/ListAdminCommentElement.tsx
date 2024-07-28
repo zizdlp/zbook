@@ -42,7 +42,12 @@ export default function ListAdminCommentElement({
               </span>
             </div>
           </div>
-          <DeleteButton id={comment_id} username={""} dataType={"comment"} />
+          <DeleteButton
+            comment_id={comment_id}
+            username={""}
+            repo_name=""
+            dataType={"comment"}
+          />
         </>
       }
       content={comment_content}

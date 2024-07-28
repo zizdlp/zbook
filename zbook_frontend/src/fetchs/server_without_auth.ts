@@ -11,7 +11,6 @@ import {
   SendEmailToVerifyEmailRequest,
   createOAuthLinkRequest,
   createUserRequest,
-  getRepoIDRequest,
   refreshTokenRequest,
 } from "./server_without_auth_request";
 import { FetchServerWithoutAuthWrapperEndPoint } from "./server_without_auth_util";
@@ -47,17 +46,7 @@ export async function fetchServerWithoutAuthWrapper({
   xforward: string;
   agent: string;
 }): Promise<any>;
-export async function fetchServerWithoutAuthWrapper({
-  endpoint,
-  values,
-  xforward,
-  agent,
-}: {
-  endpoint: FetchServerWithoutAuthWrapperEndPoint.GET_REPO_ID;
-  values: getRepoIDRequest;
-  xforward: string;
-  agent: string;
-}): Promise<any>;
+
 export async function fetchServerWithoutAuthWrapper({
   endpoint,
   values,

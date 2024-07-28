@@ -22,7 +22,7 @@ export default async function ListPageWrapper({
   }
   return (
     <>
-      <SearchList listType={listType} repo_id={0} />
+      <SearchList listType={listType} username="" repo_name="" />
       <Suspense
         key={query + currentPage}
         fallback={<LoadingList itemCount={10} />}
@@ -33,7 +33,7 @@ export default async function ListPageWrapper({
           query={query}
           currentPage={currentPage}
           listType={listType}
-          repo_id={0}
+          repo_name={""}
         />
       </Suspense>
     </>
