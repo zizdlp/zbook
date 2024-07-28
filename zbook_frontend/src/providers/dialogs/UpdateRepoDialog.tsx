@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useRef, useState } from "react";
-import { useFormik } from "formik";
+import { FormikErrors, FormikValues, useFormik } from "formik";
 import { toast } from "react-toastify";
 
 import DialogComponent from "../../components/DialogComponent";
@@ -21,6 +21,7 @@ import { UpdateRepoInfoRequest } from "@/fetchs/server_with_auth_request";
 import FormTextAreaWrapper from "@/components/wrappers/FormTextAreaWrapper";
 import FormListBox from "@/components/wrappers/FormListBox";
 import { FetchError } from "@/fetchs/util";
+import { isValidateRepoName, isValidGitURL } from "@/utils/validate";
 export default function UpdateRepoDialog() {
   const t = useTranslations("Repo");
   const { updateRepoOpen, setUpdateRepoOpen, operationRepoID } =
@@ -28,7 +29,28 @@ export default function UpdateRepoDialog() {
   const [show, setShow] = useState(false);
   const cancelButtonRef = useRef(null);
   function updateRepoValidate(values: any) {
-    const errors: { [key: string]: string } = {};
+    let errors: FormikErrors<FormikValues> = {};
+    if (!values.repo_name) {
+      errors.repo_name = t("Required");
+    } else if (!isValidateRepoName(values.repo_name)) {
+      errors.repo_name = t("InvalidRepoName");
+    }
+    if (!values.repo_description) {
+      errors.repo_description = t("Required");
+    }
+    if (!values.home_page) {
+      errors.home_page = t("Required");
+    }
+    if (
+      values.visibility_level != "public" &&
+      values.visibility_level != "private" &&
+      values.visibility_level != "chosen" &&
+      values.visibility_level != "signed"
+    ) {
+      errors.visibility_level = t("Required");
+    }
+    return errors;
+
     return errors;
   }
 

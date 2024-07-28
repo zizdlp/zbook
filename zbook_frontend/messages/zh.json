@@ -134,7 +134,7 @@
   },
   "Repo": {
     "GitProtocol": "https://",
-    "InvalidRepoName": "存储库名称必须只包含小写字母、数字、下划线或连字符",
+    "InvalidRepoName": "存储库名称无效",
     "Required": "必填",
     "InValidGitUrl": "无效的Git URL",
     "RepositoryEditSucc": "更新仓库成功",

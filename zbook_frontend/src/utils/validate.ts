@@ -22,3 +22,17 @@ export function isValidGitURL(gitURL: string): boolean {
     return false;
   }
 }
+
+export function isValidateRepoName(repoName: string): Boolean {
+  if (repoName.length < 3 || repoName.length > 64) {
+    return false;
+  }
+
+  // Characters not allowed in URLs, typically include: '/', '?', ':', '@', '&', '=', '+', '$', ',', '#'
+  const illegalChars = /[\/?:@&=+$,#~%]/;
+  if (illegalChars.test(repoName)) {
+    false;
+  }
+
+  return true;
+}
