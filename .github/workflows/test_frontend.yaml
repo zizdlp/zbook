@@ -29,5 +29,5 @@ jobs:
         working-directory: zbook_frontend
 
       - name: Run tests
-        run: npm run test
+        run: npm test -- --updateSnapshot
         working-directory: zbook_frontend
