@@ -1,6 +1,6 @@
 import { IoMdBookmarks } from "react-icons/io";
 import { Link } from "@/navigation";
-import { ToolTip } from "../../ToolTip";
+import ToolTip from "@/components/ToolTip";
 import ValueElement from "../ValueElement";
 import TimeElement from "@/components/TimeElement";
 import { useTranslations } from "next-intl";

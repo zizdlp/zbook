@@ -3,7 +3,7 @@ import GitHost from "../../GitHost";
 
 import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 
-import { ToolTip } from "../../ToolTip";
+import ToolTip from "@/components/ToolTip";
 
 import ValueElement from "../ValueElement";
 import TimeElement from "@/components/TimeElement";

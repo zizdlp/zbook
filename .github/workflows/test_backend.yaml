@@ -1,12 +1,11 @@
-name: BACKEND_TEST
+name: TEST_BACKEND
 
 on:
   push:
     branches:
-      - main
+      - "*"
 jobs:
   test:
-    name: Test
     runs-on: ubuntu-latest
 
     services:

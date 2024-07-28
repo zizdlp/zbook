@@ -38,6 +38,9 @@ mock:
 test:
 	cd zbook_backend && \
 	go test -v -cover -short ./... 
+jtest:
+	cd zbook_frontend && \
+	npm run test
 redis:
 	docker run --name zbook-local-redis -p 6379:6379 -d redis:7-alpine
 minio:
