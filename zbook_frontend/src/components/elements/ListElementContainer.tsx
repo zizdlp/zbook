@@ -112,7 +112,6 @@ export default function ListElementContainer({
       <ListCommentReportElement
         report_id={model.report_id}
         repo_name={model.repo_name}
-        comment_id={model.comment_id}
         repo_username={model.repo_username}
         relative_path={model.relative_path}
         report_content={model.report_content}
