@@ -18,7 +18,7 @@ import { useTranslations } from "next-intl";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import { CreateRepoRequest } from "@/fetchs/server_with_auth_request";
 import FormTextAreaWrapper from "@/components/wrappers/FormTextAreaWrapper";
-import { isValidGitURL } from "@/utils/validate";
+import { isValidateRepoName, isValidGitURL } from "@/utils/validate";
 import FormListBox from "@/components/wrappers/FormListBox";
 import { FetchError } from "@/fetchs/util";
 
@@ -40,8 +40,8 @@ export default function CreateRepoDialog() {
     let errors: FormikErrors<FormValues> = {};
     if (!values.repo_name) {
       errors.repo_name = t("Required");
-    } else if (!/^[a-z0-9_-]+$/.test(values.repo_name)) {
-      errors.repo_name = t("InvalidRepoName"); // You can define this translation in your i18n files
+    } else if (!isValidateRepoName(values.repo_name)) {
+      errors.repo_name = t("InvalidRepoName");
     }
     if (!values.git_addr) {
       errors.git_addr = t("Required");

@@ -114,7 +114,7 @@
   },
   "Repo": {
     "GitProtocol": "https://",
-    "InvalidRepoName": "Repository name must contain only lowercase letters, numbers, underscores, or hyphens",
+    "InvalidRepoName": "Repository name is invalid",
     "Required": "Required",
     "InValidGitUrl": "Invalid Git URL",
     "CreatingRepository": "Creating repository...",

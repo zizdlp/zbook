@@ -62,7 +62,7 @@ func validateGetRepoLayoutRequest(req *rpcs.GetRepoLayoutRequest) (violations []
 	if err != nil {
 		violations = append(violations, fieldViolation("username", err))
 	}
-	err = val.ValidateString(req.GetRepoName(), 1, 64)
+	err = val.ValidateRepoName(req.GetRepoName())
 	if err != nil {
 		violations = append(violations, fieldViolation("repo_name", err))
 	}

@@ -35,7 +35,7 @@ func (server *Server) GetRepoID(ctx context.Context, req *rpcs.GetRepoIDRequest)
 }
 func validateGetRepoIDRequest(req *rpcs.GetRepoIDRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 
-	err := val.ValidateString(req.GetRepoName(), 1, 32)
+	err := val.ValidateRepoName(req.GetRepoName())
 	if err != nil {
 		violations = append(violations, fieldViolation("repo_name", err))
 	}

@@ -51,7 +51,7 @@ func (server *Server) AutoSyncRepo(ctx context.Context, req *rpcs.AutoSyncRepoRe
 	return rsp, nil
 }
 func validateAutoSyncRepoRequest(req *rpcs.AutoSyncRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	err := val.ValidateString(req.GetRepoName(), 1, 256)
+	err := val.ValidateRepoName(req.GetRepoName())
 	if err != nil {
 		violations = append(violations, fieldViolation("repo_name", err))
 	}

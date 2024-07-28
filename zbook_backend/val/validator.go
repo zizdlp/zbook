@@ -1,9 +1,11 @@
 package val
 
 import (
+	"errors"
 	"fmt"
 	"net/mail"
 	"regexp"
+	"strings"
 
 	"github.com/zizdlp/zbook/util"
 )
@@ -62,11 +64,23 @@ func ValidateUsername(value string) error {
 		return err
 	}
 	if !isValidateUsername(value) {
-		return fmt.Errorf("must contain only lower letters,digits, or underscore ")
+		return fmt.Errorf("must contain only lower letters,digits, or underscore")
 	}
 	return nil
 }
+func ValidateRepoName(repoName string) error {
+	if len(repoName) < 3 || len(repoName) > 64 {
+		return fmt.Errorf("repository name length is not within the valid range:[3,64]")
+	}
 
+	// Characters not allowed in URLs, typically include: '/', '?', ':', '@', '&', '=', '+', '$', ',', '#'
+	illegalChars := `/?:@&=+$,#~%`
+	if strings.ContainsAny(repoName, illegalChars) {
+		return errors.New("repository name contains illegal characters")
+	}
+
+	return nil
+}
 func ValidatePassword(value string) error {
 	return ValidateString(value, 6, 100)
 }

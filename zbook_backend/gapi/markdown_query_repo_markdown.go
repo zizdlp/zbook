@@ -63,7 +63,7 @@ func validateQueryRepoMarkdownRequest(req *rpcs.QueryRepoMarkdownRequest) (viola
 	if err := val.ValidateUsername(req.GetUsername()); err != nil {
 		violations = append(violations, fieldViolation("username", err))
 	}
-	if err := val.ValidateString(req.GetRepoName(), 1, 128); err != nil {
+	if err := val.ValidateRepoName(req.GetRepoName()); err != nil {
 		violations = append(violations, fieldViolation("repo_name", err))
 	}
 	return violations
