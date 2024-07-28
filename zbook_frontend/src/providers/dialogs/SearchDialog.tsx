@@ -30,7 +30,7 @@ export default function SearchDialog() {
              overflow-y-auto md:h-96 h-[30rem] scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md  pb-2 md:pb-4"
       >
         <ListQueryElements
-          key={query}
+          key={query + searchType}
           searchType={searchType}
           query={query}
           setShowDialog={setSearchDialogOpen}

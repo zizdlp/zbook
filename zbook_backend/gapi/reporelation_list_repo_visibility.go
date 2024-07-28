@@ -30,7 +30,10 @@ func (server *Server) ListRepoVisibility(ctx context.Context, req *rpcs.ListRepo
 		arg := db.QueryRepoVisibilityByRepoParams{
 			Limit:    req.GetPageSize(),
 			Offset:   (req.GetPageId() - 1) * req.GetPageSize(),
-			Username: req.GetQuery(), RepoID: req.GetRepoId()}
+			Username: req.GetQuery(),
+			RepoID:   req.GetRepoId(),
+		}
+
 		users, err := server.store.QueryRepoVisibilityByRepo(ctx, arg)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "query repo visisiblity by repo failed: %s", err)
