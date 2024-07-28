@@ -40,7 +40,8 @@ message DeleteRepoResponse {}
 
 // 4.ManualSyncRepo
 message ManualSyncRepoRequest {
-  int64 repo_id = 1;
+  string username  = 1;
+  string repo_name = 2;
 }
 message ManualSyncRepoResponse {}
 
