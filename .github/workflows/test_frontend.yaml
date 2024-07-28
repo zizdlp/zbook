@@ -29,5 +29,5 @@ jobs:
         working-directory: zbook_frontend
 
       - name: Run tests
-        run: npm test
+        run: npm run test
         working-directory: zbook_frontend
