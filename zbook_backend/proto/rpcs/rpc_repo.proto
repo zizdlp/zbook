@@ -33,7 +33,8 @@ message GetRepoLayoutResponse {
 
 // 3.DeleteRepo
 message DeleteRepoRequest {
-  int64 repo_id = 1;
+  string username  = 1;
+  string repo_name = 2;
 }
 message DeleteRepoResponse {}
 

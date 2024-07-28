@@ -151,9 +151,6 @@ export default function ListQueryElements({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
-  useEffect(() => {
-    setListModelInfo([]);
-  }, [searchType]);
   return (
     <>
       {listModelInfo.map((doc: any, index) => (

@@ -145,7 +145,7 @@ FROM
   users as u 
 LEFT JOIN 
     repo_relations rr ON rr.user_id = u.user_id AND rr.repo_id=$3
-WHERE u.username=$4 AND rr.relation_type = 'visi'
+WHERE u.username=$4
 GROUP BY u.user_id,rr.created_at
 ORDER BY rr.created_at DESC
 LIMIT $1

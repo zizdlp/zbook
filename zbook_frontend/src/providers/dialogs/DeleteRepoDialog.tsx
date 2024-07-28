@@ -13,8 +13,12 @@ import { useTranslations } from "next-intl";
 import { FetchError } from "@/fetchs/util";
 export default function DeleteRepoDialog() {
   const t = useTranslations("Dialog");
-  const { deleteRepoOpen, setDeleteRepoOpen, operationRepoID } =
-    useContext(OperationContext);
+  const {
+    deleteRepoOpen,
+    setDeleteRepoOpen,
+    operationUsername,
+    operationRepoName,
+  } = useContext(OperationContext);
   return (
     <WarngingDialog
       title={t("DeleteRepo")}
@@ -30,7 +34,10 @@ export default function DeleteRepoDialog() {
             xforward: "",
             agent: "",
             tags: [],
-            values: { repo_id: operationRepoID },
+            values: {
+              username: operationUsername,
+              repo_name: operationRepoName,
+            },
           });
           if (data.error) {
             throw new FetchError(data.message, data.status);

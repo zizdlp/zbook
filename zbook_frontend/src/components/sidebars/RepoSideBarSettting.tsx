@@ -2,7 +2,6 @@
 import { AiOutlineSync } from "react-icons/ai";
 import { toast } from "react-toastify";
 import React, { useContext } from "react";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { IoBookOutline } from "react-icons/io5";
 
 import { OperationContext } from "@/providers/OperationProvider";
@@ -81,49 +80,20 @@ export default function RepoSideBarSetting({
         />
       </RepoSideBarButton>
 
-      <RepoSideBarButton
-        onclick={() => {
-          manualSyncRepoHandler();
-        }}
-        url="#"
-        title={t("SyncRepo")}
-        className="group-hover:bg-teal-500"
-      >
-        <AiOutlineSync
-          className={`h-4 w-4 group-hover:text-white text-gray-700 dark:text-gray-400`}
-        />
-      </RepoSideBarButton>
-
       {authname == username && (
         <>
           <RepoSideBarButton
             onclick={() => {
-              setOperationRepoID(repo_id);
-              setDeleteRepoOpen(true);
+              manualSyncRepoHandler();
             }}
             url="#"
-            title={t("DeleteRepo")}
-            className="group-hover:bg-red-500"
+            title={t("SyncRepo")}
+            className="group-hover:bg-teal-500"
           >
-            <AiOutlineDelete
+            <AiOutlineSync
               className={`h-4 w-4 group-hover:text-white text-gray-700 dark:text-gray-400`}
             />
           </RepoSideBarButton>
-
-          <RepoSideBarButton
-            onclick={() => {
-              setOperationRepoID(repo_id);
-              setUpdateRepoOpen(true);
-            }}
-            url="#"
-            title={t("EditRepo")}
-            className="group-hover:bg-cyan-500"
-          >
-            <AiOutlineEdit
-              className={`h-4 w-4 group-hover:text-white text-gray-700 dark:text-gray-400`}
-            />
-          </RepoSideBarButton>
-
           {visibility_level == "chosen" && (
             <RepoSideBarButton
               onclick={() => {

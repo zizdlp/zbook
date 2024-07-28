@@ -25,8 +25,11 @@ func (server *Server) DeleteRepo(ctx context.Context, req *rpcs.DeleteRepoReques
 	if err != nil {
 		return nil, err
 	}
-
-	repo, err := server.store.GetRepo(ctx, req.GetRepoId())
+	arg_get := db.GetRepoBasicInfoParams{
+		Username: req.GetUsername(),
+		RepoName: req.GetRepoName(),
+	}
+	repo, err := server.store.GetRepoBasicInfo(ctx, arg_get)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "repo not found: %s", err)
@@ -38,7 +41,7 @@ func (server *Server) DeleteRepo(ctx context.Context, req *rpcs.DeleteRepoReques
 		return nil, status.Errorf(codes.PermissionDenied, "current account do not have enough permission")
 	}
 	arg := db.DeleteRepoTxParams{
-		RepoID: req.GetRepoId(),
+		RepoID: repo.RepoID,
 		UserID: repo.UserID,
 		AfterDelte: func(repoID int64, userID int64) error {
 			return storage.DeleteFilesByUserIDAndRepoID(server.minioClient, context.Background(), userID, repoID, "git-files")
@@ -54,9 +57,13 @@ func (server *Server) DeleteRepo(ctx context.Context, req *rpcs.DeleteRepoReques
 	return rsp, nil
 }
 func validateDeleteRepoRequest(req *rpcs.DeleteRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	err := val.ValidateID(req.GetRepoId())
+	err := val.ValidateString(req.GetRepoName(), 1, 32)
 	if err != nil {
-		violations = append(violations, fieldViolation("repo_id", err))
+		violations = append(violations, fieldViolation("repo_name", err))
+	}
+	err = val.ValidateUsername(req.GetUsername())
+	if err != nil {
+		violations = append(violations, fieldViolation("username", err))
 	}
 	return violations
 }

@@ -562,9 +562,11 @@
     "pbDeleteRepoRequest": {
       "type": "object",
       "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
         }
       },
       "title": "3.DeleteRepo"

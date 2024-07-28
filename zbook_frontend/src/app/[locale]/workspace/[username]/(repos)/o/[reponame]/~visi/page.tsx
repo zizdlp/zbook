@@ -10,6 +10,7 @@ import { headers } from "next/headers";
 import { Suspense } from "react";
 import SearchList from "@/components/SearchList";
 import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
 export async function generateMetadata({
   params,
 }: {
@@ -28,6 +29,11 @@ export default async function ListRepoVisi({
   searchParams?: { query?: string; page?: string };
 }) {
   try {
+    let authname = "";
+    const session = await auth();
+    if (session?.access_token) {
+      authname = session.username;
+    }
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
     const xforward = headers().get("x-forwarded-for") ?? "";
@@ -56,6 +62,7 @@ export default async function ListRepoVisi({
         >
           <ListElementWrapper
             username={params.username}
+            authname={authname}
             query={query}
             currentPage={currentPage}
             listType={ListDataType.LIST_REPO_VISI}

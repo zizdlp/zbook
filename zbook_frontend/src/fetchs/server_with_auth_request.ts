@@ -204,7 +204,8 @@ interface CreateSystemNotificationRequest {
   redirect_url: string;
 }
 interface DeleteRepoRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }
 interface DeleteUserRequest {
   username: string;
