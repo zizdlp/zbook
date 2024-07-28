@@ -1,18 +1,28 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { MdCancel, MdPersonSearch } from "react-icons/md";
 import { useTranslations } from "next-intl";
 import SwitchType from "./SwitchType";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { SearchType } from "@/utils/const_value";
+
 type SearchHeaderProps = {
   showDialog: boolean;
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  query: string;
   setquery: React.Dispatch<React.SetStateAction<string>>;
   searchType: SearchType;
 };
+
 export default function SearchHeader(props: SearchHeaderProps) {
   const searchQueryRef = useRef<HTMLInputElement>(null);
   const t = useTranslations("Searchs");
+
+  useEffect(() => {
+    if (searchQueryRef.current) {
+      searchQueryRef.current.value = props.query;
+    }
+  }, [props.query]);
+
   const clearquery = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -20,16 +30,19 @@ export default function SearchHeader(props: SearchHeaderProps) {
     if (searchQueryRef.current) {
       searchQueryRef.current.value = "";
     }
+    props.setquery("");
     props.setShowDialog(!props.showDialog);
   };
+
   const submitContact = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 阻止redirect to search query
-    if ((event.target as HTMLFormElement).value) {
-      props.setquery((event.target as HTMLFormElement).value);
+    if (searchQueryRef.current) {
+      props.setquery(searchQueryRef.current.value);
     } else {
       props.setquery("");
     }
   };
+
   let title = "";
   if (
     props.searchType == SearchType.USER ||
@@ -39,6 +52,7 @@ export default function SearchHeader(props: SearchHeaderProps) {
   } else {
     title = t("SearchMarkdown");
   }
+
   return (
     <header className="px-4 py-4 relative flex text-slate-500 flex-row items-center border-b-[0.05rem] border-slate-300 dark:border-slate-700/75">
       <form
@@ -59,6 +73,7 @@ export default function SearchHeader(props: SearchHeaderProps) {
         )}
 
         <input
+          ref={searchQueryRef}
           className="px-4 py-2 flex flex-grow flex-shrink focus:ring-0 focus-within:text-slate-900 focus-within:dark:text-slate-300 bg-transparent 
                 placeholder-slate-400 text-gray-900 dark:text-slate-300 appearance-none w-full  border-0  focus:outline-none"
           id="search_query"

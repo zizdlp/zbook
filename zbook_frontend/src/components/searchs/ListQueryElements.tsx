@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { useTranslations } from "next-intl";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
-import LoadingNotificationList from "../notifications/LoadingNotificationList";
 import NoItemFound from "../NoItemFound";
 import { OperationContext } from "@/providers/OperationProvider";
 import InfCard from "../notifications/InfCard";
@@ -13,6 +12,7 @@ import ListUserElementForVisibility from "./ListUserElementForVisibility";
 import SearchProfileComponent from "./SearchProfileComponent";
 import { FetchError } from "@/fetchs/util";
 import { SearchType } from "@/utils/const_value";
+import LoadingSearchList from "./LoadingSearchList";
 
 export default function ListQueryElements({
   searchType,
@@ -192,7 +192,7 @@ export default function ListQueryElements({
           )}
         </InfCard>
       ))}
-      {hasMore && <LoadingNotificationList itemCount={3} />}
+      {hasMore && <LoadingSearchList itemCount={3} />}
       {!hasMore &&
         currentPage == 1 &&
         listModelInfo.length == 0 &&

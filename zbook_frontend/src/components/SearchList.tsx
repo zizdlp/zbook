@@ -98,7 +98,7 @@ export default function SearchList({
         <IoMdPersonAdd
           className="absolute right-3 top-1/2 h-[24px] w-[24px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 cursor-pointer hover:text-sky-600 dark:hover:text-sky-400"
           onClick={() => {
-            setOperationRepoName(repo_name);
+            setOperationRepoName(decodeURIComponent(repo_name));
             setOperationUsername(username);
             setSearchType(SearchType.VISI_USER); //搜索仓库可见用户
             setSearchDialogOpen(true);
