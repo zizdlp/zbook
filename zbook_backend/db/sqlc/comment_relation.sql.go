@@ -65,12 +65,14 @@ func (q *Queries) DeleteCommentRelation(ctx context.Context, arg DeleteCommentRe
 }
 
 const getListCommentReportCount = `-- name: GetListCommentReportCount :one
-SELECT COUNT(*)
+SELECT 
+  COUNT(*)
 FROM comment_reports
 JOIN users ON users.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
+JOIN users ura ON ura.user_id = repos.user_id
 JOIN users as uc ON comments.user_id = uc.user_id
 `
 
@@ -83,7 +85,7 @@ func (q *Queries) GetListCommentReportCount(ctx context.Context) (int64, error) 
 
 const getQueryCommentReportCount = `-- name: GetQueryCommentReportCount :one
 SELECT 
-  Count(*)
+  COUNT(*)
 FROM comment_reports
 JOIN users as ur ON ur.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
@@ -109,13 +111,14 @@ func (q *Queries) GetQueryCommentReportCount(ctx context.Context, query string) 
 
 const listCommentReport = `-- name: ListCommentReport :many
 SELECT 
-  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_zh, comment_reports.fts_report_en,markdowns.repo_id,markdowns.relative_path,users.username,comments.comment_content,
-  repos.repo_name
+  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_zh, comment_reports.fts_report_en,users.username,comments.comment_content,
+  repos.repo_name,ura.username as repo_username,markdowns.relative_path
 FROM comment_reports
 JOIN users ON users.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
+JOIN users as ura ON ura.user_id = repos.user_id
 JOIN users as uc ON comments.user_id = uc.user_id
 ORDER BY comment_reports.created_at Desc
 LIMIT $1
@@ -136,11 +139,11 @@ type ListCommentReportRow struct {
 	CreatedAt      time.Time `json:"created_at"`
 	FtsReportZh    string    `json:"fts_report_zh"`
 	FtsReportEn    string    `json:"fts_report_en"`
-	RepoID         int64     `json:"repo_id"`
-	RelativePath   string    `json:"relative_path"`
 	Username       string    `json:"username"`
 	CommentContent string    `json:"comment_content"`
 	RepoName       string    `json:"repo_name"`
+	RepoUsername   string    `json:"repo_username"`
+	RelativePath   string    `json:"relative_path"`
 }
 
 func (q *Queries) ListCommentReport(ctx context.Context, arg ListCommentReportParams) ([]ListCommentReportRow, error) {
@@ -161,11 +164,11 @@ func (q *Queries) ListCommentReport(ctx context.Context, arg ListCommentReportPa
 			&i.CreatedAt,
 			&i.FtsReportZh,
 			&i.FtsReportEn,
-			&i.RepoID,
-			&i.RelativePath,
 			&i.Username,
 			&i.CommentContent,
 			&i.RepoName,
+			&i.RepoUsername,
+			&i.RelativePath,
 		); err != nil {
 			return nil, err
 		}
@@ -179,19 +182,23 @@ func (q *Queries) ListCommentReport(ctx context.Context, arg ListCommentReportPa
 
 const queryCommentReport = `-- name: QueryCommentReport :many
 SELECT 
-  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_zh, comment_reports.fts_report_en,markdowns.repo_id,markdowns.relative_path,ur.username,comments.comment_content,
+  comment_reports.report_id, comment_reports.user_id, comment_reports.comment_id, comment_reports.report_content, comment_reports.processed, comment_reports.created_at, comment_reports.fts_report_zh, comment_reports.fts_report_en,ur.username,comments.comment_content,
+    repos.repo_name,ura.username as repo_username,markdowns.relative_path,
       ROUND(ts_rank(comments.fts_comment_zh, plainto_tsquery($3))) 
     + ROUND(ts_rank(comments.fts_comment_en, plainto_tsquery($3))) 
     + ROUND(ts_rank(comment_reports.fts_report_zh, plainto_tsquery($3)))
     + ROUND(ts_rank(comment_reports.fts_report_en, plainto_tsquery($3)))
     + ROUND(ts_rank(ur.fts_username, plainto_tsquery($3))) 
     + ROUND(ts_rank(uc.fts_username, plainto_tsquery($3))) 
+    + ROUND(ts_rank(repos.fts_repo_en, plainto_tsquery($3))) 
+    + ROUND(ts_rank(repos.fts_repo_zh, plainto_tsquery($3))) 
      as rank
 FROM comment_reports
 JOIN users as ur ON ur.user_id = comment_reports.user_id
 JOIN comments ON comments.comment_id = comment_reports.comment_id
 JOIN markdowns ON comments.markdown_id = markdowns.markdown_id
 JOIN repos ON repos.repo_id = markdowns.repo_id
+JOIN users as ura ON ura.user_id = repos.user_id
 JOIN users as uc ON comments.user_id = uc.user_id
 WHERE (
   comments.fts_comment_zh @@ plainto_tsquery($3)
@@ -200,6 +207,8 @@ WHERE (
   OR comment_reports.fts_report_en @@ plainto_tsquery($3) 
   OR uc.fts_username @@ plainto_tsquery($3)  
   OR ur.fts_username @@ plainto_tsquery($3)  
+  OR repos.fts_repo_en @@ plainto_tsquery($3)  
+  OR repos.fts_repo_zh @@ plainto_tsquery($3)  
   )
 ORDER BY rank Desc
 LIMIT $1
@@ -221,10 +230,11 @@ type QueryCommentReportRow struct {
 	CreatedAt      time.Time `json:"created_at"`
 	FtsReportZh    string    `json:"fts_report_zh"`
 	FtsReportEn    string    `json:"fts_report_en"`
-	RepoID         int64     `json:"repo_id"`
-	RelativePath   string    `json:"relative_path"`
 	Username       string    `json:"username"`
 	CommentContent string    `json:"comment_content"`
+	RepoName       string    `json:"repo_name"`
+	RepoUsername   string    `json:"repo_username"`
+	RelativePath   string    `json:"relative_path"`
 	Rank           int32     `json:"rank"`
 }
 
@@ -246,10 +256,11 @@ func (q *Queries) QueryCommentReport(ctx context.Context, arg QueryCommentReport
 			&i.CreatedAt,
 			&i.FtsReportZh,
 			&i.FtsReportEn,
-			&i.RepoID,
-			&i.RelativePath,
 			&i.Username,
 			&i.CommentContent,
+			&i.RepoName,
+			&i.RepoUsername,
+			&i.RelativePath,
 			&i.Rank,
 		); err != nil {
 			return nil, err

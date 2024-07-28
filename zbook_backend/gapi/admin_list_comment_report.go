@@ -2,6 +2,7 @@ package gapi
 
 import (
 	"context"
+	"fmt"
 
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
@@ -39,6 +40,7 @@ func (server *Server) ListCommentReport(ctx context.Context, req *rpcs.ListComme
 		rsp := &rpcs.ListCommentReportResponse{
 			Elements: convertQueryCommentReport(reports),
 		}
+		fmt.Println("---:", req.GetQuery(), reports)
 		return rsp, nil
 	}
 	arg := db.ListCommentReportParams{
@@ -74,8 +76,8 @@ func convertListCommentReport(reports []db.ListCommentReportRow) []*models.ListC
 				ReportId:       reports[i].ReportID,
 				CommentId:      reports[i].CommentID,
 				RepoName:       reports[i].RepoName,
-				RepoId:         reports[i].RepoID,
-				Href:           reports[i].RelativePath,
+				RepoUsername:   reports[i].RepoUsername,
+				RelativePath:   reports[i].RelativePath,
 				ReportContent:  reports[i].ReportContent,
 				CommentContent: reports[i].CommentContent,
 				Processed:      reports[i].Processed,
@@ -94,8 +96,9 @@ func convertQueryCommentReport(reports []db.QueryCommentReportRow) []*models.Lis
 			&models.ListCommentReportInfo{
 				ReportId:       reports[i].ReportID,
 				CommentId:      reports[i].CommentID,
-				RepoId:         reports[i].RepoID,
-				Href:           reports[i].RelativePath,
+				RepoName:       reports[i].RepoName,
+				RepoUsername:   reports[i].RepoUsername,
+				RelativePath:   reports[i].RelativePath,
 				ReportContent:  reports[i].ReportContent,
 				CommentContent: reports[i].CommentContent,
 				Processed:      reports[i].Processed,

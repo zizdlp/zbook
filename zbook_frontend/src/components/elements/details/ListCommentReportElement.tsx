@@ -7,10 +7,9 @@ import ListElementCard from "./ListElementCard";
 import AvatarImageServer from "@/components/AvatarImageServer";
 export default function ListCommentReportElement({
   report_id,
-  comment_id,
-  repo_id,
+  repo_username,
   repo_name,
-  href,
+  relative_path,
   report_content,
   comment_content,
   created_at,
@@ -19,9 +18,8 @@ export default function ListCommentReportElement({
 }: {
   report_id: number;
   repo_name: string;
-  comment_id: number;
-  repo_id: number;
-  href: string;
+  repo_username: string;
+  relative_path: string;
   report_content: string;
   comment_content: string;
   created_at: string;
@@ -40,7 +38,7 @@ export default function ListCommentReportElement({
             />
             <div className="flex flex-col justify-begin">
               <Link
-                href={`/workspace/${username}/o/${repo_name}/${href}`}
+                href={`/workspace/${repo_username}/o/${repo_name}/${relative_path}`}
                 className="cursor-pointer"
               >
                 <span
@@ -64,12 +62,12 @@ export default function ListCommentReportElement({
         <>
           <div className="flex items-center justify-center space-x-1">
             <ValueElement
-              tip="report id"
-              content={repo_id as unknown as string}
+              tip="repo_user"
+              content={repo_username as unknown as string}
             />
             <ValueElement
-              tip="comment id"
-              content={comment_id as unknown as string}
+              tip="repo_name"
+              content={repo_name as unknown as string}
             />
           </div>
 

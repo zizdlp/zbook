@@ -825,11 +825,13 @@
           "type": "string",
           "format": "int64"
         },
-        "repoId": {
-          "type": "string",
-          "format": "int64"
+        "repoName": {
+          "type": "string"
         },
-        "href": {
+        "repoUsername": {
+          "type": "string"
+        },
+        "relativePath": {
           "type": "string"
         },
         "reportContent": {
@@ -846,9 +848,6 @@
           "format": "date-time"
         },
         "username": {
-          "type": "string"
-        },
-        "repoName": {
           "type": "string"
         }
       }
