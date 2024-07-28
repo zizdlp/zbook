@@ -117,7 +117,8 @@ interface GetRepoLayoutRequest {
   repo_name: string;
 }
 interface GetMarkdownContentRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   relative_path: string;
 }
 
@@ -148,11 +149,13 @@ interface listRepoVisibilityRequest {
 }
 
 interface createRepoRelationRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   relation_type: string;
 }
 interface deleteRepoRelationRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
   relation_type: string;
 }
 interface CreateRepoVisibilityRequest {
@@ -257,7 +260,8 @@ interface GetUnReadCountRequest {}
 interface ResetUnreadCountRequest {}
 
 interface ManualSyncRepoRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }
 interface UpdateRepoInfoRequest {
   repo_id: number;

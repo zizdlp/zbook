@@ -56,7 +56,8 @@ export default async function MarkdownPage({
       agent: agent,
       tags: [],
       values: {
-        repo_id: data.repo_id,
+        username: params.username,
+        repo_name: decodeURIComponent(params.reponame),
         relative_path: decodeURIComponent(params.href).split(",").join("/"),
       },
     });

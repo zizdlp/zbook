@@ -22,7 +22,7 @@ export default function SearchList({
   const pathname = usePathname();
   const { replace } = useRouter();
   const t = useTranslations("DataList");
-  const { searchDialogOpen, setSearchDialogOpen, setSearchType } =
+  const { setSearchDialogOpen, setSearchType } =
     useContext(SearchDialogContext);
   const { setOperationRepoID } = useContext(OperationContext);
   function handleSearch(term: string) {

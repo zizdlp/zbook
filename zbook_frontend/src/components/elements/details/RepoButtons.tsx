@@ -23,7 +23,6 @@ export default function RepoButtons({
     setOperationRepoName,
   } = useContext(OperationContext);
   if (authname != username) {
-    console.log("authname:", authname, username);
     return <></>;
   }
   return (

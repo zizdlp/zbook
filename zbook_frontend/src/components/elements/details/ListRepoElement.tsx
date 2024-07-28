@@ -78,7 +78,8 @@ export default function ListRepoElement({
           <UpdateLikeButton
             is_liked={is_liked}
             like_count={like_count}
-            repo_id={repo_id}
+            username={username}
+            repo_name={repo_name}
           />
           <div className="flex items-center justify-center space-x-1">
             <ValueElement
