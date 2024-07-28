@@ -69,8 +69,8 @@ func ValidateUsername(value string) error {
 	return nil
 }
 func ValidateRepoName(repoName string) error {
-	if len(repoName) < 3 || len(repoName) > 64 {
-		return fmt.Errorf("repository name length is not within the valid range:[3,64]")
+	if len(repoName) < 2 || len(repoName) > 64 {
+		return fmt.Errorf("repository name length is not within the valid range:[2,64]")
 	}
 
 	// Characters not allowed in URLs, typically include: '/', '?', ':', '@', '&', '=', '+', '$', ',', '#'

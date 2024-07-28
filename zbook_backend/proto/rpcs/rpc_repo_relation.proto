@@ -38,10 +38,11 @@ message DeleteRepoVisibilityResponse {}
 
 // 5.ListRepoVisibility
 message ListRepoVisibilityRequest {
-  int32 page_id   = 1;
-  int32 page_size = 2;
-  int64 repo_id   = 3;
-  string query    = 4;
+  int32 page_id    = 1;
+  int32 page_size  = 2;
+  string username  = 3;
+  string repo_name = 4;
+  string query     = 5;
 }
 message ListRepoVisibilityResponse {
   repeated ListUserRepoVisiblityInfo elements = 1;
@@ -49,7 +50,8 @@ message ListRepoVisibilityResponse {
 
 // 6.GetRepoVisibilityCount
 message GetRepoVisibilityCountRequest {
-  int64 repo_id = 1;
+  string username  = 1;
+  string repo_name = 2;
 }
 message GetRepoVisibilityCountResponse {
   int64 count = 1;

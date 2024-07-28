@@ -259,40 +259,6 @@
         ]
       }
     },
-    "/v1/get_repo_id": {
-      "post": {
-        "summary": "get_repo_id",
-        "description": "Use this api to get_repo_id",
-        "operationId": "ZBookRepo_GetRepoID",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/pbGetRepoIDResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/pbGetRepoIDRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ZBookRepo"
-        ]
-      }
-    },
     "/v1/get_repo_layout": {
       "post": {
         "summary": "get repo layout",
@@ -515,13 +481,7 @@
       "title": "5.AutoSyncRepo"
     },
     "pbAutoSyncRepoResponse": {
-      "type": "object",
-      "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
+      "type": "object"
     },
     "pbCreateRepoRequest": {
       "type": "object",
@@ -551,13 +511,7 @@
       "title": "1.CreateRepo"
     },
     "pbCreateRepoResponse": {
-      "type": "object",
-      "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
+      "type": "object"
     },
     "pbDeleteRepoRequest": {
       "type": "object",
@@ -649,10 +603,6 @@
     "pbGetRepoBasicInfoResponse": {
       "type": "object",
       "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
-        },
         "repoName": {
           "type": "string"
         },
@@ -678,27 +628,6 @@
         }
       }
     },
-    "pbGetRepoIDRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "repoName": {
-          "type": "string"
-        }
-      },
-      "title": "15.GetRepoID"
-    },
-    "pbGetRepoIDResponse": {
-      "type": "object",
-      "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
     "pbGetRepoLayoutRequest": {
       "type": "object",
       "properties": {
@@ -714,10 +643,6 @@
     "pbGetRepoLayoutResponse": {
       "type": "object",
       "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
-        },
         "username": {
           "type": "string"
         },
@@ -879,9 +804,11 @@
     "pbUpdateRepoInfoRequest": {
       "type": "object",
       "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
+        "username": {
+          "type": "string"
+        },
+        "oldRepoName": {
+          "type": "string"
         },
         "repoName": {
           "type": "string"
@@ -905,13 +832,7 @@
       "title": "6.UpdateRepoInfo"
     },
     "pbUpdateRepoInfoResponse": {
-      "type": "object",
-      "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
+      "type": "object"
     },
     "protobufAny": {
       "type": "object",

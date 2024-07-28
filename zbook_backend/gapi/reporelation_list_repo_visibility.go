@@ -3,6 +3,7 @@ package gapi
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
 	"github.com/zizdlp/zbook/pb/rpcs"
@@ -25,13 +26,21 @@ func (server *Server) ListRepoVisibility(ctx context.Context, req *rpcs.ListRepo
 	if err != nil {
 		return nil, err
 	}
-
+	arg_repo := db.GetRepoIDParams{
+		Username: req.GetUsername(),
+		RepoName: req.GetRepoName(),
+	}
+	repo_id, err := server.store.GetRepoID(ctx, arg_repo)
+	if err != nil {
+		log.Info().Msgf("get repo layout get repo id failed:%s,%s", req.GetUsername(), req.GetRepoName())
+		return nil, status.Errorf(codes.Internal, "get repo id failed: %s", err)
+	}
 	if req.GetQuery() != "" {
 		arg := db.QueryRepoVisibilityByRepoParams{
 			Limit:    req.GetPageSize(),
 			Offset:   (req.GetPageId() - 1) * req.GetPageSize(),
 			Username: req.GetQuery(),
-			RepoID:   req.GetRepoId(),
+			RepoID:   repo_id,
 		}
 
 		users, err := server.store.QueryRepoVisibilityByRepo(ctx, arg)
@@ -46,7 +55,7 @@ func (server *Server) ListRepoVisibility(ctx context.Context, req *rpcs.ListRepo
 		arg := db.ListRepoVisibilityByRepoParams{
 			Limit:  req.GetPageSize(),
 			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
-			RepoID: req.GetRepoId(),
+			RepoID: repo_id,
 		}
 
 		users, err := server.store.ListRepoVisibilityByRepo(ctx, arg)

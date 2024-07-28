@@ -24,7 +24,7 @@ export function isValidGitURL(gitURL: string): boolean {
 }
 
 export function isValidateRepoName(repoName: string): Boolean {
-  if (repoName.length < 3 || repoName.length > 64) {
+  if (repoName.length < 2 || repoName.length > 64) {
     return false;
   }
 

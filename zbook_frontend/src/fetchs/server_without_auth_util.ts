@@ -4,7 +4,6 @@ export enum FetchServerWithoutAuthWrapperEndPoint {
   SEND_EMAIL_TO_VERIFY_EMAIL = "send_email_to_verify_email",
   RESET_PASSWORD = "reset_password",
   REFRESH_TOKEN = "refresh_token",
-  GET_REPO_ID = "get_repo_id",
   LOGIN_USER = "login_user",
   LOGIN_BY_OAUTH = "login_by_oauth",
 }

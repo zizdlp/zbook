@@ -95,10 +95,12 @@ interface ListRepoVisibilityRequest {
   page_id: number;
   page_size: number;
   query: string;
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }
 interface GetRepoVisibilityCountRequest {
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }
 
 interface GetUserInfoRequest {
@@ -140,12 +142,6 @@ interface UpdateUserRequest {
   motto: string;
   password: string;
   avatar: string;
-}
-interface listRepoVisibilityRequest {
-  query: string;
-  repo_id: number;
-  page_id: number;
-  page_size: number;
 }
 
 interface createRepoRelationRequest {
@@ -326,7 +322,6 @@ export type {
   GetListRepoNotificationUnreadedCountRequest,
   GetListFollowerNotificationUnreadedCountRequest,
   GetListSystemNotificationUnreadedCountRequest,
-  listRepoVisibilityRequest,
   createRepoRelationRequest,
   deleteRepoRelationRequest,
   CreateRepoVisibilityRequest,

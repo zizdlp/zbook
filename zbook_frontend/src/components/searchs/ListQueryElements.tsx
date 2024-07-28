@@ -102,7 +102,8 @@ export default function ListQueryElements({
                 agent: "",
                 tags: [],
                 values: {
-                  repo_id: operationRepoID,
+                  username: operationUsername,
+                  repo_name: operationUsername,
                   query: query,
                   page_id: currentPage,
                   page_size: 10,

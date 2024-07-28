@@ -304,9 +304,11 @@
     "pbGetRepoVisibilityCountRequest": {
       "type": "object",
       "properties": {
-        "repoId": {
-          "type": "string",
-          "format": "int64"
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
         }
       },
       "title": "6.GetRepoVisibilityCount"
@@ -331,9 +333,11 @@
           "type": "integer",
           "format": "int32"
         },
-        "repoId": {
-          "type": "string",
-          "format": "int64"
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
         },
         "query": {
           "type": "string"

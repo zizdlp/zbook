@@ -13,10 +13,12 @@ import { SearchType } from "@/utils/const_value";
 
 export default function SearchList({
   listType,
-  repo_id,
+  username,
+  repo_name,
 }: {
   listType: ListDataType;
-  repo_id: number;
+  username: string;
+  repo_name: string;
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -24,7 +26,8 @@ export default function SearchList({
   const t = useTranslations("DataList");
   const { setSearchDialogOpen, setSearchType } =
     useContext(SearchDialogContext);
-  const { setOperationRepoID } = useContext(OperationContext);
+  const { setOperationUsername, setOperationRepoName } =
+    useContext(OperationContext);
   function handleSearch(term: string) {
     if (searchParams) {
       const params = new URLSearchParams(searchParams);
@@ -95,7 +98,8 @@ export default function SearchList({
         <IoMdPersonAdd
           className="absolute right-3 top-1/2 h-[24px] w-[24px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 cursor-pointer hover:text-sky-600 dark:hover:text-sky-400"
           onClick={() => {
-            setOperationRepoID(repo_id);
+            setOperationRepoName(repo_name);
+            setOperationUsername(username);
             setSearchType(SearchType.VISI_USER); //搜索仓库可见用户
             setSearchDialogOpen(true);
           }}
