@@ -6,7 +6,10 @@ import UpdateLikeButton from "@/components/wrappers/UpdateLikeButton";
 import TimeElement from "@/components/TimeElement";
 import { useTranslations } from "next-intl";
 import ListElementCard from "./ListElementCard";
+import RepoButtons from "./RepoButtons";
+
 export default function ListRepoElement({
+  authname,
   repo_id,
   repo_name,
   username,
@@ -18,6 +21,7 @@ export default function ListRepoElement({
   updated_at,
   created_at,
 }: {
+  authname: string;
   repo_id: number;
   repo_name: string;
   username: string;
@@ -54,7 +58,18 @@ export default function ListRepoElement({
               </Link>
             </div>
           </div>
-          <ValueElement tip={t("VisibilityLevel")} content={visibility_level} />{" "}
+          <div className="flex space-x-1">
+            <ValueElement
+              tip={t("VisibilityLevel")}
+              content={visibility_level}
+            />
+            <RepoButtons
+              username={username}
+              authname={authname}
+              reponame={repo_name}
+              repo_id={repo_id}
+            />
+          </div>
         </>
       }
       content={repo_description}

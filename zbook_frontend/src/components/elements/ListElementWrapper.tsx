@@ -9,12 +9,14 @@ import GlobalDeleteCommentDialog from "../comments/GlobalDeleteCommentDialog";
 import NotFoundDemo from "../NotFoundDemo";
 import { FetchError } from "@/fetchs/util";
 export default async function ListElementWrapper({
+  authname,
   username,
   query,
   currentPage,
   repo_id,
   listType,
 }: {
+  authname: string;
   username: string;
   query: string;
   currentPage: number;
@@ -293,6 +295,7 @@ export default async function ListElementWrapper({
               key={index}
               model={model}
               listType={listType}
+              authname={authname}
             />
           ))}
         </div>

@@ -11,9 +11,11 @@ import ListRepoVisiElement from "./details/ListRepoVisiElement";
 export default function ListElementContainer({
   model,
   listType,
+  authname,
 }: {
   model: any;
   listType: ListDataType;
+  authname: string;
 }) {
   if (
     listType === ListDataType.LIST_USER_FOLLOWER ||
@@ -47,6 +49,7 @@ export default function ListElementContainer({
   ) {
     return (
       <ListRepoElement
+        authname={authname}
         repo_name={model.repo_name}
         username={model.username}
         repo_id={model.repo_id}
