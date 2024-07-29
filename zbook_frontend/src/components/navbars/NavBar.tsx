@@ -11,15 +11,17 @@ export default async function NavBar() {
   const t = await getTranslations("HomePage");
   return (
     <div
-      className="fixed top-0 z-50 w-full 
+      className="sticky top-0 z-50 w-full
         backdrop-blur-xl xl:backdrop-blur supports-backdrop-blur:bg-white/60
         xl:border-b border-slate-900/10 dark:border-slate-50/[0.06] 
         bg-transparent text-slate-500 dark:text-slate-200
         flex justify-between items-center 
-        p-2
+        py-2
+        pl-[max(0.5rem,calc(50%-49.5rem))] 2xl:pl-[max(0.5rem,calc(50%-49.5rem))]
+        pr-[max(0.5rem,calc(50%-49.5rem))] 2xl:pr-[max(0.5rem,calc(50%-49.5rem))]
         "
     >
-      <div className="flex items-center md:pl-4 md:pr-3.5">
+      <div className="flex items-center">
         <div className="lg:hidden px-2">
           <SideBarToggle />
         </div>

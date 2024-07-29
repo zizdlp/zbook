@@ -31,7 +31,7 @@ export default async function UpdateLikeButton({
           tags: [],
           values: {
             username: username,
-            repo_name: repo_name,
+            repo_name: decodeURIComponent(repo_name),
             relation_type: "like",
           },
         });
@@ -46,7 +46,7 @@ export default async function UpdateLikeButton({
           tags: [],
           values: {
             username: username,
-            repo_name: repo_name,
+            repo_name: decodeURIComponent(repo_name),
             relation_type: "like",
           },
         });

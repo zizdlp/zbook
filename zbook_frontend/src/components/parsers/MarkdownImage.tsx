@@ -68,7 +68,7 @@ export default async function MarkdownImage({
       values: {
         file_path: decodeURIComponent(path),
         username: username,
-        repo_name: repo_name,
+        repo_name: decodeURIComponent(repo_name),
       },
     });
     if (data.error) {

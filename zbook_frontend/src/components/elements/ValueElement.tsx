@@ -9,7 +9,7 @@ export default function ValueElement({
 }) {
   return (
     <ToolTip message={tip}>
-      <div className="border-[0.05rem] border-slate-300 dark:border-slate-700 rounded-md px-2 py-1 text-xs">
+      <div className="border-[0.05rem] border-slate-300 dark:border-slate-700 rounded-md px-2 py-1 text-sm">
         {content}
       </div>
     </ToolTip>
