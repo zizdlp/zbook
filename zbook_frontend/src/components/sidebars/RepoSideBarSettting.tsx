@@ -35,7 +35,7 @@ export default function RepoSideBarSetting({
         agent: "",
         tags: [],
         values: {
-          repo_name: reponame,
+          repo_name: decodeURIComponent(reponame),
           username: username,
         },
         timeout: 300000, //600s

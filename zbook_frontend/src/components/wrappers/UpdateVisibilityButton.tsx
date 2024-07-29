@@ -24,7 +24,7 @@ export default function UpdateVisibleButton({
         agent: "",
         tags: [],
         values: {
-          repo_name: repo_name,
+          repo_name: decodeURIComponent(repo_name),
           repo_username: repo_username,
           username: username,
         },
@@ -38,7 +38,7 @@ export default function UpdateVisibleButton({
         agent: "",
         tags: [],
         values: {
-          repo_name: repo_name,
+          repo_name: decodeURIComponent(repo_name),
           repo_username: repo_username,
           username: username,
         },

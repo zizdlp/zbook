@@ -196,7 +196,7 @@ export default async function ListElementWrapper({
         tags: [],
         values: {
           username: username,
-          repo_name: repo_name,
+          repo_name: decodeURIComponent(repo_name),
         },
       });
       if (data_counts.error) {
@@ -209,7 +209,7 @@ export default async function ListElementWrapper({
         tags: [],
         values: {
           username: username,
-          repo_name: repo_name,
+          repo_name: decodeURIComponent(repo_name),
           query: query,
           page_id: currentPage,
           page_size: 10,
