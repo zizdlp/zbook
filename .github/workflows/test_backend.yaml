@@ -2,8 +2,6 @@ name: TEST_BACKEND
 
 on:
   push:
-    branches:
-      - "*"
 jobs:
   test:
     runs-on: ubuntu-latest

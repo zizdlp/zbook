@@ -71,8 +71,7 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 		if err != nil {
 			return err
 		}
-
-		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, repo.CommitID, addedFiles, modifiedFiles, deletedFiles)
+		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, lastCommit, addedFiles, modifiedFiles, deletedFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "failed to convert file to db: %s", err)
 		}
