@@ -3,7 +3,7 @@ name: BUILD_MAIN
 on:
   push:
     branches:
-      - "debug/create2"
+      - "main"
 jobs:
   build:
     runs-on: ubuntu-latest
