@@ -54,7 +54,8 @@ server:
 	REQUIRE_EMAIL_VERIFY=false go run cmd/server/main.go
 gp:
 	cd zbook_backend && \
-	rm -f -f statik/* && \
+	mkdir -p pb && \
+	rm -f -r statik/* && \
 	rm -f -r pb/* && \
 	rm -f -r doc/swagger/*  && \
 	protoc  --proto_path=proto --proto_path=proto/models --proto_path=proto/rpcs --go_out=pb --go_opt=paths=source_relative  \
