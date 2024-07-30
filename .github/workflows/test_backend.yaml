@@ -2,8 +2,6 @@ name: TEST_BACKEND
 
 on:
   push:
-    branches:
-      - "debug/create2"
 jobs:
   test:
     runs-on: ubuntu-latest

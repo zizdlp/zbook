@@ -37,16 +37,6 @@ jobs:
         run: |
           go install github.com/rakyll/statik@latest
           export PATH=$PATH:$(go env GOPATH)/bin
-
-      - name: Build and push ${{ matrix.service }}
-        uses: docker/build-push-action@v6
-        with:
-          context: "{{defaultContext}}:${{ matrix.service }}"
-          file: ${{ matrix.service }}.Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ secrets.PRIVATE_REGISTRY_URL }}/zbook/${{ matrix.service }}
-
       - name: Set up protobuf and statik files
         run: |
           if [ "${{ matrix.service }}" == "zbook_backend" ]; then
