@@ -51,7 +51,10 @@ jobs:
           go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.10.0
           go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@v2.10.0
           export PATH=$PATH:$(go env GOPATH)/bin
-
+      - name: Install statik
+        run: |
+          go install github.com/rakyll/statik@latest
+          export PATH=$PATH:$(go env GOPATH)/bin
       - name: Set up protobuf and statik files
         run: |
           cd zbook_backend && \
