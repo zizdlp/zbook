@@ -29,7 +29,7 @@ export default function RepoSideBar({
         <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
           <SideBarSearchButton
             username={username}
-            repo_name={reponame}
+            repo_name={decodeURIComponent(reponame)}
             searchType={SearchType.REPO_DOCUMENT}
           />
         </div>
@@ -38,7 +38,7 @@ export default function RepoSideBar({
 
       <RepoSideBarSetting
         username={username}
-        reponame={reponame}
+        reponame={decodeURIComponent(reponame)}
         authname={authname}
         visibility_level={visibility_level}
       />

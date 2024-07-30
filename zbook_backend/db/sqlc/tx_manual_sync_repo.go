@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"time"
 
@@ -71,7 +72,11 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 		if err != nil {
 			return err
 		}
-
+		fmt.Println("addFiles:", addedFiles)
+		fmt.Println("modifile:", modifiedFiles)
+		fmt.Println("dleeteFile:", deletedFiles)
+		fmt.Println("commmit:", lastCommit)
+		fmt.Println("old commit:", repo.CommitID)
 		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, repo.CommitID, addedFiles, modifiedFiles, deletedFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "failed to convert file to db: %s", err)

@@ -92,6 +92,10 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 // Helper function to execute database operations
 func executeDBOperations(ctx context.Context, q *Queries, createParams *util.CreateParams, updateParams *util.UpdateParams, deleteParams *util.DeleteParams) error {
 	if err := createMarkdownFiles(ctx, q, createParams); err != nil {
+		fmt.Println("RelativePaths:")
+		for _, path := range createParams.RelativePath {
+			fmt.Println(path)
+		}
 		return fmt.Errorf("create markdown failed: %v", err)
 	}
 	if err := updateMarkdownFiles(ctx, q, updateParams); err != nil {
