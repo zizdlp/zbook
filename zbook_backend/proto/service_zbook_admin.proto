@@ -262,4 +262,19 @@ summary:
 };
 }
 ;
+
+// 19.SendInvitation
+rpc SendInvitation(SendInvitationRequest)
+    returns (SendInvitationResponse) {
+  option (google.api.http) = {
+    post: "/v1/create_invitation",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to send invitation";
+summary:
+  "send invitation";
+};
+}
+;
 }

@@ -72,6 +72,15 @@ type FollowerNotification struct {
 	CreatedAt  time.Time `json:"created_at"`
 }
 
+type Invitation struct {
+	InvitationID  int64     `json:"invitation_id"`
+	Email         string    `json:"email"`
+	InvitationUrl string    `json:"invitation_url"`
+	IsUsed        bool      `json:"is_used"`
+	CreatedAt     time.Time `json:"created_at"`
+	ExpiredAt     time.Time `json:"expired_at"`
+}
+
 type Markdown struct {
 	MarkdownID   int64     `json:"markdown_id"`
 	RelativePath string    `json:"relative_path"`

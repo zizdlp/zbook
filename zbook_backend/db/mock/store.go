@@ -170,6 +170,21 @@ func (mr *MockStoreMockRecorder) CreateFollowerNotification(arg0, arg1 interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFollowerNotification", reflect.TypeOf((*MockStore)(nil).CreateFollowerNotification), arg0, arg1)
 }
 
+// CreateInvitation mocks base method.
+func (m *MockStore) CreateInvitation(arg0 context.Context, arg1 db.CreateInvitationParams) (db.Invitation, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateInvitation", arg0, arg1)
+	ret0, _ := ret[0].(db.Invitation)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateInvitation indicates an expected call of CreateInvitation.
+func (mr *MockStoreMockRecorder) CreateInvitation(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateInvitation", reflect.TypeOf((*MockStore)(nil).CreateInvitation), arg0, arg1)
+}
+
 // CreateMarkdown mocks base method.
 func (m *MockStore) CreateMarkdown(arg0 context.Context, arg1 db.CreateMarkdownParams) (db.Markdown, error) {
 	m.ctrl.T.Helper()
@@ -622,6 +637,21 @@ func (m *MockStore) GetDailyCreateUserCount(arg0 context.Context) ([]db.GetDaily
 func (mr *MockStoreMockRecorder) GetDailyCreateUserCount(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDailyCreateUserCount", reflect.TypeOf((*MockStore)(nil).GetDailyCreateUserCount), arg0)
+}
+
+// GetInvitation mocks base method.
+func (m *MockStore) GetInvitation(arg0 context.Context, arg1 db.GetInvitationParams) (db.Invitation, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetInvitation", arg0, arg1)
+	ret0, _ := ret[0].(db.Invitation)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetInvitation indicates an expected call of GetInvitation.
+func (mr *MockStoreMockRecorder) GetInvitation(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInvitation", reflect.TypeOf((*MockStore)(nil).GetInvitation), arg0, arg1)
 }
 
 // GetListCommentCount mocks base method.
@@ -1551,6 +1581,21 @@ func (m *MockStore) MarkFollowerNotificationReaded(arg0 context.Context, arg1 db
 func (mr *MockStoreMockRecorder) MarkFollowerNotificationReaded(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkFollowerNotificationReaded", reflect.TypeOf((*MockStore)(nil).MarkFollowerNotificationReaded), arg0, arg1)
+}
+
+// MarkInvitationAsUsed mocks base method.
+func (m *MockStore) MarkInvitationAsUsed(arg0 context.Context, arg1 db.MarkInvitationAsUsedParams) (db.Invitation, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "MarkInvitationAsUsed", arg0, arg1)
+	ret0, _ := ret[0].(db.Invitation)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// MarkInvitationAsUsed indicates an expected call of MarkInvitationAsUsed.
+func (mr *MockStoreMockRecorder) MarkInvitationAsUsed(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkInvitationAsUsed", reflect.TypeOf((*MockStore)(nil).MarkInvitationAsUsed), arg0, arg1)
 }
 
 // MarkRepoNotificationReaded mocks base method.

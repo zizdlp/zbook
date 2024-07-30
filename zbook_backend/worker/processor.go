@@ -19,6 +19,7 @@ type TaskProcessor interface {
 	Start() error
 	Shutdown()
 	ProcessTaskVerifyEmail(ctx context.Context, task *asynq.Task) error
+	ProcessTaskInviteUser(ctx context.Context, task *asynq.Task) error
 	ProcessTaskResetPassword(ctx context.Context, task *asynq.Task) error
 }
 
@@ -57,6 +58,7 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer
 func (processor *RedisTaskProcessor) Start() error {
 	mux := asynq.NewServeMux()
 	mux.HandleFunc(TaskVerifyEmail, processor.ProcessTaskVerifyEmail)
+	mux.HandleFunc(TaskInviteUser, processor.ProcessTaskInviteUser)
 	mux.HandleFunc(TaskResetPassword, processor.ProcessTaskResetPassword)
 	return processor.server.Start(mux)
 }
