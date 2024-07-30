@@ -56,7 +56,7 @@ gp:
 	cd zbook_backend && \
 	mkdir -p pb && \
 	rm -f -r statik/* && \
-	rm -f -r pb/* && \
+	rm -f -r pb/* &&  \
 	rm -f -r doc/swagger/*  && \
 	protoc  --proto_path=proto --proto_path=proto/models --proto_path=proto/rpcs --go_out=pb --go_opt=paths=source_relative  \
     --go-grpc_out=pb --go-grpc_opt=paths=source_relative  \
