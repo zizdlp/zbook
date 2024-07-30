@@ -3,8 +3,7 @@ name: BUILD_MAIN
 on:
   push:
     branches:
-      - main
-
+      - "*"
 jobs:
   build:
     runs-on: ubuntu-latest
