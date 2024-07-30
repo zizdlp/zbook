@@ -21,6 +21,40 @@
     "application/json"
   ],
   "paths": {
+    "/v1/create_invitation": {
+      "post": {
+        "summary": "send invitation",
+        "description": "Use this api to send invitation",
+        "operationId": "ZBookAdmin_SendInvitation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSendInvitationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbSendInvitationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
     "/v1/create_system_notification": {
       "post": {
         "summary": "create system noti",
@@ -945,6 +979,26 @@
     },
     "pbLogVisitorResponse": {
       "type": "object"
+    },
+    "pbSendInvitationRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "invitationUrl": {
+          "type": "string"
+        }
+      },
+      "title": "19.SendInvitation"
+    },
+    "pbSendInvitationResponse": {
+      "type": "object",
+      "properties": {
+        "isSend": {
+          "type": "boolean"
+        }
+      }
     },
     "pbSessionInfo": {
       "type": "object",

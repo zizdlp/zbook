@@ -39,6 +39,7 @@ const (
 	ZBookAdmin_GetDailyVisitors_FullMethodName          = "/pb.ZBookAdmin/GetDailyVisitors"
 	ZBookAdmin_GetConfiguration_FullMethodName          = "/pb.ZBookAdmin/GetConfiguration"
 	ZBookAdmin_UpdateConfiguration_FullMethodName       = "/pb.ZBookAdmin/UpdateConfiguration"
+	ZBookAdmin_SendInvitation_FullMethodName            = "/pb.ZBookAdmin/SendInvitation"
 )
 
 // ZBookAdminClient is the client API for ZBookAdmin service.
@@ -79,6 +80,8 @@ type ZBookAdminClient interface {
 	GetConfiguration(ctx context.Context, in *rpcs.GetConfigurationRequest, opts ...grpc.CallOption) (*rpcs.GetConfigurationResponse, error)
 	// 18.UpdateConfiguration
 	UpdateConfiguration(ctx context.Context, in *rpcs.UpdateConfigurationRequest, opts ...grpc.CallOption) (*rpcs.UpdateConfigurationResponse, error)
+	// 19.SendInvitation
+	SendInvitation(ctx context.Context, in *rpcs.SendInvitationRequest, opts ...grpc.CallOption) (*rpcs.SendInvitationResponse, error)
 }
 
 type zBookAdminClient struct {
@@ -242,6 +245,15 @@ func (c *zBookAdminClient) UpdateConfiguration(ctx context.Context, in *rpcs.Upd
 	return out, nil
 }
 
+func (c *zBookAdminClient) SendInvitation(ctx context.Context, in *rpcs.SendInvitationRequest, opts ...grpc.CallOption) (*rpcs.SendInvitationResponse, error) {
+	out := new(rpcs.SendInvitationResponse)
+	err := c.cc.Invoke(ctx, ZBookAdmin_SendInvitation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ZBookAdminServer is the server API for ZBookAdmin service.
 // All implementations must embed UnimplementedZBookAdminServer
 // for forward compatibility
@@ -280,6 +292,8 @@ type ZBookAdminServer interface {
 	GetConfiguration(context.Context, *rpcs.GetConfigurationRequest) (*rpcs.GetConfigurationResponse, error)
 	// 18.UpdateConfiguration
 	UpdateConfiguration(context.Context, *rpcs.UpdateConfigurationRequest) (*rpcs.UpdateConfigurationResponse, error)
+	// 19.SendInvitation
+	SendInvitation(context.Context, *rpcs.SendInvitationRequest) (*rpcs.SendInvitationResponse, error)
 	mustEmbedUnimplementedZBookAdminServer()
 }
 
@@ -337,6 +351,9 @@ func (UnimplementedZBookAdminServer) GetConfiguration(context.Context, *rpcs.Get
 }
 func (UnimplementedZBookAdminServer) UpdateConfiguration(context.Context, *rpcs.UpdateConfigurationRequest) (*rpcs.UpdateConfigurationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateConfiguration not implemented")
+}
+func (UnimplementedZBookAdminServer) SendInvitation(context.Context, *rpcs.SendInvitationRequest) (*rpcs.SendInvitationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendInvitation not implemented")
 }
 func (UnimplementedZBookAdminServer) mustEmbedUnimplementedZBookAdminServer() {}
 
@@ -657,6 +674,24 @@ func _ZBookAdmin_UpdateConfiguration_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ZBookAdmin_SendInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.SendInvitationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ZBookAdminServer).SendInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ZBookAdmin_SendInvitation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ZBookAdminServer).SendInvitation(ctx, req.(*rpcs.SendInvitationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ZBookAdmin_ServiceDesc is the grpc.ServiceDesc for ZBookAdmin service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -731,6 +766,10 @@ var ZBookAdmin_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateConfiguration",
 			Handler:    _ZBookAdmin_UpdateConfiguration_Handler,
+		},
+		{
+			MethodName: "SendInvitation",
+			Handler:    _ZBookAdmin_SendInvitation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1809,6 +1809,109 @@ func (*UpdateConfigurationResponse) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{35}
 }
 
+// 19.SendInvitation
+type SendInvitationRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email         string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	InvitationUrl string `protobuf:"bytes,2,opt,name=invitation_url,json=invitationUrl,proto3" json:"invitation_url,omitempty"`
+}
+
+func (x *SendInvitationRequest) Reset() {
+	*x = SendInvitationRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[36]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SendInvitationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendInvitationRequest) ProtoMessage() {}
+
+func (x *SendInvitationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[36]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendInvitationRequest.ProtoReflect.Descriptor instead.
+func (*SendInvitationRequest) Descriptor() ([]byte, []int) {
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *SendInvitationRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *SendInvitationRequest) GetInvitationUrl() string {
+	if x != nil {
+		return x.InvitationUrl
+	}
+	return ""
+}
+
+type SendInvitationResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IsSend bool `protobuf:"varint,1,opt,name=is_send,json=isSend,proto3" json:"is_send,omitempty"`
+}
+
+func (x *SendInvitationResponse) Reset() {
+	*x = SendInvitationResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[37]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SendInvitationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendInvitationResponse) ProtoMessage() {}
+
+func (x *SendInvitationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[37]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendInvitationResponse.ProtoReflect.Descriptor instead.
+func (*SendInvitationResponse) Descriptor() ([]byte, []int) {
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{37}
+}
+
+func (x *SendInvitationResponse) GetIsSend() bool {
+	if x != nil {
+		return x.IsSend
+	}
+	return false
+}
+
 var File_rpcs_rpc_admin_proto protoreflect.FileDescriptor
 
 var file_rpcs_rpc_admin_proto_rawDesc = []byte{
@@ -1965,10 +2068,18 @@ var file_rpcs_rpc_admin_proto_rawDesc = []byte{
 	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x63, 0x6f, 0x6e, 0x66,
 	0x69, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x1d, 0x0a, 0x1b, 0x55, 0x70, 0x64, 0x61, 0x74,
 	0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x21, 0x5a, 0x1f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x7a, 0x69, 0x7a, 0x64, 0x6c, 0x70, 0x2f, 0x7a, 0x62, 0x6f, 0x6f,
-	0x6b, 0x2f, 0x70, 0x62, 0x2f, 0x72, 0x70, 0x63, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x54, 0x0a, 0x15, 0x53, 0x65, 0x6e, 0x64, 0x49, 0x6e,
+	0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x25, 0x0a, 0x0e, 0x69, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x5f, 0x75, 0x72, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x69,
+	0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x55, 0x72, 0x6c, 0x22, 0x31, 0x0a, 0x16,
+	0x53, 0x65, 0x6e, 0x64, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x69, 0x73, 0x5f, 0x73, 0x65, 0x6e,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x69, 0x73, 0x53, 0x65, 0x6e, 0x64, 0x42,
+	0x21, 0x5a, 0x1f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x7a, 0x69,
+	0x7a, 0x64, 0x6c, 0x70, 0x2f, 0x7a, 0x62, 0x6f, 0x6f, 0x6b, 0x2f, 0x70, 0x62, 0x2f, 0x72, 0x70,
+	0x63, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1983,7 +2094,7 @@ func file_rpcs_rpc_admin_proto_rawDescGZIP() []byte {
 	return file_rpcs_rpc_admin_proto_rawDescData
 }
 
-var file_rpcs_rpc_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
+var file_rpcs_rpc_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_rpcs_rpc_admin_proto_goTypes = []interface{}{
 	(*UpdateUserBlockRequest)(nil),            // 0: pb.UpdateUserBlockRequest
 	(*UpdateUserBlockResponse)(nil),           // 1: pb.UpdateUserBlockResponse
@@ -2021,18 +2132,20 @@ var file_rpcs_rpc_admin_proto_goTypes = []interface{}{
 	(*GetConfigurationResponse)(nil),          // 33: pb.GetConfigurationResponse
 	(*UpdateConfigurationRequest)(nil),        // 34: pb.UpdateConfigurationRequest
 	(*UpdateConfigurationResponse)(nil),       // 35: pb.UpdateConfigurationResponse
-	(*models.SessionInfo)(nil),                // 36: pb.SessionInfo
-	(*models.ListAdminCommentInfo)(nil),       // 37: pb.ListAdminCommentInfo
-	(*models.ListCommentReportInfo)(nil),      // 38: pb.ListCommentReportInfo
-	(*models.DailyCount)(nil),                 // 39: pb.DailyCount
+	(*SendInvitationRequest)(nil),             // 36: pb.SendInvitationRequest
+	(*SendInvitationResponse)(nil),            // 37: pb.SendInvitationResponse
+	(*models.SessionInfo)(nil),                // 38: pb.SessionInfo
+	(*models.ListAdminCommentInfo)(nil),       // 39: pb.ListAdminCommentInfo
+	(*models.ListCommentReportInfo)(nil),      // 40: pb.ListCommentReportInfo
+	(*models.DailyCount)(nil),                 // 41: pb.DailyCount
 }
 var file_rpcs_rpc_admin_proto_depIdxs = []int32{
-	36, // 0: pb.ListSessionResponse.elements:type_name -> pb.SessionInfo
-	37, // 1: pb.ListCommentResponse.elements:type_name -> pb.ListAdminCommentInfo
-	38, // 2: pb.ListCommentReportResponse.elements:type_name -> pb.ListCommentReportInfo
-	39, // 3: pb.GetDailyVisitorCountResponse.counts:type_name -> pb.DailyCount
-	39, // 4: pb.GetDailyActiveUserCountResponse.counts:type_name -> pb.DailyCount
-	39, // 5: pb.GetDailyCreateUserCountResponse.counts:type_name -> pb.DailyCount
+	38, // 0: pb.ListSessionResponse.elements:type_name -> pb.SessionInfo
+	39, // 1: pb.ListCommentResponse.elements:type_name -> pb.ListAdminCommentInfo
+	40, // 2: pb.ListCommentReportResponse.elements:type_name -> pb.ListCommentReportInfo
+	41, // 3: pb.GetDailyVisitorCountResponse.counts:type_name -> pb.DailyCount
+	41, // 4: pb.GetDailyActiveUserCountResponse.counts:type_name -> pb.DailyCount
+	41, // 5: pb.GetDailyCreateUserCountResponse.counts:type_name -> pb.DailyCount
 	29, // 6: pb.GetDailyVisitorsResponse.visitors:type_name -> pb.Visitor
 	7,  // [7:7] is the sub-list for method output_type
 	7,  // [7:7] is the sub-list for method input_type
@@ -2479,6 +2592,30 @@ func file_rpcs_rpc_admin_proto_init() {
 				return nil
 			}
 		}
+		file_rpcs_rpc_admin_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SendInvitationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpcs_rpc_admin_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SendInvitationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2486,7 +2623,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rpcs_rpc_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   36,
+			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

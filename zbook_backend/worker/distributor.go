@@ -12,6 +12,11 @@ type TaskDistributor interface {
 		payload *PayloadVerifyEmail,
 		opts ...asynq.Option,
 	) error
+	DistributeTaskInviteUser(
+		ctx context.Context,
+		payload *PayloadInviteUser,
+		opts ...asynq.Option,
+	) error
 	DistributeTaskResetPassword(
 		ctx context.Context,
 		payload *PayloadResetPassword,

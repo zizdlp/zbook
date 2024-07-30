@@ -36,6 +36,25 @@ func (m *MockTaskDistributor) EXPECT() *MockTaskDistributorMockRecorder {
 	return m.recorder
 }
 
+// DistributeTaskInviteUser mocks base method.
+func (m *MockTaskDistributor) DistributeTaskInviteUser(arg0 context.Context, arg1 *worker.PayloadInviteUser, arg2 ...asynq.Option) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{arg0, arg1}
+	for _, a := range arg2 {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DistributeTaskInviteUser", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DistributeTaskInviteUser indicates an expected call of DistributeTaskInviteUser.
+func (mr *MockTaskDistributorMockRecorder) DistributeTaskInviteUser(arg0, arg1 interface{}, arg2 ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{arg0, arg1}, arg2...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DistributeTaskInviteUser", reflect.TypeOf((*MockTaskDistributor)(nil).DistributeTaskInviteUser), varargs...)
+}
+
 // DistributeTaskResetPassword mocks base method.
 func (m *MockTaskDistributor) DistributeTaskResetPassword(arg0 context.Context, arg1 *worker.PayloadResetPassword, arg2 ...asynq.Option) error {
 	m.ctrl.T.Helper()

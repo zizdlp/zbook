@@ -6,3 +6,4 @@ CREATE TABLE configurations (
 -- 允许注册&登录
 INSERT INTO configurations (config_name, config_value) VALUES ('allow_registration', true);
 INSERT INTO configurations (config_name, config_value) VALUES ('allow_login', true);
+INSERT INTO configurations (config_name, config_value) VALUES ('allow_invitation', true);

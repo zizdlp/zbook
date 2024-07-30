@@ -19,6 +19,7 @@ type Querier interface {
 	CreateCommentReport(ctx context.Context, arg CreateCommentReportParams) error
 	CreateFollow(ctx context.Context, arg CreateFollowParams) (Follow, error)
 	CreateFollowerNotification(ctx context.Context, arg CreateFollowerNotificationParams) (FollowerNotification, error)
+	CreateInvitation(ctx context.Context, arg CreateInvitationParams) (Invitation, error)
 	CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) (Markdown, error)
 	CreateMarkdownMulti(ctx context.Context, arg CreateMarkdownMultiParams) error
 	CreateOAuth(ctx context.Context, arg CreateOAuthParams) (Oauth, error)
@@ -44,6 +45,7 @@ type Querier interface {
 	GetConfiguration(ctx context.Context, configName string) (Configuration, error)
 	GetDailyActiveUserCount(ctx context.Context) ([]GetDailyActiveUserCountRow, error)
 	GetDailyCreateUserCount(ctx context.Context) ([]GetDailyCreateUserCountRow, error)
+	GetInvitation(ctx context.Context, arg GetInvitationParams) (Invitation, error)
 	GetListCommentCount(ctx context.Context) (int64, error)
 	GetListCommentLevelOneCount(ctx context.Context, markdownID int64) (int64, error)
 	GetListCommentLevelTwoCount(ctx context.Context, rootID pgtype.Int8) (int64, error)
@@ -105,6 +107,7 @@ type Querier interface {
 	ListUserOwnRepo(ctx context.Context, arg ListUserOwnRepoParams) ([]ListUserOwnRepoRow, error)
 	MarkCommentNotificationReaded(ctx context.Context, arg MarkCommentNotificationReadedParams) (CommentNotification, error)
 	MarkFollowerNotificationReaded(ctx context.Context, arg MarkFollowerNotificationReadedParams) (FollowerNotification, error)
+	MarkInvitationAsUsed(ctx context.Context, arg MarkInvitationAsUsedParams) (Invitation, error)
 	MarkRepoNotificationReaded(ctx context.Context, arg MarkRepoNotificationReadedParams) (RepoNotification, error)
 	MarkSystemNotificationReaded(ctx context.Context, arg MarkSystemNotificationReadedParams) (SystemNotification, error)
 	MarkVerificationAsUsed(ctx context.Context, verificationID uuid.UUID) (Verification, error)
