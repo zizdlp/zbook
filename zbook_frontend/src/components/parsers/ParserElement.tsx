@@ -73,7 +73,7 @@ const options: HTMLReactParserOptions = {
         <div className="mt-4 -mb-3">
           <div className="relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
             <div
-              className="absolute inset-0 bg-grid-light dark:bg-grid-dark [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))]  dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"
+              className="absolute inset-0 bg-grid-light dark:bg-grid-dark [mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.7))]  dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"
               style={{ backgroundPosition: "10px 10px" }} // 使用对象格式
             ></div>
             <div className="relative rounded-xl overflow-auto">
