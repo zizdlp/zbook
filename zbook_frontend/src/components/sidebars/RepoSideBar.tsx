@@ -43,7 +43,7 @@ export default function RepoSideBar({
         visibility_level={visibility_level}
       />
       <SubMenu
-        prefix={`/workspace/${username}/o/${reponame}/`}
+        prefix={`/workspace/${username}/o/${decodeURIComponent(reponame)}/`}
         menus={sublayouts}
         layer={1}
         pathname={pathname}
