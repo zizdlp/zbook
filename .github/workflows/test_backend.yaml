@@ -39,6 +39,11 @@ jobs:
           which migrate
       - name: Run migrations
         run: make migrateup
+      - name: Install protoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+          protoc --version
       - name: Set up protobuf and statik files
         run: |
           cd zbook_backend && \
