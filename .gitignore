@@ -2,5 +2,5 @@
 zbook_data
 __snapshots__
 .swc
-# zbook_backend/pb/
-# zbook_backend/statik/
+zbook_backend/pb/
+zbook_backend/statik/
