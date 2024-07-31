@@ -49,8 +49,8 @@ func (processor *RedisTaskProcessor) ProcessTaskInviteUser(ctx context.Context, 
 	}
 
 	user, err := processor.store.GetUserByEmail(ctx, payload.Email)
-	if err != nil {
-		return fmt.Errorf("failed to get user: %w", err)
+	if err == nil {
+		return fmt.Errorf("use already exist for this email: %s", user.Email)
 	}
 
 	invitation, err := processor.store.CreateInvitation(ctx, db.CreateInvitationParams{
@@ -61,15 +61,14 @@ func (processor *RedisTaskProcessor) ProcessTaskInviteUser(ctx context.Context, 
 		return fmt.Errorf("failed to create verify code:%w", err)
 	}
 
-	subject := "Welcome to ZBook!"
+	subject := "Invitation to Join ZBook"
 
-	Title := "Register to ZBook"
-	emailSubject := "Thank you for registering with us! Please verify your email address by clicking the button below:"
-	verifyUrl := fmt.Sprintf("%s/verify_email?invitation_url=%s", config.HOMEADDRESS, invitation.InvitationUrl)
-	buttonText := "Verify Email"
-	additionalText := "If you did not register for an account, please ignore this email or contact support if you have any questions."
-
-	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
+	title := "Register to ZBook"
+	emailSubject := "Thank you for your interest in ZBook! Please complete your registration by clicking the button below:"
+	verifyUrl := fmt.Sprintf("%s/auth/register?invitation_url=%s", config.HOMEADDRESS, invitation.InvitationUrl)
+	buttonText := "Complete Registration"
+	additionalText := "If you did not request an invitation, please ignore this email or contact support if you have any questions."
+	emailBody := fmt.Sprintf(util.EmailTemplate, title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
 	to := []string{user.Email}
 
 	err = processor.mailer.SendEmail(subject, emailBody, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)

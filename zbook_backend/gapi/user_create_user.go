@@ -30,7 +30,25 @@ func (server *Server) CreateUser(ctx context.Context, req *rpcs.CreateUserReques
 		return nil, status.Errorf(codes.Internal, "failed to get configuration: %v", err)
 	}
 	if !config.ConfigValue {
-		return nil, status.Errorf(codes.PermissionDenied, "registration is currently not enabled")
+		config_invitation, err := server.store.GetConfiguration(ctx, "allow_invitation")
+		if err != nil {
+			return nil, status.Errorf(codes.Internal, "failed to get configuration: %v", err)
+		}
+		if !config_invitation.ConfigValue {
+			return nil, status.Errorf(codes.PermissionDenied, "registration is currently not enabled")
+		} else {
+			arg_invitation := db.GetInvitationParams{
+				Email:         req.GetEmail(),
+				InvitationUrl: req.GetInvitationUrl(),
+			}
+			invitation, err := server.store.GetInvitation(ctx, arg_invitation)
+			if err != nil {
+				return nil, status.Errorf(codes.PermissionDenied, "registration is currently not enabled")
+			}
+			if invitation.IsUsed || invitation.ExpiredAt.Before(time.Now()) {
+				return nil, status.Errorf(codes.PermissionDenied, "invitation is invalid or has expired")
+			}
+		}
 	}
 
 	hashedPassword, err := util.HashPassword(req.GetPassword())

@@ -1270,7 +1270,7 @@ func (mr *MockStoreMockRecorder) GetUserInfo(arg0, arg1 interface{}) *gomock.Cal
 }
 
 // GetVerification mocks base method.
-func (m *MockStore) GetVerification(arg0 context.Context, arg1 uuid.UUID) (db.GetVerificationRow, error) {
+func (m *MockStore) GetVerification(arg0 context.Context, arg1 string) (db.GetVerificationRow, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetVerification", arg0, arg1)
 	ret0, _ := ret[0].(db.GetVerificationRow)
@@ -1629,7 +1629,7 @@ func (mr *MockStoreMockRecorder) MarkSystemNotificationReaded(arg0, arg1 interfa
 }
 
 // MarkVerificationAsUsed mocks base method.
-func (m *MockStore) MarkVerificationAsUsed(arg0 context.Context, arg1 uuid.UUID) (db.Verification, error) {
+func (m *MockStore) MarkVerificationAsUsed(arg0 context.Context, arg1 string) (db.Verification, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "MarkVerificationAsUsed", arg0, arg1)
 	ret0, _ := ret[0].(db.Verification)
@@ -1967,7 +1967,7 @@ func (mr *MockStoreMockRecorder) UpdateUserBasicInfo(arg0, arg1 interface{}) *go
 }
 
 // VerifyEmailTx mocks base method.
-func (m *MockStore) VerifyEmailTx(arg0 context.Context, arg1 uuid.UUID) (db.User, error) {
+func (m *MockStore) VerifyEmailTx(arg0 context.Context, arg1 string) (db.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "VerifyEmailTx", arg0, arg1)
 	ret0, _ := ret[0].(db.User)

@@ -7,7 +7,7 @@ option go_package = "github.com/zizdlp/zbook/pb/rpcs";
 
 // 1.VerifyEmail
 message VerifyEmailRequest {
-  string verification_id = 1;
+  string verification_url = 1;
 }
 message VerifyEmailResponse {
   bool is_verified = 1;
@@ -15,7 +15,7 @@ message VerifyEmailResponse {
 
 // 2.ResetPassword
 message ResetPasswordRequest {
-  string verification_id = 1;
+  string verification_url = 1;
   string password        = 2;
   string email           = 3;
 }

@@ -8,31 +8,30 @@ package db
 import (
 	"context"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 const createVerification = `-- name: CreateVerification :one
 INSERT INTO verifications (
-  verification_id,
+  verification_url,
   user_id,
   verification_type
 ) VALUES (
   $1, $2,$3
-) RETURNING verification_id, verification_type, user_id, is_used, created_at, expired_at
+) RETURNING verification_id, verification_url, verification_type, user_id, is_used, created_at, expired_at
 `
 
 type CreateVerificationParams struct {
-	VerificationID   uuid.UUID `json:"verification_id"`
-	UserID           int64     `json:"user_id"`
-	VerificationType string    `json:"verification_type"`
+	VerificationUrl  string `json:"verification_url"`
+	UserID           int64  `json:"user_id"`
+	VerificationType string `json:"verification_type"`
 }
 
 func (q *Queries) CreateVerification(ctx context.Context, arg CreateVerificationParams) (Verification, error) {
-	row := q.db.QueryRow(ctx, createVerification, arg.VerificationID, arg.UserID, arg.VerificationType)
+	row := q.db.QueryRow(ctx, createVerification, arg.VerificationUrl, arg.UserID, arg.VerificationType)
 	var i Verification
 	err := row.Scan(
 		&i.VerificationID,
+		&i.VerificationUrl,
 		&i.VerificationType,
 		&i.UserID,
 		&i.IsUsed,
@@ -43,10 +42,10 @@ func (q *Queries) CreateVerification(ctx context.Context, arg CreateVerification
 }
 
 const getVerification = `-- name: GetVerification :one
-SELECT verifications.verification_id, verifications.verification_type, verifications.user_id, verifications.is_used, verifications.created_at, verifications.expired_at,users.username,users.email
+SELECT verifications.verification_id, verifications.verification_url, verifications.verification_type, verifications.user_id, verifications.is_used, verifications.created_at, verifications.expired_at,users.username,users.email
 FROM verifications
 JOIN users  ON users.user_id = verifications.user_id
-WHERE verification_id = $1 
+WHERE verification_url = $1 
     AND is_used = FALSE
     AND expired_at > now() 
     LIMIT 1
@@ -54,7 +53,8 @@ FOR NO KEY UPDATE
 `
 
 type GetVerificationRow struct {
-	VerificationID   uuid.UUID `json:"verification_id"`
+	VerificationID   int64     `json:"verification_id"`
+	VerificationUrl  string    `json:"verification_url"`
 	VerificationType string    `json:"verification_type"`
 	UserID           int64     `json:"user_id"`
 	IsUsed           bool      `json:"is_used"`
@@ -64,11 +64,12 @@ type GetVerificationRow struct {
 	Email            string    `json:"email"`
 }
 
-func (q *Queries) GetVerification(ctx context.Context, verificationID uuid.UUID) (GetVerificationRow, error) {
-	row := q.db.QueryRow(ctx, getVerification, verificationID)
+func (q *Queries) GetVerification(ctx context.Context, verificationUrl string) (GetVerificationRow, error) {
+	row := q.db.QueryRow(ctx, getVerification, verificationUrl)
 	var i GetVerificationRow
 	err := row.Scan(
 		&i.VerificationID,
+		&i.VerificationUrl,
 		&i.VerificationType,
 		&i.UserID,
 		&i.IsUsed,
@@ -85,17 +86,18 @@ UPDATE verifications
 SET
     is_used = TRUE
 WHERE
-    verification_id = $1
+    verification_url = $1
     AND is_used = FALSE
     AND expired_at > now()
-RETURNING verification_id, verification_type, user_id, is_used, created_at, expired_at
+RETURNING verification_id, verification_url, verification_type, user_id, is_used, created_at, expired_at
 `
 
-func (q *Queries) MarkVerificationAsUsed(ctx context.Context, verificationID uuid.UUID) (Verification, error) {
-	row := q.db.QueryRow(ctx, markVerificationAsUsed, verificationID)
+func (q *Queries) MarkVerificationAsUsed(ctx context.Context, verificationUrl string) (Verification, error) {
+	row := q.db.QueryRow(ctx, markVerificationAsUsed, verificationUrl)
 	var i Verification
 	err := row.Scan(
 		&i.VerificationID,
+		&i.VerificationUrl,
 		&i.VerificationType,
 		&i.UserID,
 		&i.IsUsed,

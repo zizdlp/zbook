@@ -53,8 +53,10 @@ type CommentReport struct {
 }
 
 type Configuration struct {
-	ConfigName  string `json:"config_name"`
-	ConfigValue bool   `json:"config_value"`
+	ConfigName  string    `json:"config_name"`
+	ConfigValue bool      `json:"config_value"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 type Follow struct {
@@ -177,7 +179,8 @@ type User struct {
 }
 
 type Verification struct {
-	VerificationID   uuid.UUID `json:"verification_id"`
+	VerificationID   int64     `json:"verification_id"`
+	VerificationUrl  string    `json:"verification_url"`
 	VerificationType string    `json:"verification_type"`
 	UserID           int64     `json:"user_id"`
 	IsUsed           bool      `json:"is_used"`

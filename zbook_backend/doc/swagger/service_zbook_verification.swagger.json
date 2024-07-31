@@ -178,7 +178,7 @@
         },
         "parameters": [
           {
-            "name": "verificationId",
+            "name": "verificationUrl",
             "in": "query",
             "required": false,
             "type": "string"
@@ -215,7 +215,7 @@
     "pbResetPasswordRequest": {
       "type": "object",
       "properties": {
-        "verificationId": {
+        "verificationUrl": {
           "type": "string"
         },
         "password": {

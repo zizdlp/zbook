@@ -372,6 +372,9 @@
         },
         "email": {
           "type": "string"
+        },
+        "invitationUrl": {
+          "type": "string"
         }
       },
       "title": "1.CreateUser"

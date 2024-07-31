@@ -3,14 +3,13 @@ package db
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Store interface {
 	Querier
 	CreateUserTx(ctx context.Context, arg CreateUserTxParams) (CreateUserTxResult, error)
-	VerifyEmailTx(ctx context.Context, verificationID uuid.UUID) (User, error)
+	VerifyEmailTx(ctx context.Context, verification_url string) (User, error)
 	CreateFollowTx(ctx context.Context, arg CreateFollowTxParams) (CreateFollowTxResult, error)
 	DeleteFollowTx(ctx context.Context, arg DeleteFollowTxParams) (DeleteFollowTxResult, error)
 	CreateCommentTx(ctx context.Context, arg CreateCommentTxParams) (CreateCommentTxResult, error)

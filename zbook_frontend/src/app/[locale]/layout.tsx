@@ -47,6 +47,7 @@ type Props = {
   params: { locale: string };
 };
 import { JetBrains_Mono } from "next/font/google";
+import CreateInvitation from "@/providers/dialogs/CreateInvitation";
 
 const jetbrains_mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -87,6 +88,7 @@ export default async function LocaleLayout({
                       <NavBar />
                       <NotificationDialog />
                       <CreateSystemNotification />
+                      <CreateInvitation />
                       <CreateCommentReportDialog />
                       <CreateCommentDialog />
                       <CreateRepoDialog />

@@ -32,6 +32,9 @@ export const OperationContext = createContext<{
     React.SetStateAction<boolean>
   >;
 
+  createInvitationOpen: boolean;
+  setCreateInvitationOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
   createRepoOpen: boolean; // open create comment dialog
   setCreateRepoOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -70,6 +73,8 @@ export const OperationContext = createContext<{
 }>({
   createCommentOpen: false,
   setCreateCommentOpen: () => {},
+  createInvitationOpen: false,
+  setCreateInvitationOpen: () => {},
   deleteCommentOpen: false,
   setDeleteCommentOpen: () => {},
 
@@ -136,6 +141,7 @@ export default function OperationProvider({
   children: React.ReactNode;
 }) {
   const [createCommentOpen, setCreateCommentOpen] = useState(false);
+  const [createInvitationOpen, setCreateInvitationOpen] = useState(false);
   const [deleteCommentOpen, setDeleteCommentOpen] = useState(false);
   const [updateUserOpen, setUpdateUserOpen] = useState(false);
   const [deleteUserOpen, setDeleteUserOpen] = useState(false);
@@ -169,6 +175,8 @@ export default function OperationProvider({
   const value = {
     createCommentOpen,
     setCreateCommentOpen,
+    createInvitationOpen,
+    setCreateInvitationOpen,
     deleteCommentOpen,
     setDeleteCommentOpen,
     createRepoOpen,

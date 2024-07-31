@@ -12,7 +12,11 @@ import { fetchServerWithoutAuthWrapper } from "@/fetchs/server_without_auth";
 import { createUserRequest } from "@/fetchs/server_without_auth_request";
 import { FetchServerWithoutAuthWrapperEndPoint } from "@/fetchs/server_without_auth_util";
 import { toastError, toastInfo } from "@/utils/util";
-export default function RegisterForm() {
+export default function RegisterForm({
+  invitation_url,
+}: {
+  invitation_url: string;
+}) {
   const t = useTranslations("RegisterForm");
 
   const [show, setShow] = useState({ password: false, cpassword: false });
@@ -65,6 +69,7 @@ export default function RegisterForm() {
       email: "",
       password: "",
       cpassword: "",
+      invitation_url: "",
     },
     validate: registerValidate,
     onSubmit: onSubmit,
@@ -75,6 +80,7 @@ export default function RegisterForm() {
       isLoading: true,
     });
     try {
+      values.invitation_url = invitation_url;
       const data = await fetchServerWithoutAuthWrapper({
         endpoint: FetchServerWithoutAuthWrapperEndPoint.CREATE_USER,
         xforward: "",

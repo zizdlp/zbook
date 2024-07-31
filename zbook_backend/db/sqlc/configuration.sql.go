@@ -10,7 +10,7 @@ import (
 )
 
 const getConfiguration = `-- name: GetConfiguration :one
-SELECT config_name, config_value
+SELECT config_name, config_value, created_at, updated_at
 FROM configurations
 WHERE config_name=$1
 LIMIT 1
@@ -19,13 +19,18 @@ LIMIT 1
 func (q *Queries) GetConfiguration(ctx context.Context, configName string) (Configuration, error) {
 	row := q.db.QueryRow(ctx, getConfiguration, configName)
 	var i Configuration
-	err := row.Scan(&i.ConfigName, &i.ConfigValue)
+	err := row.Scan(
+		&i.ConfigName,
+		&i.ConfigValue,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
 	return i, err
 }
 
 const updateConfiguration = `-- name: UpdateConfiguration :exec
 UPDATE configurations
-SET config_value=$2
+SET config_value=$2,updated_at=now()
 WHERE config_name=$1
 `
 

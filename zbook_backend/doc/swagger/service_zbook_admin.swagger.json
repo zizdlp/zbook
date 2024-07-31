@@ -985,9 +985,6 @@
       "properties": {
         "email": {
           "type": "string"
-        },
-        "invitationUrl": {
-          "type": "string"
         }
       },
       "title": "19.SendInvitation"

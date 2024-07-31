@@ -4,13 +4,13 @@ export default async function VerifyEmail({
   searchParams,
 }: {
   searchParams?: {
-    verification_id?: string;
+    verification_url?: string;
   };
 }) {
   const t = await getTranslations("VerifyEmail");
   try {
-    const verification_id = searchParams?.verification_id || "";
-    const verify_result = await getVerify(verification_id);
+    const verification_url = searchParams?.verification_url || "";
+    const verify_result = await getVerify(verification_url);
     if (verify_result && verify_result.code == undefined) {
       return (
         <div className="text-slate-600 fixed inset-0 dark:text-slate-300 flex items-center justify-center px-4">

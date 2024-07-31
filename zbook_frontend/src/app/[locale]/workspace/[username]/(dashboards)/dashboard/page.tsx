@@ -40,6 +40,7 @@ export default async function AdminOverviewPage({
       activeUsers,
       allow_registration,
       allow_login,
+      allow_invitation,
     ] = await Promise.all([
       fetchServerWithAuthWrapper({
         endpoint: FetchServerWithAuthWrapperEndPoint.GET_LIST_REPO_COUNT,
@@ -105,6 +106,13 @@ export default async function AdminOverviewPage({
         tags: [],
         values: { config_name: "allow_login" },
       }),
+      fetchServerWithAuthWrapper({
+        endpoint: FetchServerWithAuthWrapperEndPoint.GetConfiguration,
+        xforward,
+        agent: agent,
+        tags: [],
+        values: { config_name: "allow_invitation" },
+      }),
     ]);
     if (repoCountRes.error) {
       throw new FetchError(repoCountRes.message, repoCountRes.status);
@@ -142,6 +150,10 @@ export default async function AdminOverviewPage({
       throw new FetchError(allow_login.message, allow_login.status);
     }
 
+    if (allow_invitation.error) {
+      throw new FetchError(allow_invitation.message, allow_invitation.status);
+    }
+
     return (
       <>
         <div className="xl:col-span-3 md:col-span-2 col-span-1">
@@ -157,6 +169,7 @@ export default async function AdminOverviewPage({
             activeUserCounts={activeUsers.counts}
             allow_login={allow_login.config_value}
             allow_registration={allow_registration.config_value}
+            allow_invitation={allow_invitation.config_value}
           />
         </div>
         <div className="col-span-1">
