@@ -2,6 +2,7 @@ interface createUserRequest {
   username: string;
   password: string;
   email: string;
+  invitation_url: string;
 }
 interface SendEmailToResetPasswordRequest {
   email: string;
@@ -10,7 +11,7 @@ interface SendEmailToVerifyEmailRequest {
   email: string;
 }
 interface ResetPasswordRequest {
-  verification_id: string;
+  verification_url: string;
   password: string;
   email: string;
 }

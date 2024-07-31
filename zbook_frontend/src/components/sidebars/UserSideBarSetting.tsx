@@ -2,7 +2,12 @@
 import React, { useContext } from "react";
 import { OperationContext } from "@/providers/OperationProvider";
 import SideBarLiContent from "./SideBarLiContent";
-import { MdNoteAdd, MdEditNotifications } from "react-icons/md";
+import {
+  MdNoteAdd,
+  MdEditNotifications,
+  MdInsertInvitation,
+  MdOutlineInsertInvitation,
+} from "react-icons/md";
 import ShowComponent from "../ShowComponent";
 import { FaUserEdit } from "react-icons/fa";
 import { SlUserFollowing, SlUserUnfollow } from "react-icons/sl";
@@ -76,8 +81,11 @@ export default function UserSideBarSetting({
     }
   }
 
-  const { setCreateRepoOpen, setCreateSystemNotificationOpen } =
-    useContext(OperationContext);
+  const {
+    setCreateRepoOpen,
+    setCreateSystemNotificationOpen,
+    setCreateInvitationOpen,
+  } = useContext(OperationContext);
 
   let isCurrentUser = username === authname;
   let isAdmin = authrole === "admin";
@@ -132,6 +140,16 @@ export default function UserSideBarSetting({
             <MdEditNotifications className="text-indigo-600 dark:text-indigo-400 w-6 h-6" />
             <span className="flex-1 ms-3 whitespace-nowrap">
               {t("NewNotification")}
+            </span>
+          </SideBarLiContent>
+        </li>
+      </ShowComponent>
+      <ShowComponent show={isAdmin && isCurrentUser}>
+        <li onClick={() => setCreateInvitationOpen(true)}>
+          <SideBarLiContent isSelected={false}>
+            <MdOutlineInsertInvitation className="text-teal-600 dark:text-teal-400 w-6 h-6" />
+            <span className="flex-1 ms-3 whitespace-nowrap">
+              {t("NewInvitation")}
             </span>
           </SideBarLiContent>
         </li>

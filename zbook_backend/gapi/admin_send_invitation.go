@@ -2,6 +2,7 @@ package gapi
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/hibiken/asynq"
@@ -26,7 +27,10 @@ func (server *Server) SendInvitation(ctx context.Context, req *rpcs.SendInvitati
 	if err != nil {
 		return nil, err
 	}
-
+	user, err := server.store.GetUserByEmail(ctx, req.GetEmail())
+	if err == nil {
+		return nil, fmt.Errorf("use already exist for this email: %s", user.Email)
+	}
 	taskPayload := &worker.PayloadInviteUser{
 		Email: req.GetEmail(),
 	}

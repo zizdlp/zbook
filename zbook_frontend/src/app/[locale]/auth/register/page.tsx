@@ -9,7 +9,12 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t("Register"),
   };
 }
-export default async function Register() {
+export default async function Register({
+  searchParams,
+}: {
+  searchParams?: { invitation_url?: string };
+}) {
+  const invitation_url = searchParams?.invitation_url || "";
   const t = await getTranslations("RegisterPage");
   return (
     <div className="overflow-hidden">
@@ -31,7 +36,7 @@ export default async function Register() {
           </div>
 
           <h2 className="font-bold mt-5 text-2xl">{t("Register")}</h2>
-          <RegisterForm />
+          <RegisterForm invitation_url={invitation_url} />
           <div className="mt-6 text-xs border-b-[0.01rem] border-slate-500 dark:border-slate-300 py-4 ">
             <Link href="/auth/forget">
               <p className="font-medium hover:text-sky-500">

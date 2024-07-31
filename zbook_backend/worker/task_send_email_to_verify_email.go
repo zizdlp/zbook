@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/hibiken/asynq"
 	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
@@ -55,7 +54,7 @@ func (processor *RedisTaskProcessor) ProcessTaskVerifyEmail(ctx context.Context,
 	}
 
 	verification, err := processor.store.CreateVerification(ctx, db.CreateVerificationParams{
-		VerificationID:   uuid.New(),
+		VerificationUrl:  util.RandomString(32),
 		UserID:           user.UserID,
 		VerificationType: util.VerifyTypeVerifyEmail,
 	})
@@ -67,7 +66,7 @@ func (processor *RedisTaskProcessor) ProcessTaskVerifyEmail(ctx context.Context,
 
 	Title := "Verify Your Email Address"
 	emailSubject := "Thank you for registering with us! Please verify your email address by clicking the button below:"
-	verifyUrl := fmt.Sprintf("%s/verify_email?verification_id=%s", config.HOMEADDRESS, util.UUIDToString(verification.VerificationID))
+	verifyUrl := fmt.Sprintf("%s/verify_email?verification_url=%s", config.HOMEADDRESS, verification.VerificationUrl)
 	buttonText := "Verify Email"
 	additionalText := "If you did not register for an account, please ignore this email or contact support if you have any questions."
 

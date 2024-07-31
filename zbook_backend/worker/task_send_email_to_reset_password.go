@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/hibiken/asynq"
 	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
@@ -51,7 +50,7 @@ func (processor *RedisTaskProcessor) ProcessTaskResetPassword(ctx context.Contex
 	}
 
 	verification, err := processor.store.CreateVerification(ctx, db.CreateVerificationParams{
-		VerificationID:   uuid.New(),
+		VerificationUrl:  util.RandomString(32),
 		UserID:           user.UserID,
 		VerificationType: util.VerifyTypeResetPassword,
 	})
@@ -63,7 +62,7 @@ func (processor *RedisTaskProcessor) ProcessTaskResetPassword(ctx context.Contex
 	if err != nil {
 		log.Fatal().Msgf("cannot load config: %s", err)
 	}
-	verifyUrl := fmt.Sprintf("%s/reset_password?verification_id=%s", config.HOMEADDRESS, util.UUIDToString(verification.VerificationID))
+	verifyUrl := fmt.Sprintf("%s/reset_password?verification_url=%s", config.HOMEADDRESS, verification.VerificationUrl)
 
 	Title := "Reset Your Password"
 	emailSubject := "We received a request to reset your password. Please click the button below to reset your password:"

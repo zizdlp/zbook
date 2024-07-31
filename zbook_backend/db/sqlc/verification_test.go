@@ -4,7 +4,6 @@ import (
 	"context"
 	"testing"
 
-	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 	"github.com/zizdlp/zbook/util"
 )
@@ -14,7 +13,7 @@ func CreateRandomVerification(t *testing.T) Verification {
 
 	verificationType := util.RandomVerificationType()
 
-	arg := CreateVerificationParams{VerificationID: uuid.New(), UserID: user.UserID, VerificationType: verificationType}
+	arg := CreateVerificationParams{VerificationUrl: util.RandomString(32), UserID: user.UserID, VerificationType: verificationType}
 	verification, err := testStore.CreateVerification(context.Background(), arg)
 	require.NoError(t, err)
 	require.Equal(t, verification.IsUsed, false)
@@ -27,7 +26,7 @@ func TestCreateVerification(t *testing.T) {
 }
 func TestGetVerification(t *testing.T) {
 	verification := CreateRandomVerification(t)
-	v2, err := testStore.GetVerification(context.Background(), verification.VerificationID)
+	v2, err := testStore.GetVerification(context.Background(), verification.VerificationUrl)
 	require.NoError(t, err)
 	require.Equal(t, v2.UserID, verification.UserID)
 	require.Equal(t, v2.IsUsed, verification.IsUsed)
@@ -36,7 +35,7 @@ func TestGetVerification(t *testing.T) {
 }
 func TestMarkVerificationAsUsed(t *testing.T) {
 	verification := CreateRandomVerification(t)
-	v2, err := testStore.MarkVerificationAsUsed(context.Background(), verification.VerificationID)
+	v2, err := testStore.MarkVerificationAsUsed(context.Background(), verification.VerificationUrl)
 	require.NoError(t, err)
 	require.Equal(t, v2.UserID, verification.UserID)
 	require.Equal(t, v2.IsUsed, true)

@@ -47,6 +47,7 @@ import {
   GetConfigurationRequest,
   UpdateConfigurationRequest,
   QueryMarkdownRequest,
+  CreateInvitationRequest,
 } from "./server_with_auth_request";
 import {
   CreateRepoVisibilityRequest,
@@ -1243,6 +1244,20 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.CREATE_SYSTEM_NOTIFICATION;
   values: CreateSystemNotificationRequest;
+  xforward: string;
+  agent: string;
+  tags: string[];
+}): Promise<any>;
+
+export async function fetchServerWithAuthWrapper({
+  endpoint,
+  values,
+  xforward,
+  agent,
+  tags,
+}: {
+  endpoint: FetchServerWithAuthWrapperEndPoint.CreateInvitation;
+  values: CreateInvitationRequest;
   xforward: string;
   agent: string;
   tags: string[];

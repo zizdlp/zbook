@@ -42,8 +42,10 @@
     "Bot": "爬虫",
     "TipLogin": "开放登录?",
     "TipRegister": "开放注册?",
+    "TipInviation": "开放邀请?",
     "allow_login": "登陆",
     "allow_registration": "注册",
+    "allow_invitation": "邀请",
     "DailyUsers": "每日用户",
     "newUserLabel": "日增用户",
     "activeUserLabel": "日活用户",
@@ -131,6 +133,15 @@
     "LinkOptional": "链接(可选)",
     "LinkOptionalTip": "请输入通知对应的文档链接",
     "ContentTip": "请输入通知具体内容"
+  },
+  "Invitation": {
+    "Required": "必填",
+    "CreateInvitation": "创建邀请",
+    "CreateInvitationSucc": "邀请创建成功",
+    "FailedCreateInvitation": "邀请创建失败",
+    "CreatingInvitation": "正在创建邀请...",
+    "Email": "邮箱",
+    "EmailTip": "请输入邮箱"
   },
   "Repo": {
     "GitProtocol": "https://",
@@ -223,6 +234,7 @@
     "Edit": "编辑",
     "NewRepo": "新建仓库",
     "NewNotification": "新建通知",
+    "NewInvitation": "新建邀请",
     "OverView": "概览",
     "Users": "用户",
     "Sessions": "会话",

@@ -24,7 +24,11 @@ export default function EnableElement({
         <Switch.Label className="mr-1">
           <ToolTip
             message={
-              config_name == "allow_login" ? t("TipLogin") : t("TipRegister")
+              config_name == "allow_login"
+                ? t("TipLogin")
+                : config_name == "allow_register"
+                ? t("TipRegister")
+                : t("TipInviation")
             }
           >
             {label}{" "}

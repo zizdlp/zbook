@@ -43,8 +43,10 @@
     "Bot": "Bot",
     "TipLogin": "enable Login?",
     "TipRegister": "enable registration?",
+    "TipInviation": "enable invitation?",
     "allow_login": "login",
     "allow_registration": "registration",
+    "allow_invitation": "invitation",
     "DailyUsers": "daily users",
     "newUserLabel": "daily new users",
     "activeUserLabel": "daily active users",
@@ -160,6 +162,15 @@
     "LinkOptionalTip": "Please enter the document link",
     "ContentTip": "Please enter the specific content of the notification."
   },
+  "Invitation": {
+    "Required": "Required",
+    "CreateInvitation": "Create Invitation",
+    "CreateInvitationSucc": "Invitation created successfully.",
+    "FailedCreateInvitation": "Failed to create Invitation.",
+    "CreatingInvitation": "Creating Invitation...",
+    "Email": "Email",
+    "EmailTip": "Please enter the Invitation Email."
+  },
   "Dialog": {
     "At": "@",
     "UploadFile": "Upload File",
@@ -219,6 +230,7 @@
     "Edit": "Edit",
     "NewRepo": "Create Repo",
     "NewNotification": "Create Notification",
+    "NewInvitation": "Create Invitation",
     "OverView": "OverView",
     "Users": "Users",
     "Sessions": "Sessions",

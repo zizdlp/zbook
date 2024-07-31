@@ -143,10 +143,10 @@ export async function createOAuthLink(
   return data;
 }
 
-export async function getVerify(verification_id: string) {
+export async function getVerify(verification_url: string) {
   const url = `${
     process.env.BACKEND_URL
-  }v1/verify_email?verification_id=${decodeURIComponent(verification_id)}`;
+  }v1/verify_email?verification_url=${decodeURIComponent(verification_url)}`;
   const decodedUrl = decodeURIComponent(url);
   const res = await fetch(decodedUrl);
   return await res.json();

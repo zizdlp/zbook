@@ -159,7 +159,6 @@ message UpdateConfigurationResponse {}
 // 19.SendInvitation
 message SendInvitationRequest {
   string email          = 1;
-  string invitation_url = 2;
 }
 message SendInvitationResponse {
   bool is_send = 1;

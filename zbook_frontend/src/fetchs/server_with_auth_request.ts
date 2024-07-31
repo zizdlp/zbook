@@ -204,6 +204,9 @@ interface CreateSystemNotificationRequest {
   contents: string;
   redirect_url: string;
 }
+interface CreateInvitationRequest {
+  email: string;
+}
 interface DeleteRepoRequest {
   username: string;
   repo_name: string;
@@ -397,4 +400,5 @@ export type {
   GetConfigurationRequest,
   UpdateConfigurationRequest,
   QueryMarkdownRequest,
+  CreateInvitationRequest,
 };

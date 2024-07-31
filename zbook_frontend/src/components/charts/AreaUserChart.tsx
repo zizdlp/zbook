@@ -15,6 +15,7 @@ interface WebTrafficProps {
   activeUserCounts: TrafficData[];
   allow_login: boolean;
   allow_registration: boolean;
+  allow_invitation: boolean;
 }
 function getArrary({
   counts,
@@ -51,6 +52,7 @@ export default function AreaUserChart({
   activeUserCounts,
   allow_login,
   allow_registration,
+  allow_invitation,
 }: WebTrafficProps) {
   const { theme } = useTheme();
   const t = useTranslations("AdminOverView");
@@ -165,6 +167,11 @@ export default function AreaUserChart({
             config_name="allow_registration"
             label={t("allow_registration")}
             initEnabled={allow_registration}
+          />
+          <EnableElement
+            config_name="allow_invitation"
+            label={t("allow_invitation")}
+            initEnabled={allow_invitation}
           />
         </div>
       </div>

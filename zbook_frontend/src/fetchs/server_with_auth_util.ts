@@ -90,4 +90,5 @@ export enum FetchServerWithAuthWrapperEndPoint {
   GetDailyVisitors = "get_daily_visitors",
   GetConfiguration = "get_configuration",
   UpdateConfiguration = "update_configuration",
+  CreateInvitation = "create_invitation",
 }

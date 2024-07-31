@@ -15,9 +15,9 @@ import { fetchServerWithoutAuthWrapper } from "@/fetchs/server_without_auth";
 import { FetchServerWithoutAuthWrapperEndPoint } from "@/fetchs/server_without_auth_util";
 import { FetchError } from "@/fetchs/util";
 export default function ResetPasswordForm({
-  verification_id,
+  verification_url,
 }: {
-  verification_id: string;
+  verification_url: string;
 }) {
   const t = useTranslations("ForgetForm");
 
@@ -57,7 +57,7 @@ export default function ResetPasswordForm({
     initialValues: {
       email: "",
       password: "",
-      verification_id: "",
+      verification_url: "",
       cpassword: "",
     },
     validate: forget_check_validate,
@@ -65,10 +65,10 @@ export default function ResetPasswordForm({
   });
   async function onSubmitResetPassword(values: {
     email: string;
-    verification_id: string;
+    verification_url: string;
     password: string;
   }) {
-    values.verification_id = verification_id;
+    values.verification_url = verification_url;
     const id = toast(t("ResettingPassword"), {
       type: "info",
       isLoading: false,

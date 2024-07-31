@@ -6,3 +6,5 @@ CREATE TABLE invitations (
     "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "expired_at" timestamptz NOT NULL DEFAULT (CURRENT_TIMESTAMP + INTERVAL '10 minutes')
 );
+
+CREATE INDEX ON "invitations" ("invitation_url");

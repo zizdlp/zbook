@@ -3,7 +3,6 @@ package gapi
 import (
 	"context"
 
-	"github.com/google/uuid"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/val"
@@ -17,9 +16,9 @@ func (server *Server) ResetPassword(ctx context.Context, req *rpcs.ResetPassword
 		return nil, invalidArgumentError(violations)
 	}
 	arg := db.ResetPasswordTxParams{
-		VerificationString: req.GetVerificationId(),
-		Email:              req.GetEmail(),
-		Password:           req.GetPassword(),
+		VerificationUrl: req.GetVerificationUrl(),
+		Email:           req.GetEmail(),
+		Password:        req.GetPassword(),
 	}
 	err := server.store.ResetPasswordTx(ctx, arg)
 	if err != nil {
@@ -31,9 +30,8 @@ func (server *Server) ResetPassword(ctx context.Context, req *rpcs.ResetPassword
 	return rsp, nil
 }
 func validateResetPasswordRequest(req *rpcs.ResetPasswordRequest) (violations []*errdetails.BadRequest_FieldViolation) {
-	_, err := uuid.Parse(req.GetVerificationId())
-	if err != nil {
-		violations = append(violations, fieldViolation("verification_id", err))
+	if err := val.ValidateString(req.GetVerificationUrl(), 16, 64); err != nil {
+		violations = append(violations, fieldViolation("verification_url", err))
 	}
 	if err := val.ValidateEmail(req.GetEmail()); err != nil {
 		violations = append(violations, fieldViolation("email", err))

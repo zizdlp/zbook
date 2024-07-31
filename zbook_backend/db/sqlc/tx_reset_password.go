@@ -11,29 +11,25 @@ import (
 )
 
 type ResetPasswordTxParams struct {
-	VerificationString string
-	Password           string
-	Email              string
+	VerificationUrl string
+	Password        string
+	Email           string
 }
 
 func (store *SQLStore) ResetPasswordTx(ctx context.Context, arg ResetPasswordTxParams) error {
 
 	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
-		verificationID, err := util.StringToUUID(arg.VerificationString)
-		if err != nil {
-			return status.Errorf(codes.Internal, "convert string to uuid failed:%v", err)
-		}
 
-		verification, err := q.GetVerification(ctx, verificationID)
+		verification, err := q.GetVerification(ctx, arg.VerificationUrl)
 		if err != nil {
 			return status.Errorf(codes.Internal, "get verification failed:%v", err)
 		}
 		if verification.VerificationType != util.VerifyTypeResetPassword {
-			return status.Errorf(codes.InvalidArgument, "invalid VerificationType: %s", verification.VerificationID)
+			return status.Errorf(codes.InvalidArgument, "invalid VerificationType: %s", verification.VerificationType)
 		}
 
-		_, err = q.MarkVerificationAsUsed(ctx, verificationID)
+		_, err = q.MarkVerificationAsUsed(ctx, arg.VerificationUrl)
 		if err != nil {
 			return status.Errorf(codes.Internal, "mark verify as used failed:%v", err)
 		}

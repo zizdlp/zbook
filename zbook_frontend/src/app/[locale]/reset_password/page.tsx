@@ -4,9 +4,9 @@ export default async function ResetPassword({
   searchParams,
 }: {
   searchParams?: {
-    verification_id?: string;
+    verification_url?: string;
   };
 }) {
-  const verification_id = searchParams?.verification_id || "";
-  return <ResetPasswordForm verification_id={verification_id} />;
+  const verification_url = searchParams?.verification_url || "";
+  return <ResetPasswordForm verification_url={verification_url} />;
 }
