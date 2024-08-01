@@ -19,6 +19,8 @@ func createRandomRepo(t *testing.T) Repo {
 		GitRepo:         util.RandomString(6),
 		GitAccessToken:  pgtype.Text{String: "", Valid: true},
 		RepoName:        util.RandomString(16),
+		SidebarTheme:    util.ThemeSideBarDefault,
+		ContentTheme:    util.ThemeContentDefault,
 		RepoDescription: util.RandomString(200),
 		SyncToken:       pgtype.Text{String: util.RandomString(32), Valid: true},
 		VisibilityLevel: util.RandomRepoVisibility(),
@@ -26,6 +28,7 @@ func createRandomRepo(t *testing.T) Repo {
 	repo, err := testStore.CreateRepo(context.Background(), arg)
 	require.NoError(t, err)
 	require.Equal(t, repo.UserID, user.UserID)
+	require.Equal(t, repo.ContentTheme, arg.ContentTheme)
 	return repo
 }
 func TestCreateRepo(t *testing.T) {
@@ -71,6 +74,8 @@ func TestGetRepo(t *testing.T) {
 		GitHost:         "github.com",
 		GitUsername:     util.RandomString(6),
 		GitRepo:         util.RandomString(6),
+		SidebarTheme:    util.ThemeSideBarDefault,
+		ContentTheme:    util.ThemeContentDefault,
 		GitAccessToken:  pgtype.Text{String: "", Valid: true},
 		RepoName:        util.RandomString(16),
 		RepoDescription: util.RandomString(200),
@@ -93,6 +98,8 @@ func TestGetRepoID(t *testing.T) {
 		GitUsername:     util.RandomString(6),
 		GitRepo:         util.RandomString(6),
 		GitAccessToken:  pgtype.Text{String: "", Valid: true},
+		SidebarTheme:    util.ThemeSideBarDefault,
+		ContentTheme:    util.ThemeContentDefault,
 		RepoName:        util.RandomString(16),
 		RepoDescription: util.RandomString(200),
 		SyncToken:       pgtype.Text{String: util.RandomString(32), Valid: true},
@@ -117,6 +124,8 @@ func TestGetRepoByRepoName(t *testing.T) {
 		GitHost:         "github.com",
 		GitUsername:     util.RandomString(6),
 		GitRepo:         util.RandomString(6),
+		SidebarTheme:    util.ThemeSideBarDefault,
+		ContentTheme:    util.ThemeContentDefault,
 		GitAccessToken:  pgtype.Text{String: "", Valid: true},
 		RepoName:        util.RandomString(16),
 		RepoDescription: util.RandomString(200),
@@ -143,6 +152,8 @@ func TestGetRepoLayout(t *testing.T) {
 		GitHost:         "github.com",
 		GitUsername:     util.RandomString(6),
 		GitRepo:         util.RandomString(6),
+		SidebarTheme:    util.ThemeSideBarDefault,
+		ContentTheme:    util.ThemeContentDefault,
 		GitAccessToken:  pgtype.Text{String: "", Valid: true},
 		RepoName:        util.RandomString(16),
 		RepoDescription: util.RandomString(200),
@@ -169,6 +180,8 @@ func TestGetRepoPermission(t *testing.T) {
 		GitProtocol:     "http",
 		GitHost:         "github.com",
 		GitUsername:     util.RandomString(6),
+		SidebarTheme:    util.ThemeSideBarDefault,
+		ContentTheme:    util.ThemeContentDefault,
 		GitRepo:         util.RandomString(6),
 		GitAccessToken:  pgtype.Text{String: "", Valid: true},
 		RepoName:        util.RandomString(16),
@@ -704,6 +717,8 @@ func createUserRandomRepo(t *testing.T, user User) Repo {
 		GitHost:         "github.com",
 		GitUsername:     "zizdlp",
 		GitRepo:         "zbook-user-guide",
+		SidebarTheme:    util.ThemeSideBarDefault,
+		ContentTheme:    util.ThemeContentDefault,
 		GitAccessToken:  pgtype.Text{String: util.RandomString(32), Valid: true},
 		RepoName:        util.RandomString(16),
 		RepoDescription: util.RandomString(200),

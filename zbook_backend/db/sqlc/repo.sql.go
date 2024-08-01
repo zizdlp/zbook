@@ -21,13 +21,15 @@ INSERT INTO repos (
   git_repo,
   git_access_token,
   repo_name,
+  sidebar_theme,
+  content_theme,
   home_page,
   repo_description,
   sync_token,
   commit_id,
   visibility_level
-) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) 
-RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, created_at, updated_at, fts_repo_en, fts_repo_zh
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) 
+RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, sidebar_theme, content_theme, created_at, updated_at, fts_repo_en, fts_repo_zh
 `
 
 type CreateRepoParams struct {
@@ -38,6 +40,8 @@ type CreateRepoParams struct {
 	GitRepo         string      `json:"git_repo"`
 	GitAccessToken  pgtype.Text `json:"git_access_token"`
 	RepoName        string      `json:"repo_name"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	HomePage        string      `json:"home_page"`
 	RepoDescription string      `json:"repo_description"`
 	SyncToken       pgtype.Text `json:"sync_token"`
@@ -54,6 +58,8 @@ func (q *Queries) CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, e
 		arg.GitRepo,
 		arg.GitAccessToken,
 		arg.RepoName,
+		arg.SidebarTheme,
+		arg.ContentTheme,
 		arg.HomePage,
 		arg.RepoDescription,
 		arg.SyncToken,
@@ -76,6 +82,8 @@ func (q *Queries) CreateRepo(ctx context.Context, arg CreateRepoParams) (Repo, e
 		&i.VisibilityLevel,
 		&i.CommitID,
 		&i.Layout,
+		&i.SidebarTheme,
+		&i.ContentTheme,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.FtsRepoEn,
@@ -351,7 +359,7 @@ func (q *Queries) GetQueryUserOwnRepoCount(ctx context.Context, arg GetQueryUser
 }
 
 const getRepo = `-- name: GetRepo :one
-SELECT repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, created_at, updated_at, fts_repo_en, fts_repo_zh from repos
+SELECT repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, sidebar_theme, content_theme, created_at, updated_at, fts_repo_en, fts_repo_zh from repos
 WHERE repo_id = $1
 `
 
@@ -373,6 +381,8 @@ func (q *Queries) GetRepo(ctx context.Context, repoID int64) (Repo, error) {
 		&i.VisibilityLevel,
 		&i.CommitID,
 		&i.Layout,
+		&i.SidebarTheme,
+		&i.ContentTheme,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.FtsRepoEn,
@@ -382,7 +392,7 @@ func (q *Queries) GetRepo(ctx context.Context, repoID int64) (Repo, error) {
 }
 
 const getRepoBasicInfo = `-- name: GetRepoBasicInfo :one
-SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.home_page, repos.sync_token, repos.visibility_level, repos.commit_id, repos.layout, repos.created_at, repos.updated_at, repos.fts_repo_en, repos.fts_repo_zh,
+SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.home_page, repos.sync_token, repos.visibility_level, repos.commit_id, repos.layout, repos.sidebar_theme, repos.content_theme, repos.created_at, repos.updated_at, repos.fts_repo_en, repos.fts_repo_zh,
   users.username, users.email
 FROM repos
 INNER JOIN users ON repos.user_id = users.user_id
@@ -409,6 +419,8 @@ type GetRepoBasicInfoRow struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
@@ -435,6 +447,8 @@ func (q *Queries) GetRepoBasicInfo(ctx context.Context, arg GetRepoBasicInfoPara
 		&i.VisibilityLevel,
 		&i.CommitID,
 		&i.Layout,
+		&i.SidebarTheme,
+		&i.ContentTheme,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.FtsRepoEn,
@@ -446,7 +460,7 @@ func (q *Queries) GetRepoBasicInfo(ctx context.Context, arg GetRepoBasicInfoPara
 }
 
 const getRepoByRepoName = `-- name: GetRepoByRepoName :one
-SELECT repo_id, repos.user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, repos.created_at, repos.updated_at, fts_repo_en, fts_repo_zh, users.user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, users.created_at, users.updated_at, unread_count, unread_count_updated_at, fts_username from repos
+SELECT repo_id, repos.user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, sidebar_theme, content_theme, repos.created_at, repos.updated_at, fts_repo_en, fts_repo_zh, users.user_id, username, email, hashed_password, blocked, verified, motto, user_role, onboarding, users.created_at, users.updated_at, unread_count, unread_count_updated_at, fts_username from repos
 JOIN users on users.user_id= repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2
 `
@@ -471,6 +485,8 @@ type GetRepoByRepoNameRow struct {
 	VisibilityLevel      string      `json:"visibility_level"`
 	CommitID             string      `json:"commit_id"`
 	Layout               string      `json:"layout"`
+	SidebarTheme         string      `json:"sidebar_theme"`
+	ContentTheme         string      `json:"content_theme"`
 	CreatedAt            time.Time   `json:"created_at"`
 	UpdatedAt            time.Time   `json:"updated_at"`
 	FtsRepoEn            string      `json:"fts_repo_en"`
@@ -509,6 +525,8 @@ func (q *Queries) GetRepoByRepoName(ctx context.Context, arg GetRepoByRepoNamePa
 		&i.VisibilityLevel,
 		&i.CommitID,
 		&i.Layout,
+		&i.SidebarTheme,
+		&i.ContentTheme,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.FtsRepoEn,
@@ -618,7 +636,7 @@ func (q *Queries) GetRepoPermission(ctx context.Context, repoID int64) (GetRepoP
 
 const listRepo = `-- name: ListRepo :many
 SELECT
-   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
+   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.sidebar_theme, r.content_theme, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
    (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
    u.username,
    EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $3 ) as is_liked
@@ -667,6 +685,8 @@ type ListRepoRow struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
@@ -706,6 +726,8 @@ func (q *Queries) ListRepo(ctx context.Context, arg ListRepoParams) ([]ListRepoR
 			&i.VisibilityLevel,
 			&i.CommitID,
 			&i.Layout,
+			&i.SidebarTheme,
+			&i.ContentTheme,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.FtsRepoEn,
@@ -726,7 +748,7 @@ func (q *Queries) ListRepo(ctx context.Context, arg ListRepoParams) ([]ListRepoR
 
 const listUserLikeRepo = `-- name: ListUserLikeRepo :many
 SELECT
-   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,ur.username,
+   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.sidebar_theme, r.content_theme, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,ur.username,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $3 ) as is_liked
 FROM
@@ -781,6 +803,8 @@ type ListUserLikeRepoRow struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
@@ -821,6 +845,8 @@ func (q *Queries) ListUserLikeRepo(ctx context.Context, arg ListUserLikeRepoPara
 			&i.VisibilityLevel,
 			&i.CommitID,
 			&i.Layout,
+			&i.SidebarTheme,
+			&i.ContentTheme,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.FtsRepoEn,
@@ -841,7 +867,7 @@ func (q *Queries) ListUserLikeRepo(ctx context.Context, arg ListUserLikeRepoPara
 
 const listUserOwnRepo = `-- name: ListUserOwnRepo :many
 SELECT
-   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
+   r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.sidebar_theme, r.content_theme, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id AND repo_relations.relation_type = 'like' AND repo_relations.user_id = $3) AS is_liked
 FROM
@@ -891,6 +917,8 @@ type ListUserOwnRepoRow struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
@@ -930,6 +958,8 @@ func (q *Queries) ListUserOwnRepo(ctx context.Context, arg ListUserOwnRepoParams
 			&i.VisibilityLevel,
 			&i.CommitID,
 			&i.Layout,
+			&i.SidebarTheme,
+			&i.ContentTheme,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.FtsRepoEn,
@@ -949,7 +979,7 @@ func (q *Queries) ListUserOwnRepo(ctx context.Context, arg ListUserOwnRepoParams
 
 const queryRepo = `-- name: QueryRepo :many
 select 
-  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
+  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.sidebar_theme, r.content_theme, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
   u.username,
   ROUND(ts_rank(r.fts_repo_en, plainto_tsquery($3))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery($3))) as rank
 FROM
@@ -999,6 +1029,8 @@ type QueryRepoRow struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
@@ -1038,6 +1070,8 @@ func (q *Queries) QueryRepo(ctx context.Context, arg QueryRepoParams) ([]QueryRe
 			&i.VisibilityLevel,
 			&i.CommitID,
 			&i.Layout,
+			&i.SidebarTheme,
+			&i.ContentTheme,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.FtsRepoEn,
@@ -1057,7 +1091,7 @@ func (q *Queries) QueryRepo(ctx context.Context, arg QueryRepoParams) ([]QueryRe
 
 const queryUserLikeRepo = `-- name: QueryUserLikeRepo :many
 SELECT
-  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,ur.username,
+  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.sidebar_theme, r.content_theme, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,ur.username,
   ROUND(ts_rank(r.fts_repo_en, plainto_tsquery($3))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery($3))) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
     EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $4 ) as is_liked
@@ -1113,6 +1147,8 @@ type QueryUserLikeRepoRow struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
@@ -1155,6 +1191,8 @@ func (q *Queries) QueryUserLikeRepo(ctx context.Context, arg QueryUserLikeRepoPa
 			&i.VisibilityLevel,
 			&i.CommitID,
 			&i.Layout,
+			&i.SidebarTheme,
+			&i.ContentTheme,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.FtsRepoEn,
@@ -1176,7 +1214,7 @@ func (q *Queries) QueryUserLikeRepo(ctx context.Context, arg QueryUserLikeRepoPa
 
 const queryUserOwnRepo = `-- name: QueryUserOwnRepo :many
 SELECT
-  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
+  r.repo_id, r.user_id, r.git_protocol, r.git_host, r.git_username, r.git_repo, r.git_access_token, r.repo_name, r.repo_description, r.home_page, r.sync_token, r.visibility_level, r.commit_id, r.layout, r.sidebar_theme, r.content_theme, r.created_at, r.updated_at, r.fts_repo_en, r.fts_repo_zh,
   ROUND(ts_rank(r.fts_repo_en, plainto_tsquery($3))) + ROUND(ts_rank(r.fts_repo_zh, plainto_tsquery($3))) as rank,
   (SELECT COUNT(*) FROM repo_relations WHERE repo_id = r.repo_id and relation_type = 'like') AS like_count,
   EXISTS(SELECT 1 FROM repo_relations WHERE repo_relations.repo_id = r.repo_id  and repo_relations.relation_type = 'like' and repo_relations.user_id = $4 ) as is_liked
@@ -1228,6 +1266,8 @@ type QueryUserOwnRepoRow struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Layout          string      `json:"layout"`
+	SidebarTheme    string      `json:"sidebar_theme"`
+	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
@@ -1269,6 +1309,8 @@ func (q *Queries) QueryUserOwnRepo(ctx context.Context, arg QueryUserOwnRepoPara
 			&i.VisibilityLevel,
 			&i.CommitID,
 			&i.Layout,
+			&i.SidebarTheme,
+			&i.ContentTheme,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.FtsRepoEn,
@@ -1297,7 +1339,7 @@ visibility_level=COALESCE($4,visibility_level),
 git_access_token=COALESCE($5,git_access_token),
 home_page=COALESCE($6,home_page)
 WHERE repo_id = $7
-RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, created_at, updated_at, fts_repo_en, fts_repo_zh
+RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, layout, sidebar_theme, content_theme, created_at, updated_at, fts_repo_en, fts_repo_zh
 `
 
 type UpdateRepoInfoParams struct {
@@ -1336,6 +1378,8 @@ func (q *Queries) UpdateRepoInfo(ctx context.Context, arg UpdateRepoInfoParams) 
 		&i.VisibilityLevel,
 		&i.CommitID,
 		&i.Layout,
+		&i.SidebarTheme,
+		&i.ContentTheme,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.FtsRepoEn,

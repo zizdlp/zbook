@@ -7,12 +7,14 @@ INSERT INTO repos (
   git_repo,
   git_access_token,
   repo_name,
+  sidebar_theme,
+  content_theme,
   home_page,
   repo_description,
   sync_token,
   commit_id,
   visibility_level
-) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) 
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) 
 RETURNING *;
 
 -- name: UpdateRepoLayout :exec
