@@ -11,7 +11,7 @@ import (
 
 func TestGetDiffFilesShouldOK(t *testing.T) {
 	// 使用一个公开的 Git 仓库 URL 进行测试
-	gitURL := "https://github.com/zizdlp/zbook-user-guide.git"
+	gitURL := "https://github.com/zizdlp/zbook-docs.git"
 
 	rsg := util.NewRandomStringGenerator()
 	randomString := rsg.RandomString(10)
@@ -60,7 +60,7 @@ func TestGetDiffFilesShouldOK(t *testing.T) {
 
 func TestGetAllFilesShouldOK(t *testing.T) {
 	// 使用一个公开的 Git 仓库 URL 进行测试
-	gitURL := "https://github.com/zizdlp/zbook-user-guide.git"
+	gitURL := "https://github.com/zizdlp/zbook-docs.git"
 
 	rsg := util.NewRandomStringGenerator()
 	randomString := rsg.RandomString(10)

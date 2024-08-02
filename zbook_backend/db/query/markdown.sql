@@ -48,10 +48,11 @@ WHERE
 
 -- name: UpdateMarkdownMulti :exec
 UPDATE markdowns AS m
-SET main_content=tmp.main_content,table_content=tmp.table_content,updated_at=now()
+SET main_content=tmp.main_content,table_content=tmp.table_content,relative_path=new_relative_path,updated_at=now()
 FROM (
   SELECT 
   unnest(@relative_path::text[]) AS relative_path,
+  unnest(@new_relative_path::text[]) AS new_relative_path,
   unnest(@main_content::text[]) AS main_content,
   unnest(@table_content::text[]) AS table_content,
   unnest(@repo_id::bigint[]) AS repo_id
@@ -65,10 +66,6 @@ WHERE (relative_path, repo_id) IN (
     unnest(@relative_path::text[]), 
     unnest(@repo_id::bigint[])
 );
-
-
-
-
 -- name: QueryMarkdown :many
 select 
   users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,

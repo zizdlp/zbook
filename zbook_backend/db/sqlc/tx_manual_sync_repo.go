@@ -68,12 +68,12 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 		}
 
 		// 调用 GetDiffFiles 函数
-		addedFiles, modifiedFiles, deletedFiles, err := operations.GetDiffFiles(repo.CommitID, lastCommit, cloneDir)
+		addedFiles, modifiedFiles, deletedFiles, renameFiles, err := operations.GetDiffFiles(repo.CommitID, lastCommit, cloneDir)
 		if err != nil {
 			return err
 		}
 		fmt.Println("lastcommit:", lastCommit, repo.CommitID)
-		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, lastCommit, addedFiles, modifiedFiles, deletedFiles)
+		err = ConvertFile2DB(ctx, q, cloneDir, repo.RepoID, repo.UserID, lastCommit, addedFiles, modifiedFiles, deletedFiles, renameFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "failed to convert file to db: %s", err)
 		}

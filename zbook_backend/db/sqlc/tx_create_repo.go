@@ -74,12 +74,12 @@ func (store *SQLStore) CreateRepoTx(ctx context.Context, arg CreateRepoTxParams)
 		}
 
 		// 调用 GetDiffFiles 函数
-		addedFiles, modifiedFiles, deletedFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
+		addedFiles, modifiedFiles, deletedFiles, renameFiles, err := operations.GetDiffFiles("", lastCommit, cloneDir)
 		if err != nil {
 			return err
 		}
 
-		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, lastCommit, addedFiles, modifiedFiles, deletedFiles)
+		err = ConvertFile2DB(ctx, q, cloneDir, result.Repo.RepoID, arg.UserID, lastCommit, addedFiles, modifiedFiles, deletedFiles, renameFiles)
 		if err != nil {
 			return status.Errorf(codes.Internal, "无法转换文件数据到db: %s", err)
 		}

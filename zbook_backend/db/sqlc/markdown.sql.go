@@ -424,27 +424,30 @@ func (q *Queries) QueryUserMarkdown(ctx context.Context, arg QueryUserMarkdownPa
 
 const updateMarkdownMulti = `-- name: UpdateMarkdownMulti :exec
 UPDATE markdowns AS m
-SET main_content=tmp.main_content,table_content=tmp.table_content,updated_at=now()
+SET main_content=tmp.main_content,table_content=tmp.table_content,relative_path=new_relative_path,updated_at=now()
 FROM (
   SELECT 
   unnest($1::text[]) AS relative_path,
-  unnest($2::text[]) AS main_content,
-  unnest($3::text[]) AS table_content,
-  unnest($4::bigint[]) AS repo_id
+  unnest($2::text[]) AS new_relative_path,
+  unnest($3::text[]) AS main_content,
+  unnest($4::text[]) AS table_content,
+  unnest($5::bigint[]) AS repo_id
 ) AS tmp
 WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id
 `
 
 type UpdateMarkdownMultiParams struct {
-	RelativePath []string `json:"relative_path"`
-	MainContent  []string `json:"main_content"`
-	TableContent []string `json:"table_content"`
-	RepoID       []int64  `json:"repo_id"`
+	RelativePath    []string `json:"relative_path"`
+	NewRelativePath []string `json:"new_relative_path"`
+	MainContent     []string `json:"main_content"`
+	TableContent    []string `json:"table_content"`
+	RepoID          []int64  `json:"repo_id"`
 }
 
 func (q *Queries) UpdateMarkdownMulti(ctx context.Context, arg UpdateMarkdownMultiParams) error {
 	_, err := q.db.Exec(ctx, updateMarkdownMulti,
 		arg.RelativePath,
+		arg.NewRelativePath,
 		arg.MainContent,
 		arg.TableContent,
 		arg.RepoID,
