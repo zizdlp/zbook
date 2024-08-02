@@ -38,7 +38,7 @@ func TestGetDiffFilesShouldOK(t *testing.T) {
 	oldCommit := "6eec29b0b8188d4877cac57a90b17fd5fa8f165c"
 
 	// 调用 GetDiffFiles 函数
-	addedFiles, deletedFiles, modifiedFiles, err := GetDiffFiles(oldCommit, lastCommit, cloneDir)
+	addedFiles, deletedFiles, modifiedFiles, renameFiles, err := GetDiffFiles(oldCommit, lastCommit, cloneDir)
 	require.NoError(t, err)
 
 	// 输出差异文件列表，便于观察测试结果
@@ -55,6 +55,11 @@ func TestGetDiffFilesShouldOK(t *testing.T) {
 	t.Logf("Modified files between commit %s and commit %s:", oldCommit, lastCommit)
 	for _, file := range modifiedFiles {
 		t.Logf("M - %s", file)
+	}
+
+	t.Logf("Rename files between commit %s and commit %s:", oldCommit, lastCommit)
+	for i := 0; i < len(renameFiles); i += 2 {
+		t.Logf("R - %s - %s", renameFiles[i], renameFiles[i+1])
 	}
 }
 
@@ -87,7 +92,7 @@ func TestGetAllFilesShouldOK(t *testing.T) {
 	oldCommit := ""
 
 	// 调用 GetDiffFiles 函数
-	addedFiles, deletedFiles, modifiedFiles, err := GetDiffFiles(oldCommit, lastCommit, cloneDir)
+	addedFiles, deletedFiles, modifiedFiles, renameFiles, err := GetDiffFiles(oldCommit, lastCommit, cloneDir)
 	require.NoError(t, err)
 
 	// 输出差异文件列表，便于观察测试结果
@@ -104,6 +109,11 @@ func TestGetAllFilesShouldOK(t *testing.T) {
 	t.Logf("Modified files in the repository:")
 	for _, file := range modifiedFiles {
 		t.Logf("M - %s", file)
+	}
+
+	t.Logf("Rename files between commit %s and commit %s:", oldCommit, lastCommit)
+	for i := 0; i < len(renameFiles); i += 2 {
+		t.Logf("R - %s,%s", renameFiles[i], renameFiles[i+1])
 	}
 }
 
@@ -134,11 +144,12 @@ func TestGetDiffFilesRename(t *testing.T) {
 	oldCommitID := "cb924727b336e70cab13ebe46d2daee7381f4b17"
 	newCommitID := "ef68cac5c79c3e683e90efa4dcca2db25d13375a"
 
-	addedFiles, modifiedFiles, deletedFiles, err := GetDiffFiles(oldCommitID, newCommitID, cloneDir)
+	addedFiles, modifiedFiles, deletedFiles, renameFiles, err := GetDiffFiles(oldCommitID, newCommitID, cloneDir)
 	require.NoError(t, err)
 
 	// 检查返回的文件列表是否符合预期
 	require.Equal(t, []string{"getting-started/quick-start.mdx"}, addedFiles)
 	require.Empty(t, modifiedFiles)
 	require.Equal(t, []string{"getting-started/quick-start.md"}, deletedFiles)
+	require.Empty(t, renameFiles)
 }
