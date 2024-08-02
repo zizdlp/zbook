@@ -38,6 +38,8 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 			GitHost:         GitHost,
 			GitUsername:     GitUsername,
 			GitRepo:         GitRepo,
+			SidebarTheme:    util.ThemeSideBarDefault,
+			ContentTheme:    util.ThemeContentDefault,
 			GitAccessToken:  pgtype.Text{String: req.GetGitAccessToken(), Valid: req.GetGitAccessToken() != ""},
 			RepoName:        req.GetRepoName(),
 			RepoDescription: req.GetRepoDescription(),
