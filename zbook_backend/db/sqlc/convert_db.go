@@ -15,7 +15,7 @@ import (
 	"github.com/zizdlp/zbook/util"
 )
 
-func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int64, userID int64, lastCommit string, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
+func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int64, userID int64, lastCommit string, addedFiles []string, modifiedFiles []string, deletedFiles []string, renameFiles []string) error {
 	startTime := time.Now()
 	allowedExtensions := map[string]bool{
 		".md": true,
@@ -44,7 +44,7 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 			if isCreate {
 				createParams.Append(relativePath, userID, repoID, html, htmlList)
 			} else {
-				updateParams.Append(relativePath, repoID, html, htmlList)
+				updateParams.Append(relativePath, relativePath, repoID, html, htmlList)
 			}
 		}
 	}
@@ -55,11 +55,28 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 	fmt.Println("addfiles:", addedFiles)
 	fmt.Println("modifiles:", modifiedFiles)
 	fmt.Println("deletfile:", deletedFiles)
+	fmt.Println("renamefiles:", renameFiles)
 	// Process deleted files
 	filteredMarkdowns := util.FilterDiffFilesByExtensions(deletedFiles, allowedExtensions)
 	for _, filteredMarkdown := range filteredMarkdowns {
 		relativePath := strings.ToLower(strings.TrimSuffix(filteredMarkdown, ".md"))
 		deleteParams.Append(relativePath, repoID)
+	}
+	// Process renamed files
+	for i := 0; i < len(renameFiles); i += 2 {
+		relativePath := strings.ToLower(strings.TrimSuffix(renameFiles[i], ".md"))
+		newrelativePath := strings.ToLower(strings.TrimSuffix(renameFiles[i+1], ".md"))
+		data, err := os.ReadFile(cloneDir + "/" + renameFiles[i+1])
+		if err != nil {
+			continue
+		}
+		table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
+		if err != nil {
+			continue
+		}
+		html := main.String()
+		htmlList := table.String()
+		updateParams.Append(relativePath, newrelativePath, repoID, html, htmlList)
 	}
 
 	// Execute database operations
@@ -143,10 +160,11 @@ func createMarkdownFiles(ctx context.Context, q *Queries, params *util.CreatePar
 
 func updateMarkdownFiles(ctx context.Context, q *Queries, params *util.UpdateParams) error {
 	argUpdate := UpdateMarkdownMultiParams{
-		RelativePath: params.RelativePath,
-		RepoID:       params.RepoID,
-		MainContent:  params.MainContent,
-		TableContent: params.TableContent,
+		RelativePath:    params.RelativePath,
+		NewRelativePath: params.NewRelativePath,
+		RepoID:          params.RepoID,
+		MainContent:     params.MainContent,
+		TableContent:    params.TableContent,
 	}
 	err := q.UpdateMarkdownMulti(ctx, argUpdate)
 	if err != nil {

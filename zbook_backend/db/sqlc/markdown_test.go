@@ -160,11 +160,11 @@ func TestUpdateMarkdownMulti(t *testing.T) {
 		TableContent[i] = "newtable_content"
 	}
 	arg_key := UpdateMarkdownMultiParams{
-		RelativePath: RelativePath,
-		MainContent:  MainContent,
-		TableContent: TableContent,
-
-		RepoID: RepoID,
+		RelativePath:    RelativePath,
+		NewRelativePath: RelativePath,
+		MainContent:     MainContent,
+		TableContent:    TableContent,
+		RepoID:          RepoID,
 	}
 	s = time.Now()
 	err = testStore.UpdateMarkdownMulti(context.Background(), arg_key)

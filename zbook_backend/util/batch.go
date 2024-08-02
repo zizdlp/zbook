@@ -23,14 +23,16 @@ func (params *CreateParams) Append(relativePath string, userID int64, repoID int
 }
 
 type UpdateParams struct {
-	RelativePath []string
-	RepoID       []int64
-	MainContent  []string
-	TableContent []string
+	RelativePath    []string
+	NewRelativePath []string
+	RepoID          []int64
+	MainContent     []string
+	TableContent    []string
 }
 
-func (params *UpdateParams) Append(RelativePath string, RepoID int64, MainContent string, TableContent string) {
+func (params *UpdateParams) Append(RelativePath string, NewRelativePath string, RepoID int64, MainContent string, TableContent string) {
 	params.RelativePath = append(params.RelativePath, RelativePath)
+	params.NewRelativePath = append(params.NewRelativePath, NewRelativePath)
 	params.RepoID = append(params.RepoID, RepoID)
 	params.MainContent = append(params.MainContent, MainContent)
 	params.TableContent = append(params.TableContent, TableContent)
