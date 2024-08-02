@@ -20,7 +20,7 @@ import {
   GetListUserOwnRepoCountRequest,
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,
-  GetRepoLayoutRequest,
+  GetRepoConfigRequest,
   GetRepoVisibilityCountRequest,
   GetUserInfoRequest,
   ListSessionRequest,
@@ -422,8 +422,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_LAYOUT;
-  values: GetRepoLayoutRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_CONFIG;
+  values: GetRepoConfigRequest;
   xforward: string;
   agent: string;
   tags: string[];

@@ -1119,6 +1119,21 @@ func (mr *MockStoreMockRecorder) GetRepoByRepoName(arg0, arg1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoByRepoName", reflect.TypeOf((*MockStore)(nil).GetRepoByRepoName), arg0, arg1)
 }
 
+// GetRepoConfig mocks base method.
+func (m *MockStore) GetRepoConfig(arg0 context.Context, arg1 db.GetRepoConfigParams) (db.GetRepoConfigRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRepoConfig", arg0, arg1)
+	ret0, _ := ret[0].(db.GetRepoConfigRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRepoConfig indicates an expected call of GetRepoConfig.
+func (mr *MockStoreMockRecorder) GetRepoConfig(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoConfig", reflect.TypeOf((*MockStore)(nil).GetRepoConfig), arg0, arg1)
+}
+
 // GetRepoID mocks base method.
 func (m *MockStore) GetRepoID(arg0 context.Context, arg1 db.GetRepoIDParams) (int64, error) {
 	m.ctrl.T.Helper()
@@ -1132,21 +1147,6 @@ func (m *MockStore) GetRepoID(arg0 context.Context, arg1 db.GetRepoIDParams) (in
 func (mr *MockStoreMockRecorder) GetRepoID(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoID", reflect.TypeOf((*MockStore)(nil).GetRepoID), arg0, arg1)
-}
-
-// GetRepoLayout mocks base method.
-func (m *MockStore) GetRepoLayout(arg0 context.Context, arg1 db.GetRepoLayoutParams) (db.GetRepoLayoutRow, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRepoLayout", arg0, arg1)
-	ret0, _ := ret[0].(db.GetRepoLayoutRow)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetRepoLayout indicates an expected call of GetRepoLayout.
-func (mr *MockStoreMockRecorder) GetRepoLayout(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoLayout", reflect.TypeOf((*MockStore)(nil).GetRepoLayout), arg0, arg1)
 }
 
 // GetRepoPermission mocks base method.
@@ -1908,6 +1908,20 @@ func (mr *MockStoreMockRecorder) UpdateMarkdownMulti(arg0, arg1 interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMarkdownMulti", reflect.TypeOf((*MockStore)(nil).UpdateMarkdownMulti), arg0, arg1)
 }
 
+// UpdateRepoConfig mocks base method.
+func (m *MockStore) UpdateRepoConfig(arg0 context.Context, arg1 db.UpdateRepoConfigParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateRepoConfig", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRepoConfig indicates an expected call of UpdateRepoConfig.
+func (mr *MockStoreMockRecorder) UpdateRepoConfig(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRepoConfig", reflect.TypeOf((*MockStore)(nil).UpdateRepoConfig), arg0, arg1)
+}
+
 // UpdateRepoInfo mocks base method.
 func (m *MockStore) UpdateRepoInfo(arg0 context.Context, arg1 db.UpdateRepoInfoParams) (db.Repo, error) {
 	m.ctrl.T.Helper()
@@ -1921,20 +1935,6 @@ func (m *MockStore) UpdateRepoInfo(arg0 context.Context, arg1 db.UpdateRepoInfoP
 func (mr *MockStoreMockRecorder) UpdateRepoInfo(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRepoInfo", reflect.TypeOf((*MockStore)(nil).UpdateRepoInfo), arg0, arg1)
-}
-
-// UpdateRepoLayout mocks base method.
-func (m *MockStore) UpdateRepoLayout(arg0 context.Context, arg1 db.UpdateRepoLayoutParams) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateRepoLayout", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRepoLayout indicates an expected call of UpdateRepoLayout.
-func (mr *MockStoreMockRecorder) UpdateRepoLayout(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRepoLayout", reflect.TypeOf((*MockStore)(nil).UpdateRepoLayout), arg0, arg1)
 }
 
 // UpdateUnreadCount mocks base method.

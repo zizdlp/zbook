@@ -114,7 +114,7 @@ interface GetRepoBasicInfoRequest {
   repo_name: string;
 }
 
-interface GetRepoLayoutRequest {
+interface GetRepoConfigRequest {
   username: string;
   repo_name: string;
 }
@@ -390,7 +390,7 @@ export type {
   GetRepoVisibilityCountRequest,
   GetUserInfoRequest,
   GetRepoBasicInfoRequest,
-  GetRepoLayoutRequest,
+  GetRepoConfigRequest,
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,
   UpdateUserBlockRequest,

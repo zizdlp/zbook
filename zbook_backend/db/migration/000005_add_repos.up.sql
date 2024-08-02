@@ -12,7 +12,7 @@ CREATE TABLE "repos" (
   "sync_token" varchar(255) DEFAULT '',
   "visibility_level" varchar(255) NOT NULL,
   "commit_id" varchar(255) NOT NULL,
-  "layout" text NOT NULL DEFAULT '',
+  "config" text NOT NULL DEFAULT '',
   "sidebar_theme" text NOT NULL CHECK (length(trim(sidebar_theme)) > 0),
   "content_theme" text NOT NULL CHECK (length(trim(content_theme)) > 0),
   "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,

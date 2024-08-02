@@ -156,8 +156,8 @@ func (*CreateRepoResponse) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_proto_rawDescGZIP(), []int{1}
 }
 
-// 2.GetRepoLayout
-type GetRepoLayoutRequest struct {
+// 2.GetRepoConfig
+type GetRepoConfigRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -166,8 +166,8 @@ type GetRepoLayoutRequest struct {
 	RepoName string `protobuf:"bytes,2,opt,name=repo_name,json=repoName,proto3" json:"repo_name,omitempty"`
 }
 
-func (x *GetRepoLayoutRequest) Reset() {
-	*x = GetRepoLayoutRequest{}
+func (x *GetRepoConfigRequest) Reset() {
+	*x = GetRepoConfigRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rpcs_rpc_repo_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -175,13 +175,13 @@ func (x *GetRepoLayoutRequest) Reset() {
 	}
 }
 
-func (x *GetRepoLayoutRequest) String() string {
+func (x *GetRepoConfigRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetRepoLayoutRequest) ProtoMessage() {}
+func (*GetRepoConfigRequest) ProtoMessage() {}
 
-func (x *GetRepoLayoutRequest) ProtoReflect() protoreflect.Message {
+func (x *GetRepoConfigRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_rpcs_rpc_repo_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -193,37 +193,37 @@ func (x *GetRepoLayoutRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRepoLayoutRequest.ProtoReflect.Descriptor instead.
-func (*GetRepoLayoutRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRepoConfigRequest.ProtoReflect.Descriptor instead.
+func (*GetRepoConfigRequest) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetRepoLayoutRequest) GetUsername() string {
+func (x *GetRepoConfigRequest) GetUsername() string {
 	if x != nil {
 		return x.Username
 	}
 	return ""
 }
 
-func (x *GetRepoLayoutRequest) GetRepoName() string {
+func (x *GetRepoConfigRequest) GetRepoName() string {
 	if x != nil {
 		return x.RepoName
 	}
 	return ""
 }
 
-type GetRepoLayoutResponse struct {
+type GetRepoConfigResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Username        string `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
-	Layout          string `protobuf:"bytes,3,opt,name=layout,proto3" json:"layout,omitempty"`
-	VisibilityLevel string `protobuf:"bytes,4,opt,name=visibility_level,json=visibilityLevel,proto3" json:"visibility_level,omitempty"`
+	Username        string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Config          string `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
+	VisibilityLevel string `protobuf:"bytes,3,opt,name=visibility_level,json=visibilityLevel,proto3" json:"visibility_level,omitempty"`
 }
 
-func (x *GetRepoLayoutResponse) Reset() {
-	*x = GetRepoLayoutResponse{}
+func (x *GetRepoConfigResponse) Reset() {
+	*x = GetRepoConfigResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rpcs_rpc_repo_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -231,13 +231,13 @@ func (x *GetRepoLayoutResponse) Reset() {
 	}
 }
 
-func (x *GetRepoLayoutResponse) String() string {
+func (x *GetRepoConfigResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetRepoLayoutResponse) ProtoMessage() {}
+func (*GetRepoConfigResponse) ProtoMessage() {}
 
-func (x *GetRepoLayoutResponse) ProtoReflect() protoreflect.Message {
+func (x *GetRepoConfigResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_rpcs_rpc_repo_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -249,26 +249,26 @@ func (x *GetRepoLayoutResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRepoLayoutResponse.ProtoReflect.Descriptor instead.
-func (*GetRepoLayoutResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRepoConfigResponse.ProtoReflect.Descriptor instead.
+func (*GetRepoConfigResponse) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetRepoLayoutResponse) GetUsername() string {
+func (x *GetRepoConfigResponse) GetUsername() string {
 	if x != nil {
 		return x.Username
 	}
 	return ""
 }
 
-func (x *GetRepoLayoutResponse) GetLayout() string {
+func (x *GetRepoConfigResponse) GetConfig() string {
 	if x != nil {
-		return x.Layout
+		return x.Config
 	}
 	return ""
 }
 
-func (x *GetRepoLayoutResponse) GetVisibilityLevel() string {
+func (x *GetRepoConfigResponse) GetVisibilityLevel() string {
 	if x != nil {
 		return x.VisibilityLevel
 	}
@@ -1534,18 +1534,18 @@ var file_rpcs_rpc_repo_proto_rawDesc = []byte{
 	0x6d, 0x65, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x68,
 	0x6f, 0x6d, 0x65, 0x50, 0x61, 0x67, 0x65, 0x22, 0x14, 0x0a, 0x12, 0x43, 0x72, 0x65, 0x61, 0x74,
 	0x65, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4f, 0x0a,
-	0x14, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x4c, 0x61, 0x79, 0x6f, 0x75, 0x74, 0x52, 0x65,
+	0x14, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
 	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
 	0x65, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x70, 0x6f, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x70, 0x6f, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x76,
-	0x0a, 0x15, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x4c, 0x61, 0x79, 0x6f, 0x75, 0x74, 0x52,
+	0x0a, 0x15, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52,
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
-	0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
-	0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x6c, 0x61, 0x79, 0x6f, 0x75, 0x74, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x6c, 0x61, 0x79, 0x6f, 0x75, 0x74, 0x12, 0x29, 0x0a, 0x10, 0x76,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
+	0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x29, 0x0a, 0x10, 0x76,
 	0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x76, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x76, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74,
 	0x79, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x22, 0x4c, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
 	0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75,
 	0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75,
@@ -1691,8 +1691,8 @@ var file_rpcs_rpc_repo_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_rpcs_rpc_repo_proto_goTypes = []interface{}{
 	(*CreateRepoRequest)(nil),                // 0: pb.CreateRepoRequest
 	(*CreateRepoResponse)(nil),               // 1: pb.CreateRepoResponse
-	(*GetRepoLayoutRequest)(nil),             // 2: pb.GetRepoLayoutRequest
-	(*GetRepoLayoutResponse)(nil),            // 3: pb.GetRepoLayoutResponse
+	(*GetRepoConfigRequest)(nil),             // 2: pb.GetRepoConfigRequest
+	(*GetRepoConfigResponse)(nil),            // 3: pb.GetRepoConfigResponse
 	(*DeleteRepoRequest)(nil),                // 4: pb.DeleteRepoRequest
 	(*DeleteRepoResponse)(nil),               // 5: pb.DeleteRepoResponse
 	(*ManualSyncRepoRequest)(nil),            // 6: pb.ManualSyncRepoRequest
@@ -1761,7 +1761,7 @@ func file_rpcs_rpc_repo_proto_init() {
 			}
 		}
 		file_rpcs_rpc_repo_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetRepoLayoutRequest); i {
+			switch v := v.(*GetRepoConfigRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1773,7 +1773,7 @@ func file_rpcs_rpc_repo_proto_init() {
 			}
 		}
 		file_rpcs_rpc_repo_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetRepoLayoutResponse); i {
+			switch v := v.(*GetRepoConfigResponse); i {
 			case 0:
 				return &v.state
 			case 1:

@@ -77,8 +77,8 @@ type Querier interface {
 	GetRepo(ctx context.Context, repoID int64) (Repo, error)
 	GetRepoBasicInfo(ctx context.Context, arg GetRepoBasicInfoParams) (GetRepoBasicInfoRow, error)
 	GetRepoByRepoName(ctx context.Context, arg GetRepoByRepoNameParams) (GetRepoByRepoNameRow, error)
+	GetRepoConfig(ctx context.Context, arg GetRepoConfigParams) (GetRepoConfigRow, error)
 	GetRepoID(ctx context.Context, arg GetRepoIDParams) (int64, error)
-	GetRepoLayout(ctx context.Context, arg GetRepoLayoutParams) (GetRepoLayoutRow, error)
 	GetRepoPermission(ctx context.Context, repoID int64) (GetRepoPermissionRow, error)
 	GetRepoRelation(ctx context.Context, arg GetRepoRelationParams) (RepoRelation, error)
 	GetRepoVisibilityByRepoCount(ctx context.Context, repoID int64) (int64, error)
@@ -128,8 +128,8 @@ type Querier interface {
 	UpdateCommentReportStatus(ctx context.Context, arg UpdateCommentReportStatusParams) error
 	UpdateConfiguration(ctx context.Context, arg UpdateConfigurationParams) error
 	UpdateMarkdownMulti(ctx context.Context, arg UpdateMarkdownMultiParams) error
+	UpdateRepoConfig(ctx context.Context, arg UpdateRepoConfigParams) error
 	UpdateRepoInfo(ctx context.Context, arg UpdateRepoInfoParams) (Repo, error)
-	UpdateRepoLayout(ctx context.Context, arg UpdateRepoLayoutParams) error
 	UpdateUnreadCount(ctx context.Context, userID int64) error
 	UpdateUserBasicInfo(ctx context.Context, arg UpdateUserBasicInfoParams) (User, error)
 }

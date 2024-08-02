@@ -17,9 +17,9 @@ INSERT INTO repos (
 ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) 
 RETURNING *;
 
--- name: UpdateRepoLayout :exec
+-- name: UpdateRepoConfig :exec
 UPDATE repos
-SET layout=$2,commit_id=$3,updated_at=now()
+SET config=$2,commit_id=$3,updated_at=now()
 WHERE repo_id = $1;
 
 -- name: UpdateRepoInfo :one
@@ -53,8 +53,8 @@ SELECT * from repos
 JOIN users on users.user_id= repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2;
 
--- name: GetRepoLayout :one
-SELECT repos.repo_id,layout,repos.user_id,visibility_level FROM repos
+-- name: GetRepoConfig :one
+SELECT repos.repo_id,config,repos.user_id,visibility_level FROM repos
 JOIN users on users.user_id = repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2;
 

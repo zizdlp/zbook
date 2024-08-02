@@ -36,11 +36,11 @@ func TestCreateRepo(t *testing.T) {
 }
 func TestUpdateRepoLayout(t *testing.T) {
 	repo := createRandomRepo(t)
-	arg := UpdateRepoLayoutParams{
+	arg := UpdateRepoConfigParams{
 		RepoID: repo.RepoID,
-		Layout: util.RandomString(32),
+		Config: util.RandomString(32),
 	}
-	err := testStore.UpdateRepoLayout(context.Background(), arg)
+	err := testStore.UpdateRepoConfig(context.Background(), arg)
 	require.NoError(t, err)
 }
 func TestUpdateRepoInfo(t *testing.T) {
@@ -163,14 +163,14 @@ func TestGetRepoLayout(t *testing.T) {
 	repo, err := testStore.CreateRepo(context.Background(), arg)
 	require.NoError(t, err)
 	require.Equal(t, repo.UserID, user.UserID)
-	arg_get := GetRepoLayoutParams{
+	arg_get := GetRepoConfigParams{
 		Username: user.Username,
 		RepoName: repo.RepoName,
 	}
-	repo_ret, err := testStore.GetRepoLayout(context.Background(), arg_get)
+	repo_ret, err := testStore.GetRepoConfig(context.Background(), arg_get)
 	require.NoError(t, err)
 	require.Equal(t, repo_ret.RepoID, repo.RepoID)
-	require.Equal(t, repo_ret.Layout, repo.Layout)
+	require.Equal(t, repo_ret.Config, repo.Config)
 }
 
 func TestGetRepoPermission(t *testing.T) {
