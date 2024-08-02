@@ -32,7 +32,7 @@ export default function SubMenuDirItem({
         }}
         className={`group mt-2 lg:mt-0 cursor-pointer  ${
           layer == 1
-            ? " pl-4 "
+            ? "pl-4"
             : layer == 2
             ? "pl-7"
             : layer == 3

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import FrpcSideBar from "./FrpcSideBar";
 
 export default function frpc() {
@@ -6,7 +7,7 @@ export default function frpc() {
       <span className="fixed inset-0 bg-background-light dark:bg-background-dark"></span>
       <span className="fixed inset-0"></span>
       <div id="navbar" className="z-30 fixed top-0 w-full">
-        <div className="max-w-8xl mx-auto">
+        <div className="max-w-[92rem] mx-auto">
           <div
             id="navbar-transition"
             className="backdrop-blur flex-none transition-colors duration-500 supports-backdrop-blur:bg-background-light/60 dark:bg-transparent"
