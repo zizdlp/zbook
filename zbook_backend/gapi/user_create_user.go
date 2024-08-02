@@ -71,15 +71,19 @@ func (server *Server) CreateUser(ctx context.Context, req *rpcs.CreateUserReques
 			Email:          req.GetEmail(),
 		},
 		AfterCreate: func(user db.User) error {
-			taskPayload := &worker.PayloadVerifyEmail{
-				Email: user.Email,
+			if server.config.REQUIRE_EMAIL_VERIFY {
+				taskPayload := &worker.PayloadVerifyEmail{
+					Email: user.Email,
+				}
+				opts := []asynq.Option{
+					asynq.MaxRetry(10),
+					asynq.ProcessIn(10 * time.Second),
+					asynq.Queue(worker.QueueCritical),
+				}
+				return server.taskDistributor.DistributeTaskVerifyEmail(ctx, taskPayload, opts...)
+			} else {
+				return nil
 			}
-			opts := []asynq.Option{
-				asynq.MaxRetry(10),
-				asynq.ProcessIn(10 * time.Second),
-				asynq.Queue(worker.QueueCritical),
-			}
-			return server.taskDistributor.DistributeTaskVerifyEmail(ctx, taskPayload, opts...)
 		},
 	}
 

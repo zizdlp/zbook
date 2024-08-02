@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import Menu from "./Menu";
 
 export default function FrpcSideBar() {

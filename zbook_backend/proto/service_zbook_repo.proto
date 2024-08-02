@@ -36,16 +36,16 @@ service ZBookRepo {
   };
 };
 
-// 2.GetRepoLayout
-rpc GetRepoLayout(GetRepoLayoutRequest) returns (GetRepoLayoutResponse) {
+// 2.GetRepoConfig
+rpc GetRepoConfig(GetRepoConfigRequest) returns (GetRepoConfigResponse) {
   option (google.api.http) = {
-    post: "/v1/get_repo_layout",
+    post: "/v1/get_repo_config",
     body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-    description: "Use this api to  get repo layout";
+    description: "Use this api to  get repo config";
 summary:
-  "get repo layout";
+  "get repo config";
 };
 }
 ;

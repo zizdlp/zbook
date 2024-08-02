@@ -13,8 +13,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) GetRepoLayout(ctx context.Context, req *rpcs.GetRepoLayoutRequest) (*rpcs.GetRepoLayoutResponse, error) {
-	violations := validateGetRepoLayoutRequest(req)
+func (server *Server) GetRepoConfig(ctx context.Context, req *rpcs.GetRepoConfigRequest) (*rpcs.GetRepoConfigResponse, error) {
+	violations := validateGetRepoConfigRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
@@ -24,7 +24,7 @@ func (server *Server) GetRepoLayout(ctx context.Context, req *rpcs.GetRepoLayout
 	}
 	repo_id, err := server.store.GetRepoID(ctx, arg_repo)
 	if err != nil {
-		log.Info().Msgf("get repo layout get repo id failed:%s,%s", req.GetUsername(), req.GetRepoName())
+		log.Info().Msgf("get repo config get repo id failed:%s,%s", req.GetUsername(), req.GetRepoName())
 		return nil, status.Errorf(codes.Internal, "get repo id failed: %s", err)
 	}
 
@@ -33,13 +33,13 @@ func (server *Server) GetRepoLayout(ctx context.Context, req *rpcs.GetRepoLayout
 		return nil, err
 	}
 
-	arg := db.GetRepoLayoutParams{Username: req.GetUsername(), RepoName: req.GetRepoName()}
-	repo, err := server.store.GetRepoLayout(ctx, arg)
+	arg := db.GetRepoConfigParams{Username: req.GetUsername(), RepoName: req.GetRepoName()}
+	repo, err := server.store.GetRepoConfig(ctx, arg)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
-			return nil, status.Errorf(codes.NotFound, "repo layout not found: %s", err)
+			return nil, status.Errorf(codes.NotFound, "repo config not found: %s", err)
 		}
-		return nil, status.Errorf(codes.Internal, "get repo layout failed: %s", err)
+		return nil, status.Errorf(codes.Internal, "get repo config failed: %s", err)
 	}
 	user, err := server.store.GetUserByUsername(ctx, req.GetUsername())
 	if err != nil {
@@ -49,14 +49,14 @@ func (server *Server) GetRepoLayout(ctx context.Context, req *rpcs.GetRepoLayout
 		return nil, status.Errorf(codes.Internal, "get user by id failed: %s", err)
 	}
 
-	rsp := &rpcs.GetRepoLayoutResponse{
-		Layout:          repo.Layout,
+	rsp := &rpcs.GetRepoConfigResponse{
+		Config:          repo.Config,
 		Username:        user.Username,
 		VisibilityLevel: repo.VisibilityLevel,
 	}
 	return rsp, nil
 }
-func validateGetRepoLayoutRequest(req *rpcs.GetRepoLayoutRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateGetRepoConfigRequest(req *rpcs.GetRepoConfigRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	err := val.ValidateUsername(req.GetUsername())
 	if err != nil {
 		violations = append(violations, fieldViolation("username", err))

@@ -17,15 +17,15 @@ message CreateRepoRequest {
 }
 message CreateRepoResponse {}
 
-// 2.GetRepoLayout
-message GetRepoLayoutRequest {
+// 2.GetRepoConfig
+message GetRepoConfigRequest {
   string username  = 1;
   string repo_name = 2;
 }
-message GetRepoLayoutResponse {
-  string username         = 2;
-  string layout           = 3;
-  string visibility_level = 4;
+message GetRepoConfigResponse {
+  string username         = 1;
+  string config           = 2;
+  string visibility_level = 3;
 }
 
 // 3.DeleteRepo

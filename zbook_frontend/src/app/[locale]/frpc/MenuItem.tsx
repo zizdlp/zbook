@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React from "react";
 import { FaBookOpen, FaGithub } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
@@ -38,12 +39,12 @@ export default function MenuItem({
             `}
       >
         <div
-          className={`mr-4 rounded-md p-1 border 
+          className={`mr-4 rounded-md p-1 ring-1 ring-slate-300 dark:ring-slate-700
 
             ${
               selected
-                ? "bg-gradient-to-r from-purple-600 to-pink-400"
-                : "group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-400"
+                ? "bg-gradient-to-r from-purple-600 to-pink-400 ring-0"
+                : "group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-400 group-hover:ring-0"
             }
             `}
         >

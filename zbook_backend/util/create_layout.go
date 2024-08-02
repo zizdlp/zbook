@@ -32,10 +32,9 @@ func findOrCreateSubLayout(layout *Layout, title string) *Layout {
 	layout.Sublayouts = append(layout.Sublayouts, newLayout)
 	return &layout.Sublayouts[len(layout.Sublayouts)-1]
 }
-
-func CreateLayout(files []string) Layout {
+func CreateLayout(files []string) []Layout {
 	root := Layout{
-		Title:        "wiki",
+		Title:        "root",
 		RelativePath: "",
 		Isdir:        true,
 		Sublayouts:   []Layout{},
@@ -72,7 +71,7 @@ func CreateLayout(files []string) Layout {
 	// 对 Sublayouts 进行排序，使得目录在前，文件在后
 	sortLayouts(&root)
 
-	return root
+	return root.Sublayouts
 }
 
 // sortLayouts 对 Sublayouts 进行排序，使得目录在前，文件在后

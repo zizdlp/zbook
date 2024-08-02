@@ -118,7 +118,7 @@ type Repo struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
-	Layout          string      `json:"layout"`
+	Config          string      `json:"config"`
 	SidebarTheme    string      `json:"sidebar_theme"`
 	ContentTheme    string      `json:"content_theme"`
 	CreatedAt       time.Time   `json:"created_at"`

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React from "react";
 import MenuItem from "./MenuItem";
 import { FaBookOpen, FaDiscord, FaGithub } from "react-icons/fa";

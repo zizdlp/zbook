@@ -22,7 +22,7 @@ export default async function SideBarLayout({
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";
     const data = await fetchServerWithAuthWrapper({
-      endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_LAYOUT,
+      endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_CONFIG,
       xforward: xforward,
       agent: agent,
       tags: [],
@@ -34,13 +34,13 @@ export default async function SideBarLayout({
     if (data.error) {
       throw new FetchError(data.message, data.status);
     }
-    if (data && data.layout) {
-      const stringLayout = data.layout;
-      const jsonLayout = JSON.parse(stringLayout);
-      const sublayouts = jsonLayout.sublayouts;
+    if (data && data.config) {
+      const stringConfig = data.config;
+      const jsonConfig = JSON.parse(stringConfig);
+      const layout = jsonConfig.layout;
       return (
         <RepoSideBar
-          sublayouts={sublayouts}
+          sublayouts={layout}
           reponame={reponame}
           username={data.username}
           authname={authname}

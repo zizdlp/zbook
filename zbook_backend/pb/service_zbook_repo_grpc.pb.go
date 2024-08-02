@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ZBookRepo_CreateRepo_FullMethodName               = "/pb.ZBookRepo/CreateRepo"
-	ZBookRepo_GetRepoLayout_FullMethodName            = "/pb.ZBookRepo/GetRepoLayout"
+	ZBookRepo_GetRepoConfig_FullMethodName            = "/pb.ZBookRepo/GetRepoConfig"
 	ZBookRepo_DeleteRepo_FullMethodName               = "/pb.ZBookRepo/DeleteRepo"
 	ZBookRepo_ManualSyncRepo_FullMethodName           = "/pb.ZBookRepo/ManualSyncRepo"
 	ZBookRepo_AutoSyncRepo_FullMethodName             = "/pb.ZBookRepo/AutoSyncRepo"
@@ -41,8 +41,8 @@ const (
 type ZBookRepoClient interface {
 	// 1.CreateRepo
 	CreateRepo(ctx context.Context, in *rpcs.CreateRepoRequest, opts ...grpc.CallOption) (*rpcs.CreateRepoResponse, error)
-	// 2.GetRepoLayout
-	GetRepoLayout(ctx context.Context, in *rpcs.GetRepoLayoutRequest, opts ...grpc.CallOption) (*rpcs.GetRepoLayoutResponse, error)
+	// 2.GetRepoConfig
+	GetRepoConfig(ctx context.Context, in *rpcs.GetRepoConfigRequest, opts ...grpc.CallOption) (*rpcs.GetRepoConfigResponse, error)
 	// 3.DeleteRepo
 	DeleteRepo(ctx context.Context, in *rpcs.DeleteRepoRequest, opts ...grpc.CallOption) (*rpcs.DeleteRepoResponse, error)
 	// 4.ManualSyncRepo
@@ -84,9 +84,9 @@ func (c *zBookRepoClient) CreateRepo(ctx context.Context, in *rpcs.CreateRepoReq
 	return out, nil
 }
 
-func (c *zBookRepoClient) GetRepoLayout(ctx context.Context, in *rpcs.GetRepoLayoutRequest, opts ...grpc.CallOption) (*rpcs.GetRepoLayoutResponse, error) {
-	out := new(rpcs.GetRepoLayoutResponse)
-	err := c.cc.Invoke(ctx, ZBookRepo_GetRepoLayout_FullMethodName, in, out, opts...)
+func (c *zBookRepoClient) GetRepoConfig(ctx context.Context, in *rpcs.GetRepoConfigRequest, opts ...grpc.CallOption) (*rpcs.GetRepoConfigResponse, error) {
+	out := new(rpcs.GetRepoConfigResponse)
+	err := c.cc.Invoke(ctx, ZBookRepo_GetRepoConfig_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -198,8 +198,8 @@ func (c *zBookRepoClient) GetListRepoCount(ctx context.Context, in *rpcs.GetList
 type ZBookRepoServer interface {
 	// 1.CreateRepo
 	CreateRepo(context.Context, *rpcs.CreateRepoRequest) (*rpcs.CreateRepoResponse, error)
-	// 2.GetRepoLayout
-	GetRepoLayout(context.Context, *rpcs.GetRepoLayoutRequest) (*rpcs.GetRepoLayoutResponse, error)
+	// 2.GetRepoConfig
+	GetRepoConfig(context.Context, *rpcs.GetRepoConfigRequest) (*rpcs.GetRepoConfigResponse, error)
 	// 3.DeleteRepo
 	DeleteRepo(context.Context, *rpcs.DeleteRepoRequest) (*rpcs.DeleteRepoResponse, error)
 	// 4.ManualSyncRepo
@@ -232,8 +232,8 @@ type UnimplementedZBookRepoServer struct {
 func (UnimplementedZBookRepoServer) CreateRepo(context.Context, *rpcs.CreateRepoRequest) (*rpcs.CreateRepoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRepo not implemented")
 }
-func (UnimplementedZBookRepoServer) GetRepoLayout(context.Context, *rpcs.GetRepoLayoutRequest) (*rpcs.GetRepoLayoutResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRepoLayout not implemented")
+func (UnimplementedZBookRepoServer) GetRepoConfig(context.Context, *rpcs.GetRepoConfigRequest) (*rpcs.GetRepoConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRepoConfig not implemented")
 }
 func (UnimplementedZBookRepoServer) DeleteRepo(context.Context, *rpcs.DeleteRepoRequest) (*rpcs.DeleteRepoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRepo not implemented")
@@ -299,20 +299,20 @@ func _ZBookRepo_CreateRepo_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookRepo_GetRepoLayout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.GetRepoLayoutRequest)
+func _ZBookRepo_GetRepoConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.GetRepoConfigRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ZBookRepoServer).GetRepoLayout(ctx, in)
+		return srv.(ZBookRepoServer).GetRepoConfig(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ZBookRepo_GetRepoLayout_FullMethodName,
+		FullMethod: ZBookRepo_GetRepoConfig_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookRepoServer).GetRepoLayout(ctx, req.(*rpcs.GetRepoLayoutRequest))
+		return srv.(ZBookRepoServer).GetRepoConfig(ctx, req.(*rpcs.GetRepoConfigRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -527,8 +527,8 @@ var ZBookRepo_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ZBookRepo_CreateRepo_Handler,
 		},
 		{
-			MethodName: "GetRepoLayout",
-			Handler:    _ZBookRepo_GetRepoLayout_Handler,
+			MethodName: "GetRepoConfig",
+			Handler:    _ZBookRepo_GetRepoConfig_Handler,
 		},
 		{
 			MethodName: "DeleteRepo",

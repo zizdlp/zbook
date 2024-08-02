@@ -259,16 +259,16 @@
         ]
       }
     },
-    "/v1/get_repo_layout": {
+    "/v1/get_repo_config": {
       "post": {
-        "summary": "get repo layout",
-        "description": "Use this api to  get repo layout",
-        "operationId": "ZBookRepo_GetRepoLayout",
+        "summary": "get repo config",
+        "description": "Use this api to  get repo config",
+        "operationId": "ZBookRepo_GetRepoConfig",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/pbGetRepoLayoutResponse"
+              "$ref": "#/definitions/pbGetRepoConfigResponse"
             }
           },
           "default": {
@@ -284,7 +284,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/pbGetRepoLayoutRequest"
+              "$ref": "#/definitions/pbGetRepoConfigRequest"
             }
           }
         ],
@@ -628,7 +628,7 @@
         }
       }
     },
-    "pbGetRepoLayoutRequest": {
+    "pbGetRepoConfigRequest": {
       "type": "object",
       "properties": {
         "username": {
@@ -638,15 +638,15 @@
           "type": "string"
         }
       },
-      "title": "2.GetRepoLayout"
+      "title": "2.GetRepoConfig"
     },
-    "pbGetRepoLayoutResponse": {
+    "pbGetRepoConfigResponse": {
       "type": "object",
       "properties": {
         "username": {
           "type": "string"
         },
-        "layout": {
+        "config": {
           "type": "string"
         },
         "visibilityLevel": {

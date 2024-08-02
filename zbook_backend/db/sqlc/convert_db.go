@@ -52,7 +52,9 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 	// Process added and modified files
 	processFiles(addedFiles, true)
 	processFiles(modifiedFiles, false)
-
+	fmt.Println("addfiles:", addedFiles)
+	fmt.Println("modifiles:", modifiedFiles)
+	fmt.Println("deletfile:", deletedFiles)
 	// Process deleted files
 	filteredMarkdowns := util.FilterDiffFilesByExtensions(deletedFiles, allowedExtensions)
 	for _, filteredMarkdown := range filteredMarkdowns {
@@ -65,25 +67,42 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 		return err
 	}
 
-	// Generate layout
-	mdFiles, err := operations.ListMarkdownFiles(cloneDir)
+	configFromFile, err := util.ReadRepoConfig(cloneDir + "/" + "zbook.json")
 	if err != nil {
-		return fmt.Errorf("generate layout failed: %v", err)
+		// Generate config
+		mdFiles, err := operations.ListMarkdownFiles(cloneDir)
+		if err != nil {
+			return fmt.Errorf("read layout failed: %v", err)
+		}
+		config := &util.RepoConfig{}
+		layout := util.CreateLayout(mdFiles)
+		config.Layout = layout
+		configJSON, err := json.MarshalIndent(config, "", "  ")
+		if err != nil {
+			return fmt.Errorf("generate repo config failed: %v", err)
+		}
+		arg_update_repo_config := UpdateRepoConfigParams{
+			RepoID:   repoID,
+			Config:   string(configJSON),
+			CommitID: lastCommit,
+		}
+		if err := q.UpdateRepoConfig(ctx, arg_update_repo_config); err != nil {
+			return fmt.Errorf("update repo config failed: %v", err)
+		}
+		log.Info().Msgf("convert md repo to db: total execution time:%s", time.Since(startTime))
+		return nil
 	}
-
-	layout := util.CreateLayout(mdFiles)
-	layoutJSON, err := json.MarshalIndent(layout, "", "  ")
+	configJSON, err := json.MarshalIndent(configFromFile, "", "  ")
 	if err != nil {
-		return fmt.Errorf("generate layout failed: %v", err)
+		return fmt.Errorf("generate repo config failed: %v", err)
 	}
-
-	arg_update_repo_layout := UpdateRepoLayoutParams{
+	arg_update_repo_config := UpdateRepoConfigParams{
 		RepoID:   repoID,
-		Layout:   string(layoutJSON),
+		Config:   string(configJSON),
 		CommitID: lastCommit,
 	}
-	if err := q.UpdateRepoLayout(ctx, arg_update_repo_layout); err != nil {
-		return fmt.Errorf("update repo layout failed: %v", err)
+	if err := q.UpdateRepoConfig(ctx, arg_update_repo_config); err != nil {
+		return fmt.Errorf("update repo config failed: %v", err)
 	}
 	log.Info().Msgf("convert md repo to db: total execution time:%s", time.Since(startTime))
 	return nil
