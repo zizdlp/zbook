@@ -74,6 +74,8 @@ export default function CreateRepoDialog() {
       visibility_level: "",
       sync_token: "",
       home_page: "",
+      sidebar_theme: "",
+      content_theme: "",
     },
     validate: validateCreateRepo,
     onSubmit: onSubmit,
@@ -176,6 +178,47 @@ export default function CreateRepoDialog() {
                   { value: "public", label: t("VisibleEveryone") },
                 ]}
                 nameKey="visibility_level"
+                formik={formik}
+              />
+            </FormGroupWrapper>
+
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-3"
+              nameKey="sidebar_theme"
+              showName={t("SideBarTheme")}
+              formik={formik}
+            >
+              <FormListBox
+                options={[
+                  { value: "", label: t("ChooseSideBarTheme") },
+                  {
+                    value: "theme_sidebar_fold",
+                    label: t("ThemeSideBarFold"),
+                  },
+                  {
+                    value: "theme_sidebar_unfold",
+                    label: t("ThemeSideBarUnFold"),
+                  },
+                ]}
+                nameKey="sidebar_theme"
+                formik={formik}
+              />
+            </FormGroupWrapper>
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-3"
+              nameKey="content_theme"
+              showName={t("ContentTheme")}
+              formik={formik}
+            >
+              <FormListBox
+                options={[
+                  { value: "", label: t("ChooseContentTheme") },
+                  {
+                    value: "theme_content_fold",
+                    label: t("ThemeContentDefault"),
+                  },
+                ]}
+                nameKey="content_theme"
                 formik={formik}
               />
             </FormGroupWrapper>

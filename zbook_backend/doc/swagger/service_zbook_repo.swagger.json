@@ -506,6 +506,12 @@
         },
         "homePage": {
           "type": "string"
+        },
+        "sidebarTheme": {
+          "type": "string"
+        },
+        "contentTheme": {
+          "type": "string"
         }
       },
       "title": "1.CreateRepo"
@@ -650,6 +656,12 @@
           "type": "string"
         },
         "visibilityLevel": {
+          "type": "string"
+        },
+        "sidebarTheme": {
+          "type": "string"
+        },
+        "contentTheme": {
           "type": "string"
         }
       }
@@ -826,6 +838,12 @@
           "type": "string"
         },
         "homePage": {
+          "type": "string"
+        },
+        "sidebarTheme": {
+          "type": "string"
+        },
+        "contentTheme": {
           "type": "string"
         }
       },

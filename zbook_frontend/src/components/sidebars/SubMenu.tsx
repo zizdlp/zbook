@@ -8,6 +8,7 @@ export default function SubMenu({
   layer,
   pathname,
   locale,
+  collapse,
 }: SubMenuProps) {
   return (
     <ul>
@@ -20,6 +21,7 @@ export default function SubMenu({
               pathname={pathname}
               locale={locale}
               prefix={prefix}
+              collapse={collapse}
             />
           </li>
         ) : (
@@ -30,6 +32,7 @@ export default function SubMenu({
               pathname={pathname}
               locale={locale}
               prefix={prefix}
+              collapse={collapse}
             />
           </li>
         )

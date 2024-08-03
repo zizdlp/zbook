@@ -13,7 +13,6 @@ export default function RootLayout({
 }) {
   return (
     <div className="px-4 mx-auto max-w-[92rem] lg:px-8">
-      {/* <FrpcSideBar /> */}
       <Suspense fallback={<SideBarLoading />}>
         <SideBarLayout username={params.username} reponame={params.reponame} />
       </Suspense>

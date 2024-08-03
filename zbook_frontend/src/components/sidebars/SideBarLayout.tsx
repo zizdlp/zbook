@@ -43,6 +43,7 @@ export default async function SideBarLayout({
         <RepoSideBar
           sublayouts={layout}
           anchors={jsonConfig.anchors}
+          sidebar_theme={data.sidebar_theme}
           reponame={reponame}
           username={data.username}
           authname={authname}

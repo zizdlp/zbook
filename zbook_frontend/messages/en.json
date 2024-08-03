@@ -115,6 +115,13 @@
     "Unresolved": "Unresolved"
   },
   "Repo": {
+    "ContentTheme": "Content Theme",
+    "ChooseContentTheme": "Choose Content Theme",
+    "ThemeContentDefault": "Default",
+    "SideBarTheme": "SideBar Theme",
+    "ChooseSideBarTheme": "Choose SideBar Theme",
+    "ThemeSideBarFold": "Fold",
+    "ThemeSideBarUnFold": "ThemeSideBarUnFold",
     "GitProtocol": "https://",
     "InvalidRepoName": "Repository name is invalid",
     "Required": "Required",

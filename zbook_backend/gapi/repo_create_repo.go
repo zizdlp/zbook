@@ -38,14 +38,14 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 			GitHost:         GitHost,
 			GitUsername:     GitUsername,
 			GitRepo:         GitRepo,
-			SidebarTheme:    util.ThemeSideBarDefault,
-			ContentTheme:    util.ThemeContentDefault,
 			GitAccessToken:  pgtype.Text{String: req.GetGitAccessToken(), Valid: req.GetGitAccessToken() != ""},
 			RepoName:        req.GetRepoName(),
 			RepoDescription: req.GetRepoDescription(),
 			SyncToken:       pgtype.Text{String: req.GetSyncToken(), Valid: req.GetSyncToken() != ""},
 			VisibilityLevel: req.GetVisibilityLevel(),
 			HomePage:        strings.ToLower(req.GetHomePage()),
+			SidebarTheme:    req.GetSidebarTheme(),
+			ContentTheme:    req.GetContentTheme(),
 		},
 		Username: authPayload.Username,
 		AfterCreate: func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
@@ -77,6 +77,13 @@ func validateCreateRepoRequest(req *rpcs.CreateRepoRequest) (violations []*errde
 	}
 	if err := val.ValidateRepoVisibility(req.GetVisibilityLevel()); err != nil {
 		violations = append(violations, fieldViolation("visibility_level", err))
+	}
+
+	if err := val.ValidateRepoSideBarTheme(req.GetSidebarTheme()); err != nil {
+		violations = append(violations, fieldViolation("sidebar_theme", err))
+	}
+	if err := val.ValidateRepoContentTheme(req.GetContentTheme()); err != nil {
+		violations = append(violations, fieldViolation("content_theme", err))
 	}
 
 	return violations

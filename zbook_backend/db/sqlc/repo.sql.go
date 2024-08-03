@@ -550,7 +550,7 @@ func (q *Queries) GetRepoByRepoName(ctx context.Context, arg GetRepoByRepoNamePa
 }
 
 const getRepoConfig = `-- name: GetRepoConfig :one
-SELECT repos.repo_id,config,repos.user_id,visibility_level FROM repos
+SELECT repos.repo_id,config,repos.user_id,visibility_level,repos.sidebar_theme,repos.content_theme FROM repos
 JOIN users on users.user_id = repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2
 `
@@ -565,6 +565,8 @@ type GetRepoConfigRow struct {
 	Config          string `json:"config"`
 	UserID          int64  `json:"user_id"`
 	VisibilityLevel string `json:"visibility_level"`
+	SidebarTheme    string `json:"sidebar_theme"`
+	ContentTheme    string `json:"content_theme"`
 }
 
 func (q *Queries) GetRepoConfig(ctx context.Context, arg GetRepoConfigParams) (GetRepoConfigRow, error) {
@@ -575,6 +577,8 @@ func (q *Queries) GetRepoConfig(ctx context.Context, arg GetRepoConfigParams) (G
 		&i.Config,
 		&i.UserID,
 		&i.VisibilityLevel,
+		&i.SidebarTheme,
+		&i.ContentTheme,
 	)
 	return i, err
 }
@@ -1354,8 +1358,10 @@ repo_description=COALESCE($2,repo_description),
 sync_token=COALESCE($3,sync_token),
 visibility_level=COALESCE($4,visibility_level),
 git_access_token=COALESCE($5,git_access_token),
-home_page=COALESCE($6,home_page)
-WHERE repo_id = $7
+sidebar_theme=COALESCE($6,sidebar_theme),
+content_theme=COALESCE($7,content_theme),
+home_page=COALESCE($8,home_page)
+WHERE repo_id = $9
 RETURNING repo_id, user_id, git_protocol, git_host, git_username, git_repo, git_access_token, repo_name, repo_description, home_page, sync_token, visibility_level, commit_id, config, sidebar_theme, content_theme, created_at, updated_at, fts_repo_en, fts_repo_zh
 `
 
@@ -1365,6 +1371,8 @@ type UpdateRepoInfoParams struct {
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel pgtype.Text `json:"visibility_level"`
 	GitAccessToken  pgtype.Text `json:"git_access_token"`
+	SidebarTheme    pgtype.Text `json:"sidebar_theme"`
+	ContentTheme    pgtype.Text `json:"content_theme"`
 	HomePage        pgtype.Text `json:"home_page"`
 	RepoID          int64       `json:"repo_id"`
 }
@@ -1376,6 +1384,8 @@ func (q *Queries) UpdateRepoInfo(ctx context.Context, arg UpdateRepoInfoParams) 
 		arg.SyncToken,
 		arg.VisibilityLevel,
 		arg.GitAccessToken,
+		arg.SidebarTheme,
+		arg.ContentTheme,
 		arg.HomePage,
 		arg.RepoID,
 	)

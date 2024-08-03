@@ -11,12 +11,14 @@ export default function SubMenuDirItem({
   pathname,
   locale,
   prefix,
+  collapse,
 }: {
   layer: number;
   menu: MenuStruct;
   pathname: string;
   locale: string;
   prefix: string;
+  collapse: boolean;
 }) {
   const { sideBarReload, setSideBarReload } = useContext(SideBarContext);
   const [open, setOpen] = useState(false);
@@ -34,10 +36,18 @@ export default function SubMenuDirItem({
         }}
         className={`group mt-2 lg:mt-0 cursor-pointer  ${
           layer == 1
-            ? "pl-4"
+            ? collapse
+              ? "pl-0"
+              : "pl-4"
             : layer == 2
-            ? "pl-7"
+            ? collapse
+              ? "pl-4"
+              : "pl-7"
             : layer == 3
+            ? collapse
+              ? "pl-7"
+              : "pl-10"
+            : collapse
             ? "pl-10"
             : "pl-14"
         } flex items-center  pr-3 py-1.5 rounded-lg my-0.5
@@ -72,6 +82,7 @@ export default function SubMenuDirItem({
           layer={layer + 1}
           pathname={pathname}
           locale={locale}
+          collapse={collapse}
         />
       )}
     </>

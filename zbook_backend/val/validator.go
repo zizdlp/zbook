@@ -27,7 +27,18 @@ func ValidateRepoVisibility(value string) error {
 	}
 	return nil
 }
-
+func ValidateRepoSideBarTheme(value string) error {
+	if value != util.ThemeSideBarFold && value != util.ThemeSideBarUnfold {
+		return fmt.Errorf("invalid sidebar theme")
+	}
+	return nil
+}
+func ValidateRepoContentTheme(value string) error {
+	if value != util.ThemeContentDefault {
+		return fmt.Errorf("invalid content theme")
+	}
+	return nil
+}
 func ValidateTitle(value string) error {
 	return ValidateString(value, 1, 100)
 }

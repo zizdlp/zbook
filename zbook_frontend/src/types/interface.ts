@@ -16,6 +16,7 @@ interface SubMenuProps {
   layer: number;
   pathname: string;
   locale: string;
+  collapse: boolean;
 }
 
 interface SearchParams {

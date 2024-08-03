@@ -17,12 +17,12 @@ export default async function NavBar() {
         bg-transparent text-slate-500 dark:text-slate-200
         flex justify-between items-center 
         py-2
-        pl-[max(0.5rem,calc(50%-49.5rem))] 2xl:pl-[max(0.5rem,calc(50%-49.5rem))]
-        pr-[max(0.5rem,calc(50%-49.5rem))] 2xl:pr-[max(0.5rem,calc(50%-49.5rem))]
+        px-4 mx-auto max-w-[92rem] lg:px-8
+        left-auto right-auto
         "
     >
       <div className="flex items-center">
-        <div className="lg:hidden px-2">
+        <div className="lg:hidden">
           <SideBarToggle />
         </div>
 
@@ -33,11 +33,11 @@ export default async function NavBar() {
           <Image
             src="/logo_128.png"
             alt="Picture of logo"
-            className="w-8 h-8 md:w-8 md:h-8 my-0.5 hidden lg:block rounded-md mx-2"
+            className="w-8 h-8 md:w-8 md:h-8 my-0.5 hidden lg:block rounded-md"
             width={128}
             height={128}
           />
-          <p className="font-bold text-xl md:text-xl">
+          <p className="font-bold text-xl md:text-xl mx-2">
             <span className="bg-gradient-to-r from-teal-500 to-blue-500 inline-block text-transparent bg-clip-text">
               {t("AppName")}
             </span>

@@ -15,7 +15,7 @@ export default async function RootLayout({
   const session = await auth();
   if (session && session.access_token) {
     return (
-      <div className="overflow-hidden">
+      <div className="px-4 mx-auto max-w-[92rem] lg:px-8">
         <Suspense
           fallback={
             <UserSideBarLoading
