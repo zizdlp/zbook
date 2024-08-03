@@ -26,10 +26,7 @@ export default function RepoSideBar({
   const pathname = usePathname();
   const locale = useLocale();
   return (
-    <div
-      className="z-20 hidden lg:block fixed bottom-0 right-auto w-[18rem] top-[4rem]"
-      id="sidebar"
-    >
+    <SideBarWrapper>
       <div
         className="absolute inset-0 z-10 overflow-auto pr-8 pb-10"
         id="sidebar-content"
@@ -54,7 +51,16 @@ export default function RepoSideBar({
               anchors={anchors}
               visibility_level={visibility_level}
             />
-            <FrpcSubMenu
+            {/* <FrpcSubMenu
+              prefix={`/workspace/${username}/o/${decodeURIComponent(
+                reponame
+              )}/`}
+              menus={sublayouts}
+              layer={1}
+              pathname={pathname}
+              locale={locale}
+            /> */}
+            <SubMenu
               prefix={`/workspace/${username}/o/${decodeURIComponent(
                 reponame
               )}/`}
@@ -66,7 +72,7 @@ export default function RepoSideBar({
           </ul>
         </div>
       </div>
-    </div>
+    </SideBarWrapper>
   );
   // return <FrpcSideBar />;
   // return (

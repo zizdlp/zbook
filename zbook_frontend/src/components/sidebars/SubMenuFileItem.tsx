@@ -25,7 +25,7 @@ export default function SubMenuFileItem({
           : layer == 3
           ? "pl-10"
           : "pl-14"
-      } flex items-center -ml-4 pr-3 py-1.5 rounded-lg my-0.5
+      } flex items-center  pr-3 py-1.5 rounded-lg my-0.5
           ${
             isSameUrl(pathname, locale, prefix, menu.relative_path)
               ? "bg-sky-400/10 text-sky-900 font-semibold dark:text-sky-100 dark:bg-sky-500/10"

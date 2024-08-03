@@ -40,7 +40,7 @@ export default function SubMenuDirItem({
             : layer == 3
             ? "pl-10"
             : "pl-14"
-        } flex items-center -ml-4 pr-3 py-1.5 rounded-lg my-0.5
+        } flex items-center  pr-3 py-1.5 rounded-lg my-0.5
         ${"hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"}
           `}
       >
