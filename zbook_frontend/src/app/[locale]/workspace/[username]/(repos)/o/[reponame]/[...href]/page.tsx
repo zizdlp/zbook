@@ -6,8 +6,6 @@ import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_ut
 import { headers } from "next/headers";
 import { Metadata } from "next";
 import { SearchParams } from "@/types/interface";
-import { fetchServerWithoutAuthWrapper } from "@/fetchs/server_without_auth";
-import { FetchServerWithoutAuthWrapperEndPoint } from "@/fetchs/server_without_auth_util";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
 export async function generateMetadata({

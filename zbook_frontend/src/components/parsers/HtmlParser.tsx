@@ -47,9 +47,25 @@ const parseHTMLString = (
         const HeadingComponent =
           tagName.toLowerCase() as keyof JSX.IntrinsicElements;
         const level = parseInt(tagName.substring(1), 10);
+        if (level == 1) {
+          return (
+            <header id="header" className="relative">
+              <div className="mt-0.5 space-y-2.5">
+                <div className="eyebrow h-5 text-purple-700 dark:text-purple-400 text-sm font-semibold">
+                  {prefixPath}
+                </div>
+                <div className="flex items-center">
+                  <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight dark:text-gray-200">
+                    {Array.from(node.childNodes).map(processNode)}
+                  </h1>
+                </div>
+              </div>
+            </header>
+          );
+        }
         const className =
           level == 1
-            ? "text-xl md:text-3xl font-extrabold text-slate-900 tracking-tight text-center dark:text-slate-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]"
+            ? "text-xl md:text-3xl font-extrabold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]"
             : level == 2
             ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[2em] mb-[1em] leading-[1.3333333]"
             : level == 3

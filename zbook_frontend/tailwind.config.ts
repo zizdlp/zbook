@@ -20,6 +20,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
+  plugins: [
+    require("tailwind-scrollbar")({ nocompatible: true }),
+    // require("@tailwindcss/typography"),
+  ],
 };
 export default config;

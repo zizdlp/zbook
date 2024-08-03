@@ -31,6 +31,7 @@ export default async function SideBarLayout({
         username: username,
       },
     });
+
     if (data.error) {
       throw new FetchError(data.message, data.status);
     }
@@ -41,6 +42,7 @@ export default async function SideBarLayout({
       return (
         <RepoSideBar
           sublayouts={layout}
+          anchors={jsonConfig.anchors}
           reponame={reponame}
           username={data.username}
           authname={authname}
