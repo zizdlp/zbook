@@ -59,8 +59,10 @@ func (server *Server) UpdateRepoInfo(ctx context.Context, req *rpcs.UpdateRepoIn
 			String: req.GetVisibilityLevel(),
 			Valid:  len(req.GetVisibilityLevel()) != 0,
 		},
-		SyncToken: pgtype.Text{String: req.GetSyncToken(), Valid: len(req.GetSyncToken()) != 0},
-		HomePage:  pgtype.Text{String: strings.ToLower(req.GetHomePage()), Valid: len(req.GetHomePage()) != 0},
+		SidebarTheme: pgtype.Text{String: req.GetSidebarTheme(), Valid: len(req.GetSidebarTheme()) != 0},
+		ContentTheme: pgtype.Text{String: req.GetContentTheme(), Valid: len(req.GetContentTheme()) != 0},
+		SyncToken:    pgtype.Text{String: req.GetSyncToken(), Valid: len(req.GetSyncToken()) != 0},
+		HomePage:     pgtype.Text{String: strings.ToLower(req.GetHomePage()), Valid: len(req.GetHomePage()) != 0},
 	}
 
 	_, err = server.store.UpdateRepoInfo(ctx, arg)

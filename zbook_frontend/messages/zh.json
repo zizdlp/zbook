@@ -144,6 +144,13 @@
     "EmailTip": "请输入邮箱"
   },
   "Repo": {
+    "ContentTheme": "内容风格",
+    "ChooseContentTheme": "选择内容风格",
+    "ThemeContentDefault": "默认",
+    "SideBarTheme": "侧边栏风格",
+    "ChooseSideBarTheme": "选择侧边栏风格",
+    "ThemeSideBarFold": "折叠",
+    "ThemeSideBarUnFold": "展开",
     "GitProtocol": "https://",
     "InvalidRepoName": "存储库名称无效",
     "Required": "必填",

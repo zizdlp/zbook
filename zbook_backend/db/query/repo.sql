@@ -30,6 +30,8 @@ repo_description=COALESCE(sqlc.narg(repo_description),repo_description),
 sync_token=COALESCE(sqlc.narg(sync_token),sync_token),
 visibility_level=COALESCE(sqlc.narg(visibility_level),visibility_level),
 git_access_token=COALESCE(sqlc.narg(git_access_token),git_access_token),
+sidebar_theme=COALESCE(sqlc.narg(sidebar_theme),sidebar_theme),
+content_theme=COALESCE(sqlc.narg(content_theme),content_theme),
 home_page=COALESCE(sqlc.narg(home_page),home_page)
 WHERE repo_id = sqlc.arg(repo_id)
 RETURNING *;
@@ -54,7 +56,7 @@ JOIN users on users.user_id= repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2;
 
 -- name: GetRepoConfig :one
-SELECT repos.repo_id,config,repos.user_id,visibility_level FROM repos
+SELECT repos.repo_id,config,repos.user_id,visibility_level,repos.sidebar_theme,repos.content_theme FROM repos
 JOIN users on users.user_id = repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2;
 

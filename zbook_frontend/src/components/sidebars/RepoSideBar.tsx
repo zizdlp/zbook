@@ -7,12 +7,14 @@ import { useLocale } from "next-intl";
 import SideBarSearchButton from "./SideBarSearchButton";
 import { SearchType } from "@/utils/const_value";
 import FrpcSubMenu from "./FrpcSubMenu";
+import SubMenu from "./SubMenu";
 export default function RepoSideBar({
   sublayouts,
   anchors,
   username,
   reponame,
   authname,
+  sidebar_theme,
   visibility_level,
 }: {
   sublayouts: MenuStruct[];
@@ -20,6 +22,7 @@ export default function RepoSideBar({
   username: string;
   reponame: string;
   authname: string;
+  sidebar_theme: string;
   visibility_level: string;
 }) {
   const pathname = usePathname();
@@ -48,21 +51,28 @@ export default function RepoSideBar({
             anchors={anchors ?? []}
             visibility_level={visibility_level}
           />
-          <FrpcSubMenu
-            prefix={`/workspace/${username}/o/${decodeURIComponent(reponame)}/`}
-            menus={sublayouts}
-            layer={1}
-            pathname={pathname}
-            locale={locale}
-          />
-          {/* <SubMenu
-            prefix={`/workspace/${username}/o/${decodeURIComponent(reponame)}/`}
-            menus={sublayouts}
-            layer={1}
-            pathname={pathname}
-            locale={locale}
-            collapse={false}
-          /> */}
+          {sidebar_theme == "theme_sidebar_fold" ? (
+            <SubMenu
+              prefix={`/workspace/${username}/o/${decodeURIComponent(
+                reponame
+              )}/`}
+              menus={sublayouts}
+              layer={1}
+              pathname={pathname}
+              locale={locale}
+              collapse={false}
+            />
+          ) : (
+            <FrpcSubMenu
+              prefix={`/workspace/${username}/o/${decodeURIComponent(
+                reponame
+              )}/`}
+              menus={sublayouts}
+              layer={1}
+              pathname={pathname}
+              locale={locale}
+            />
+          )}
         </ul>
       </div>
     </SideBarWrapper>
