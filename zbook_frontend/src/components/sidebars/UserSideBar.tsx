@@ -1,7 +1,6 @@
 import SideBarSearchButton from "./SideBarSearchButton";
 import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
-import Image from "next/image";
 import { headers } from "next/headers";
 import UserSideBarSetting from "./UserSideBarSetting";
 import ShowComponent from "../ShowComponent";
@@ -15,6 +14,7 @@ import { logger } from "@/utils/logger";
 import OAuthWrapper from "./OAuthWrapper";
 import { auth } from "@/auth";
 import { SearchType } from "@/utils/const_value";
+import UserSideBarProfile from "./UserSideBarProfile";
 export default async function UserSideBar({
   username,
   authname,
@@ -79,7 +79,7 @@ export default async function UserSideBar({
 
     return (
       <SideBarWrapper>
-        <div className="sticky top-0 -ml-0.5 pointer-events-none">
+        <div className="sticky top-0 pointer-events-none z-50 px-4">
           <div className="h-10 bg-white dark:bg-gray-900"></div>
           <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
             <SideBarSearchButton
@@ -90,36 +90,14 @@ export default async function UserSideBar({
           </div>
           <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
         </div>
-        <div className="">
-          <div className="flex flex-col items-center justify-center p-4">
-            {data.user_image_info?.avatar ? (
-              <Image
-                src={`data:image/png;base64,${data.user_image_info?.avatar}`}
-                width={80}
-                height={80}
-                alt="Picture of the user"
-                className={`flex-none w-24 h-24 rounded-full  object-cover ${
-                  data.user_image_info?.avatar
-                    ? ""
-                    : "animate-pulse bg-slate-300 dark:bg-slate-700"
-                }`}
-              />
-            ) : (
-              <div className="flex-none w-24 h-24 rounded-full  object-cover  bg-slate-300 dark:bg-slate-700" />
-            )}
-
-            <p className="text-lg font-semibold">
-              {data.user_basic_info?.username}{" "}
-            </p>
-            <p className="mt-0.5">{data.user_basic_info?.email}</p>
-          </div>
-
-          <blockquote className="text-slate-700 dark:text-slate-300 text-sm">
-            <p className="overflow-x-auto">
-              <span className="font-bold pr-2 text-sm">{t("Bio")}</span>
-              {data.user_basic_info?.motto}
-            </p>
-          </blockquote>
+        <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4">
+          <UserSideBarProfile
+            avatar={data.user_image_info?.avatar}
+            email={data.user_basic_info?.email}
+            username={data.user_basic_info?.username}
+            motto={data.user_basic_info?.motto}
+            bio={t("Bio")}
+          />
 
           <div className="w-full pt-4 rounded-md sm:pt-6">
             <p className="font-semibold text-slate-800 dark:text-slate-400 border-slate-300 dark:border-slate-700 border-b-[0.01rem] pb-0.5">

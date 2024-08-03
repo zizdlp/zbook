@@ -29,7 +29,7 @@ export default function SideBarSearchButton({
       }}
       type="button"
       className="flex w-full items-center text-sm leading-6 text-slate-400 rounded-md ring-none border-[0.1rem] border-slate-200 dark:border-0
-                py-1.5 pl-2 pr-3 dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700 h-12"
+                py-1.5 px-2 dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700 h-12"
     >
       <svg
         width="24"
