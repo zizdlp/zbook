@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import HtmlParser from "@/components/parsers/HtmlParser";
 import { auth } from "@/auth";
 interface WikiInfoProps {

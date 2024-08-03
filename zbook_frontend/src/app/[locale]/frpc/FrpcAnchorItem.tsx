@@ -20,7 +20,7 @@ const IconText = ({
     className={`h-4 w-4  ${selected ? "fill-white" : "group-hover:fill-white"}`}
   />
 );
-export default function MenuItem({
+export default function FrpcAnchorItem({
   href,
   selected,
   text,

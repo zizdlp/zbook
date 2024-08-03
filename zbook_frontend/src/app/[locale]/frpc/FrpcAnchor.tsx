@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-literals */
 import React from "react";
-import MenuItem from "./MenuItem";
 import { FaBookOpen, FaDiscord, FaGithub } from "react-icons/fa";
-export default function Menu() {
+import FrpcAnchorItem from "./FrpcAnchorItem";
+export default function FrpcAnchor() {
   const menuItems = [
     {
       href: "/introduction",
@@ -27,7 +27,7 @@ export default function Menu() {
   return (
     <>
       {menuItems.map((item, index) => (
-        <MenuItem key={index} {...item} />
+        <FrpcAnchorItem key={index} {...item} />
       ))}
     </>
   );

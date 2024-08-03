@@ -1,25 +1,28 @@
 "use client";
-import { AiOutlineSync } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { IoBookOutline } from "react-icons/io5";
+import { IoBook } from "react-icons/io5";
 import {
   fetchServerWithAuthWrapper,
   refreshPage,
 } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import { useTranslations } from "next-intl";
-import RepoSideBarButton from "./RepoSideBarButton";
 import { FetchError } from "@/fetchs/util";
-import { MdOutlineVisibility } from "react-icons/md";
+import { MdCloudSync, MdOutlineVisibility, MdSync } from "react-icons/md";
+import { Anchor } from "@/types/interface";
+import RepoSideBarSettingItem from "./RepoSideBarSetttingItem";
+import { FaDiscord, FaGithub } from "react-icons/fa";
 export default function RepoSideBarSetting({
   username,
   reponame,
   authname,
+  anchors,
   visibility_level,
 }: {
   username: string;
   reponame: string;
   authname: string;
+  anchors: Anchor[];
   visibility_level: string;
 }) {
   const t = useTranslations("SideBar");
@@ -59,51 +62,44 @@ export default function RepoSideBarSetting({
       });
     }
   }
-
   return (
-    <div className="mb-4 md:mt-0">
-      <RepoSideBarButton
-        url={`/workspace/${username}/o/${reponame}`}
-        onclick={() => {}}
-        title={t("RepoHome")}
-        className="group-hover:bg-sky-500"
-      >
-        <IoBookOutline
-          className={`h-4 w-4 group-hover:text-white text-gray-700 dark:text-gray-400`}
-        />
-      </RepoSideBarButton>
-
+    <>
+      <RepoSideBarSettingItem
+        href={`/workspace/${username}/o/${reponame}`}
+        selected={true}
+        icon={IoBook}
+        text={t("RepoHome")}
+      />
       {authname == username && (
         <>
-          <RepoSideBarButton
-            onclick={() => {
+          <RepoSideBarSettingItem
+            onClick={() => {
               manualSyncRepoHandler();
             }}
-            url="#"
-            title={t("SyncRepo")}
-            className="group-hover:bg-teal-500"
-          >
-            <AiOutlineSync
-              className={`h-4 w-4 group-hover:text-white text-gray-700 dark:text-gray-400`}
-            />
-          </RepoSideBarButton>
+            selected={false}
+            href="#"
+            icon={MdCloudSync}
+            text={t("SyncRepo")}
+          />
+
           {visibility_level == "chosen" && (
-            <RepoSideBarButton
-              onclick={() => {
-                {
-                }
-              }}
-              url={`/workspace/${username}/o/${reponame}/~visi`}
-              title={t("VisibleTo")}
-              className="group-hover:bg-indigo-500"
-            >
-              <MdOutlineVisibility
-                className={`h-4 w-4 group-hover:text-white text-gray-700 dark:text-gray-400`}
-              />
-            </RepoSideBarButton>
+            <RepoSideBarSettingItem
+              href={`/workspace/${username}/o/${reponame}/~visi`}
+              text={t("VisibleTo")}
+              selected={false}
+              icon={MdOutlineVisibility}
+            />
           )}
         </>
       )}
-    </div>
+      {anchors.map((item, index) => (
+        <RepoSideBarSettingItem
+          href={item.url}
+          selected={false}
+          icon={item.icon == "github" ? FaGithub : FaDiscord}
+          text={item.name}
+        />
+      ))}
+    </>
   );
 }

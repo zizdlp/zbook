@@ -5,6 +5,11 @@ interface MenuStruct {
   sublayouts: Array<MenuStruct>;
   markdown_id: number;
 }
+interface Anchor {
+  name: string;
+  icon: string;
+  url: string;
+}
 interface SubMenuProps {
   prefix: string;
   menus: Array<MenuStruct>;
@@ -17,4 +22,4 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-export type { MenuStruct, SubMenuProps, SearchParams };
+export type { MenuStruct, SubMenuProps, SearchParams, Anchor };
