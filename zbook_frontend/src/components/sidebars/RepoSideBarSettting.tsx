@@ -94,6 +94,7 @@ export default function RepoSideBarSetting({
       )}
       {anchors.map((item, index) => (
         <RepoSideBarSettingItem
+          key={index}
           href={item.url}
           selected={false}
           icon={item.icon == "github" ? FaGithub : FaDiscord}

@@ -130,12 +130,12 @@ export default function FrpcSideBar() {
           <ul id="navigation-items">
             <FrpcAnchor />
             {layout.map((item, index) => (
-              <div className="mt-12 lg:mt-8">
+              <div key={index} className="mt-12 lg:mt-8">
                 <h5 className="pl-4 mb-3.5 lg:mb-2.5 font-semibold text-gray-900 dark:text-gray-200">
                   {item.title}
                 </h5>
                 {item.sublayouts.map((subitem, index) => (
-                  <li>
+                  <li key={index}>
                     <a
                       className="pl-[1rem] group mt-2 lg:mt-0 flex items-center pr-3 py-1.5 cursor-pointer focus:outline-primary dark:focus:outline-primary-light space-x-3 rounded-lg bg-primary/10 text-primary font-semibold dark:text-primary-light dark:bg-primary-light/10"
                       href="/introduction"

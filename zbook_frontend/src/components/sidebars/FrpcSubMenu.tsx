@@ -12,12 +12,12 @@ export default function FrpcSubMenu({
   return (
     <>
       {menus.map((item: MenuStruct, index: any) => (
-        <div className="mt-12 lg:mt-8">
+        <div key={index} className="mt-12 lg:mt-8">
           <h5 className="pl-4 mb-3.5 lg:mb-2.5 font-semibold text-gray-900 dark:text-gray-200">
             {item.title}
           </h5>
           {item.sublayouts.map((subitem: MenuStruct, index: any) => (
-            <li>
+            <li key={index}>
               <a
                 className={`${
                   isSameUrl(pathname, locale, prefix, subitem.relative_path)
