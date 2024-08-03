@@ -79,7 +79,7 @@ export default async function UserSideBar({
 
     return (
       <SideBarWrapper>
-        <div className="sticky top-0 pointer-events-none z-50 px-4">
+        <div className="sticky top-0 pointer-events-none z-50 px-4 lg:px-0">
           <div className="h-10 bg-white dark:bg-gray-900"></div>
           <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
             <SideBarSearchButton
@@ -90,7 +90,7 @@ export default async function UserSideBar({
           </div>
           <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
         </div>
-        <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4">
+        <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4 lg:px-0">
           <UserSideBarProfile
             avatar={data.user_image_info?.avatar}
             email={data.user_basic_info?.email}

@@ -1,5 +1,4 @@
 "use client";
-import SubMenu from "./SubMenu";
 import { Anchor, MenuStruct } from "@/types/interface";
 import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
 import RepoSideBarSetting from "./RepoSideBarSettting";
@@ -27,7 +26,7 @@ export default function RepoSideBar({
   const locale = useLocale();
   return (
     <SideBarWrapper>
-      <div className="sticky top-0 pointer-events-none z-50 px-4">
+      <div className="sticky top-0 pointer-events-none z-50 px-4 lg:px-0">
         <div className="h-10 bg-white dark:bg-gray-900"></div>
         <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
           <SideBarSearchButton
@@ -39,7 +38,7 @@ export default function RepoSideBar({
         <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
       </div>
 
-      <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4">
+      <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4 lg:px-0">
         <div className="pt-4"></div>
         <ul id="navigation-items">
           <RepoSideBarSetting
@@ -62,6 +61,7 @@ export default function RepoSideBar({
             layer={1}
             pathname={pathname}
             locale={locale}
+            collapse={false}
           /> */}
         </ul>
       </div>
