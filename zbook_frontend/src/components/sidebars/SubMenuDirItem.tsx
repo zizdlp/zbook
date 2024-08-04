@@ -40,16 +40,16 @@ export default function SubMenuDirItem({
               ? "pl-0"
               : "pl-4"
             : layer == 2
-            ? collapse
-              ? "pl-4"
-              : "pl-7"
-            : layer == 3
-            ? collapse
-              ? "pl-7"
-              : "pl-10"
-            : collapse
-            ? "pl-10"
-            : "pl-14"
+              ? collapse
+                ? "pl-4"
+                : "pl-7"
+              : layer == 3
+                ? collapse
+                  ? "pl-7"
+                  : "pl-10"
+                : collapse
+                  ? "pl-10"
+                  : "pl-14"
         } flex items-center  pr-3 py-1.5 rounded-lg my-0.5
         ${"hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"}
           `}

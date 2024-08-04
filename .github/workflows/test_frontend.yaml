@@ -25,6 +25,12 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: zbook_frontend
+      - name: Run lint
+        run: npm run lint
+        working-directory: zbook_frontend
+      - name: Run build
+        run: npm run build
+        working-directory: zbook_frontend
 
       - name: Run tests
         run: npm test -- --updateSnapshot

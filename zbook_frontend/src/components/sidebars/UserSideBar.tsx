@@ -1,5 +1,5 @@
 import SideBarSearchButton from "./SideBarSearchButton";
-import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
+import LeftSideBarWrapper from "@/components/sidebars/LeftSideBarWrapper";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { headers } from "next/headers";
 import UserSideBarSetting from "./UserSideBarSetting";
@@ -29,6 +29,8 @@ export default async function UserSideBar({
   const agent = headers().get("User-Agent") ?? "";
   const session = await auth();
   try {
+    // const delay = Math.floor(Math.random() * 4000);
+    // await new Promise((resolve) => setTimeout(resolve, delay));
     const data = await fetchServerWithAuthWrapper({
       endpoint: FetchServerWithAuthWrapperEndPoint.GET_USER_INFO,
       xforward: xforward,
@@ -78,18 +80,13 @@ export default async function UserSideBar({
     }
 
     return (
-      <SideBarWrapper>
-        <div className="sticky top-0 pointer-events-none z-50 px-4 lg:px-0">
-          <div className="h-10 bg-white dark:bg-gray-900"></div>
-          <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
-            <SideBarSearchButton
-              username={username}
-              repo_name=""
-              searchType={SearchType.USER_DOCUMENT}
-            />
-          </div>
-          <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
-        </div>
+      <LeftSideBarWrapper small={true}>
+        <SideBarSearchButton
+          username={username}
+          repo_name=""
+          searchType={SearchType.USER_DOCUMENT}
+        />
+
         <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4 lg:px-0">
           <UserSideBarProfile
             avatar={data.user_image_info?.avatar}
@@ -160,7 +157,7 @@ export default async function UserSideBar({
             </div>
           </ShowComponent>
         </div>
-      </SideBarWrapper>
+      </LeftSideBarWrapper>
     );
   } catch (error) {
     let currentError = error as FetchError;
@@ -168,9 +165,9 @@ export default async function UserSideBar({
       `UserSideBar Error:${currentError.status} ${currentError.message}`
     );
     return (
-      <SideBarWrapper>
+      <LeftSideBarWrapper small={true}>
         <SomeThingWrong />
-      </SideBarWrapper>
+      </LeftSideBarWrapper>
     );
   }
 }

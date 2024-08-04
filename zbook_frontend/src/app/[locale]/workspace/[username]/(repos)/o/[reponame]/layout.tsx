@@ -1,8 +1,7 @@
-import SideBarLayout from "@/components/sidebars/SideBarLayout";
+import RepoSideBarLayout from "@/components/sidebars/RepoSideBarLayout";
 import { Suspense } from "react";
-import SideBarLoading from "@/components/loadings/SideBarLoading";
+import RepoSideBarLoading from "@/components/loadings/RepoSideBarLoading";
 import SideBarToggleSmall from "@/components/sidebars/SideBarToggleSmall";
-import FrpcSideBar from "@/app/[locale]/frpc/FrpcSideBar";
 
 export default function RootLayout({
   children,
@@ -13,8 +12,11 @@ export default function RootLayout({
 }) {
   return (
     <div className="px-4 mx-auto max-w-[92rem] lg:px-8">
-      <Suspense fallback={<SideBarLoading />}>
-        <SideBarLayout username={params.username} reponame={params.reponame} />
+      <Suspense fallback={<RepoSideBarLoading />}>
+        <RepoSideBarLayout
+          username={params.username}
+          reponame={params.reponame}
+        />
       </Suspense>
       <SideBarToggleSmall />
       {children}

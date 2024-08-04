@@ -1,9 +1,18 @@
-import SideBarWrapper from "../sidebars/SideBarWrapper";
+import LeftSideBarWrapper from "../sidebars/LeftSideBarWrapper";
 
-export default function SideBarLoading() {
+export default function RepoSideBarLoading() {
   return (
-    <SideBarWrapper>
-      <div className="h-10"></div>
+    <LeftSideBarWrapper small={false}>
+      <div className="sticky top-0 -ml-0.5 pointer-events-none px-4 lg:px-0">
+        <div className="h-10 bg-white dark:bg-gray-900"></div>
+        <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
+          <div
+            className="flex w-full items-center text-sm leading-6 text-slate-400 rounded-md ring-none border-[0.1rem] border-slate-200 dark:border-0
+                py-3 px-3  dark:highlight-white/5 h-12 bg-gray-200 dark:bg-gray-700/75 animate-pulse"
+          ></div>
+        </div>
+        <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
+      </div>
       <div className="hidden xl:block flex-shrink-0 mx-auto rounded-lg animate-pulse">
         <div className="px-4">
           <div className="pb-4 flex">
@@ -58,6 +67,6 @@ export default function SideBarLoading() {
           </div>
         </div>
       </div>
-    </SideBarWrapper>
+    </LeftSideBarWrapper>
   );
 }

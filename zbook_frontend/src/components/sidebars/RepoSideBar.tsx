@@ -1,6 +1,6 @@
 "use client";
 import { Anchor, MenuStruct } from "@/types/interface";
-import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
+import LeftSideBarWrapper from "@/components/sidebars/LeftSideBarWrapper";
 import RepoSideBarSetting from "./RepoSideBarSettting";
 import { usePathname } from "@/navigation";
 import { useLocale } from "next-intl";
@@ -28,18 +28,12 @@ export default function RepoSideBar({
   const pathname = usePathname();
   const locale = useLocale();
   return (
-    <SideBarWrapper>
-      <div className="sticky top-0 pointer-events-none z-50 px-4 lg:px-0">
-        <div className="h-10 bg-white dark:bg-gray-900"></div>
-        <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
-          <SideBarSearchButton
-            username={username}
-            repo_name={reponame}
-            searchType={SearchType.REPO_DOCUMENT}
-          />
-        </div>
-        <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
-      </div>
+    <LeftSideBarWrapper small={true}>
+      <SideBarSearchButton
+        username={username}
+        repo_name={reponame}
+        searchType={SearchType.REPO_DOCUMENT}
+      />
 
       <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4 lg:px-0">
         <div className="pt-4"></div>
@@ -75,6 +69,6 @@ export default function RepoSideBar({
           )}
         </ul>
       </div>
-    </SideBarWrapper>
+    </LeftSideBarWrapper>
   );
 }

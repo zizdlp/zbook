@@ -28,7 +28,7 @@ export default async function Home() {
           <div className="relative pt-10 bg-gradient-to-t from-[#abdbed]  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent background-animate text-center">
             <div className="relative z-10">
               <div className="px-6 py-16">
-                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 text-slate-800 dark:text-slate-300">
+                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 ">
                   <h1>{t("HomeSloganA")}</h1>
                   <h1>{t("HomeSloganB")}</h1>
                 </div>
@@ -46,7 +46,7 @@ export default async function Home() {
                     </span>
                   </Link>
                   <Link
-                    className="text-slate-500 dark:text-slate-400 flex items-center space-x-1 hover:text-slate-800 dark:hover:text-gray-100"
+                    className="flex items-center space-x-1 hover:text-slate-800 dark:hover:text-gray-100"
                     href={`/workspace/${process.env.DOC_USERNAME}/o/${process.env.DOC_REPONAME}`}
                   >
                     <span>{t("Docs")}</span>
@@ -65,7 +65,7 @@ export default async function Home() {
           <div className="relative pt-10 bg-gradient-to-t from-[#adeadc]  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent background-animate text-center">
             <div className="relative z-10">
               <div className="px-6 py-16">
-                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 text-slate-800 dark:text-slate-300">
+                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 ">
                   <h1>{t("ManageUsers")}</h1>
                   <h1>{t("HomeSloganB")}</h1>
                 </div>
@@ -92,7 +92,7 @@ export default async function Home() {
           <div className="relative pt-10  bg-gradient-to-t from-[#adeab8]  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent background-animate text-center">
             <div className="relative z-10">
               <div className="px-6 py-16">
-                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 text-slate-800 dark:text-slate-300">
+                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2">
                   <h1>{t("NewRepo")}</h1>
                   <h1>{t("HomeSloganB")}</h1>
                 </div>
@@ -122,7 +122,7 @@ export default async function Home() {
           <div className="relative pt-10  bg-gradient-to-t from-[#d5eaad]  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent background-animate text-center">
             <div className="relative z-10">
               <div className="px-6 py-16">
-                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 text-slate-800 dark:text-slate-300">
+                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2">
                   <h1>{t("MarkdownSuperset")}</h1>
                   <h1>{t("HomeSloganB")}</h1>
                 </div>
@@ -149,7 +149,7 @@ export default async function Home() {
           <div className="relative pt-10 bg-gradient-to-t from-[#96c4a5]  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent background-animate text-center">
             <div className="relative z-10">
               <div className="px-6 py-16">
-                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 text-slate-800 dark:text-slate-300">
+                <div className="mx-auto max-w-[22rem] md:max-w-[40rem] font-inter text-[2rem] font-bold leading-tight md:text-6xl md:leading-[1.08] space-y-2 ">
                   <h1>{t("MultiUserSection")}</h1>
                   <h1>{t("HomeSloganB")}</h1>
                 </div>
@@ -174,18 +174,16 @@ export default async function Home() {
         <MotionBounce direction="y">
           <div className="my-12 px-6 md:px-0 mx-auto max-w-5xl text-center">
             <div className="w-full text-center">
-              <div className="flex items-center justify-center text-gray-800 dark:text-gray-300 space-x-1.5 text-sm">
+              <div className="flex items-center justify-center space-x-1.5 text-sm">
                 <MdOutlineFeaturedPlayList />
                 <span>{t("FeatureSection")}</span>
               </div>
-              <div className="mt-6 font-bold font-inter text-[1.7rem] leading-[1.3] md:text-5xl items-center justify-center md:leading-[1.15] text-gray-800 dark:text-gray-100 flex flex-col">
+              <div className="mt-6 font-bold font-inter text-[1.7rem] leading-[1.3] md:text-5xl items-center justify-center md:leading-[1.15]  flex flex-col">
                 <h1 className="max-w-2xl block">{t("SimpleDocumentation")}</h1>
                 <h1 className="max-w-2xl block">{t("VisuallyAppealing")}</h1>
               </div>
               <div className="mt-3.5 flex justify-center">
-                <h3 className="text-gray-600 dark:text-gray-400 max-w-sm">
-                  {t("DocumentationForTeam")}
-                </h3>
+                <h3 className="max-w-sm">{t("DocumentationForTeam")}</h3>
               </div>
             </div>
             <div className="px-12 mt-8 flex justify-center items-center flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-10">
@@ -199,7 +197,7 @@ export default async function Home() {
                 </span>
               </Link>
               <Link
-                className="text-slate-500 dark:text-slate-400 flex items-center space-x-1 hover:text-slate-800 dark:hover:text-gray-100"
+                className=" flex items-center space-x-1 hover:text-slate-800 dark:hover:text-gray-100"
                 href={`/workspace/${process.env.DOC_USERNAME}/o/${process.env.DOC_REPONAME}`}
               >
                 <span>{t("Docs")}</span>
@@ -211,57 +209,33 @@ export default async function Home() {
           <div className="mx-auto max-w-6xl grid md:grid-cols-3 text-left bg-gray-900/5 dark:bg-white/[0.07] gap-px border-x border-[#EBEBEF] dark:border-[#181A21]">
             <div className="px-8 py-7 bg-white dark:bg-slate-900/50">
               <TbMathFunction className="h-8 w-8" />
-              <h1 className="mt-3 text-gray-800 dark:text-gray-200">
-                {t("Math")}
-              </h1>
-              <h2 className="mt-2 text-gray-500 leading-relaxed">
-                {t("MathDetail")}
-              </h2>
+              <h1 className="mt-3">{t("Math")}</h1>
+              <h2 className="mt-2 leading-relaxed">{t("MathDetail")}</h2>
             </div>
             <div className="px-8 py-7 bg-white dark:bg-slate-900/50">
               <AiOutlineCode className="h-8 w-8" />
-              <h1 className="mt-3 text-gray-800 dark:text-gray-200">
-                {t("Code")}
-              </h1>
-              <h2 className="mt-2 text-gray-500 leading-relaxed">
-                {t("CodeDetail")}
-              </h2>
+              <h1 className="mt-3">{t("Code")}</h1>
+              <h2 className="mt-2 leading-relaxed">{t("CodeDetail")}</h2>
             </div>
             <div className="px-8 py-7 bg-white dark:bg-slate-900/50">
               <MdTableChart className="h-8 w-8" />
-              <h1 className="mt-3 text-gray-800 dark:text-gray-200">
-                {t("Figure")}
-              </h1>
-              <h2 className="mt-2 text-gray-500 leading-relaxed">
-                {t("FigureDetail")}
-              </h2>
+              <h1 className="mt-3">{t("Figure")}</h1>
+              <h2 className="mt-2 leading-relaxed">{t("FigureDetail")}</h2>
             </div>
             <div className="px-8 py-7 bg-white dark:bg-slate-900/50">
               <FaUsers className="h-8 w-8" />
-              <h1 className="mt-3 text-gray-800 dark:text-gray-200">
-                {t("MultiUserSection")}
-              </h1>
-              <h2 className="mt-2 text-gray-500 leading-relaxed">
-                {t("ZBookSupports")}
-              </h2>
+              <h1 className="mt-3">{t("MultiUserSection")}</h1>
+              <h2 className="mt-2 leading-relaxed">{t("ZBookSupports")}</h2>
             </div>
             <div className="px-8 py-7 bg-white dark:bg-slate-900/50">
               <MdVisibility className="h-8 w-8" />
-              <h1 className="mt-3 text-gray-800 dark:text-gray-200">
-                {t("MultiLevelPermissions")}
-              </h1>
-              <h2 className="mt-2 text-gray-500 leading-relaxed">
-                {t("ZBookPermissions")}
-              </h2>
+              <h1 className="mt-3">{t("MultiLevelPermissions")}</h1>
+              <h2 className="mt-2 leading-relaxed">{t("ZBookPermissions")}</h2>
             </div>
             <div className="px-8 py-7 bg-white dark:bg-slate-900/50">
               <FaGithub className="h-8 w-8" />
-              <h1 className="mt-3 text-gray-800 dark:text-gray-200">
-                {t("SelfHost")}
-              </h1>
-              <h2 className="mt-2 text-gray-500 leading-relaxed">
-                {t("ZBookIsOpenSource")}
-              </h2>
+              <h1 className="mt-3">{t("SelfHost")}</h1>
+              <h2 className="mt-2 leading-relaxed">{t("ZBookIsOpenSource")}</h2>
             </div>
           </div>
         </MotionBounce>

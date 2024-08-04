@@ -1,5 +1,4 @@
 import WikiInfo from "@/components/WikiInfo";
-import TableOfContent from "@/components/TableOfContent";
 import NotFound from "@/components/loadings/NotFound";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
@@ -31,7 +30,7 @@ export default async function MarkdownPage({
 }) {
   try {
     const currentPage = Number(searchParams?.page) || 1;
-    // const delay = Math.floor(Math.random() * 4000) + 14000;
+    // const delay = Math.floor(Math.random() * 4000) + 1400;
     // await new Promise((resolve) => setTimeout(resolve, delay));
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";

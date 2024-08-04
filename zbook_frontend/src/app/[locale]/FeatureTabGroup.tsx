@@ -27,7 +27,7 @@ export default function FeatureTabGroup({
                 classNames(
                   "w-full text-xs md:text-sm font-medium leading-3 md:leading-5 focus:outline-none rounded-full",
                   selected
-                    ? "bg-transparent shadow text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700/50"
+                    ? "bg-transparent shadow bg-white dark:bg-slate-700/50"
                     : "text-slate-500 hover:bg-gray-100/25 dark:hover:bg-gray-900/25 hover:text-slate-700 dark:hover:text-slate-200"
                 )
               }

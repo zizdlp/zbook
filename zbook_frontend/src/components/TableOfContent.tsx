@@ -2,6 +2,7 @@
 import parse from "html-react-parser";
 
 import React, { useState, useEffect } from "react";
+import { LuListMinus } from "react-icons/lu";
 
 import {
   domToReact,
@@ -10,7 +11,8 @@ import {
   Element,
   HTMLReactParserOptions,
 } from "html-react-parser";
-import ContentSideBar from "./sidebars/ContentSideBar";
+import RightSideBarWrapper from "./sidebars/RightSideBarWrapper";
+import { useTranslations } from "next-intl";
 interface TableOfContentProps {
   sectionIds: string[];
   markdownlist: string;
@@ -18,6 +20,7 @@ interface TableOfContentProps {
 
 export default function TableOfContent(props: TableOfContentProps) {
   const [activeSectionId, setActiveSectionId] = useState("");
+  const t = useTranslations("RightSideBar");
   function get_act() {
     return activeSectionId;
   }
@@ -140,7 +143,7 @@ export default function TableOfContent(props: TableOfContentProps) {
   };
 
   return (
-    <ContentSideBar>
+    <RightSideBarWrapper>
       <div
         className="fixed overflow-auto"
         style={{ height: "calc(100vh - 128px)" }}
@@ -148,9 +151,13 @@ export default function TableOfContent(props: TableOfContentProps) {
         {/* 确保父元素具有固定高度或最大高度 */}
         <div className="h-full">
           {/* 子元素充满父元素的高度 */}
+          <div className="text-gray-600 dark:text-gray-200 font-medium flex items-center space-x-2">
+            <LuListMinus className="h-4 w-4" />
+            <span>{t("OnThisPage")}</span>
+          </div>
           {parse(props.markdownlist, html_parser_options_list)}
         </div>
       </div>
-    </ContentSideBar>
+    </RightSideBarWrapper>
   );
 }

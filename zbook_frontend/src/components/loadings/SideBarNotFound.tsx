@@ -1,9 +1,9 @@
-import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
+import LeftSideBarWrapper from "@/components/sidebars/LeftSideBarWrapper";
 import { useTranslations } from "next-intl";
 export default function SideBarNotFound() {
   const t = useTranslations("NotFoundPage");
   return (
-    <SideBarWrapper>
+    <LeftSideBarWrapper small={false}>
       <div className="text-slate-600 min-h-[70vh] dark:text-slate-300 flex items-center justify-center px-4">
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-4">{t("404")}</h1>
@@ -16,6 +16,6 @@ export default function SideBarNotFound() {
           </a>
         </div>
       </div>
-    </SideBarWrapper>
+    </LeftSideBarWrapper>
   );
 }
