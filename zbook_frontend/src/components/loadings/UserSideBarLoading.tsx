@@ -12,7 +12,7 @@ export default function UserSideBarLoading({
   return (
     <div className="hidden lg:block">
       <div
-        className={`z-40 hidden lg:block fixed bottom-0 right-auto w-[18rem] top-[4rem]`}
+        className={`z-40 hidden lg:block fixed bottom-0 right-auto w-[19rem]  top-[46px] lg:top-[54px]`}
       >
         <div className="sticky top-0 -ml-0.5 pointer-events-none">
           <div className="h-10 bg-white dark:bg-gray-900"></div>

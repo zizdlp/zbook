@@ -131,7 +131,7 @@ const parseHTMLString = (
           return (
             <code
               key={randomKey}
-              className="font-jetbrains px-1.5 mx-0.5 py-[1px] text-[#111827] dark:text-slate-300 border-[0.01rem] dark:border-slate-600 border-slate-300 dark:bg-[#121212] bg-teal-100/10 rounded-md"
+              className="font-jetbrains text-sm px-1.5 py-[1px] text-[#111827] dark:text-slate-300 border-[0.01rem] dark:border-slate-600 border-slate-300 dark:bg-[#121212] bg-[#f8f3fa] rounded-md"
               {...props}
             >
               {Array.from(node.childNodes).map(processNode)}

@@ -10,53 +10,53 @@ import { getTranslations } from "next-intl/server";
 export default async function NavBar() {
   const t = await getTranslations("HomePage");
   return (
-    <div
-      className="sticky top-0 z-50 w-full
+    <div className="flex sticky top-0 justify-center xl:border-b border-slate-900/10 dark:border-slate-50/[0.06] z-50">
+      <div
+        className="sticky top-0 z-50  w-full
         backdrop-blur-xl xl:backdrop-blur supports-backdrop-blur:bg-white/60
-        xl:border-b border-slate-900/10 dark:border-slate-50/[0.06] 
         bg-transparent text-slate-500 dark:text-slate-200
         flex justify-between items-center 
         py-2
-        px-4 mx-auto max-w-[92rem] lg:px-8
-        left-auto right-auto
+        px-4 max-w-[92rem] lg:px-8
         "
-    >
-      <div className="flex items-center">
-        <div className="lg:hidden">
-          <SideBarToggle />
+      >
+        <div className="flex items-center">
+          <div className="lg:hidden">
+            <SideBarToggle />
+          </div>
+
+          <Link
+            href={"/"}
+            className="flex items-center justify-center overflow-hidden cursor-pointer"
+          >
+            <Image
+              src="/logo_128.png"
+              alt="Picture of logo"
+              className="w-8 h-8 md:w-8 md:h-8 my-0.5 hidden lg:block rounded-md"
+              width={128}
+              height={128}
+            />
+            <p className="font-bold text-xl md:text-xl mx-2">
+              <span className="bg-gradient-to-r from-teal-500 to-blue-500 inline-block text-transparent bg-clip-text">
+                {t("AppName")}
+              </span>
+            </p>
+          </Link>
         </div>
 
-        <Link
-          href={"/"}
-          className="flex items-center justify-center overflow-hidden cursor-pointer"
-        >
-          <Image
-            src="/logo_128.png"
-            alt="Picture of logo"
-            className="w-8 h-8 md:w-8 md:h-8 my-0.5 hidden lg:block rounded-md"
-            width={128}
-            height={128}
-          />
-          <p className="font-bold text-xl md:text-xl mx-2">
-            <span className="bg-gradient-to-r from-teal-500 to-blue-500 inline-block text-transparent bg-clip-text">
-              {t("AppName")}
-            </span>
-          </p>
-        </Link>
-      </div>
-
-      <div className="flex items-center justify-center space-x-2">
-        <Link
-          className="cursor-pointer hover:text-sky-600 dark:hover:text-sky-400 font-semibold"
-          href={"/cases"}
-        >
-          {t("Cases")}
-        </Link>
-        <div className="flex gap-x-2 md:gap-x-3 justify-center items-center px-1 md:px-6	mx-3 md:mx-6  md:border-l border-slate-300 dark:border-slate-400">
-          <NavUserState />
-          <NavTheme />
-          <NavNoti />
-          <NavLang />
+        <div className="flex items-center justify-center space-x-2">
+          <Link
+            className="cursor-pointer hover:text-sky-600 dark:hover:text-sky-400 font-semibold"
+            href={"/cases"}
+          >
+            {t("Cases")}
+          </Link>
+          <div className="flex gap-x-2 md:gap-x-3 justify-center items-center px-1 md:px-6	mx-3 md:mx-6  md:border-l border-slate-300 dark:border-slate-400">
+            <NavUserState />
+            <NavTheme />
+            <NavNoti />
+            <NavLang />
+          </div>
         </div>
       </div>
     </div>

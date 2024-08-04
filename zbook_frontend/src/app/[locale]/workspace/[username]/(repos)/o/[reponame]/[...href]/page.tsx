@@ -1,5 +1,4 @@
 import WikiInfo from "@/components/WikiInfo";
-import TableOfContent from "@/components/TableOfContent";
 import NotFound from "@/components/loadings/NotFound";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
