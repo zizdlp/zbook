@@ -1,5 +1,5 @@
 import SideBarSearchButton from "./SideBarSearchButton";
-import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
+import LeftSideBarWrapper from "@/components/sidebars/LeftSideBarWrapper";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { headers } from "next/headers";
 import UserSideBarSetting from "./UserSideBarSetting";
@@ -80,7 +80,7 @@ export default async function UserSideBar({
     }
 
     return (
-      <SideBarWrapper>
+      <LeftSideBarWrapper small={true}>
         <SideBarSearchButton
           username={username}
           repo_name=""
@@ -157,7 +157,7 @@ export default async function UserSideBar({
             </div>
           </ShowComponent>
         </div>
-      </SideBarWrapper>
+      </LeftSideBarWrapper>
     );
   } catch (error) {
     let currentError = error as FetchError;
@@ -165,9 +165,9 @@ export default async function UserSideBar({
       `UserSideBar Error:${currentError.status} ${currentError.message}`
     );
     return (
-      <SideBarWrapper>
+      <LeftSideBarWrapper small={true}>
         <SomeThingWrong />
-      </SideBarWrapper>
+      </LeftSideBarWrapper>
     );
   }
 }

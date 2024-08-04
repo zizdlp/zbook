@@ -1,8 +1,8 @@
-interface MarkdownWrapperProps {
+interface MainContentWrapperProps {
   children: React.ReactNode;
-  contentsidebar?: React.ReactNode;
+  right_sidebar?: React.ReactNode;
 }
-export default function MarkdownWrapper(props: MarkdownWrapperProps) {
+export default function MainContentWrapper(props: MainContentWrapperProps) {
   return (
     <div className="flex flex-row pt-[42px]">
       <div
@@ -11,7 +11,7 @@ export default function MarkdownWrapper(props: MarkdownWrapperProps) {
       >
         {props.children}
       </div>
-      {props.contentsidebar}
+      {props.right_sidebar}
     </div>
   );
 }

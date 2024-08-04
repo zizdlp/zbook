@@ -55,7 +55,7 @@ const parseHTMLString = (
                   {prefixPath}
                 </div>
                 <div className="flex items-center">
-                  <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight dark:text-gray-200">
+                  <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight dark:text-gray-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]">
                     {Array.from(node.childNodes).map(processNode)}
                   </h1>
                 </div>
@@ -67,16 +67,16 @@ const parseHTMLString = (
           level == 1
             ? "text-xl md:text-3xl font-extrabold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]"
             : level == 2
-            ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[2em] mb-[1em] leading-[1.3333333]"
-            : level == 3
-            ? "text-base md:text-xl font-bold	text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[1.6em] mb-[0.6em] leading-[1.6]"
-            : level == 4
-            ? "text-base md:text-lg font-semibold	text-slate-900 tracking-tight  dark:text-slate-200 text-wrap overflow-scroll mt-[1.5em] mb-[0.5em] leading-[1.5]"
-            : level == 5
-            ? "text-sm md:text-base font-semibold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll "
-            : level == 6
-            ? "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll "
-            : "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll ";
+              ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[2em] mb-[1em] leading-[1.3333333]"
+              : level == 3
+                ? "text-base md:text-xl font-bold	text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[1.6em] mb-[0.6em] leading-[1.6]"
+                : level == 4
+                  ? "text-base md:text-lg font-semibold	text-slate-900 tracking-tight  dark:text-slate-200 text-wrap overflow-scroll mt-[1.5em] mb-[0.5em] leading-[1.5]"
+                  : level == 5
+                    ? "text-sm md:text-base font-semibold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll "
+                    : level == 6
+                      ? "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll "
+                      : "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll ";
 
         return (
           <HeadingComponent

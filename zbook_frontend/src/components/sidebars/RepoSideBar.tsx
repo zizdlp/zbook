@@ -1,6 +1,6 @@
 "use client";
 import { Anchor, MenuStruct } from "@/types/interface";
-import SideBarWrapper from "@/components/sidebars/SideBarWrapper";
+import LeftSideBarWrapper from "@/components/sidebars/LeftSideBarWrapper";
 import RepoSideBarSetting from "./RepoSideBarSettting";
 import { usePathname } from "@/navigation";
 import { useLocale } from "next-intl";
@@ -28,7 +28,7 @@ export default function RepoSideBar({
   const pathname = usePathname();
   const locale = useLocale();
   return (
-    <SideBarWrapper>
+    <LeftSideBarWrapper small={true}>
       <SideBarSearchButton
         username={username}
         repo_name={reponame}
@@ -69,6 +69,6 @@ export default function RepoSideBar({
           )}
         </ul>
       </div>
-    </SideBarWrapper>
+    </LeftSideBarWrapper>
   );
 }

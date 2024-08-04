@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import SearchList from "@/components/SearchList";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
-import MarkdownWrapper from "@/components/wrappers/MarkdownWrapper";
+import MainContentWrapper from "@/components/wrappers/MainContentWrapper";
 export async function generateMetadata({
   params,
 }: {
@@ -34,7 +34,7 @@ export default async function ListRepoVisi({
     const currentPage = Number(searchParams?.page) || 1;
 
     return (
-      <MarkdownWrapper>
+      <MainContentWrapper>
         <SearchList
           listType={ListDataType.LIST_REPO_VISI}
           username={params.username}
@@ -53,7 +53,7 @@ export default async function ListRepoVisi({
             repo_name={params.reponame}
           />
         </Suspense>
-      </MarkdownWrapper>
+      </MainContentWrapper>
     );
   } catch {}
 }

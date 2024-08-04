@@ -1,8 +1,8 @@
-import SideBarWrapper from "../sidebars/SideBarWrapper";
+import LeftSideBarWrapper from "../sidebars/LeftSideBarWrapper";
 
-export default function SideBarLoading() {
+export default function LeftSideBarLoading() {
   return (
-    <SideBarWrapper>
+    <LeftSideBarWrapper small={false}>
       <div className="h-10"></div>
       <div className="hidden xl:block flex-shrink-0 mx-auto rounded-lg animate-pulse">
         <div className="px-4">
@@ -58,6 +58,6 @@ export default function SideBarLoading() {
           </div>
         </div>
       </div>
-    </SideBarWrapper>
+    </LeftSideBarWrapper>
   );
 }

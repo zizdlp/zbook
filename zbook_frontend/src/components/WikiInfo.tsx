@@ -14,15 +14,15 @@ interface WikiInfoProps {
   repo_name: string;
 }
 import CreateComment from "./comments/CreateComment";
-import MarkdownWrapper from "./wrappers/MarkdownWrapper";
+import MainContentWrapper from "./wrappers/MainContentWrapper";
 import { SearchParams } from "@/types/interface";
 import ListLevelOneComment from "./comments/ListLevelOneComment";
 import TableOfContent from "./TableOfContent";
 export default async function WikiInfo(props: WikiInfoProps) {
   const session = await auth();
   return (
-    <MarkdownWrapper
-      contentsidebar={
+    <MainContentWrapper
+      right_sidebar={
         <TableOfContent
           markdownlist={props.markdownlist}
           sectionIds={props.sectionIds}
@@ -52,6 +52,6 @@ export default async function WikiInfo(props: WikiInfoProps) {
           </div>
         </>
       )}
-    </MarkdownWrapper>
+    </MainContentWrapper>
   );
 }

@@ -13,6 +13,9 @@
     "VerifiedFailed": "Verified failed:",
     "VerifiedSuccess": "Verified successfully"
   },
+  "RightSideBar": {
+    "OnThisPage": "On this page"
+  },
 
   "NotFoundPage": {
     "404": "404",
