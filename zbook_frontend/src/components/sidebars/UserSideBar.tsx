@@ -29,8 +29,8 @@ export default async function UserSideBar({
   const agent = headers().get("User-Agent") ?? "";
   const session = await auth();
   try {
-    const delay = Math.floor(Math.random() * 4000);
-    await new Promise((resolve) => setTimeout(resolve, delay));
+    // const delay = Math.floor(Math.random() * 4000);
+    // await new Promise((resolve) => setTimeout(resolve, delay));
     const data = await fetchServerWithAuthWrapper({
       endpoint: FetchServerWithAuthWrapperEndPoint.GET_USER_INFO,
       xforward: xforward,

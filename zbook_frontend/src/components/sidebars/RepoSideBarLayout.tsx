@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
-export default async function SideBarLayout({
+export default async function RepoSideBarLayout({
   reponame,
   username,
 }: {
@@ -19,6 +19,8 @@ export default async function SideBarLayout({
     if (session && session.username && session.role) {
       authname = session.username;
     }
+    // const delay = Math.floor(Math.random() * 4000) + 1400;
+    // await new Promise((resolve) => setTimeout(resolve, delay));
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";
     const data = await fetchServerWithAuthWrapper({
