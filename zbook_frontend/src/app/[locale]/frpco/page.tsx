@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import FrpcSideBar from "../frpc/FrpcSideBar";
 
 export default function FrpcO() {
