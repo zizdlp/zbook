@@ -7,7 +7,13 @@ import { useTranslations } from "next-intl";
 import CodeHighLight from "./CodeHighLight";
 import { useCallback } from "react";
 
-export default function CodeBlock({ lang, codeString }: {lang:string;codeString: string;}) {
+export default function CodeBlock({
+  lang,
+  codeString,
+}: {
+  lang: string;
+  codeString: string;
+}) {
   const t = useTranslations("Toast");
 
   const copy2ClipBoard = useCallback(() => {

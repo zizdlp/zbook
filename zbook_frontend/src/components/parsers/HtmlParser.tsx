@@ -67,7 +67,7 @@ const parseHTMLString = (
           level == 1
             ? "text-xl md:text-3xl font-extrabold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]"
             : level == 2
-              ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[2em] mb-[1em] leading-[1.3333333]"
+              ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mb-[1em] leading-[1.3333333]"
               : level == 3
                 ? "text-base md:text-xl font-bold	text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[1.6em] mb-[0.6em] leading-[1.6]"
                 : level == 4
@@ -272,7 +272,7 @@ const parseHTMLString = (
         } else if (classAttribute === "adm-body") {
           const randomKey = Math.random().toString(36).substring(2);
           return (
-            <div key={randomKey} className="px-6 overflow-x-auto">
+            <div key={randomKey} className="px-6 py-2 overflow-x-auto">
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
@@ -302,9 +302,7 @@ const parseHTMLString = (
         return (
           <p
             key={randomKey}
-            className={`overflow-scroll ${
-              isFirst ? "mt-[0.5em]" : "mt-[1.25em]"
-            } ${isLast ? "mb-[0.5em]" : "mb-[1.25em]"}`}
+            className={`overflow-scroll ${""} ${isLast ? "mb-[0.5em]" : "mb-[1.25em]"}`}
           >
             {Array.from(node.childNodes).map(processNode)}
           </p>
@@ -383,7 +381,7 @@ const parseHTMLString = (
             return (
               <a
                 key={randomKey}
-                className="text-sky-500 hover:text-sky-600 text-xs"
+                className="text-purple-500 hover:text-purple-600 text-xs"
                 href={urlhref || ""}
               >
                 [{Array.from(node.childNodes).map(processNode)}]
@@ -397,7 +395,7 @@ const parseHTMLString = (
           return (
             <a
               key={randomKey}
-              className="text-sky-500 hover:text-sky-600"
+              className="text-red-500 hover:text-red-600"
               href={urlhref || ""}
             >
               {Array.from(node.childNodes).map(processNode)}
@@ -408,7 +406,7 @@ const parseHTMLString = (
           return (
             <a
               key={randomKey}
-              className="px-1 underline underline-offset-[0.22rem] text-sky-500 hover:text-sky-600"
+              className="px-1 underline font-semibold decoration-purple-500 dark:decoration-purple-400 hover:decoration-2 underline-offset-[0.22rem] text-slate-700 dark:text-gray-200"
               href={urlhref || ""}
             >
               {Array.from(node.childNodes).map(processNode)}
