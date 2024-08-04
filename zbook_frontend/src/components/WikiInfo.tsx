@@ -17,10 +17,18 @@ import CreateComment from "./comments/CreateComment";
 import MarkdownWrapper from "./wrappers/MarkdownWrapper";
 import { SearchParams } from "@/types/interface";
 import ListLevelOneComment from "./comments/ListLevelOneComment";
+import TableOfContent from "./TableOfContent";
 export default async function WikiInfo(props: WikiInfoProps) {
   const session = await auth();
   return (
-    <MarkdownWrapper>
+    <MarkdownWrapper
+      contentsidebar={
+        <TableOfContent
+          markdownlist={props.markdownlist}
+          sectionIds={props.sectionIds}
+        />
+      }
+    >
       <HtmlParser
         htmlString={props.markdowntext}
         prefixPath={props.prefixPath}

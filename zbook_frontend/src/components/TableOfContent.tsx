@@ -141,7 +141,16 @@ export default function TableOfContent(props: TableOfContentProps) {
 
   return (
     <ContentSideBar>
-      {parse(props.markdownlist, html_parser_options_list)}
+      <div
+        className="fixed overflow-auto"
+        style={{ height: "calc(100vh - 128px)" }}
+      >
+        {/* 确保父元素具有固定高度或最大高度 */}
+        <div className="h-full">
+          {/* 子元素充满父元素的高度 */}
+          {parse(props.markdownlist, html_parser_options_list)}
+        </div>
+      </div>
     </ContentSideBar>
   );
 }

@@ -12,7 +12,6 @@ export default function RootLayout({
       fallback={
         <>
           <MarkdownLoading />
-          <ContentBarLoading />
         </>
       }
     >

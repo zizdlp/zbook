@@ -85,5 +85,32 @@ func validateUpdateRepoInfoRequest(req *rpcs.UpdateRepoInfoRequest) (violations 
 	if err != nil {
 		violations = append(violations, fieldViolation("repo_name", err))
 	}
+
+	if req.GetRepoName() != "" {
+		if err = val.ValidateRepoName(req.GetRepoName()); err != nil {
+			violations = append(violations, fieldViolation("repo_name", err))
+		}
+	}
+	if req.GetRepoDescription() != "" {
+		if err = val.ValidateString(req.GetRepoDescription(), 1, 512); err != nil {
+			violations = append(violations, fieldViolation("repo_description", err))
+		}
+	}
+	if req.GetVisibilityLevel() != "" {
+		if err := val.ValidateRepoVisibility(req.GetVisibilityLevel()); err != nil {
+			violations = append(violations, fieldViolation("visibility_level", err))
+		}
+	}
+	if req.GetSidebarTheme() != "" {
+		if err := val.ValidateRepoSideBarTheme(req.GetSidebarTheme()); err != nil {
+			violations = append(violations, fieldViolation("sidebar_theme", err))
+		}
+	}
+	if req.GetContentTheme() != "" {
+		if err := val.ValidateRepoContentTheme(req.GetContentTheme()); err != nil {
+			violations = append(violations, fieldViolation("content_theme", err))
+		}
+	}
+
 	return violations
 }

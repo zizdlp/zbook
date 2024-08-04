@@ -69,21 +69,18 @@ export default async function MarkdownPage({
     }
 
     return (
-      <div>
-        <WikiInfo
-          markdowntext={markdownText}
-          markdownlist={markdownList}
-          prefixPath={href}
-          NavBarOpen={true}
-          sectionIds={sectionIds}
-          markdown_id={markdownID}
-          currentPage={currentPage}
-          searchParams={searchParams}
-          username={params.username}
-          repo_name={params.reponame}
-        />
-        <TableOfContent markdownlist={markdownList} sectionIds={sectionIds} />
-      </div>
+      <WikiInfo
+        markdowntext={markdownText}
+        markdownlist={markdownList}
+        prefixPath={href}
+        NavBarOpen={true}
+        sectionIds={sectionIds}
+        markdown_id={markdownID}
+        currentPage={currentPage}
+        searchParams={searchParams}
+        username={params.username}
+        repo_name={params.reponame}
+      />
     );
   } catch (error) {
     let e = error as FetchError;
