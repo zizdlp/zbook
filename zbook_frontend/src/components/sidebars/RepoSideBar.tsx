@@ -6,8 +6,8 @@ import { usePathname } from "@/navigation";
 import { useLocale } from "next-intl";
 import SideBarSearchButton from "./SideBarSearchButton";
 import { SearchType } from "@/utils/const_value";
-import FrpcSubMenu from "./FrpcSubMenu";
-import SubMenu from "./SubMenu";
+import UnfoldSubMenu from "./UnfoldSubMenu";
+import FoldSubMenu from "./FoldSubMenu";
 export default function RepoSideBar({
   sublayouts,
   anchors,
@@ -46,7 +46,7 @@ export default function RepoSideBar({
             visibility_level={visibility_level}
           />
           {sidebar_theme == "theme_sidebar_fold" ? (
-            <SubMenu
+            <FoldSubMenu
               prefix={`/workspace/${username}/o/${decodeURIComponent(
                 reponame
               )}/`}
@@ -57,7 +57,7 @@ export default function RepoSideBar({
               collapse={false}
             />
           ) : (
-            <FrpcSubMenu
+            <UnfoldSubMenu
               prefix={`/workspace/${username}/o/${decodeURIComponent(
                 reponame
               )}/`}
