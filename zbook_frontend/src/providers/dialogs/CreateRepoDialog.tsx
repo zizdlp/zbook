@@ -181,7 +181,6 @@ export default function CreateRepoDialog() {
                 formik={formik}
               />
             </FormGroupWrapper>
-
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-3"
               nameKey="sidebar_theme"
@@ -214,7 +213,7 @@ export default function CreateRepoDialog() {
                 options={[
                   { value: "", label: t("ChooseContentTheme") },
                   {
-                    value: "theme_content_fold",
+                    value: "theme_content_default",
                     label: t("ThemeContentDefault"),
                   },
                 ]}
@@ -222,7 +221,6 @@ export default function CreateRepoDialog() {
                 formik={formik}
               />
             </FormGroupWrapper>
-
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-6"
               nameKey="git_addr"
@@ -265,7 +263,6 @@ export default function CreateRepoDialog() {
                 error={formik.errors.repo_description}
               />
             </FormGroupWrapper>
-
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-3"
               nameKey="sync_token"
