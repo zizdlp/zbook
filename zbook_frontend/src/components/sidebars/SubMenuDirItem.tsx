@@ -2,7 +2,7 @@
 import { MenuStruct } from "@/types/interface";
 import { useContext, useEffect, useState } from "react";
 import { BiChevronDown, BiChevronLeft } from "react-icons/bi";
-import SubMenu from "./SubMenu";
+import FoldSubMenu from "./FoldSubMenu";
 import { isPrefix } from "@/utils/util";
 import { SideBarContext } from "@/providers/SideBarProvider";
 export default function SubMenuDirItem({
@@ -76,7 +76,7 @@ export default function SubMenuDirItem({
         </div>
       </div>
       {open && (
-        <SubMenu
+        <FoldSubMenu
           prefix={prefix}
           menus={menu.sublayouts}
           layer={layer + 1}

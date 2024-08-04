@@ -27,11 +27,11 @@ export default function EnableElement({
               config_name == "allow_login"
                 ? t("TipLogin")
                 : config_name == "allow_register"
-                ? t("TipRegister")
-                : t("TipInviation")
+                  ? t("TipRegister")
+                  : t("TipInviation")
             }
           >
-            {label}{" "}
+            <>{label}</>
           </ToolTip>
         </Switch.Label>
         <Switch

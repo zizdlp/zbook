@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-no-literals */
 "use client";
-import type { MenuStruct, SubMenuProps } from "@/types/interface";
+import type { MenuStruct } from "@/types/interface";
+import FoldSubMenu from "./FoldSubMenu";
 import SubMenuFileItem from "./SubMenuFileItem";
-import SubMenu from "./SubMenu";
 
-export default function FrpcSubMenu({
+export default function UnfoldSubMenu({
   prefix,
   menus,
   layer,
@@ -21,7 +21,7 @@ export default function FrpcSubMenu({
                 {menu.title}
               </h5>
 
-              <SubMenu
+              <FoldSubMenu
                 prefix={prefix}
                 menus={menu.sublayouts}
                 layer={layer + 1}
