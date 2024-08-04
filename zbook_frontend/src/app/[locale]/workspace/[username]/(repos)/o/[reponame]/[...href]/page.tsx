@@ -30,8 +30,8 @@ export default async function MarkdownPage({
 }) {
   try {
     const currentPage = Number(searchParams?.page) || 1;
-    // const delay = Math.floor(Math.random() * 4000) + 14000;
-    // await new Promise((resolve) => setTimeout(resolve, delay));
+    const delay = Math.floor(Math.random() * 4000) + 1400;
+    await new Promise((resolve) => setTimeout(resolve, delay));
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";
     const verify_result = await fetchServerWithAuthWrapper({

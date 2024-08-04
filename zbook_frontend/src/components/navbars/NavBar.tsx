@@ -10,15 +10,14 @@ import { getTranslations } from "next-intl/server";
 export default async function NavBar() {
   const t = await getTranslations("HomePage");
   return (
-    <div className="flex sticky top-0 justify-center xl:border-b border-slate-900/10 dark:border-slate-50/[0.06] z-50">
+    <div
+      className="sticky top-0 flex justify-center z-50 
+      xl:border-b border-slate-900/10 dark:border-slate-50/[0.06] 
+      backdrop-blur-xl xl:backdrop-blur supports-backdrop-blur:bg-white/60 bg-transparent"
+    >
       <div
-        className="sticky top-0 z-50  w-full
-        backdrop-blur-xl xl:backdrop-blur supports-backdrop-blur:bg-white/60
-        bg-transparent text-slate-500 dark:text-slate-200
-        flex justify-between items-center 
-        py-2
-        px-4 max-w-[92rem] lg:px-8
-        "
+        className="w-full flex justify-between items-center 
+        py-2 px-4 max-w-[92rem] lg:px-8"
       >
         <div className="flex items-center">
           <div className="lg:hidden">

@@ -35,6 +35,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
         username={props.username}
         repo_name={props.repo_name}
       />
+
       {session?.access_token && (
         <>
           <CreateComment

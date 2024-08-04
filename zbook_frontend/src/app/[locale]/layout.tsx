@@ -77,7 +77,7 @@ export default async function LocaleLayout({
           sizes="256x256"
         />
       </head>
-      <body className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-gray-900 min-h-screen">
+      <body className="antialiased text-slate-700 dark:text-slate-200 bg-white dark:bg-gray-900 min-h-screen">
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
             <SearchDialogProvider>
