@@ -1,11 +1,13 @@
 import MarkdownWrapper from "../wrappers/MarkdownWrapper";
+import ContentBarLoading from "./ContentBarLoading";
 import LoadingElement from "./LoadingElement";
 
 export default function MarkdownLoading() {
   return (
-    <MarkdownWrapper>
+    <MarkdownWrapper contentsidebar={<ContentBarLoading />}>
       <div className="relative animate-pulse flex flex-col w-full">
-        <LoadingElement className="rounded-md h-8 w-1/2 mb-4 mx-auto" />
+        <LoadingElement className="rounded-md h-4 w-24 mb-2 " />
+        <LoadingElement className="rounded-md h-6 w-1/3 mb-4 " />
 
         <LoadingElement className="rounded-md h-4 mb-2.5" />
         <LoadingElement className="rounded-md h-4 mb-2.5" />
