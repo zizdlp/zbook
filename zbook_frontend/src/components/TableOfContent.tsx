@@ -148,6 +148,35 @@ export default function TableOfContent(props: TableOfContentProps) {
         {/* 确保父元素具有固定高度或最大高度 */}
         <div className="h-full">
           {/* 子元素充满父元素的高度 */}
+          <div className="text-gray-700 dark:text-gray-300 font-medium flex items-center space-x-2">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-3 w-3"
+            >
+              <path
+                d="M2.44434 12.6665H13.5554"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M2.44434 3.3335H13.5554"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M2.44434 8H7.33323"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+            <span>On this page</span>
+          </div>
           {parse(props.markdownlist, html_parser_options_list)}
         </div>
       </div>

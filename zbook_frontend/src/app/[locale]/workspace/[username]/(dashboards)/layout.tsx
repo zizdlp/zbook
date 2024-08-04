@@ -1,10 +1,10 @@
 import UserSideBar from "@/components/sidebars/UserSideBar";
 import SideBarToggleSmall from "@/components/sidebars/SideBarToggleSmall";
-import ContentWrapper from "@/components/wrappers/ContentWrapper";
 import { auth } from "@/auth";
 import { redirect } from "@/navigation";
 import { Suspense } from "react";
 import UserSideBarLoading from "@/components/loadings/UserSideBarLoading";
+import MarkdownWrapper from "@/components/wrappers/MarkdownWrapper";
 export default async function RootLayout({
   children,
   params,
@@ -32,7 +32,7 @@ export default async function RootLayout({
           />
         </Suspense>
         <SideBarToggleSmall />
-        <ContentWrapper>{children}</ContentWrapper>
+        <MarkdownWrapper>{children}</MarkdownWrapper>
       </div>
     );
   } else {
