@@ -45,7 +45,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
       <div className="leading-6 mt-14">
         <div className="not-prose my-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="group relative rounded-xl border border-slate-200 dark:border-slate-800">
-            <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
+            <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.purple.50)),var(--quick-links-hover-bg,theme(colors.purple.50)))_padding-box,linear-gradient(to_top,theme(colors.purple.400),theme(colors.purple.300),theme(colors.indigo.300))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
             <div
               className="relative overflow-hidden rounded-xl py-3 px-6 text-left"
               style={{ visibility: props.prev ? "visible" : "hidden" }}
@@ -64,7 +64,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
             </div>
           </div>
           <div className="group relative rounded-xl border border-slate-200 dark:border-slate-800">
-            <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
+            <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.purple.50)),var(--quick-links-hover-bg,theme(colors.purple.50)))_padding-box,linear-gradient(to_top,theme(colors.purple.400),theme(colors.purple.300),theme(colors.indigo.300))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
             <div
               className="relative overflow-hidden rounded-xl py-3 px-6 text-right"
               style={{ visibility: props.next ? "visible" : "hidden" }}
