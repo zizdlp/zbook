@@ -83,7 +83,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
             </div>
           </div>
         </div>
-        <footer className="justify-between pt-10 border-t border-gray-100 sm:flex dark:border-gray-800/50 pb-28">
+        <footer className="justify-between pt-10 border-t border-gray-100 sm:flex dark:border-gray-800/50 pb-10">
           <div className="flex mb-6 space-x-6 sm:mb-0">
             {props.footers?.map((footer: FooterSocial, index: any) => (
               <Link className="group" href={footer.url}>
