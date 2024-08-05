@@ -69,9 +69,9 @@ const parseHTMLString = (
             : level == 2
               ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mb-[1em] leading-[1.3333333]"
               : level == 3
-                ? "text-base md:text-xl font-bold	text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[1.6em] mb-[0.6em] leading-[1.6]"
+                ? "text-base md:text-xl font-bold	text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll  mb-[0.6em] leading-[1.6]"
                 : level == 4
-                  ? "text-base md:text-lg font-semibold	text-slate-900 tracking-tight  dark:text-slate-200 text-wrap overflow-scroll mt-[1.5em] mb-[0.5em] leading-[1.5]"
+                  ? "text-base md:text-lg font-semibold	text-slate-900 tracking-tight  dark:text-slate-200 text-wrap overflow-scroll mb-[0.5em] leading-[1.5]"
                   : level == 5
                     ? "text-sm md:text-base font-semibold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll "
                     : level == 6
@@ -302,7 +302,7 @@ const parseHTMLString = (
         return (
           <p
             key={randomKey}
-            className={`overflow-scroll ${""} ${isLast ? "mb-[0.5em]" : "mb-[1.25em]"}`}
+            className={`overflow-scroll ${isFirst ? "pt-[0.5em]" : ""} ${isLast ? "mb-[0.5em]" : "mb-[0.5em]"}`}
           >
             {Array.from(node.childNodes).map(processNode)}
           </p>
@@ -316,8 +316,8 @@ const parseHTMLString = (
           <blockquote
             key={randomKey}
             className="
-            border-sky-500 bg-slate-50/50 dark:border-sky-500/30 dark:bg-slate-500/10
-            border-l-8 px-2 ring-1	ring-slate-200/50 dark:ring-slate-900/10 indent-4 md:indent-8 py-2 my-2  rounded-md dark:shadow-sm"
+            border-sky-500 bg-slate-50/50 dark:border-sky-600 dark:bg-slate-500/10
+            border-l-8 px-2 ring-1 ring-slate-200/50 dark:ring-slate-900/10 py-1 mb-4  rounded-md dark:shadow-sm"
           >
             {Array.from(node.childNodes).map(processNode)}
           </blockquote>
