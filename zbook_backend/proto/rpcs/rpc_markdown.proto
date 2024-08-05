@@ -11,7 +11,10 @@ message GetMarkdownContentRequest {
   string relative_path = 3;
 }
 message GetMarkdownContentResponse {
-  Markdown markdown = 1;
+  Markdown markdown             = 1;
+  string prev                   = 2;
+  string next                   = 3;
+  repeated FooterSocial footers = 4;
 }
 
 // 2.GetMarkdownImage
