@@ -23,4 +23,9 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-export type { MenuStruct, SubMenuProps, SearchParams, Anchor };
+interface FooterSocial {
+  name: string;
+  icon: string;
+  url: string;
+}
+export type { MenuStruct, SubMenuProps, SearchParams, Anchor, FooterSocial };

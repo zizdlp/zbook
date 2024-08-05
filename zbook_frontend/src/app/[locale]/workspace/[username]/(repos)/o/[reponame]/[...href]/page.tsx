@@ -34,7 +34,7 @@ export default async function MarkdownPage({
     // await new Promise((resolve) => setTimeout(resolve, delay));
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";
-    const verify_result = await fetchServerWithAuthWrapper({
+    const data = await fetchServerWithAuthWrapper({
       endpoint: FetchServerWithAuthWrapperEndPoint.GET_MARKDOWN_CONTENT,
       xforward: xforward,
       agent: agent,
@@ -45,11 +45,11 @@ export default async function MarkdownPage({
         relative_path: decodeURIComponent(params.href).split(",").join("/"),
       },
     });
-    if (verify_result.error) {
-      throw new FetchError(verify_result.message, verify_result.status);
+    if (data.error) {
+      throw new FetchError(data.message, data.status);
     }
 
-    const { markdown } = verify_result;
+    const { markdown, prev, next, footers } = data;
     const markdownText = markdown.main_content;
     const markdownID = markdown.markdown_id;
     const href_seg = markdown.relative_path.split("/");
@@ -79,6 +79,9 @@ export default async function MarkdownPage({
         searchParams={searchParams}
         username={params.username}
         repo_name={params.reponame}
+        prev={prev}
+        next={next}
+        footers={footers}
       />
     );
   } catch (error) {

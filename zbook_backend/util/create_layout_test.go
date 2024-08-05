@@ -1,11 +1,10 @@
-package util_test
+package util
 
 import (
 	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/zizdlp/zbook/util"
 )
 
 func TestCreateLayout(t *testing.T) {
@@ -43,7 +42,7 @@ func TestCreateLayout(t *testing.T) {
 		}
 	]`
 
-	layout := util.CreateLayout(files)
+	layout := CreateLayout(files)
 
 	layoutJSON, err := json.MarshalIndent(layout, "", "  ")
 	require.NoError(t, err)
