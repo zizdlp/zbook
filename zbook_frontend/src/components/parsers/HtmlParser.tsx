@@ -49,7 +49,7 @@ const parseHTMLString = (
         const level = parseInt(tagName.substring(1), 10);
         if (level == 1) {
           return (
-            <header id="header" className="relative">
+            <header id="header" className="relative not-prose">
               <div className="mt-0.5 space-y-2.5">
                 <div className="eyebrow h-5 text-purple-700 dark:text-purple-400 text-sm font-semibold">
                   {prefixPath}
@@ -63,27 +63,9 @@ const parseHTMLString = (
             </header>
           );
         }
-        const className =
-          level == 1
-            ? "text-xl md:text-3xl font-extrabold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]"
-            : level == 2
-              ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mb-[1em] leading-[1.3333333]"
-              : level == 3
-                ? "text-base md:text-xl font-bold	text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll  mb-[0.6em] leading-[1.6]"
-                : level == 4
-                  ? "text-base md:text-lg font-semibold	text-slate-900 tracking-tight  dark:text-slate-200 text-wrap overflow-scroll mb-[0.5em] leading-[1.5]"
-                  : level == 5
-                    ? "text-sm md:text-base font-semibold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll "
-                    : level == 6
-                      ? "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll "
-                      : "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll ";
 
         return (
-          <HeadingComponent
-            key={randomKey}
-            id={idAttribute || undefined}
-            className={className}
-          >
+          <HeadingComponent key={randomKey} id={idAttribute || undefined}>
             {Array.from(node.childNodes).map(processNode)}
           </HeadingComponent>
         );
@@ -106,10 +88,9 @@ const parseHTMLString = (
           </MathInline>
         );
       } else if (tagName === "SPAN") {
-        const classAttribute = node.getAttribute("class");
         const randomKey = Math.random().toString(36).substring(2);
         return (
-          <span key={randomKey} className={classAttribute ?? ""}>
+          <span key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </span>
         );
@@ -129,11 +110,7 @@ const parseHTMLString = (
           );
         } else {
           return (
-            <code
-              key={randomKey}
-              className="font-jetbrains text-sm px-1.5 py-[1px] text-[#111827] dark:text-slate-300 border-[0.01rem] dark:border-slate-600 border-slate-300 dark:bg-[#121212] bg-[#f8f3fa] rounded-md"
-              {...props}
-            >
+            <code key={randomKey} className="font-jetbrains" {...props}>
               {Array.from(node.childNodes).map(processNode)}
             </code>
           );
@@ -152,14 +129,14 @@ const parseHTMLString = (
       } else if (tagName === "UL") {
         const randomKey = Math.random().toString(36).substring(2);
         return (
-          <ul key={randomKey} className="pl-[1.625em] my-[0.75em] list-disc">
+          <ul key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </ul>
         );
       } else if (tagName === "OL") {
         const randomKey = Math.random().toString(36).substring(2);
         return (
-          <ol key={randomKey} className="pl-[1.625em] my-[0.75em] list-decimal">
+          <ol key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </ol>
         );
@@ -187,7 +164,7 @@ const parseHTMLString = (
         if (classAttribute === "footnotes") {
           const randomKey = Math.random().toString(36).substring(2);
           return (
-            <div className="mx-1 my-[2em]" key={randomKey}>
+            <div className="" key={randomKey}>
               <ParserElement node={node} key={randomKey} />
             </div>
           );
@@ -272,7 +249,7 @@ const parseHTMLString = (
         } else if (classAttribute === "adm-body") {
           const randomKey = Math.random().toString(36).substring(2);
           return (
-            <div key={randomKey} className="px-6 py-2 overflow-x-auto">
+            <div key={randomKey} className="px-6 overflow-x-auto">
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
@@ -296,16 +273,8 @@ const parseHTMLString = (
         }
       } else if (tagName === "P") {
         const randomKey = Math.random().toString(36).substring(2);
-        const parent = node.parentElement;
-        const isFirst = parent?.firstElementChild === node;
-        const isLast = parent?.lastElementChild === node;
         return (
-          <p
-            key={randomKey}
-            className={`overflow-scroll ${isFirst ? "pt-[0.5em]" : ""} ${isLast ? "mb-[0.5em]" : "mb-[0.5em]"}`}
-          >
-            {Array.from(node.childNodes).map(processNode)}
-          </p>
+          <p key={randomKey}>{Array.from(node.childNodes).map(processNode)}</p>
         );
       } else if (tagName === "TABLE") {
         const randomKey = Math.random().toString(36).substring(2);
@@ -313,12 +282,7 @@ const parseHTMLString = (
       } else if (tagName === "BLOCKQUOTE") {
         const randomKey = Math.random().toString(36).substring(2);
         return (
-          <blockquote
-            key={randomKey}
-            className="
-            border-sky-500 bg-slate-50/50 dark:border-sky-600 dark:bg-slate-500/10
-            border-l-8 px-2 ring-1 ring-slate-200/50 dark:ring-slate-900/10 py-1 mb-4  rounded-md dark:shadow-sm"
-          >
+          <blockquote key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </blockquote>
         );
@@ -451,6 +415,14 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
     prefixPath,
     username,
     repo_name
+  );
+  return (
+    <div
+      className="prose prose-slate max-w-none dark:prose-invert dark:text-slate-400
+    prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0"
+    >
+      {parsedHTML}
+    </div>
   );
   return <div className="text-[#334155] dark:text-[#a8b6c3]">{parsedHTML}</div>;
 };
