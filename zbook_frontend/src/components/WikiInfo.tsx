@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import HtmlParser from "@/components/parsers/HtmlParser";
 import { auth } from "@/auth";
 import { Link } from "@/navigation";
@@ -16,16 +15,19 @@ interface WikiInfoProps {
   prev: string;
   next: string;
   footers: FooterSocial[];
+  updated_at: string;
 }
 import CreateComment from "./comments/CreateComment";
 import MainContentWrapper from "./wrappers/MainContentWrapper";
 import { FooterSocial, SearchParams } from "@/types/interface";
 import ListLevelOneComment from "./comments/ListLevelOneComment";
 import TableOfContent from "./TableOfContent";
-import { FaAngleLeft, FaAngleRight, FaDiscord, FaGithub } from "react-icons/fa";
 import IconFilter from "./IconFilter";
+import TimeElement from "./TimeElement";
+import { getTranslations } from "next-intl/server";
 export default async function WikiInfo(props: WikiInfoProps) {
   const session = await auth();
+  const t = await getTranslations("Footer");
   return (
     <MainContentWrapper
       right_sidebar={
@@ -53,7 +55,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
                     href={`/workspace/${props.username}/o/${props.repo_name}/${props.prev}`}
                   >
                     <span className="absolute -inset-px rounded-xl"></span>
-                    Previous Page
+                    {t("PrevPage")}
                   </a>
                 </h2>
                 <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
@@ -74,7 +76,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
                     href={`/workspace/${props.username}/o/${props.repo_name}/${props.next}`}
                   >
                     <span className="absolute -inset-px rounded-xl"></span>
-                    Next Page
+                    {t("NextPage")}
                   </a>
                 </h2>
                 <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
@@ -86,7 +88,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
         </div>
 
         <footer className="justify-between pt-10 border-t border-gray-100 sm:flex dark:border-gray-800/50 pb-10">
-          <div className="flex mb-6 space-x-6 sm:mb-0">
+          <div className="flex mb-6 space-x-3 sm:mb-0">
             {props.footers?.map((footer: FooterSocial, index: any) => (
               <Link key={index} className="group" href={footer.url}>
                 <IconFilter
@@ -95,16 +97,21 @@ export default async function WikiInfo(props: WikiInfoProps) {
                 />
               </Link>
             ))}
+
+            <div className="text-sm text-slate-500 hover:text-slate-700">
+              {t("UpdatedAt")}
+              <TimeElement timeInfo={props.updated_at ?? ""} />
+            </div>
           </div>
           <div className="sm:flex">
-            <a
+            <Link
               href="https://github.com/zizdlp/zbook"
               target="_blank"
               rel="noreferrer"
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              className="text-sm text-slate-500 hover:text-slate-700"
             >
-              Powered by ZBook
-            </a>
+              {t("PowerBy")}
+            </Link>
           </div>
         </footer>
       </div>

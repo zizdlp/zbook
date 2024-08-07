@@ -146,7 +146,6 @@ const parseHTMLString = (
 
       if (tagName === "DIV") {
         const classAttribute = node.getAttribute("class");
-        console.log("classAttribute:", classAttribute);
         if (classAttribute === "adm-title") {
           type ParentType = "note" | "warning" | "info" | "tip" | "error";
 

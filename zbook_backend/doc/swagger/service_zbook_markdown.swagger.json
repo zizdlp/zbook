@@ -240,6 +240,10 @@
             "type": "object",
             "$ref": "#/definitions/pbFooterSocial"
           }
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },

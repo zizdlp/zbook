@@ -85,10 +85,10 @@ export default function CreateCommentForm({
           id="comment_content"
           autoComplete="comment_content"
           placeholder={t("RespectComments")}
-          className="grow rounded-md border p-2 resize-none dark:bg-slate-800/25 bg-slate-100/75
+          className="grow rounded-md border-2 p-2 resize-none dark:bg-slate-800/25 bg-slate-100/75
           placeholder:text-slate-400/75 dark:placeholder:text-slate-500/75 placeholder:text-sm  placeholder:font-base 
-          border-sky-300 dark:border-sky-800 
-          focus:border-sky-500 dark:focus:border-sky-600  h-16
+          border-violet-300 dark:border-violet-800 
+          focus:border-violet-500 dark:focus:border-violet-600  h-16
           outline-0 ring-0"
           {...formik.getFieldProps("comment_content")}
         />
@@ -98,7 +98,7 @@ export default function CreateCommentForm({
           leading-6 text-sm md:text-base h-16
           rounded-md
           text-slate-100 dark:text-slate-300 
-          bg-sky-500 hover:bg-sky-700 dark:bg-sky-600 dark:hover:bg-sky-800
+          bg-violet-500 hover:bg-violet-700 dark:bg-violet-600 dark:hover:bg-violet-800
           "
         >
           <BsFillSendFill className="w-4 h-4 mr-2" />

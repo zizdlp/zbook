@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package pb;
 import "models/markdown.proto";
+import "google/protobuf/timestamp.proto";
 option go_package = "github.com/zizdlp/zbook/pb/rpcs";
 
 // 1.GetMarkdownContent
@@ -11,10 +12,11 @@ message GetMarkdownContentRequest {
   string relative_path = 3;
 }
 message GetMarkdownContentResponse {
-  Markdown markdown             = 1;
-  string prev                   = 2;
-  string next                   = 3;
-  repeated FooterSocial footers = 4;
+  Markdown markdown                    = 1;
+  string prev                          = 2;
+  string next                          = 3;
+  repeated FooterSocial footers        = 4;
+  google.protobuf.Timestamp updated_at = 5;
 }
 
 // 2.GetMarkdownImage
