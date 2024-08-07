@@ -163,7 +163,7 @@ const parseHTMLString = (
           );
         } else if (classAttribute === "adm-body") {
           return (
-            <div key={randomKey} className="px-6 overflow-x-auto pt-2">
+            <div key={randomKey} className="px-6 overflow-x-auto">
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
@@ -171,7 +171,7 @@ const parseHTMLString = (
           return (
             <div
               key={randomKey}
-              className="mb-[2em] bg-slate-100/50 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-900/10 rounded-md"
+              className="my-[1.25em] bg-slate-100/50 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-900/10 rounded-md"
             >
               {Array.from(node.childNodes).map(processNode)}
             </div>
@@ -211,7 +211,7 @@ const parseHTMLString = (
             <Suspense
               key={randomKey}
               fallback={
-                <CiImageOn className="w-full h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
+                <CiImageOn className="w-full my-[1.25em] h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
               }
             >
               <MarkdownImage
@@ -259,7 +259,7 @@ const parseHTMLString = (
           return (
             <a
               key={randomKey}
-              className="text-red-500 hover:text-red-600"
+              className="text-purple-500 hover:text-purple-600 "
               href={urlhref || ""}
             >
               {Array.from(node.childNodes).map(processNode)}
@@ -269,7 +269,7 @@ const parseHTMLString = (
           return (
             <a
               key={randomKey}
-              className="px-1 underline font-semibold decoration-purple-500 dark:decoration-purple-400 hover:decoration-2 underline-offset-[0.22rem] text-slate-700 dark:text-gray-200"
+              className="underline hover:decoration-2 underline-offset-[0.22rem] text-slate-700 dark:text-gray-200"
               href={urlhref || ""}
             >
               {Array.from(node.childNodes).map(processNode)}
@@ -278,7 +278,7 @@ const parseHTMLString = (
         }
       } else if (tagName === "STRONG") {
         return (
-          <strong key={randomKey} className="font-semibold dark:text-gray-200">
+          <strong key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </strong>
         );
