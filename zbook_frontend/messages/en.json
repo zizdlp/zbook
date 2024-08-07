@@ -5,6 +5,12 @@
     "TotalPage": "{duration, plural, =0 {Total 0 page} =1 {Total # page} other {Total # Pages} }",
     "Ellipsis": "..."
   },
+  "Footer": {
+    "UpdatedAt": "Updated At ",
+    "PowerBy": "Power By ZBook",
+    "NextPage": "Next Page",
+    "PrevPage": "Prev Page"
+  },
   "SomeThingWrong": {
     "SomeThingWrong": "SomeThing Wrong!"
   },

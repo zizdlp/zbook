@@ -49,7 +49,7 @@ export default async function MarkdownPage({
       throw new FetchError(data.message, data.status);
     }
 
-    const { markdown, prev, next, footers } = data;
+    const { markdown, prev, next, footers, updated_at } = data;
     const markdownText = markdown.main_content;
     const markdownID = markdown.markdown_id;
     const href_seg = markdown.relative_path.split("/");
@@ -82,6 +82,7 @@ export default async function MarkdownPage({
         prev={prev}
         next={next}
         footers={footers}
+        updated_at={updated_at}
       />
     );
   } catch (error) {
