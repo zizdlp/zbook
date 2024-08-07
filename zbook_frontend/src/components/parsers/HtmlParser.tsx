@@ -40,6 +40,7 @@ const parseHTMLString = (
       const tagName = node.tagName.toUpperCase();
       const idAttribute = node.getAttribute("id");
       const randomKey = Math.random().toString(36).substring(2);
+      const props = attributesToProps(node.attributes);
       if (tagName.startsWith("H") && !isNaN(parseInt(tagName[1], 10))) {
         const HeadingComponent =
           tagName.toLowerCase() as keyof JSX.IntrinsicElements;
@@ -87,7 +88,6 @@ const parseHTMLString = (
           </span>
         );
       } else if (tagName === "CODE") {
-        const props = attributesToProps(node.attributes);
         const parent = node.parentElement;
         const parentIsPre = parent?.tagName.toUpperCase() === "PRE";
         if (parentIsPre) {
@@ -107,7 +107,6 @@ const parseHTMLString = (
           );
         }
       } else if (tagName === "PRE") {
-        const props = attributesToProps(node.attributes);
         return (
           <pre key={randomKey} {...props}>
             {Array.from(node.childNodes).map(processNode)}
@@ -128,14 +127,12 @@ const parseHTMLString = (
           </ol>
         );
       } else if (tagName === "LI") {
-        const props = attributesToProps(node.attributes);
         return (
           <li key={randomKey} {...props}>
             {Array.from(node.childNodes).map(processNode)}
           </li>
         );
       } else if (tagName === "SUP") {
-        const props = attributesToProps(node.attributes);
         return (
           <sup key={randomKey} {...props}>
             {Array.from(node.childNodes).map(processNode)}
@@ -317,6 +314,7 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
   return (
     <div
       className="prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
+    prose-th:ps-4
     prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0"
     >
       {parsedHTML}
