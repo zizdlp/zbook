@@ -43,46 +43,48 @@ export default async function WikiInfo(props: WikiInfoProps) {
       />
 
       <div className="leading-6 mt-14">
-        <div className="not-prose my-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="group relative rounded-xl border border-slate-200 dark:border-slate-800">
-            <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.purple.50)),var(--quick-links-hover-bg,theme(colors.purple.50)))_padding-box,linear-gradient(to_top,theme(colors.purple.400),theme(colors.purple.300),theme(colors.indigo.300))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
-            <div
-              className="relative overflow-hidden rounded-xl py-3 px-6 text-left"
-              style={{ visibility: props.prev ? "visible" : "hidden" }}
-            >
-              <h2 className="mt-1 font-display text-base text-slate-900 dark:text-white">
-                <a
-                  href={`/workspace/${props.username}/o/${props.repo_name}/${props.prev}`}
-                >
-                  <span className="absolute -inset-px rounded-xl"></span>
-                  Previous Page
-                </a>
-              </h2>
-              <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
-                {props.prev}
-              </p>
+        <div className="not-prose my-12 grid lg:grid-cols-2 gap-4">
+          {props.prev && (
+            <div className="group relative rounded-xl border border-slate-200 dark:border-slate-800">
+              <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.purple.50)),var(--quick-links-hover-bg,theme(colors.purple.50)))_padding-box,linear-gradient(to_top,theme(colors.purple.400),theme(colors.purple.300),theme(colors.indigo.300))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
+              <div className="relative overflow-hidden rounded-xl py-3 px-6 text-left">
+                <h2 className="mt-1 font-display text-base text-slate-900 dark:text-white">
+                  <a
+                    href={`/workspace/${props.username}/o/${props.repo_name}/${props.prev}`}
+                  >
+                    <span className="absolute -inset-px rounded-xl"></span>
+                    Previous Page
+                  </a>
+                </h2>
+                <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
+                  {props.prev}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="group relative rounded-xl border border-slate-200 dark:border-slate-800">
-            <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.purple.50)),var(--quick-links-hover-bg,theme(colors.purple.50)))_padding-box,linear-gradient(to_top,theme(colors.purple.400),theme(colors.purple.300),theme(colors.indigo.300))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
+          )}
+
+          {props.next && (
             <div
-              className="relative overflow-hidden rounded-xl py-3 px-6 text-right"
-              style={{ visibility: props.next ? "visible" : "hidden" }}
+              className={`group relative rounded-xl border border-slate-200 dark:border-slate-800 ${props.prev ? "" : "col-start-2"}`}
             >
-              <h2 className="mt-1 font-display text-base text-slate-900 dark:text-white">
-                <a
-                  href={`/workspace/${props.username}/o/${props.repo_name}/${props.next}`}
-                >
-                  <span className="absolute -inset-px rounded-xl"></span>
-                  Next Page
-                </a>
-              </h2>
-              <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
-                {props.next}
-              </p>
+              <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.purple.50)),var(--quick-links-hover-bg,theme(colors.purple.50)))_padding-box,linear-gradient(to_top,theme(colors.purple.400),theme(colors.purple.300),theme(colors.indigo.300))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]"></div>
+              <div className="relative overflow-hidden rounded-xl py-3 px-6 text-right">
+                <h2 className="mt-1 font-display text-base text-slate-900 dark:text-white">
+                  <a
+                    href={`/workspace/${props.username}/o/${props.repo_name}/${props.next}`}
+                  >
+                    <span className="absolute -inset-px rounded-xl"></span>
+                    Next Page
+                  </a>
+                </h2>
+                <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
+                  {props.next}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
+
         <footer className="justify-between pt-10 border-t border-gray-100 sm:flex dark:border-gray-800/50 pb-10">
           <div className="flex mb-6 space-x-6 sm:mb-0">
             {props.footers?.map((footer: FooterSocial, index: any) => (

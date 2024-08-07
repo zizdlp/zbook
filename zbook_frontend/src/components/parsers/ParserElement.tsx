@@ -11,61 +11,6 @@ const options: HTMLReactParserOptions = {
     if (
       domNode instanceof Element &&
       domNode.attribs &&
-      domNode.name === "hr"
-    ) {
-      return (
-        <div className="border-t-[0.01rem] border-slate-300 dark:border-slate-700 my-[2em]"></div>
-      );
-    }
-    if (domNode instanceof Element && domNode.attribs && domNode.name === "p") {
-      return (
-        <p className="overflow-scroll">
-          {domToReact(domNode.children, options)}
-        </p>
-      );
-    } else if (
-      domNode instanceof Element &&
-      domNode.attribs &&
-      domNode.name === "a"
-    ) {
-      const props = attributesToProps(domNode.attribs);
-      return (
-        <a className="hover:text-sky-600" {...props}>
-          {domToReact(domNode.children, options)}
-        </a>
-      );
-    } else if (
-      domNode instanceof Element &&
-      domNode.attribs &&
-      domNode.name === "ul"
-    ) {
-      const props = attributesToProps(domNode.attribs);
-      return (
-        <ul className="list-disc" {...props}>
-          {domToReact(domNode.children, options)}
-        </ul>
-      );
-    } else if (
-      domNode instanceof Element &&
-      domNode.attribs &&
-      domNode.name === "ol"
-    ) {
-      const props = attributesToProps(domNode.attribs);
-      return (
-        <ol className="list-decimal pl-4" {...props}>
-          {domToReact(domNode.children, options)}
-        </ol>
-      );
-    } else if (
-      domNode instanceof Element &&
-      domNode.attribs &&
-      domNode.name === "li"
-    ) {
-      const props = attributesToProps(domNode.attribs);
-      return <li {...props}>{domToReact(domNode.children, options)}</li>;
-    } else if (
-      domNode instanceof Element &&
-      domNode.attribs &&
       domNode.name === "table"
     ) {
       const props = attributesToProps(domNode.attribs);
@@ -73,7 +18,7 @@ const options: HTMLReactParserOptions = {
         <div className="mt-4 -mb-3">
           <div className="relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
             <div
-              className="absolute inset-0 bg-grid-light dark:bg-grid-dark [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))]  dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"
+              className="absolute inset-0 bg-grid-light dark:bg-grid-dark [mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.6))]  dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"
               style={{ backgroundPosition: "10px 10px" }} // 使用对象格式
             ></div>
             <div className="relative rounded-xl overflow-auto">
@@ -112,7 +57,7 @@ const options: HTMLReactParserOptions = {
         const index = siblings.indexOf(domNode);
 
         let className =
-          "border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left";
+          "border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3   text-left";
 
         if (index === 0) {
           className += " pl-8";
@@ -127,11 +72,22 @@ const options: HTMLReactParserOptions = {
       }
       return (
         <th
-          className="border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left"
+          className="border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-left"
           {...props}
         >
           {domToReact(domNode.children, options)}
         </th>
+      );
+    } else if (
+      domNode instanceof Element &&
+      domNode.attribs &&
+      domNode.name === "p"
+    ) {
+      const props = attributesToProps(domNode.attribs);
+      return (
+        <p className="not-prose" {...props}>
+          {domToReact(domNode.children, options)}
+        </p>
       );
     } else if (
       domNode instanceof Element &&
@@ -148,7 +104,7 @@ const options: HTMLReactParserOptions = {
         const index = siblings.indexOf(domNode);
 
         let className =
-          "border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 text-left font-normal text-sm";
+          "border-b border-slate-100 dark:border-slate-700 p-4  text-left font-normal text-sm";
 
         if (index === 0) {
           className += " pl-8";
@@ -163,7 +119,7 @@ const options: HTMLReactParserOptions = {
       }
       return (
         <td
-          className="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 text-left font-normal text-sm"
+          className="border-b border-slate-100 dark:border-slate-700 p-4 text-left font-normal text-sm"
           {...props}
         >
           {domToReact(domNode.children, options)}
