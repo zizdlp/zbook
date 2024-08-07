@@ -89,7 +89,7 @@ export default async function MarkdownImage({
     }
   } catch (error) {
     return (
-      <CiImageOff className="my-[2em] rounded-md w-full h-96 py-40 bg-gray-200 dark:bg-gray-700/75 text-slate-500 dark:text-slate-400" />
+      <CiImageOff className="rounded-md w-full h-96 py-40 bg-gray-200 dark:bg-gray-700/75 text-slate-500 dark:text-slate-400" />
     );
   }
 }

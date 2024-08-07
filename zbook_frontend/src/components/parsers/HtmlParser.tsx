@@ -12,6 +12,7 @@ import { MdTipsAndUpdates } from "react-icons/md";
 import { CiImageOn } from "react-icons/ci";
 import ParserElement from "./ParserElement";
 import CodeBlock from "./CodeBlock";
+import ImageWithFallback from "./ImageWithFallback";
 interface Attribute {
   name: string;
   value: string;
@@ -49,18 +50,14 @@ const parseHTMLString = (
         const level = parseInt(tagName.substring(1), 10);
         if (level == 1) {
           return (
-            <header id="header" className="relative not-prose">
-              <div className="mt-0.5 space-y-2.5">
-                <div className="eyebrow h-5 text-purple-700 dark:text-purple-400 text-sm font-semibold">
-                  {prefixPath}
-                </div>
-                <div className="flex items-center">
-                  <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight dark:text-gray-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]">
-                    {Array.from(node.childNodes).map(processNode)}
-                  </h1>
-                </div>
+            <div key={randomKey}>
+              <div className="h-5 text-purple-700 dark:text-purple-400 text-sm font-semibold">
+                {prefixPath}
               </div>
-            </header>
+              <h1 className="text-2xl sm:text-3xl font-extrabold">
+                {Array.from(node.childNodes).map(processNode)}
+              </h1>
+            </div>
           );
         }
 
@@ -288,19 +285,13 @@ const parseHTMLString = (
         );
       } else if (tagName === "IMG") {
         const srcAttribute = (node as Element).getAttribute("src");
-        const altAttribute = (node as Element).getAttribute("alt");
-        if (srcAttribute && srcAttribute.startsWith("http")) {
-          if (altAttribute === "Actions Status") {
-            return null;
-          }
 
+        if (srcAttribute && srcAttribute.startsWith("http")) {
           return (
-            /* eslint-disable @next/next/no-img-element */
-            <img
-              key={randomKey}
-              className="w-full rounded-md my-[2em]"
+            <ImageWithFallback
               src={srcAttribute}
               alt="Landscape picture"
+              key={randomKey}
             />
           );
         } else {
@@ -308,7 +299,7 @@ const parseHTMLString = (
             <Suspense
               key={randomKey}
               fallback={
-                <CiImageOn className="w-full h-96 my-[2em] rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
+                <CiImageOn className="w-full h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
               }
             >
               <MarkdownImage
@@ -418,13 +409,12 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
   );
   return (
     <div
-      className="prose prose-slate max-w-none dark:prose-invert dark:text-slate-400
+      className="prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
     prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0"
     >
       {parsedHTML}
     </div>
   );
-  return <div className="text-[#334155] dark:text-[#a8b6c3]">{parsedHTML}</div>;
 };
 
 export default HtmlParser;
