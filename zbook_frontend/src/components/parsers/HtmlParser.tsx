@@ -224,7 +224,9 @@ const parseHTMLString = (
         }
       } else if (tagName === "P") {
         return (
-          <p key={randomKey}>{Array.from(node.childNodes).map(processNode)}</p>
+          <p key={randomKey} className="overflow-scroll">
+            {Array.from(node.childNodes).map(processNode)}
+          </p>
         );
       } else if (tagName === "TABLE") {
         return <ParserElement key={randomKey} node={node} />;

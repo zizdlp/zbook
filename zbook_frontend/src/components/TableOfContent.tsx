@@ -145,7 +145,7 @@ export default function TableOfContent(props: TableOfContentProps) {
   return (
     <RightSideBarWrapper>
       <div
-        className="fixed overflow-auto"
+        className="fixed overflow-auto w-[19rem]"
         style={{ height: "calc(100vh - 128px)" }}
       >
         {/* 确保父元素具有固定高度或最大高度 */}
