@@ -29,7 +29,7 @@ export default function TableOfContent(props: TableOfContentProps) {
     var href = e.target.getAttribute("href");
     const escapedSelector = href.replace(/#(\d)/, "#\\3$1 ");
     const section1 = document.querySelector(escapedSelector);
-    const navHeight = 60;
+    const navHeight = -35;
     window.scrollTo({
       top: section1.offsetTop - navHeight,
       behavior: "smooth",
@@ -115,9 +115,9 @@ export default function TableOfContent(props: TableOfContentProps) {
             <a
               {...props}
               onClick={handleClick}
-              className={`group flex items-start py-1 hover:text-sky-500  dark:hover:text-sky-500 overflow-scroll ${
+              className={`group flex items-start py-1 hover:text-purple-500  dark:hover:text-purple-400 overflow-scroll ${
                 get_act() === props.href.substring(1)
-                  ? "dark:text-sky-500 text-sky-500"
+                  ? "dark:text-purple-400 text-purple-500"
                   : "dark:text-slate-400"
               }`}
             >
@@ -129,9 +129,9 @@ export default function TableOfContent(props: TableOfContentProps) {
           <a
             {...props}
             onClick={handleClick}
-            className={`group flex items-start py-1 hover:text-sky-500  dark:hover:text-sky-500 overflow-scroll ${
+            className={`group flex items-start py-1 hover:text-purple-500  dark:hover:text-purple-400 overflow-scroll ${
               get_act() === props.href.substring(1)
-                ? "dark:text-sky-500 text-sky-500"
+                ? "dark:text-purple-400 text-purple-500"
                 : "dark:text-slate-400"
             }`}
           >
@@ -145,7 +145,7 @@ export default function TableOfContent(props: TableOfContentProps) {
   return (
     <RightSideBarWrapper>
       <div
-        className="fixed overflow-auto"
+        className="fixed overflow-auto w-[19rem]"
         style={{ height: "calc(100vh - 128px)" }}
       >
         {/* 确保父元素具有固定高度或最大高度 */}

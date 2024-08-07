@@ -1,15 +1,13 @@
 package util
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
 
-func TestReadRepoConfig(t *testing.T) {
-	// 创建一个临时文件并写入测试 JSON 数据
-	testJSON := `{
+func TestParseRepoConfigFromString(t *testing.T) {
+	jsonStr := `{
 		"anchors": [
 			{
 				"name": "Google",
@@ -52,20 +50,6 @@ func TestReadRepoConfig(t *testing.T) {
 			}
 		]
 	}`
-
-	tmpFile, err := os.CreateTemp("", "test*.json")
-	require.NoError(t, err)
-	defer os.Remove(tmpFile.Name())
-
-	_, err = tmpFile.Write([]byte(testJSON))
-	require.NoError(t, err)
-
-	err = tmpFile.Close()
-	require.NoError(t, err)
-
-	// 读取 JSON 文件并进行断言
-	config, err := ReadRepoConfig(tmpFile.Name())
-	require.NoError(t, err)
 
 	expectedConfig := &RepoConfig{
 		Anchors: []Anchor{
@@ -111,5 +95,7 @@ func TestReadRepoConfig(t *testing.T) {
 		},
 	}
 
+	config, err := ParseRepoConfigFromString(jsonStr)
+	require.NoError(t, err)
 	require.Equal(t, expectedConfig, config)
 }

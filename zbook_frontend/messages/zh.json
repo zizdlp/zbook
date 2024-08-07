@@ -5,6 +5,12 @@
     "TotalPage": "{duration, plural, =0 {共 0 页} =1 {共 # 页} other {共 # 页} }",
     "Ellipsis": "..."
   },
+  "Footer": {
+    "UpdatedAt": "编辑于 ",
+    "PowerBy": "ZBook 提供支持",
+    "NextPage": "下一页",
+    "PrevPage": "上一页"
+  },
   "SomeThingWrong": {
     "SomeThingWrong": "哪里出错了！"
   },

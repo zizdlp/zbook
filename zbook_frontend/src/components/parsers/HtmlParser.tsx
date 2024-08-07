@@ -4,14 +4,15 @@ import React, { Suspense } from "react";
 import MathDisplay from "./MathDisplay";
 import MathInline from "./MathInline";
 import MarkdownImage from "@/components/parsers/MarkdownImage";
-import { BsFillBookmarkCheckFill } from "react-icons/bs";
-import { TiWarning } from "react-icons/ti";
-import { MdError } from "react-icons/md";
-import { FaInfoCircle } from "react-icons/fa";
-import { MdTipsAndUpdates } from "react-icons/md";
 import { CiImageOn } from "react-icons/ci";
 import ParserElement from "./ParserElement";
 import CodeBlock from "./CodeBlock";
+import ImageWithFallback from "./ImageWithFallback";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
+import { FaInfoCircle } from "react-icons/fa";
+import { MdError, MdTipsAndUpdates } from "react-icons/md";
+import { TiWarning } from "react-icons/ti";
+
 interface Attribute {
   name: string;
   value: string;
@@ -43,47 +44,26 @@ const parseHTMLString = (
       const tagName = node.tagName.toUpperCase();
       const idAttribute = node.getAttribute("id");
       const randomKey = Math.random().toString(36).substring(2);
+      const props = attributesToProps(node.attributes);
       if (tagName.startsWith("H") && !isNaN(parseInt(tagName[1], 10))) {
         const HeadingComponent =
           tagName.toLowerCase() as keyof JSX.IntrinsicElements;
         const level = parseInt(tagName.substring(1), 10);
         if (level == 1) {
           return (
-            <header id="header" className="relative">
-              <div className="mt-0.5 space-y-2.5">
-                <div className="eyebrow h-5 text-purple-700 dark:text-purple-400 text-sm font-semibold">
-                  {prefixPath}
-                </div>
-                <div className="flex items-center">
-                  <h1 className="inline-block text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight dark:text-gray-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]">
-                    {Array.from(node.childNodes).map(processNode)}
-                  </h1>
-                </div>
+            <div key={randomKey}>
+              <div className="h-5 text-purple-700 dark:text-purple-400 text-sm font-semibold">
+                {prefixPath}
               </div>
-            </header>
+              <h1 className="text-2xl sm:text-3xl font-extrabold">
+                {Array.from(node.childNodes).map(processNode)}
+              </h1>
+            </div>
           );
         }
-        const className =
-          level == 1
-            ? "text-xl md:text-3xl font-extrabold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll mb-[0.8888889em] leading-[1.1111111]"
-            : level == 2
-              ? "text-lg md:text-2xl font-bold text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mb-[1em] leading-[1.3333333]"
-              : level == 3
-                ? "text-base md:text-xl font-bold	text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll mt-[1.6em] mb-[0.6em] leading-[1.6]"
-                : level == 4
-                  ? "text-base md:text-lg font-semibold	text-slate-900 tracking-tight  dark:text-slate-200 text-wrap overflow-scroll mt-[1.5em] mb-[0.5em] leading-[1.5]"
-                  : level == 5
-                    ? "text-sm md:text-base font-semibold text-slate-900 tracking-tight  dark:text-slate-200 overflow-scroll "
-                    : level == 6
-                      ? "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll "
-                      : "text-sm md:text-base font-medium text-slate-900 tracking-tight dark:text-slate-200 overflow-scroll ";
 
         return (
-          <HeadingComponent
-            key={randomKey}
-            id={idAttribute || undefined}
-            className={className}
-          >
+          <HeadingComponent key={randomKey} id={idAttribute || undefined}>
             {Array.from(node.childNodes).map(processNode)}
           </HeadingComponent>
         );
@@ -106,16 +86,12 @@ const parseHTMLString = (
           </MathInline>
         );
       } else if (tagName === "SPAN") {
-        const classAttribute = node.getAttribute("class");
-        const randomKey = Math.random().toString(36).substring(2);
         return (
-          <span key={randomKey} className={classAttribute ?? ""}>
+          <span key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </span>
         );
       } else if (tagName === "CODE") {
-        const props = attributesToProps(node.attributes);
-        const randomKey = Math.random().toString(36).substring(2);
         const parent = node.parentElement;
         const parentIsPre = parent?.tagName.toUpperCase() === "PRE";
         if (parentIsPre) {
@@ -129,51 +105,38 @@ const parseHTMLString = (
           );
         } else {
           return (
-            <code
-              key={randomKey}
-              className="font-jetbrains text-sm px-1.5 py-[1px] text-[#111827] dark:text-slate-300 border-[0.01rem] dark:border-slate-600 border-slate-300 dark:bg-[#121212] bg-[#f8f3fa] rounded-md"
-              {...props}
-            >
+            <code key={randomKey} className="font-jetbrains" {...props}>
               {Array.from(node.childNodes).map(processNode)}
             </code>
           );
         }
       } else if (tagName === "PRE") {
-        const props = attributesToProps(node.attributes);
-        const randomKey = Math.random().toString(36).substring(2);
         return (
           <pre key={randomKey} {...props}>
             {Array.from(node.childNodes).map(processNode)}
           </pre>
         );
       } else if (tagName === "HR") {
-        const randomKey = Math.random().toString(36).substring(2);
         return <hr key={randomKey} />;
       } else if (tagName === "UL") {
-        const randomKey = Math.random().toString(36).substring(2);
         return (
-          <ul key={randomKey} className="pl-[1.625em] my-[0.75em] list-disc">
+          <ul key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </ul>
         );
       } else if (tagName === "OL") {
-        const randomKey = Math.random().toString(36).substring(2);
         return (
-          <ol key={randomKey} className="pl-[1.625em] my-[0.75em] list-decimal">
+          <ol key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </ol>
         );
       } else if (tagName === "LI") {
-        const props = attributesToProps(node.attributes);
-        const randomKey = Math.random().toString(36).substring(2);
         return (
           <li key={randomKey} {...props}>
             {Array.from(node.childNodes).map(processNode)}
           </li>
         );
       } else if (tagName === "SUP") {
-        const props = attributesToProps(node.attributes);
-        const randomKey = Math.random().toString(36).substring(2);
         return (
           <sup key={randomKey} {...props}>
             {Array.from(node.childNodes).map(processNode)}
@@ -183,17 +146,8 @@ const parseHTMLString = (
 
       if (tagName === "DIV") {
         const classAttribute = node.getAttribute("class");
-
-        if (classAttribute === "footnotes") {
-          const randomKey = Math.random().toString(36).substring(2);
-          return (
-            <div className="mx-1 my-[2em]" key={randomKey}>
-              <ParserElement node={node} key={randomKey} />
-            </div>
-          );
-        } else if (classAttribute === "adm-title") {
+        if (classAttribute === "adm-title") {
           type ParentType = "note" | "warning" | "info" | "tip" | "error";
-          let parentType: ParentType = "note"; // or "warning", "info", "tip", "error"
 
           const iconTypes = {
             note: BsFillBookmarkCheckFill,
@@ -203,140 +157,96 @@ const parseHTMLString = (
             error: MdError,
           };
 
-          let bg1 = "bg-cyan-600/75 dark:bg-cyan-500/25";
-          const parent = node.parentElement;
-          const parentAttr =
-            parent !== null && parent.getAttribute !== undefined;
+          const bgColors: Record<ParentType, string> = {
+            note: "bg-cyan-600/75 dark:bg-cyan-500/25",
+            warning: "bg-yellow-600/75 dark:bg-yellow-500/25",
+            info: "bg-green-600/75 dark:bg-green-500/25",
+            tip: "bg-lime-600/75 dark:bg-lime-500/25",
+            error: "bg-red-600/75 dark:bg-red-500/25",
+          };
 
-          if (parentAttr) {
-            const attrsArray = Array.from(parent.attributes);
-            const classAttribute = attrsArray.find(
-              (attr) => attr.name === "class"
-            );
-
-            if (
-              classAttribute &&
-              classAttribute.value === "admonition adm-note"
-            ) {
-              parentType = "note";
-              bg1 = "bg-cyan-600/75 dark:bg-cyan-500/25";
-            } else if (
-              classAttribute &&
-              classAttribute.value === "admonition adm-warning"
-            ) {
-              parentType = "warning";
-              bg1 = "bg-yellow-600/75 dark:bg-yellow-500/25";
-            } else if (
-              classAttribute &&
-              classAttribute.value === "admonition adm-info"
-            ) {
-              parentType = "info";
-              bg1 = "bg-green-600/75 dark:bg-green-500/25";
-            } else if (
-              classAttribute &&
-              classAttribute.value === "admonition adm-tip"
-            ) {
-              parentType = "tip";
-              bg1 = "bg-lime-600/75 dark:bg-lime-500/25";
-            } else if (
-              classAttribute &&
-              classAttribute.value === "admonition adm-error"
-            ) {
-              parentType = "error";
-              bg1 = "bg-red-600/75 dark:bg-red-500/25";
+          const getParentTypeAndBg = (
+            parent: HTMLElement | null
+          ): { parentType: ParentType; bg: string } => {
+            if (!parent) return { parentType: "note", bg: bgColors.note };
+            const classList = parent.getAttribute("class");
+            if (classList) {
+              if (classList.includes("adm-note"))
+                return { parentType: "note", bg: bgColors.note };
+              if (classList.includes("adm-warning"))
+                return { parentType: "warning", bg: bgColors.warning };
+              if (classList.includes("adm-info"))
+                return { parentType: "info", bg: bgColors.info };
+              if (classList.includes("adm-tip"))
+                return { parentType: "tip", bg: bgColors.tip };
+              if (classList.includes("adm-error"))
+                return { parentType: "error", bg: bgColors.error };
             }
-          }
 
+            return { parentType: "note", bg: bgColors.note };
+          };
+          const { parentType, bg } = getParentTypeAndBg(node.parentElement);
           const Icon = iconTypes[parentType];
-          const randomKey = Math.random().toString(36).substring(2);
-          const randomKey2 = Math.random().toString(36).substring(2);
           return (
             <div
               key={randomKey}
-              className={`relative py-1 md:py-2 space-x-4 rounded-t-md flex items-center justify-center text-slate-400 text-xs md:text-sm leading-6  ${bg1}`}
+              className={`relative py-1 md:py-2 space-x-4 rounded-t-md flex items-center justify-center text-slate-400 text-xs md:text-sm leading-6 ${bg}`}
             >
-              <div
-                key={randomKey}
-                className={`relative ml-2 md:ml-4 w-7 h-7  text-white flex items-center justify-center `}
-              >
+              <div className="relative ml-2 md:ml-4 w-7 h-7 text-white flex items-center justify-center">
                 <Icon className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <span
-                key={randomKey2}
-                className="flex-1 text-base font-medium text-white dark:text-slate-200"
-              >
+              <span className="flex-1 text-base font-medium text-white dark:text-slate-200">
                 {Array.from(node.childNodes).map(processNode)}
               </span>
             </div>
           );
         } else if (classAttribute === "adm-body") {
-          const randomKey = Math.random().toString(36).substring(2);
           return (
-            <div key={randomKey} className="px-6 py-2 overflow-x-auto">
+            <div key={randomKey} className="px-4 md:px-6 overflow-x-auto">
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
         } else if (classAttribute && classAttribute.includes("admonition")) {
-          const randomKey = Math.random().toString(36).substring(2);
           return (
             <div
               key={randomKey}
-              className="my-[2em] rounded-md bg-slate-100/50 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-900/10"
+              className="my-[1.25em] bg-slate-100/50 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-900/10 rounded-md"
             >
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
+        } else if (classAttribute === "footnotes") {
+          return <ParserElement key={randomKey} node={node} />;
         } else {
-          const randomKey = Math.random().toString(36).substring(2);
           return (
-            <div key={randomKey} className="text-xs md:text-base">
+            <div key={randomKey}>
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
         }
       } else if (tagName === "P") {
-        const randomKey = Math.random().toString(36).substring(2);
-        const parent = node.parentElement;
-        const isFirst = parent?.firstElementChild === node;
-        const isLast = parent?.lastElementChild === node;
         return (
-          <p
-            key={randomKey}
-            className={`overflow-scroll ${""} ${isLast ? "mb-[0.5em]" : "mb-[1.25em]"}`}
-          >
+          <p key={randomKey} className="overflow-scroll">
             {Array.from(node.childNodes).map(processNode)}
           </p>
         );
       } else if (tagName === "TABLE") {
-        const randomKey = Math.random().toString(36).substring(2);
         return <ParserElement key={randomKey} node={node} />;
       } else if (tagName === "BLOCKQUOTE") {
-        const randomKey = Math.random().toString(36).substring(2);
         return (
-          <blockquote
-            key={randomKey}
-            className="
-            border-sky-500 bg-slate-50/50 dark:border-sky-500/30 dark:bg-slate-500/10
-            border-l-8 px-2 ring-1	ring-slate-200/50 dark:ring-slate-900/10 indent-4 md:indent-8 py-2 my-2  rounded-md dark:shadow-sm"
-          >
+          <blockquote key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </blockquote>
         );
       } else if (tagName === "IMG") {
         const srcAttribute = (node as Element).getAttribute("src");
-        const altAttribute = (node as Element).getAttribute("alt");
-        if (srcAttribute && srcAttribute.startsWith("http")) {
-          if (altAttribute === "Actions Status") {
-            return null;
-          }
 
+        if (srcAttribute && srcAttribute.startsWith("http")) {
           return (
-            /* eslint-disable @next/next/no-img-element */
-            <img
-              key={randomKey}
-              className="w-full rounded-md my-[2em]"
+            <ImageWithFallback
               src={srcAttribute}
               alt="Landscape picture"
+              key={randomKey}
             />
           );
         } else {
@@ -344,7 +254,7 @@ const parseHTMLString = (
             <Suspense
               key={randomKey}
               fallback={
-                <CiImageOn className="w-full h-96 my-[2em] rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
+                <CiImageOn className="w-full my-[1.25em] h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
               }
             >
               <MarkdownImage
@@ -356,7 +266,6 @@ const parseHTMLString = (
           );
         }
       } else if (tagName === "DEL") {
-        const randomKey = Math.random().toString(36).substring(2);
         return (
           <del key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
@@ -376,7 +285,6 @@ const parseHTMLString = (
         }
         if (parentAttr) {
           const tag = parent.tagName;
-          const randomKey = Math.random().toString(36).substring(2);
           if (tag === "SUP") {
             return (
               <a
@@ -391,22 +299,20 @@ const parseHTMLString = (
         }
         const href = node.getAttribute("href");
         if (href && href.includes("footnote")) {
-          const randomKey = Math.random().toString(36).substring(2);
           return (
             <a
               key={randomKey}
-              className="text-red-500 hover:text-red-600"
+              className="text-purple-500 hover:text-purple-600 "
               href={urlhref || ""}
             >
               {Array.from(node.childNodes).map(processNode)}
             </a>
           );
         } else {
-          const randomKey = Math.random().toString(36).substring(2);
           return (
             <a
               key={randomKey}
-              className="px-1 underline font-semibold decoration-purple-500 dark:decoration-purple-400 hover:decoration-2 underline-offset-[0.22rem] text-slate-700 dark:text-gray-200"
+              className="underline hover:decoration-2 underline-offset-[0.22rem] text-slate-700 dark:text-gray-200"
               href={urlhref || ""}
             >
               {Array.from(node.childNodes).map(processNode)}
@@ -414,9 +320,8 @@ const parseHTMLString = (
           );
         }
       } else if (tagName === "STRONG") {
-        const randomKey = Math.random().toString(36).substring(2);
         return (
-          <strong key={randomKey} className="font-semibold dark:text-gray-200">
+          <strong key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </strong>
         );
@@ -452,7 +357,15 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
     username,
     repo_name
   );
-  return <div className="text-[#334155] dark:text-[#a8b6c3]">{parsedHTML}</div>;
+  return (
+    <div
+      className="prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
+    prose-th:lg:ps-8 prose-th:ps-4 prose-ol:
+    prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0"
+    >
+      {parsedHTML}
+    </div>
+  );
 };
 
 export default HtmlParser;

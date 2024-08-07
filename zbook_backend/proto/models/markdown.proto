@@ -17,3 +17,9 @@ message Markdown {
   string username                      = 10;
   string repo_name                     = 11;
 }
+
+message FooterSocial {
+  string name = 1;
+  string icon = 2;
+  string url  = 3;
+}
