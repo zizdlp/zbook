@@ -8,7 +8,11 @@ import { CiImageOn } from "react-icons/ci";
 import ParserElement from "./ParserElement";
 import CodeBlock from "./CodeBlock";
 import ImageWithFallback from "./ImageWithFallback";
-import { getParentTypeAndBg, iconTypes } from "@/utils/admo";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
+import { FaInfoCircle } from "react-icons/fa";
+import { MdError, MdTipsAndUpdates } from "react-icons/md";
+import { TiWarning } from "react-icons/ti";
+
 interface Attribute {
   name: string;
   value: string;
@@ -143,12 +147,50 @@ const parseHTMLString = (
       if (tagName === "DIV") {
         const classAttribute = node.getAttribute("class");
         if (classAttribute === "adm-title") {
+          type ParentType = "note" | "warning" | "info" | "tip" | "error";
+
+          const iconTypes = {
+            note: BsFillBookmarkCheckFill,
+            warning: TiWarning,
+            info: FaInfoCircle,
+            tip: MdTipsAndUpdates,
+            error: MdError,
+          };
+
+          const bgColors: Record<ParentType, string> = {
+            note: "bg-cyan-600/75 dark:bg-cyan-500/25",
+            warning: "bg-yellow-600/75 dark:bg-yellow-500/25",
+            info: "bg-green-600/75 dark:bg-green-500/25",
+            tip: "bg-lime-600/75 dark:bg-lime-500/25",
+            error: "bg-red-600/75 dark:bg-red-500/25",
+          };
+
+          const getParentTypeAndBg = (
+            parent: HTMLElement | null
+          ): { parentType: ParentType; bg: string } => {
+            if (!parent) return { parentType: "note", bg: bgColors.note };
+            const classList = parent.getAttribute("class");
+            if (classList) {
+              if (classList.includes("adm-note"))
+                return { parentType: "note", bg: bgColors.note };
+              if (classList.includes("adm-warning"))
+                return { parentType: "warning", bg: bgColors.warning };
+              if (classList.includes("adm-info"))
+                return { parentType: "info", bg: bgColors.info };
+              if (classList.includes("adm-tip"))
+                return { parentType: "tip", bg: bgColors.tip };
+              if (classList.includes("adm-error"))
+                return { parentType: "error", bg: bgColors.error };
+            }
+
+            return { parentType: "note", bg: bgColors.note };
+          };
           const { parentType, bg } = getParentTypeAndBg(node.parentElement);
           const Icon = iconTypes[parentType];
           return (
             <div
               key={randomKey}
-              className={`relative py-1 md:py-2 space-x-4 rounded-t-md flex items-center justify-center text-slate-400 text-xs md:text-sm leading-6  ${bg}`}
+              className={`relative py-1 md:py-2 space-x-4 rounded-t-md flex items-center justify-center text-slate-400 text-xs md:text-sm leading-6 ${bg}`}
             >
               <div className="relative ml-2 md:ml-4 w-7 h-7 text-white flex items-center justify-center">
                 <Icon className="w-5 h-5 md:w-6 md:h-6" />
@@ -160,7 +202,7 @@ const parseHTMLString = (
           );
         } else if (classAttribute === "adm-body") {
           return (
-            <div key={randomKey} className="px-6 overflow-x-auto">
+            <div key={randomKey} className="px-4 md:px-6 overflow-x-auto">
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
@@ -314,7 +356,7 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
   return (
     <div
       className="prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
-    prose-th:ps-4
+    prose-th:lg:ps-8 prose-th:ps-4
     prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0"
     >
       {parsedHTML}
