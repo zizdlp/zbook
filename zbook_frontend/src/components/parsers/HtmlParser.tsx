@@ -146,6 +146,7 @@ const parseHTMLString = (
 
       if (tagName === "DIV") {
         const classAttribute = node.getAttribute("class");
+        console.log("classAttribute:", classAttribute);
         if (classAttribute === "adm-title") {
           type ParentType = "note" | "warning" | "info" | "tip" | "error";
 
@@ -215,6 +216,8 @@ const parseHTMLString = (
               {Array.from(node.childNodes).map(processNode)}
             </div>
           );
+        } else if (classAttribute === "footnotes") {
+          return <ParserElement key={randomKey} node={node} />;
         } else {
           return (
             <div key={randomKey}>
@@ -358,7 +361,7 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
   return (
     <div
       className="prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
-    prose-th:lg:ps-8 prose-th:ps-4
+    prose-th:lg:ps-8 prose-th:ps-4 prose-ol:
     prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0"
     >
       {parsedHTML}

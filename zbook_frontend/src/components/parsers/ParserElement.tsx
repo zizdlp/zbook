@@ -81,6 +81,17 @@ const options: HTMLReactParserOptions = {
     } else if (
       domNode instanceof Element &&
       domNode.attribs &&
+      domNode.name === "p"
+    ) {
+      const props = attributesToProps(domNode.attribs);
+      return (
+        <p className="not-prose" {...props}>
+          {domToReact(domNode.children, options)}
+        </p>
+      );
+    } else if (
+      domNode instanceof Element &&
+      domNode.attribs &&
       domNode.name === "td"
     ) {
       const props = attributesToProps(domNode.attribs);
