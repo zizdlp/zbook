@@ -23,6 +23,7 @@ export default function FoldSubMenu({
               locale={locale}
               prefix={prefix}
               collapse={collapse}
+              theme_color={theme_color}
             />
           </li>
         ) : (

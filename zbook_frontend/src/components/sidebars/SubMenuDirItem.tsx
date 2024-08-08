@@ -5,6 +5,7 @@ import { BiChevronDown, BiChevronLeft } from "react-icons/bi";
 import FoldSubMenu from "./FoldSubMenu";
 import { isPrefix } from "@/utils/util";
 import { SideBarContext } from "@/providers/SideBarProvider";
+import { ThemeColor } from "../TableOfContent";
 export default function SubMenuDirItem({
   layer,
   menu,
@@ -12,6 +13,7 @@ export default function SubMenuDirItem({
   locale,
   prefix,
   collapse,
+  theme_color,
 }: {
   layer: number;
   menu: MenuStruct;
@@ -19,6 +21,7 @@ export default function SubMenuDirItem({
   locale: string;
   prefix: string;
   collapse: boolean;
+  theme_color: ThemeColor;
 }) {
   const { sideBarReload, setSideBarReload } = useContext(SideBarContext);
   const [open, setOpen] = useState(false);
@@ -85,6 +88,7 @@ export default function SubMenuDirItem({
           pathname={pathname}
           locale={locale}
           collapse={collapse}
+          theme_color={theme_color}
         />
       )}
     </>

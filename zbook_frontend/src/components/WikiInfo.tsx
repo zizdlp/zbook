@@ -42,6 +42,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
         prefixPath={props.prefixPath}
         username={props.username}
         repo_name={props.repo_name}
+        theme_color={props.theme_color}
       />
 
       <MainContentFooter
@@ -59,6 +60,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
             parentID={0}
             markdownID={props.markdown_id}
             username={session.username}
+            theme_color={props.theme_color}
           />
 
           <div className="pb-16">

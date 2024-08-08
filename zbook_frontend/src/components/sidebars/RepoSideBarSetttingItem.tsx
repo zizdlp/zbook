@@ -2,19 +2,31 @@
 
 import { useTranslations } from "next-intl";
 import { IconType } from "react-icons/lib";
+import { ThemeColor } from "../TableOfContent";
+function getSettingColorClasses(color: ThemeColor) {
+  return {
+    hoverClass: `group-hover:from-${color}-500  ${color == ThemeColor.Sky && "group-hover:to-teal-500"} ${color == ThemeColor.Violet && "group-hover:to-pink-500"} ${color == ThemeColor.Teal && "group-hover:to-sky-500"} `,
+    selectedClass: `text-${color}-600 dark:text-${color}-400`,
+    selectBgClass: `from-${color}-500 ${color == ThemeColor.Sky && "to-teal-500"} ${color == ThemeColor.Violet && "to-pink-500"} ${color == ThemeColor.Teal && "to-sky-500"}`,
+  };
+}
 export default function RepoSideBarSettingItem({
   href,
   selected,
   text,
   icon,
+  theme_color,
   onClick,
 }: {
   href: string;
   selected: boolean;
   text: string;
   icon: IconType;
+  theme_color: ThemeColor;
   onClick?: any;
 }) {
+  let { hoverClass, selectedClass, selectBgClass } =
+    getSettingColorClasses(theme_color);
   const t = useTranslations("SideBar");
   const IconText = ({
     Icon,
@@ -37,16 +49,16 @@ export default function RepoSideBarSettingItem({
           
           ${
             selected
-              ? "text-purple-600 dark:text-purple-400"
+              ? selectedClass
               : "text-gray-600  dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
           }
           `}
       >
         <div
-          className={`mr-4 rounded-md p-1 group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:ring-0
+          className={`mr-4 rounded-md p-1 group-hover:bg-gradient-to-r ${hoverClass} group-hover:ring-0
             ${
               selected
-                ? "bg-gradient-to-r from-purple-500 to-pink-500"
+                ? `bg-gradient-to-r ${selectBgClass}`
                 : "ring-1 ring-slate-300 dark:ring-slate-700"
             }
           `}

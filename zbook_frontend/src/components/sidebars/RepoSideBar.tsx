@@ -47,6 +47,7 @@ export default function RepoSideBar({
             authname={authname}
             anchors={anchors ?? []}
             visibility_level={visibility_level}
+            theme_color={theme_color}
           />
           {theme_sidebar == "theme_sidebar_fold" ? (
             <FoldSubMenu

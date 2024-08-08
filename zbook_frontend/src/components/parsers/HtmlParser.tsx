@@ -12,6 +12,7 @@ import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { FaInfoCircle } from "react-icons/fa";
 import { MdError, MdTipsAndUpdates } from "react-icons/md";
 import { TiWarning } from "react-icons/ti";
+import { ThemeColor } from "../TableOfContent";
 
 interface Attribute {
   name: string;
@@ -30,15 +31,22 @@ function attributesToProps(attributes: NamedNodeMap): {
 
   return props;
 }
+function getHeadColorClasses(color: ThemeColor) {
+  return {
+    activeClass: `text-${color}-700 dark:text-${color}-400`,
+  };
+}
 const parseHTMLString = (
   htmlString: string,
   prefixPath: string,
   username: string,
-  repo_name: string
+  repo_name: string,
+  theme_color: ThemeColor
 ): React.ReactNode => {
   const { window } = new JSDOM("");
   const parser = new window.DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
+  let { activeClass } = getHeadColorClasses(theme_color);
   const processNode = (node: Node): React.ReactNode => {
     if (node instanceof window.Element) {
       const tagName = node.tagName.toUpperCase();
@@ -52,7 +60,7 @@ const parseHTMLString = (
         if (level == 1) {
           return (
             <div key={randomKey}>
-              <div className="h-5 text-purple-700 dark:text-purple-400 text-sm font-semibold">
+              <div className={`h-5 ${activeClass} text-sm font-semibold`}>
                 {prefixPath}
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold">
@@ -343,6 +351,7 @@ interface HtmlParserProps {
   prefixPath: string;
   username: string;
   repo_name: string;
+  theme_color: ThemeColor;
 }
 
 const HtmlParser: React.FC<HtmlParserProps> = ({
@@ -350,12 +359,14 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
   prefixPath,
   username,
   repo_name,
+  theme_color,
 }) => {
   const parsedHTML = parseHTMLString(
     htmlString,
     prefixPath,
     username,
-    repo_name
+    repo_name,
+    theme_color
   );
   return (
     <div
