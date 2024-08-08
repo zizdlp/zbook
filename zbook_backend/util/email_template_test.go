@@ -14,9 +14,10 @@ func TestEmailTemplate(t *testing.T) {
 	emailSubject := "Verify Your Email Address"
 	buttonText := "Verify Email"
 	additionalText := "Please verify your email address by clicking the button below."
-
+	base64Image, err := ReadImageBytesToBase64("../icons/logo.png")
+	require.NoError(t, err)
 	// Use fmt.Sprintf to generate the email body
-	emailBody := fmt.Sprintf(EmailTemplate, Title, recipientName, emailSubject, verificationLink, buttonText, additionalText)
+	emailBody := fmt.Sprintf(EmailTemplate, Title, recipientName, emailSubject, verificationLink, buttonText, additionalText, base64Image)
 
 	// Check if the generated email body contains the expected text
 	require.Contains(t, emailBody, emailSubject)
@@ -24,4 +25,6 @@ func TestEmailTemplate(t *testing.T) {
 	require.Contains(t, emailBody, additionalText)
 	require.Contains(t, emailBody, verificationLink)
 	require.Contains(t, emailBody, buttonText)
+	require.Contains(t, emailBody, base64Image)
+
 }

@@ -78,7 +78,7 @@ const EmailTemplate = `<!DOCTYPE html>
           <tr>
             <td style="padding-right: 10px; vertical-align: middle">
               <img
-                src="http://zizdlp.com/logo_128.png"
+                src="data:image/png;base64,%s"
                 alt="LOGO"
                 style="
                   width: 40px;

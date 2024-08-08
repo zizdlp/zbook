@@ -69,8 +69,11 @@ func (processor *RedisTaskProcessor) ProcessTaskVerifyEmail(ctx context.Context,
 	verifyUrl := fmt.Sprintf("%s/verify_email?verification_url=%s", config.HOMEADDRESS, verification.VerificationUrl)
 	buttonText := "Verify Email"
 	additionalText := "If you did not register for an account, please ignore this email or contact support if you have any questions."
-
-	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
+	base64Image, err := util.ReadImageBytesToBase64("icons/logo.png")
+	if err != nil {
+		return fmt.Errorf("failed to read logo file: %w", err)
+	}
+	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText, base64Image)
 	to := []string{user.Email}
 
 	err = processor.mailer.SendEmail(subject, emailBody, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)
