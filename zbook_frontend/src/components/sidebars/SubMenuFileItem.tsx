@@ -18,7 +18,7 @@ export default function SubMenuFileItem({
 }) {
   return (
     <Link
-      href={prefix + menu.relative_path}
+      href={prefix + menu.relative_path.toLocaleLowerCase()}
       className={`group mt-2 lg:mt-0 ${
         layer == 1
           ? collapse
@@ -37,7 +37,12 @@ export default function SubMenuFileItem({
                 : "pl-14"
       } flex items-center  pr-3 py-1.5 rounded-lg my-0.5
           ${
-            isSameUrl(pathname, locale, prefix, menu.relative_path)
+            isSameUrl(
+              pathname,
+              locale,
+              prefix,
+              menu.relative_path.toLocaleLowerCase()
+            )
               ? "bg-purple-400/10 text-purple-900 font-semibold dark:text-purple-400 dark:bg-purple-500/10"
               : "hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
           }

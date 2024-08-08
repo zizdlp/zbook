@@ -20,7 +20,6 @@ export default function UnfoldSubMenu({
               <h5 className="pl-4 mb-3.5 lg:mb-2.5 font-semibold text-gray-900 dark:text-gray-200">
                 {menu.title}
               </h5>
-
               <FoldSubMenu
                 prefix={prefix}
                 menus={menu.sublayouts}

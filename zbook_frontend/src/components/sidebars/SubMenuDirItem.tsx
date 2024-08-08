@@ -23,7 +23,9 @@ export default function SubMenuDirItem({
   const { sideBarReload, setSideBarReload } = useContext(SideBarContext);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    if (isPrefix(pathname, locale, prefix, menu.relative_path)) {
+    if (
+      isPrefix(pathname, locale, prefix, menu.relative_path.toLocaleLowerCase())
+    ) {
       setOpen(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

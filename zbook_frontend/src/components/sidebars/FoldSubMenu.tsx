@@ -2,7 +2,7 @@ import type { SubMenuProps } from "@/types/interface";
 import SubMenuDirItem from "./SubMenuDirItem";
 import SubMenuFileItem from "./SubMenuFileItem";
 
-export default function SubMenu({
+export default function FoldSubMenu({
   prefix,
   menus,
   layer,
