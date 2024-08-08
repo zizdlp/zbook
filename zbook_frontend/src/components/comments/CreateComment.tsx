@@ -1,9 +1,11 @@
 "use client";
+import { ThemeColor } from "../TableOfContent";
 import CreateCommentForm from "./CreateCommentForm";
 interface CommentFormProps {
   markdownID: number;
   parentID: number;
   username: string;
+  theme_color: ThemeColor;
 }
 export default function CreateComment(props: CommentFormProps) {
   return (
@@ -12,6 +14,7 @@ export default function CreateComment(props: CommentFormProps) {
         markdownID={props.markdownID}
         parentID={props.parentID}
         username={props.username}
+        theme_color={props.theme_color}
       />
     </div>
   );

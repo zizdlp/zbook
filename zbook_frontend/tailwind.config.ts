@@ -10,12 +10,21 @@ const config: Config = {
   ],
   safelist: [
     {
-      pattern: /text-(violet|green|red|yellow|teal|sky)-(200|300|400|500|900)/,
-      variants: ["hover", "dark", "hover:dark"],
+      pattern:
+        /(text|bg|from|to|boder)-(violet|green|red|yellow|teal|sky)-(200|300|400|500|900)\/(10|20|30|40|50|60|70|80|90|100)/,
+      variants: ["hover", "dark", "hover:dark", "group-hover"],
     },
     {
-      pattern: /bg-(violet|green|red|yellow|teal|sky)-(200|300|400|500|900)/,
-      variants: ["hover", "dark", "hover:dark"],
+      pattern:
+        /(text|bg|from|to|border)-(violet|green|red|yellow|teal|sky)-(200|300|400|500|600|700|800|900)/,
+      variants: [
+        "hover",
+        "dark",
+        "hover:dark",
+        "group-hover",
+        "focus",
+        "dark:focus",
+      ],
     },
   ],
   theme: {

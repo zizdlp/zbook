@@ -12,18 +12,22 @@ import { MdCloudSync, MdOutlineVisibility, MdSync } from "react-icons/md";
 import { Anchor } from "@/types/interface";
 import RepoSideBarSettingItem from "./RepoSideBarSetttingItem";
 import { FaDiscord, FaGithub } from "react-icons/fa";
+import { ThemeColor } from "../TableOfContent";
+
 export default function RepoSideBarSetting({
   username,
   reponame,
   authname,
   anchors,
   visibility_level,
+  theme_color,
 }: {
   username: string;
   reponame: string;
   authname: string;
   anchors: Anchor[];
   visibility_level: string;
+  theme_color: ThemeColor;
 }) {
   const t = useTranslations("SideBar");
   async function manualSyncRepoHandler() {
@@ -69,6 +73,7 @@ export default function RepoSideBarSetting({
         selected={true}
         icon={IoBook}
         text={t("RepoHome")}
+        theme_color={theme_color}
       />
       {authname == username && (
         <>
@@ -80,6 +85,7 @@ export default function RepoSideBarSetting({
             href="#"
             icon={MdCloudSync}
             text={t("SyncRepo")}
+            theme_color={theme_color}
           />
 
           {visibility_level == "chosen" && (
@@ -88,6 +94,7 @@ export default function RepoSideBarSetting({
               text={t("VisibleTo")}
               selected={false}
               icon={MdOutlineVisibility}
+              theme_color={theme_color}
             />
           )}
         </>
@@ -99,6 +106,7 @@ export default function RepoSideBarSetting({
           selected={false}
           icon={item.icon == "github" ? FaGithub : FaDiscord}
           text={item.name}
+          theme_color={theme_color}
         />
       ))}
     </>
