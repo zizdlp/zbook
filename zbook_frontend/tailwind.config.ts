@@ -8,6 +8,12 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/providers/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    {
+      pattern: /text-(violet|green|red|yellow|teal)-(400|500)/,
+      variants: ["hover", "dark", "hover:dark"],
+    },
+  ],
   theme: {
     extend: {
       fontFamily: {
