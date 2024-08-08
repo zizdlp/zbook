@@ -14,8 +14,8 @@ message CreateRepoRequest {
   string sync_token       = 5;
   string visibility_level = 6;
   string home_page        = 7;
-  string sidebar_theme    = 9;
-  string content_theme    = 10;
+  string theme_sidebar    = 9;
+  string theme_color      = 10;
 }
 message CreateRepoResponse {}
 
@@ -28,8 +28,8 @@ message GetRepoConfigResponse {
   string username         = 1;
   string config           = 2;
   string visibility_level = 3;
-  string sidebar_theme    = 4;
-  string content_theme    = 5;
+  string theme_sidebar    = 4;
+  string theme_color      = 5;
 }
 
 // 3.DeleteRepo
@@ -64,8 +64,8 @@ message UpdateRepoInfoRequest {
   string visibility_level = 6;
   string sync_token       = 7;
   string home_page        = 8;
-  string sidebar_theme    = 9;
-  string content_theme    = 10;
+  string theme_sidebar    = 9;
+  string theme_color      = 10;
 }
 message UpdateRepoInfoResponse {}
 

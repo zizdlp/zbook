@@ -119,8 +119,8 @@ type Repo struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Config          string      `json:"config"`
-	SidebarTheme    string      `json:"sidebar_theme"`
-	ContentTheme    string      `json:"content_theme"`
+	ThemeSidebar    string      `json:"theme_sidebar"`
+	ThemeColor      string      `json:"theme_color"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	FtsRepoEn       string      `json:"fts_repo_en"`

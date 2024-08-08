@@ -44,8 +44,8 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 			SyncToken:       pgtype.Text{String: req.GetSyncToken(), Valid: req.GetSyncToken() != ""},
 			VisibilityLevel: req.GetVisibilityLevel(),
 			HomePage:        strings.ToLower(req.GetHomePage()),
-			SidebarTheme:    req.GetSidebarTheme(),
-			ContentTheme:    req.GetContentTheme(),
+			ThemeSidebar:    req.GetThemeSidebar(),
+			ThemeColor:      req.GetThemeColor(),
 		},
 		Username: authPayload.Username,
 		AfterCreate: func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
@@ -79,11 +79,11 @@ func validateCreateRepoRequest(req *rpcs.CreateRepoRequest) (violations []*errde
 		violations = append(violations, fieldViolation("visibility_level", err))
 	}
 
-	if err := val.ValidateRepoSideBarTheme(req.GetSidebarTheme()); err != nil {
-		violations = append(violations, fieldViolation("sidebar_theme", err))
+	if err := val.ValidateRepoSideBarTheme(req.GetThemeSidebar()); err != nil {
+		violations = append(violations, fieldViolation("theme_sidebar", err))
 	}
-	if err := val.ValidateRepoContentTheme(req.GetContentTheme()); err != nil {
-		violations = append(violations, fieldViolation("content_theme", err))
+	if err := val.ValidateRepoThemeColor(req.GetThemeColor()); err != nil {
+		violations = append(violations, fieldViolation("theme_color", err))
 	}
 
 	return violations

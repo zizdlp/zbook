@@ -153,9 +153,11 @@
     "EmailTip": "请输入邮箱"
   },
   "Repo": {
-    "ContentTheme": "内容风格",
-    "ChooseContentTheme": "选择内容风格",
-    "ThemeContentDefault": "默认",
+    "ThemeColor": "内容风格",
+    "ChooseThemeColor": "选择内容风格",
+    "ThemeColorSky": "天青色",
+    "ThemeColorTeal": "鸭绿色",
+    "ThemeColorViolet": "紫罗兰色",
     "SideBarTheme": "侧边栏风格",
     "ChooseSideBarTheme": "选择侧边栏风格",
     "ThemeSideBarFold": "折叠",

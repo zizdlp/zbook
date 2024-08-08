@@ -45,7 +45,8 @@ export default async function RepoSideBarLayout({
         <RepoSideBar
           sublayouts={layout}
           anchors={jsonConfig.anchors}
-          sidebar_theme={data.sidebar_theme}
+          theme_sidebar={data.theme_sidebar}
+          theme_color={data.theme_color}
           reponame={reponame}
           username={data.username}
           authname={authname}

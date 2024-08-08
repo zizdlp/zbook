@@ -1,3 +1,5 @@
+import { ThemeColor } from "@/components/TableOfContent";
+
 interface MenuStruct {
   title: string;
   relative_path: string;
@@ -17,6 +19,7 @@ interface SubMenuProps {
   pathname: string;
   locale: string;
   collapse: boolean;
+  theme_color: ThemeColor;
 }
 
 interface SearchParams {

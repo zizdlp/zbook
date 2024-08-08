@@ -3,13 +3,10 @@ import parse from "html-react-parser";
 
 import React, { useState, useEffect } from "react";
 import { LuListMinus } from "react-icons/lu";
-enum ThemeColor {
+export enum ThemeColor {
   Violet = "violet",
-  Green = "green",
-  Red = "red",
-  Yellow = "yellow",
   Teal = "teal",
-  // 你可以添加更多颜色
+  Sky = "sky",
 }
 function getColorClasses(color: ThemeColor) {
   return {
@@ -29,6 +26,7 @@ import { useTranslations } from "next-intl";
 interface TableOfContentProps {
   sectionIds: string[];
   markdownlist: string;
+  theme_color: ThemeColor;
 }
 
 export default function TableOfContent(props: TableOfContentProps) {
@@ -68,7 +66,8 @@ export default function TableOfContent(props: TableOfContentProps) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [props.sectionIds]);
-  const { hoverClass, activeClass } = getColorClasses(ThemeColor.Violet);
+  const { hoverClass, activeClass } = getColorClasses(props.theme_color);
+  console.log("hoverClass:", hoverClass);
   var html_parser_options_list: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       if (domNode instanceof Element && domNode.name === "ul") {

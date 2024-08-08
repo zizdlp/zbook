@@ -21,6 +21,7 @@ import FormTextAreaWrapper from "@/components/wrappers/FormTextAreaWrapper";
 import { isValidateRepoName, isValidGitURL } from "@/utils/validate";
 import FormListBox from "@/components/wrappers/FormListBox";
 import { FetchError } from "@/fetchs/util";
+import { ThemeColor } from "@/components/TableOfContent";
 
 export default function CreateRepoDialog() {
   const { createRepoOpen, setCreateRepoOpen } = useContext(OperationContext);
@@ -35,6 +36,8 @@ export default function CreateRepoDialog() {
     sync_token: string;
     visibility_level: string;
     home_page: string;
+    theme_color: string;
+    theme_sidebar: string;
   }
   function validateCreateRepo(values: any) {
     let errors: FormikErrors<FormValues> = {};
@@ -45,6 +48,12 @@ export default function CreateRepoDialog() {
     }
     if (!values.git_addr) {
       errors.git_addr = t("Required");
+    }
+    if (!values.theme_color) {
+      errors.theme_color = t("Required");
+    }
+    if (!values.theme_sidebar) {
+      errors.theme_sidebar = t("Required");
     }
     if (!isValidGitURL(values.git_addr)) {
       errors.git_addr = t("InValidGitUrl");
@@ -74,8 +83,8 @@ export default function CreateRepoDialog() {
       visibility_level: "",
       sync_token: "",
       home_page: "",
-      sidebar_theme: "",
-      content_theme: "",
+      theme_sidebar: "",
+      theme_color: "",
     },
     validate: validateCreateRepo,
     onSubmit: onSubmit,
@@ -183,7 +192,7 @@ export default function CreateRepoDialog() {
             </FormGroupWrapper>
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-3"
-              nameKey="sidebar_theme"
+              nameKey="theme_sidebar"
               showName={t("SideBarTheme")}
               formik={formik}
             >
@@ -199,25 +208,33 @@ export default function CreateRepoDialog() {
                     label: t("ThemeSideBarUnFold"),
                   },
                 ]}
-                nameKey="sidebar_theme"
+                nameKey="theme_sidebar"
                 formik={formik}
               />
             </FormGroupWrapper>
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-3"
-              nameKey="content_theme"
-              showName={t("ContentTheme")}
+              nameKey="theme_color"
+              showName={t("ThemeColor")}
               formik={formik}
             >
               <FormListBox
                 options={[
-                  { value: "", label: t("ChooseContentTheme") },
+                  { value: "", label: t("ChooseThemeColor") },
                   {
-                    value: "theme_content_default",
-                    label: t("ThemeContentDefault"),
+                    value: ThemeColor.Sky,
+                    label: t("ThemeColorSky"),
+                  },
+                  {
+                    value: ThemeColor.Violet,
+                    label: t("ThemeColorViolet"),
+                  },
+                  {
+                    value: ThemeColor.Teal,
+                    label: t("ThemeColorTeal"),
                   },
                 ]}
-                nameKey="content_theme"
+                nameKey="theme_color"
                 formik={formik}
               />
             </FormGroupWrapper>

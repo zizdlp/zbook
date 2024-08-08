@@ -10,6 +10,7 @@ export default function UnfoldSubMenu({
   layer,
   pathname,
   locale,
+  theme_color,
 }: any) {
   return (
     <>
@@ -27,6 +28,7 @@ export default function UnfoldSubMenu({
                 pathname={pathname}
                 locale={locale}
                 collapse={true}
+                theme_color={theme_color}
               />
             </div>
           </li>
@@ -39,6 +41,7 @@ export default function UnfoldSubMenu({
               locale={locale}
               prefix={prefix}
               collapse={false}
+              theme_color={theme_color}
             />
           </li>
         )

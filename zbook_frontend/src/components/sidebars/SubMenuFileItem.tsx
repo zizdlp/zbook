@@ -1,6 +1,12 @@
 import { MenuStruct } from "@/types/interface";
 import { Link } from "@/navigation";
 import { isSameUrl } from "@/utils/util";
+import { ThemeColor } from "../TableOfContent";
+function getSideBarColorClasses(color: ThemeColor) {
+  return {
+    activeClass: `bg-${color}-200 text-${color}-800 font-semibold dark:text-${color}-400 dark:bg-${color}-900`,
+  };
+}
 export default function SubMenuFileItem({
   layer,
   menu,
@@ -8,6 +14,7 @@ export default function SubMenuFileItem({
   locale,
   prefix,
   collapse,
+  theme_color,
 }: {
   layer: number;
   menu: MenuStruct;
@@ -15,7 +22,9 @@ export default function SubMenuFileItem({
   locale: string;
   prefix: string;
   collapse: boolean;
+  theme_color: ThemeColor;
 }) {
+  let { activeClass } = getSideBarColorClasses(theme_color);
   return (
     <Link
       href={prefix + menu.relative_path.toLocaleLowerCase()}
@@ -43,7 +52,7 @@ export default function SubMenuFileItem({
               prefix,
               menu.relative_path.toLocaleLowerCase()
             )
-              ? "bg-purple-400/10 text-purple-900 font-semibold dark:text-purple-400 dark:bg-purple-500/10"
+              ? activeClass
               : "hover:bg-gray-600/5 dark:hover:bg-gray-200/5 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
           }
           `}

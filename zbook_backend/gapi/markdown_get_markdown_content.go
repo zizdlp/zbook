@@ -65,11 +65,12 @@ func (server *Server) GetMarkdownContent(ctx context.Context, req *rpcs.GetMarkd
 	}
 
 	rsp := &rpcs.GetMarkdownContentResponse{
-		Markdown:  convertMarkdown(markdown),
-		Prev:      prev,
-		Next:      next,
-		Footers:   convertFooters(config.FooterSocials),
-		UpdatedAt: timestamppb.New(markdown.UpdatedAt),
+		Markdown:   convertMarkdown(markdown),
+		Prev:       prev,
+		Next:       next,
+		Footers:    convertFooters(config.FooterSocials),
+		UpdatedAt:  timestamppb.New(markdown.UpdatedAt),
+		ThemeColor: repo.ThemeColor,
 	}
 	return rsp, nil
 }

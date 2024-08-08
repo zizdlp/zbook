@@ -244,6 +244,9 @@
         "updatedAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "themeColor": {
+          "type": "string"
         }
       }
     },

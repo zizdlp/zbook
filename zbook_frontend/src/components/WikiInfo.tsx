@@ -15,12 +15,13 @@ interface WikiInfoProps {
   next: string;
   footers: FooterSocial[];
   updated_at: string;
+  theme_color: ThemeColor;
 }
 import CreateComment from "./comments/CreateComment";
 import MainContentWrapper from "./wrappers/MainContentWrapper";
 import { FooterSocial, SearchParams } from "@/types/interface";
 import ListLevelOneComment from "./comments/ListLevelOneComment";
-import TableOfContent from "./TableOfContent";
+import TableOfContent, { ThemeColor } from "./TableOfContent";
 import { getTranslations } from "next-intl/server";
 import MainContentFooter from "./MainContentFooter";
 export default async function WikiInfo(props: WikiInfoProps) {
@@ -32,6 +33,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
         <TableOfContent
           markdownlist={props.markdownlist}
           sectionIds={props.sectionIds}
+          theme_color={props.theme_color}
         />
       }
     >

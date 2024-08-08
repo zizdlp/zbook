@@ -53,8 +53,8 @@ func (server *Server) GetRepoConfig(ctx context.Context, req *rpcs.GetRepoConfig
 		Config:          repo.Config,
 		Username:        user.Username,
 		VisibilityLevel: repo.VisibilityLevel,
-		SidebarTheme:    repo.SidebarTheme,
-		ContentTheme:    repo.ContentTheme,
+		ThemeSidebar:    repo.ThemeSidebar,
+		ThemeColor:      repo.ThemeColor,
 	}
 	return rsp, nil
 }
