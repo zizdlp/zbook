@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from "next-themes";
+import { getAreaChartOptions } from "@/utils/const_value";
 interface TrafficData {
   count: number;
   date: string;
@@ -42,73 +43,7 @@ export default function AreaChart({ counts, title, label }: WebTrafficProps) {
     );
   });
   const totalCount = countsArray.reduce((sum, count) => sum + count, 0);
-  let options = {
-    grid: {
-      show: true,
-      strokeDashArray: 4,
-      borderColor: theme == "dark" ? "#1e293b" : "#cbd5e1", // 设置网格颜色
-      borderOpacity: 0.1, // 设置网格透明度
-      padding: {
-        left: 2,
-        right: 2,
-        top: -26,
-      },
-    },
-    chart: {
-      height: "100%",
-      maxWidth: "100%",
-      type: "area" as "area",
-      fontFamily: "Inter, sans-serif",
-      dropShadow: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: false,
-      },
-    },
-    legend: {
-      show: true,
-      labels: {
-        colors: theme == "dark" ? "#CBD5E1" : "#334155",
-      },
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        opacityFrom: 0.55,
-        opacityTo: 0,
-        shade: "#1C64F2",
-        gradientToColors: ["#1C64F2"],
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      width: 6,
-    },
-    xaxis: {
-      categories: dates,
-      labels: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    yaxis: {
-      show: false,
-    },
-  };
+  let options = getAreaChartOptions(theme, dates);
   let series = [
     {
       name: label,
