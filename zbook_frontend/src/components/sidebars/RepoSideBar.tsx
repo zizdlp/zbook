@@ -8,13 +8,15 @@ import SideBarSearchButton from "./SideBarSearchButton";
 import { SearchType } from "@/utils/const_value";
 import UnfoldSubMenu from "./UnfoldSubMenu";
 import FoldSubMenu from "./FoldSubMenu";
+import { ThemeColor } from "../TableOfContent";
 export default function RepoSideBar({
   sublayouts,
   anchors,
   username,
   reponame,
   authname,
-  sidebar_theme,
+  theme_sidebar,
+  theme_color,
   visibility_level,
 }: {
   sublayouts: MenuStruct[];
@@ -22,7 +24,8 @@ export default function RepoSideBar({
   username: string;
   reponame: string;
   authname: string;
-  sidebar_theme: string;
+  theme_color: ThemeColor;
+  theme_sidebar: string;
   visibility_level: string;
 }) {
   const pathname = usePathname();
@@ -45,7 +48,7 @@ export default function RepoSideBar({
             anchors={anchors ?? []}
             visibility_level={visibility_level}
           />
-          {sidebar_theme == "theme_sidebar_fold" ? (
+          {theme_sidebar == "theme_sidebar_fold" ? (
             <FoldSubMenu
               prefix={`/workspace/${username}/o/${decodeURIComponent(
                 reponame
@@ -55,6 +58,7 @@ export default function RepoSideBar({
               pathname={pathname}
               locale={locale}
               collapse={false}
+              theme_color={theme_color}
             />
           ) : (
             <UnfoldSubMenu
@@ -65,6 +69,7 @@ export default function RepoSideBar({
               layer={1}
               pathname={pathname}
               locale={locale}
+              theme_color={theme_color}
             />
           )}
         </ul>

@@ -68,8 +68,12 @@ func (processor *RedisTaskProcessor) ProcessTaskInviteUser(ctx context.Context, 
 	verifyUrl := fmt.Sprintf("%s/auth/register?invitation_url=%s", config.HOMEADDRESS, invitation.InvitationUrl)
 	buttonText := "Complete Registration"
 	additionalText := "If you did not request an invitation, please ignore this email or contact support if you have any questions."
-	emailBody := fmt.Sprintf(util.EmailTemplate, title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
-	to := []string{user.Email}
+	base64Image, err := util.ReadImageBytesToBase64("icons/logo.png")
+	if err != nil {
+		return fmt.Errorf("failed to read logo file: %w", err)
+	}
+	emailBody := fmt.Sprintf(util.EmailTemplate, title, user.Username, emailSubject, verifyUrl, buttonText, additionalText, base64Image)
+	to := []string{payload.Email}
 
 	err = processor.mailer.SendEmail(subject, emailBody, to, nil, nil, nil, config.SmtpAuthAddress, config.SmtpServerAddress)
 	if err != nil {

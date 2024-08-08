@@ -2,13 +2,14 @@ import type { SubMenuProps } from "@/types/interface";
 import SubMenuDirItem from "./SubMenuDirItem";
 import SubMenuFileItem from "./SubMenuFileItem";
 
-export default function SubMenu({
+export default function FoldSubMenu({
   prefix,
   menus,
   layer,
   pathname,
   locale,
   collapse,
+  theme_color,
 }: SubMenuProps) {
   return (
     <ul>
@@ -33,6 +34,7 @@ export default function SubMenu({
               locale={locale}
               prefix={prefix}
               collapse={collapse}
+              theme_color={theme_color}
             />
           </li>
         )

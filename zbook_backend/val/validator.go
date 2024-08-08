@@ -33,9 +33,9 @@ func ValidateRepoSideBarTheme(value string) error {
 	}
 	return nil
 }
-func ValidateRepoContentTheme(value string) error {
-	if value != util.ThemeContentDefault {
-		return fmt.Errorf("invalid content theme")
+func ValidateRepoThemeColor(value string) error {
+	if value != util.ThemeColorSky && value != util.ThemeColorViolet && value != util.ThemeColorTeal {
+		return fmt.Errorf("invalid theme color")
 	}
 	return nil
 }

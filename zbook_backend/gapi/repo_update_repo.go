@@ -59,8 +59,8 @@ func (server *Server) UpdateRepoInfo(ctx context.Context, req *rpcs.UpdateRepoIn
 			String: req.GetVisibilityLevel(),
 			Valid:  len(req.GetVisibilityLevel()) != 0,
 		},
-		SidebarTheme: pgtype.Text{String: req.GetSidebarTheme(), Valid: len(req.GetSidebarTheme()) != 0},
-		ContentTheme: pgtype.Text{String: req.GetContentTheme(), Valid: len(req.GetContentTheme()) != 0},
+		ThemeSidebar: pgtype.Text{String: req.GetThemeSidebar(), Valid: len(req.GetThemeSidebar()) != 0},
+		ThemeColor:   pgtype.Text{String: req.GetThemeColor(), Valid: len(req.GetThemeColor()) != 0},
 		SyncToken:    pgtype.Text{String: req.GetSyncToken(), Valid: len(req.GetSyncToken()) != 0},
 		HomePage:     pgtype.Text{String: strings.ToLower(req.GetHomePage()), Valid: len(req.GetHomePage()) != 0},
 	}
@@ -101,14 +101,14 @@ func validateUpdateRepoInfoRequest(req *rpcs.UpdateRepoInfoRequest) (violations 
 			violations = append(violations, fieldViolation("visibility_level", err))
 		}
 	}
-	if req.GetSidebarTheme() != "" {
-		if err := val.ValidateRepoSideBarTheme(req.GetSidebarTheme()); err != nil {
-			violations = append(violations, fieldViolation("sidebar_theme", err))
+	if req.GetThemeSidebar() != "" {
+		if err := val.ValidateRepoSideBarTheme(req.GetThemeSidebar()); err != nil {
+			violations = append(violations, fieldViolation("theme_sidebar", err))
 		}
 	}
-	if req.GetContentTheme() != "" {
-		if err := val.ValidateRepoContentTheme(req.GetContentTheme()); err != nil {
-			violations = append(violations, fieldViolation("content_theme", err))
+	if req.GetThemeColor() != "" {
+		if err := val.ValidateRepoThemeColor(req.GetThemeColor()); err != nil {
+			violations = append(violations, fieldViolation("theme_color", err))
 		}
 	}
 

@@ -32,8 +32,10 @@ func TestSendEmailWithGmail(t *testing.T) {
 	emailSubject := "Thank you for registering with us! Please verify your email address by clicking the button below:"
 	buttonText := "Verify Email"
 	additionalText := "If you did not register for an account, please ignore this email or contact support if you have any questions."
+	base64Image, err := util.ReadImageBytesToBase64("../icons/logo.png")
+	require.NoError(t, err)
 
-	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
+	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText, base64Image)
 
 	to := []string{"zizdlp@gmail.com"}
 

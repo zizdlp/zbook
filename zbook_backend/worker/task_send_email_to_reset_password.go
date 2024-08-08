@@ -68,8 +68,11 @@ func (processor *RedisTaskProcessor) ProcessTaskResetPassword(ctx context.Contex
 	emailSubject := "We received a request to reset your password. Please click the button below to reset your password:"
 	buttonText := "Reset Password"
 	additionalText := "If you did not request a password reset, please ignore this email or contact support if you have questions."
-
-	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText)
+	base64Image, err := util.ReadImageBytesToBase64("icons/logo.png")
+	if err != nil {
+		return fmt.Errorf("failed to read logo file: %w", err)
+	}
+	emailBody := fmt.Sprintf(util.EmailTemplate, Title, user.Username, emailSubject, verifyUrl, buttonText, additionalText, base64Image)
 
 	to := []string{user.Email}
 

@@ -124,9 +124,11 @@
     "Unresolved": "Unresolved"
   },
   "Repo": {
-    "ContentTheme": "Content Theme",
-    "ChooseContentTheme": "Choose Content Theme",
-    "ThemeContentDefault": "Default",
+    "ThemeColor": "Content Theme",
+    "ChooseThemeColor": "Choose Content Theme",
+    "ThemeColorSky": "sky",
+    "ThemeColorTeal": "teal",
+    "ThemeColorViolet": "violet",
     "SideBarTheme": "SideBar Theme",
     "ChooseSideBarTheme": "Choose SideBar Theme",
     "ThemeSideBarFold": "Fold",

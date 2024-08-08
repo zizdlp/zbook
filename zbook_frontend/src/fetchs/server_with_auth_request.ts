@@ -137,8 +137,8 @@ interface CreateRepoRequest {
   sync_token: string;
   visibility_level: string;
   home_page: string;
-  sidebar_theme: string;
-  content_theme: string;
+  theme_sidebar: string;
+  theme_color: string;
 }
 interface UpdateUserRequest {
   motto: string;
@@ -274,8 +274,8 @@ interface UpdateRepoInfoRequest {
   git_access_token: string;
   visibility_level: string;
   sync_token: string;
-  sidebar_theme: string;
-  content_theme: string;
+  theme_sidebar: string;
+  theme_color: string;
 }
 interface LogVisitorRequest {}
 interface CheckOAuthStatusRequest {}

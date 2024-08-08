@@ -17,6 +17,7 @@ message GetMarkdownContentResponse {
   string next                          = 3;
   repeated FooterSocial footers        = 4;
   google.protobuf.Timestamp updated_at = 5;
+  string theme_color                   = 6;
 }
 
 // 2.GetMarkdownImage

@@ -3,7 +3,17 @@ import parse from "html-react-parser";
 
 import React, { useState, useEffect } from "react";
 import { LuListMinus } from "react-icons/lu";
-
+export enum ThemeColor {
+  Violet = "violet",
+  Teal = "teal",
+  Sky = "sky",
+}
+function getColorClasses(color: ThemeColor) {
+  return {
+    hoverClass: `hover:text-${color}-500 hover:dark:text-${color}-400 hover:font-semibold`,
+    activeClass: `text-${color}-500 dark:text-${color}-400 font-semibold`,
+  };
+}
 import {
   domToReact,
   attributesToProps,
@@ -16,6 +26,7 @@ import { useTranslations } from "next-intl";
 interface TableOfContentProps {
   sectionIds: string[];
   markdownlist: string;
+  theme_color: ThemeColor;
 }
 
 export default function TableOfContent(props: TableOfContentProps) {
@@ -55,6 +66,8 @@ export default function TableOfContent(props: TableOfContentProps) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [props.sectionIds]);
+  const { hoverClass, activeClass } = getColorClasses(props.theme_color);
+  console.log("hoverClass:", hoverClass);
   var html_parser_options_list: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       if (domNode instanceof Element && domNode.name === "ul") {
@@ -115,9 +128,9 @@ export default function TableOfContent(props: TableOfContentProps) {
             <a
               {...props}
               onClick={handleClick}
-              className={`group flex items-start py-1 hover:text-purple-500  dark:hover:text-purple-400 overflow-scroll ${
+              className={`group flex items-start py-1   ${hoverClass} overflow-scroll ${
                 get_act() === props.href.substring(1)
-                  ? "dark:text-purple-400 text-purple-500"
+                  ? activeClass
                   : "dark:text-slate-400"
               }`}
             >
@@ -129,9 +142,9 @@ export default function TableOfContent(props: TableOfContentProps) {
           <a
             {...props}
             onClick={handleClick}
-            className={`group flex items-start py-1 hover:text-purple-500  dark:hover:text-purple-400 overflow-scroll ${
+            className={`group flex items-start py-1  ${hoverClass} overflow-scroll ${
               get_act() === props.href.substring(1)
-                ? "dark:text-purple-400 text-purple-500"
+                ? activeClass
                 : "dark:text-slate-400"
             }`}
           >

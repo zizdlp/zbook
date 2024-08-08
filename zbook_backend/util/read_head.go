@@ -2,10 +2,12 @@ package util
 
 import (
 	"bytes"
+	"encoding/base64"
 	"image"
 	_ "image/gif"
 	_ "image/jpeg"
 	"image/png"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -53,4 +55,19 @@ func ReadImageBytes(path string) ([]byte, error) {
 
 	// 返回编码后的字节数据
 	return buffer.Bytes(), nil
+}
+func ReadImageBytesToBase64(imagePath string) (string, error) {
+	file, err := os.Open(imagePath)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	imageBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return "", err
+	}
+
+	base64Image := base64.StdEncoding.EncodeToString(imageBytes)
+	return base64Image, nil
 }

@@ -22,6 +22,7 @@ import FormTextAreaWrapper from "@/components/wrappers/FormTextAreaWrapper";
 import FormListBox from "@/components/wrappers/FormListBox";
 import { FetchError } from "@/fetchs/util";
 import { isValidateRepoName } from "@/utils/validate";
+import { ThemeColor } from "@/components/TableOfContent";
 export default function UpdateRepoDialog() {
   const t = useTranslations("Repo");
   const {
@@ -52,8 +53,8 @@ export default function UpdateRepoDialog() {
       visibility_level: "",
       sync_token: "",
       home_page: "",
-      sidebar_theme: "",
-      content_theme: "",
+      theme_sidebar: "",
+      theme_color: "",
     },
     validate: updateRepoValidate,
     onSubmit: onSubmit,
@@ -162,7 +163,7 @@ export default function UpdateRepoDialog() {
             </FormGroupWrapper>
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-3"
-              nameKey="sidebar_theme"
+              nameKey="theme_sidebar"
               showName={t("SideBarTheme")}
               formik={formik}
             >
@@ -178,25 +179,33 @@ export default function UpdateRepoDialog() {
                     label: t("ThemeSideBarUnFold"),
                   },
                 ]}
-                nameKey="sidebar_theme"
+                nameKey="theme_sidebar"
                 formik={formik}
               />
             </FormGroupWrapper>
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-3"
-              nameKey="content_theme"
-              showName={t("ContentTheme")}
+              nameKey="theme_color"
+              showName={t("ThemeColor")}
               formik={formik}
             >
               <FormListBox
                 options={[
-                  { value: "", label: t("ChooseContentTheme") },
+                  { value: "", label: t("ChooseThemeColor") },
                   {
-                    value: "theme_content_default",
-                    label: t("ThemeContentDefault"),
+                    value: ThemeColor.Sky,
+                    label: t("ThemeColorSky"),
+                  },
+                  {
+                    value: ThemeColor.Violet,
+                    label: t("ThemeColorViolet"),
+                  },
+                  {
+                    value: ThemeColor.Teal,
+                    label: t("ThemeColorTeal"),
                   },
                 ]}
-                nameKey="content_theme"
+                nameKey="theme_color"
                 formik={formik}
               />
             </FormGroupWrapper>
