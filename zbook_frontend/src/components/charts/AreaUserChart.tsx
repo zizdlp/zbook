@@ -6,11 +6,6 @@ import { useTheme } from "next-themes";
 import EnableElement from "./EnableElement";
 import { getAreaChartOptions } from "@/utils/const_value";
 
-interface TrafficData {
-  count: number;
-  date: string;
-}
-
 interface WebTrafficProps {
   newUserCounts: number[];
   activeUserCounts: number[];

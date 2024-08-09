@@ -180,12 +180,12 @@ export default async function AdminOverviewPage({
           />
         </div>
         <div className="col-span-1">
-          {/* <PieChart
+          <PieChart
             repo_count={repoCountRes.count ?? 0}
             comment_count={commentCountRes.count ?? 0}
             comment_report_count={commentReportCountRes.count ?? 0}
             user_count={userCountRes.count ?? 0}
-          /> */}
+          />
         </div>
       </>
     );

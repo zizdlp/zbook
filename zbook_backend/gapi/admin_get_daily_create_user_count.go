@@ -4,6 +4,7 @@ import (
 	"context"
 	"sort"
 	"strconv"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zizdlp/zbook/db/sqlc"
@@ -20,6 +21,7 @@ func (server *Server) GetDailyCreateUserCount(ctx context.Context, req *rpcs.Get
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
+
 	apiUserDailyLimit := 10000
 	apiKey := "GetDailyCreateUserCount"
 	_, err := server.authUser(ctx, []string{util.AdminRole}, apiUserDailyLimit, apiKey)
@@ -42,8 +44,8 @@ func (server *Server) GetDailyCreateUserCount(ctx context.Context, req *rpcs.Get
 		return counts[i].RegistrationDate.Time.Before(counts[j].RegistrationDate.Time)
 	})
 
-	// 将日期和计数拆分成两个数组
-	dates, countsArray := convertDailyNewUserCount(counts)
+	// 补全日期范围并填充数据
+	dates, countsArray := fillMissingDatesAndCounts(counts, req.GetNdays(), req.GetTimeZone())
 
 	rsp := &rpcs.GetDailyCreateUserCountResponse{
 		Dates:  dates,
@@ -51,16 +53,38 @@ func (server *Server) GetDailyCreateUserCount(ctx context.Context, req *rpcs.Get
 	}
 	return rsp, nil
 }
-
-func convertDailyNewUserCount(users []db.GetDailyCreateUserCountRow) ([]string, []int32) {
+func fillMissingDatesAndCounts(users []db.GetDailyCreateUserCountRow, ndays int32, timezone string) ([]string, []int32) {
 	var dates []string
-	var counts []int32
+	var countsMap = make(map[string]int32)
 
-	for _, user := range users {
-		// 只保留年月日
-		formattedDate := user.RegistrationDate.Time.Format("2006-01-02")
+	// Load the location
+	location, err := time.LoadLocation(timezone)
+	if err != nil {
+		// Handle the error according to your application's needs
+		return nil, nil
+	}
+
+	// Calculate start and end dates
+	endDate := time.Now().In(location).Truncate(24 * time.Hour)
+	startDate := endDate.AddDate(0, 0, -int(ndays))
+
+	// Generate date range
+	for date := startDate; !date.After(endDate); date = date.AddDate(0, 0, 1) {
+		formattedDate := date.Format("2006-01-02")
 		dates = append(dates, formattedDate)
-		counts = append(counts, int32(user.NewUsersCount))
+		countsMap[formattedDate] = 0
+	}
+
+	// Update counts map with actual data
+	for _, user := range users {
+		formattedDate := user.RegistrationDate.Time.Format("2006-01-02")
+		countsMap[formattedDate] = int32(user.NewUsersCount)
+	}
+
+	// Fill counts array in the same order as dates
+	var counts []int32
+	for _, date := range dates {
+		counts = append(counts, countsMap[date])
 	}
 
 	return dates, counts
