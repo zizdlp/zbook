@@ -58,20 +58,25 @@ func (q *Queries) CreateSession(ctx context.Context, arg CreateSessionParams) (S
 }
 
 const getDailyActiveUserCount = `-- name: GetDailyActiveUserCount :many
-SELECT DATE(created_at) AS registration_date, COUNT(DISTINCT user_id) AS active_users_count
+SELECT (created_at AT TIME ZONE 'UTC' AT TIME ZONE $1)::date AS registration_date, COUNT(DISTINCT user_id) AS active_users_count
 FROM sessions
-WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
+WHERE  (created_at AT TIME ZONE 'UTC' AT TIME ZONE $1) >= (CURRENT_DATE AT TIME ZONE $1) - ($2 || ' days')::INTERVAL
 GROUP BY registration_date
 ORDER BY registration_date DESC
 `
+
+type GetDailyActiveUserCountParams struct {
+	Timezone     string      `json:"timezone"`
+	IntervalDays pgtype.Text `json:"interval_days"`
+}
 
 type GetDailyActiveUserCountRow struct {
 	RegistrationDate pgtype.Date `json:"registration_date"`
 	ActiveUsersCount int64       `json:"active_users_count"`
 }
 
-func (q *Queries) GetDailyActiveUserCount(ctx context.Context) ([]GetDailyActiveUserCountRow, error) {
-	rows, err := q.db.Query(ctx, getDailyActiveUserCount)
+func (q *Queries) GetDailyActiveUserCount(ctx context.Context, arg GetDailyActiveUserCountParams) ([]GetDailyActiveUserCountRow, error) {
+	rows, err := q.db.Query(ctx, getDailyActiveUserCount, arg.Timezone, arg.IntervalDays)
 	if err != nil {
 		return nil, err
 	}

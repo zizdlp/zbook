@@ -6,83 +6,39 @@ import { useTheme } from "next-themes";
 import EnableElement from "./EnableElement";
 import { getAreaChartOptions } from "@/utils/const_value";
 
-interface TrafficData {
-  count: number;
-  date: string;
-}
-
 interface WebTrafficProps {
-  newUserCounts: TrafficData[];
-  activeUserCounts: TrafficData[];
+  newUserCounts: number[];
+  activeUserCounts: number[];
   allow_login: boolean;
   allow_registration: boolean;
   allow_invitation: boolean;
-}
-function getArrary({
-  counts,
-  dates,
-}: {
-  counts: TrafficData[];
   dates: string[];
-}) {
-  // 如果counts未定义，将其设置为空数组
-  counts = counts || [];
-  dates = dates || [];
-
-  // 构建日期到计数的映射
-  const countsMap = new Map();
-  counts.forEach(({ date, count }) => {
-    let datePart = date;
-    if (date.includes("T")) {
-      datePart = date.split("T")[0]; // 只获取日期部分
-    }
-    countsMap.set(datePart, count || 0);
-  });
-
-  // 生成计数数组
-  const countsArray: number[] = [];
-  dates.forEach((date) => {
-    countsArray.push(
-      parseInt(countsMap.has(date) ? countsMap.get(date) : 0) || 0
-    );
-  });
-  return countsArray;
 }
+
 export default function AreaUserChart({
   newUserCounts,
+  dates,
   activeUserCounts,
   allow_login,
   allow_registration,
   allow_invitation,
 }: WebTrafficProps) {
   const { theme } = useTheme();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log("client timezone:", timezone);
   const t = useTranslations("AdminOverView");
-  const dates: string[] = [];
-  for (let i = 0; i <= 6; ++i) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    dates.push(date.toISOString().split("T")[0]); // 只获取日期部分
-  }
-  let newUserArray = getArrary({
-    counts: newUserCounts,
-    dates: dates,
-  }).reverse();
-  let activeUserArray = getArrary({
-    counts: activeUserCounts,
-    dates: dates,
-  }).reverse();
 
   let options = getAreaChartOptions(theme, dates);
 
   let series = [
     {
       name: t("newUserLabel"),
-      data: newUserArray,
+      data: newUserCounts,
       color: "#7E3BF2",
     },
     {
       name: t("activeUserLabel"),
-      data: activeUserArray,
+      data: activeUserCounts,
       color: "#1A56DB",
     },
   ];

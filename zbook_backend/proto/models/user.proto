@@ -21,8 +21,8 @@ message UserImageInfo {
   google.protobuf.Timestamp update_image_info_at = 3;
 }
 message DailyCount {
-  int64 count                    = 1;
-  google.protobuf.Timestamp date = 2;
+  int64 count = 1;
+  string date = 2;
 }
 
 message UserCount {

@@ -44,12 +44,16 @@ from users
 where (users.blocked='false' OR @role::text='admin') AND fts_username @@ plainto_tsquery(@query);
 
 -- name: GetDailyCreateUserCount :many
-SELECT DATE(created_at) AS registration_date, COUNT(*) AS new_users_count
+SELECT 
+    (created_at AT TIME ZONE 'UTC' AT TIME ZONE @timezone)::date AS registration_date, 
+    COUNT(*) AS new_users_count
 FROM users
-WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
-GROUP BY registration_date
-ORDER BY registration_date DESC;
-
+WHERE 
+    (created_at AT TIME ZONE 'UTC' AT TIME ZONE @timezone) >= (CURRENT_DATE AT TIME ZONE @timezone) - (@interval_days || ' days')::INTERVAL
+GROUP BY 
+    registration_date
+ORDER BY 
+    registration_date DESC;
 
 -- name: GetUserInfo :one
 WITH liked_repos_count AS (

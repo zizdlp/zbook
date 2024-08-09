@@ -16,6 +16,8 @@ sql:
         overrides:
           - db_type: "timestamptz"
             go_type: "time.Time"
+          - db_type: "interval"
+            go_type: "string" # 修改这里，将 interval 映射为 string
           - db_type: "uuid"
             go_type: "github.com/google/uuid.UUID"
           - column: "users.fts_username"

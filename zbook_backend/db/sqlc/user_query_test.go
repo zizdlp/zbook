@@ -112,11 +112,16 @@ func TestGetQueryUserCount(t *testing.T) {
 }
 func TestDailyCreateUserCount(t *testing.T) {
 	createRandomUser(t)
-	count1, err := testStore.GetDailyCreateUserCount(context.Background())
+	timezone := "America/New_York"
+	arg := GetDailyCreateUserCountParams{
+		Timezone:     timezone,
+		IntervalDays: pgtype.Text{String: "7", Valid: true},
+	}
+	count1, err := testStore.GetDailyCreateUserCount(context.Background(), arg)
 	require.NoError(t, err)
 	require.True(t, len(count1) > 0)
 	createRandomUser(t)
-	count2, err := testStore.GetDailyCreateUserCount(context.Background())
+	count2, err := testStore.GetDailyCreateUserCount(context.Background(), arg)
 	require.NoError(t, err)
 	require.Equal(t, count2[0].NewUsersCount, count1[0].NewUsersCount+1)
 }

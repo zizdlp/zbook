@@ -92,21 +92,31 @@ message GetListCommentReportCountResponse {
 
 // 11.GetDailyVisitorCount
 message GetDailyVisitorCountRequest {
-  int32 ndays = 1;
+  string time_zone = 1;
+  int32 ndays      = 2;
 }
 message GetDailyVisitorCountResponse {
-  repeated DailyCount counts = 1;
+  repeated string dates = 1;
+  repeated int32 counts = 2;
 }
 
 // 12.GetDailyActiveUserCount
-message GetDailyActiveUserCountRequest {}
+message GetDailyActiveUserCountRequest {
+  string time_zone = 1;
+  int32 ndays      = 2;
+}
 message GetDailyActiveUserCountResponse {
-  repeated DailyCount counts = 1;
+  repeated string dates = 1;
+  repeated int32 counts = 2;
 }
 // 13.GetDailyCreateUserCount
-message GetDailyCreateUserCountRequest {}
+message GetDailyCreateUserCountRequest {
+  string time_zone = 1;
+  int32 ndays      = 2;
+}
 message GetDailyCreateUserCountResponse {
-  repeated DailyCount counts = 1;
+  repeated string dates = 1;
+  repeated int32 counts = 2;
 }
 
 // 14.LogVisitor
@@ -158,7 +168,7 @@ message UpdateConfigurationResponse {}
 
 // 19.SendInvitation
 message SendInvitationRequest {
-  string email          = 1;
+  string email = 1;
 }
 message SendInvitationResponse {
   bool is_send = 1;
