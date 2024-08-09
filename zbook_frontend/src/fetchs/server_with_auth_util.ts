@@ -78,7 +78,7 @@ export enum FetchServerWithAuthWrapperEndPoint {
   GET_UNREAD_COUNT = "get_unread_count",
   MANUAL_SYNC_REPO = "manual_sync_repo",
   UPDATE_REPO_INFO = "update_repo_info",
-  LOG_VISITOR = "log_visitor",
+
   CHECK_OAUTH_STATUS = "check_oauth_status",
   DELETE_OAUTH_LINK = "delete_oauth_link",
 

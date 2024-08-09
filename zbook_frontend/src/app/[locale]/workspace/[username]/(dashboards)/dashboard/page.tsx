@@ -26,8 +26,8 @@ export default async function AdminOverviewPage({
   params: { locale: string };
   searchParams?: { ndays?: string };
 }) {
-  const timezone = headers().get("x-timezone") ?? "UTC"; // 默认值为 'UTC'
-  console.log("timezone is:", timezone, headers());
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const t = await getTranslations("AdminOverView");
   const xforward = headers().get("x-forwarded-for") ?? "";
   const agent = headers().get("User-Agent") ?? "";

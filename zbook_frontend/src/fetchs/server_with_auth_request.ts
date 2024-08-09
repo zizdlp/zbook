@@ -281,7 +281,7 @@ interface UpdateRepoInfoRequest {
   theme_sidebar: string;
   theme_color: string;
 }
-interface LogVisitorRequest {}
+
 interface CheckOAuthStatusRequest {}
 interface DeleteOAuthLinkRequest {
   oauth_type: string;
@@ -362,7 +362,6 @@ export type {
   ResetUnreadCountRequest,
   ManualSyncRepoRequest,
   UpdateRepoInfoRequest,
-  LogVisitorRequest,
   CheckOAuthStatusRequest,
   DeleteOAuthLinkRequest,
   QueryUserRequest,

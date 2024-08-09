@@ -56,6 +56,8 @@ export default function AreaUserChart({
   allow_invitation,
 }: WebTrafficProps) {
   const { theme } = useTheme();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log("client timezone:", timezone);
   const t = useTranslations("AdminOverView");
   const dates: string[] = [];
   for (let i = 0; i <= 6; ++i) {

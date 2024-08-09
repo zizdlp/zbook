@@ -77,7 +77,6 @@ import {
   GetUnReadCountRequest,
   ManualSyncRepoRequest,
   UpdateRepoInfoRequest,
-  LogVisitorRequest,
   DeleteOAuthLinkRequest,
   CheckOAuthStatusRequest,
   QueryUserRequest,
@@ -881,20 +880,6 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.UPDATE_REPO_INFO;
   values: UpdateRepoInfoRequest;
-  xforward: string;
-  agent: string;
-  tags: string[];
-}): Promise<any>;
-
-export async function fetchServerWithAuthWrapper({
-  endpoint,
-  values,
-  xforward,
-  agent,
-  tags,
-}: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.LOG_VISITOR;
-  values: LogVisitorRequest;
   xforward: string;
   agent: string;
   tags: string[];

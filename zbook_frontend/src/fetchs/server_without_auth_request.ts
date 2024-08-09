@@ -31,6 +31,7 @@ interface LoginByOAuthRequest {
   app_id: string;
   access_token: string;
 }
+interface LogVisitorRequest {}
 export type {
   createUserRequest,
   SendEmailToResetPasswordRequest,
@@ -40,4 +41,5 @@ export type {
   refreshTokenRequest,
   LoginUserRequest,
   LoginByOAuthRequest,
+  LogVisitorRequest,
 };
