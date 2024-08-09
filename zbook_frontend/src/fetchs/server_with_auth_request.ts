@@ -63,8 +63,12 @@ interface GetListRepoCountRequest {
 interface GetDailyVisitorCountRequest {
   ndays: number;
 }
-interface GetDailyActiveUserCountRequest {}
-interface GetDailyCreateUserCountRequest {}
+interface GetDailyActiveUserCountRequest {
+  time_zone: string;
+}
+interface GetDailyCreateUserCountRequest {
+  time_zone: string;
+}
 
 interface ListUserRequest {
   page_id: number;

@@ -101,13 +101,14 @@ func TestQuerySession(t *testing.T) {
 func TestGetDailyActiveUserCount(t *testing.T) {
 	user := createRandomUser(t)
 	createRandomSession(t, user)
-	count1, err := testStore.GetDailyActiveUserCount(context.Background())
+	timezone := "America/New_York"
+	count1, err := testStore.GetDailyActiveUserCount(context.Background(), timezone)
 	require.NoError(t, err)
 	require.True(t, len(count1) > 0)
 
 	user2 := createRandomUser(t)
 	createRandomSession(t, user2)
-	count2, err := testStore.GetDailyActiveUserCount(context.Background())
+	count2, err := testStore.GetDailyActiveUserCount(context.Background(), timezone)
 	require.NoError(t, err)
 	require.True(t, len(count2) > 0)
 	require.Equal(t, count2[0].ActiveUsersCount, count1[0].ActiveUsersCount+1)

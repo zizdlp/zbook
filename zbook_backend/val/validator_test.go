@@ -30,4 +30,14 @@ func TestValidateRepoName(t *testing.T) {
 	reponame = "/"
 	err = ValidateRepoName(reponame)
 	require.Error(t, err)
+
+}
+
+func TestValidateTimeZone(t *testing.T) {
+	time_zone := ""
+	err := ValidTimeZone(time_zone)
+	require.EqualError(t, err, "timezone cannot be empty")
+	time_zone = "Asia/Shanghai"
+	err = ValidTimeZone(time_zone)
+	require.NoError(t, err)
 }

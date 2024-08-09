@@ -13,11 +13,16 @@ import (
 )
 
 const getDailyCreateUserCount = `-- name: GetDailyCreateUserCount :many
-SELECT DATE(created_at) AS registration_date, COUNT(*) AS new_users_count
+SELECT 
+    (created_at AT TIME ZONE 'UTC' AT TIME ZONE $1)::date AS registration_date, 
+    COUNT(*) AS new_users_count
 FROM users
-WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
-GROUP BY registration_date
-ORDER BY registration_date DESC
+WHERE 
+    (created_at AT TIME ZONE 'UTC' AT TIME ZONE $1) >= (CURRENT_DATE AT TIME ZONE $1) - INTERVAL '7 days'
+GROUP BY 
+    registration_date
+ORDER BY 
+    registration_date DESC
 `
 
 type GetDailyCreateUserCountRow struct {
@@ -25,8 +30,8 @@ type GetDailyCreateUserCountRow struct {
 	NewUsersCount    int64       `json:"new_users_count"`
 }
 
-func (q *Queries) GetDailyCreateUserCount(ctx context.Context) ([]GetDailyCreateUserCountRow, error) {
-	rows, err := q.db.Query(ctx, getDailyCreateUserCount)
+func (q *Queries) GetDailyCreateUserCount(ctx context.Context, timezone string) ([]GetDailyCreateUserCountRow, error) {
+	rows, err := q.db.Query(ctx, getDailyCreateUserCount, timezone)
 	if err != nil {
 		return nil, err
 	}

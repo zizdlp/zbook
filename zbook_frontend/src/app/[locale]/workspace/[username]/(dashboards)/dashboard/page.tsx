@@ -26,6 +26,8 @@ export default async function AdminOverviewPage({
   params: { locale: string };
   searchParams?: { ndays?: string };
 }) {
+  const timezone = headers().get("x-timezone") ?? "UTC"; // 默认值为 'UTC'
+  console.log("timezone is:", timezone, headers());
   const t = await getTranslations("AdminOverView");
   const xforward = headers().get("x-forwarded-for") ?? "";
   const agent = headers().get("User-Agent") ?? "";
@@ -83,14 +85,16 @@ export default async function AdminOverviewPage({
         xforward,
         agent: agent,
         tags: [],
-        values: {},
+        values: {
+          time_zone: timezone,
+        },
       }),
       fetchServerWithAuthWrapper({
         endpoint: FetchServerWithAuthWrapperEndPoint.DAILY_ACTIVE_USER_COUNT,
         xforward,
         agent: agent,
         tags: [],
-        values: {},
+        values: { time_zone: timezone },
       }),
       fetchServerWithAuthWrapper({
         endpoint: FetchServerWithAuthWrapperEndPoint.GetConfiguration,

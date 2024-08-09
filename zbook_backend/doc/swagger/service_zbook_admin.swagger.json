@@ -700,6 +700,11 @@
     },
     "pbGetDailyActiveUserCountRequest": {
       "type": "object",
+      "properties": {
+        "timeZone": {
+          "type": "string"
+        }
+      },
       "title": "12.GetDailyActiveUserCount"
     },
     "pbGetDailyActiveUserCountResponse": {
@@ -716,6 +721,11 @@
     },
     "pbGetDailyCreateUserCountRequest": {
       "type": "object",
+      "properties": {
+        "timeZone": {
+          "type": "string"
+        }
+      },
       "title": "13.GetDailyCreateUserCount"
     },
     "pbGetDailyCreateUserCountResponse": {

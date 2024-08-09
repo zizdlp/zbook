@@ -99,12 +99,16 @@ message GetDailyVisitorCountResponse {
 }
 
 // 12.GetDailyActiveUserCount
-message GetDailyActiveUserCountRequest {}
+message GetDailyActiveUserCountRequest {
+  string time_zone=1;
+}
 message GetDailyActiveUserCountResponse {
   repeated DailyCount counts = 1;
 }
 // 13.GetDailyCreateUserCount
-message GetDailyCreateUserCountRequest {}
+message GetDailyCreateUserCountRequest {
+  string time_zone=1;
+}
 message GetDailyCreateUserCountResponse {
   repeated DailyCount counts = 1;
 }

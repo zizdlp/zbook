@@ -6,6 +6,7 @@ import (
 	"net/mail"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/zizdlp/zbook/util"
 )
@@ -13,6 +14,19 @@ import (
 var (
 	isValidateUsername = regexp.MustCompile(`^[a-z0-9_]+$`).MatchString
 )
+
+// 判断是否为有效的时区
+func ValidTimeZone(timezone string) error {
+	if timezone == "" {
+		return fmt.Errorf("timezone cannot be empty")
+	}
+	_, err := time.LoadLocation(timezone)
+	if err != nil {
+		fmt.Println("timezone is:", timezone)
+		return fmt.Errorf("invalide timezone:%s", timezone)
+	}
+	return nil
+}
 
 func ValidateString(value string, minLength int, maxLength int) error {
 	n := len(value)

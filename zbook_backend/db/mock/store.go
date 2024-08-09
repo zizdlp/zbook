@@ -610,33 +610,33 @@ func (mr *MockStoreMockRecorder) GetConfiguration(arg0, arg1 interface{}) *gomoc
 }
 
 // GetDailyActiveUserCount mocks base method.
-func (m *MockStore) GetDailyActiveUserCount(arg0 context.Context) ([]db.GetDailyActiveUserCountRow, error) {
+func (m *MockStore) GetDailyActiveUserCount(arg0 context.Context, arg1 string) ([]db.GetDailyActiveUserCountRow, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDailyActiveUserCount", arg0)
+	ret := m.ctrl.Call(m, "GetDailyActiveUserCount", arg0, arg1)
 	ret0, _ := ret[0].([]db.GetDailyActiveUserCountRow)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDailyActiveUserCount indicates an expected call of GetDailyActiveUserCount.
-func (mr *MockStoreMockRecorder) GetDailyActiveUserCount(arg0 interface{}) *gomock.Call {
+func (mr *MockStoreMockRecorder) GetDailyActiveUserCount(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDailyActiveUserCount", reflect.TypeOf((*MockStore)(nil).GetDailyActiveUserCount), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDailyActiveUserCount", reflect.TypeOf((*MockStore)(nil).GetDailyActiveUserCount), arg0, arg1)
 }
 
 // GetDailyCreateUserCount mocks base method.
-func (m *MockStore) GetDailyCreateUserCount(arg0 context.Context) ([]db.GetDailyCreateUserCountRow, error) {
+func (m *MockStore) GetDailyCreateUserCount(arg0 context.Context, arg1 string) ([]db.GetDailyCreateUserCountRow, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDailyCreateUserCount", arg0)
+	ret := m.ctrl.Call(m, "GetDailyCreateUserCount", arg0, arg1)
 	ret0, _ := ret[0].([]db.GetDailyCreateUserCountRow)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDailyCreateUserCount indicates an expected call of GetDailyCreateUserCount.
-func (mr *MockStoreMockRecorder) GetDailyCreateUserCount(arg0 interface{}) *gomock.Call {
+func (mr *MockStoreMockRecorder) GetDailyCreateUserCount(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDailyCreateUserCount", reflect.TypeOf((*MockStore)(nil).GetDailyCreateUserCount), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDailyCreateUserCount", reflect.TypeOf((*MockStore)(nil).GetDailyCreateUserCount), arg0, arg1)
 }
 
 // GetInvitation mocks base method.
