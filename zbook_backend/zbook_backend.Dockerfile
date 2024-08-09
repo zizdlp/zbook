@@ -10,8 +10,8 @@ FROM alpine:3.19
 WORKDIR /app
 COPY --from=builder /app/main .
 
-# Install pngquant
-RUN apk add --no-cache pngquant git
+# Install necessary packages
+RUN apk add --no-cache pngquant git tzdata
 
 # Copy other necessary files
 COPY icons /app/icons
@@ -21,6 +21,9 @@ COPY wait-for.sh .
 COPY db/migration ./db/migration
 COPY cert.pem ./cert.pem
 COPY GeoLite2-City.mmdb ./GeoLite2-City.mmdb
+
+# Set timezone data
+ENV TZ=Etc/UTC
 
 EXPOSE 8080
 CMD ["/app/main"]
