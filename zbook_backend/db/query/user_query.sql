@@ -49,7 +49,7 @@ SELECT
     COUNT(*) AS new_users_count
 FROM users
 WHERE 
-    (created_at AT TIME ZONE 'UTC' AT TIME ZONE @timezone) >= (CURRENT_DATE AT TIME ZONE @timezone) - INTERVAL '7 days'
+    (created_at AT TIME ZONE 'UTC' AT TIME ZONE @timezone) >= (CURRENT_DATE AT TIME ZONE @timezone) - (@interval_days || ' days')::INTERVAL
 GROUP BY 
     registration_date
 ORDER BY 

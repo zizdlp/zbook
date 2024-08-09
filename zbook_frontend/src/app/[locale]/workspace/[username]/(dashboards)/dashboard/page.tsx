@@ -78,7 +78,7 @@ export default async function AdminOverviewPage({
         xforward,
         agent: agent,
         tags: [],
-        values: { ndays: 31 },
+        values: { ndays: 31, time_zone: "Asia/Shanghai" },
       }),
       fetchServerWithAuthWrapper({
         endpoint: FetchServerWithAuthWrapperEndPoint.DAILY_CREATE_USER_COUNT,
@@ -86,7 +86,8 @@ export default async function AdminOverviewPage({
         agent: agent,
         tags: [],
         values: {
-          time_zone: timezone,
+          time_zone: "Asia/Shanghai",
+          ndays: 7,
         },
       }),
       fetchServerWithAuthWrapper({
@@ -94,7 +95,7 @@ export default async function AdminOverviewPage({
         xforward,
         agent: agent,
         tags: [],
-        values: { time_zone: timezone },
+        values: { time_zone: "Asia/Shanghai", ndays: 7 },
       }),
       fetchServerWithAuthWrapper({
         endpoint: FetchServerWithAuthWrapperEndPoint.GetConfiguration,
@@ -162,6 +163,7 @@ export default async function AdminOverviewPage({
       <>
         <div className="xl:col-span-3 md:col-span-2 col-span-1">
           <AreaChart
+            dates={visitors.dates}
             counts={visitors.counts}
             title={t("DailyVisitors")}
             label={t("NewVisitor")}
@@ -169,6 +171,7 @@ export default async function AdminOverviewPage({
         </div>
         <div className="col-span-1 md:col-span-2">
           <AreaUserChart
+            dates={newUsers.dates}
             newUserCounts={newUsers.counts}
             activeUserCounts={activeUsers.counts}
             allow_login={allow_login.config_value}
@@ -177,12 +180,12 @@ export default async function AdminOverviewPage({
           />
         </div>
         <div className="col-span-1">
-          <PieChart
+          {/* <PieChart
             repo_count={repoCountRes.count ?? 0}
             comment_count={commentCountRes.count ?? 0}
             comment_report_count={commentReportCountRes.count ?? 0}
             user_count={userCountRes.count ?? 0}
-          />
+          /> */}
         </div>
       </>
     );

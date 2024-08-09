@@ -209,12 +209,19 @@ func (server *Server) GetDailyVisitorsForLastNDays(ndays int32) ([]*VisitorData,
 	return visitors, nil
 }
 
-func (server *Server) GetUniqueKeysCountForLastNDays(ndays int32) ([]DailyUniqueKeysCount, error) {
+func (server *Server) GetUniqueKeysCountForLastNDays(ndays int32, timezone string) ([]DailyUniqueKeysCount, error) {
 	var dailyCounts []DailyUniqueKeysCount
+
+	// 加载时区
+	loc, err := time.LoadLocation(timezone)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timezone: %s", err)
+	}
+
 	// 遍历过去 ndays 天内的每一天
 	for i := 0; i < int(ndays); i++ {
-		// 计算当前日期（向前推 ndays 天）
-		currentDate := time.Now().AddDate(0, 0, -i)
+		// 计算指定时区的当前日期（向前推 ndays 天）
+		currentDate := time.Now().In(loc).AddDate(0, 0, -i)
 		today := currentDate.Format("2006-01-02")
 
 		// 构建 Redis 键的模式，用于匹配该天的所有键

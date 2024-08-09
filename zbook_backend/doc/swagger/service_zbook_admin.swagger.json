@@ -656,19 +656,6 @@
     "pbCreateSystemNotificationResponse": {
       "type": "object"
     },
-    "pbDailyCount": {
-      "type": "object",
-      "properties": {
-        "count": {
-          "type": "string",
-          "format": "int64"
-        },
-        "date": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
     "pbDeleteUserRequest": {
       "type": "object",
       "properties": {
@@ -703,6 +690,10 @@
       "properties": {
         "timeZone": {
           "type": "string"
+        },
+        "ndays": {
+          "type": "integer",
+          "format": "int32"
         }
       },
       "title": "12.GetDailyActiveUserCount"
@@ -710,11 +701,17 @@
     "pbGetDailyActiveUserCountResponse": {
       "type": "object",
       "properties": {
+        "dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "counts": {
           "type": "array",
           "items": {
-            "type": "object",
-            "$ref": "#/definitions/pbDailyCount"
+            "type": "integer",
+            "format": "int32"
           }
         }
       }
@@ -724,6 +721,10 @@
       "properties": {
         "timeZone": {
           "type": "string"
+        },
+        "ndays": {
+          "type": "integer",
+          "format": "int32"
         }
       },
       "title": "13.GetDailyCreateUserCount"
@@ -731,11 +732,17 @@
     "pbGetDailyCreateUserCountResponse": {
       "type": "object",
       "properties": {
+        "dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "counts": {
           "type": "array",
           "items": {
-            "type": "object",
-            "$ref": "#/definitions/pbDailyCount"
+            "type": "integer",
+            "format": "int32"
           }
         }
       }
@@ -743,6 +750,9 @@
     "pbGetDailyVisitorCountRequest": {
       "type": "object",
       "properties": {
+        "timeZone": {
+          "type": "string"
+        },
         "ndays": {
           "type": "integer",
           "format": "int32"
@@ -753,11 +763,17 @@
     "pbGetDailyVisitorCountResponse": {
       "type": "object",
       "properties": {
+        "dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "counts": {
           "type": "array",
           "items": {
-            "type": "object",
-            "$ref": "#/definitions/pbDailyCount"
+            "type": "integer",
+            "format": "int32"
           }
         }
       }

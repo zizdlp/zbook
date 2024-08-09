@@ -610,7 +610,7 @@ func (mr *MockStoreMockRecorder) GetConfiguration(arg0, arg1 interface{}) *gomoc
 }
 
 // GetDailyActiveUserCount mocks base method.
-func (m *MockStore) GetDailyActiveUserCount(arg0 context.Context, arg1 string) ([]db.GetDailyActiveUserCountRow, error) {
+func (m *MockStore) GetDailyActiveUserCount(arg0 context.Context, arg1 db.GetDailyActiveUserCountParams) ([]db.GetDailyActiveUserCountRow, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetDailyActiveUserCount", arg0, arg1)
 	ret0, _ := ret[0].([]db.GetDailyActiveUserCountRow)
@@ -625,7 +625,7 @@ func (mr *MockStoreMockRecorder) GetDailyActiveUserCount(arg0, arg1 interface{})
 }
 
 // GetDailyCreateUserCount mocks base method.
-func (m *MockStore) GetDailyCreateUserCount(arg0 context.Context, arg1 string) ([]db.GetDailyCreateUserCountRow, error) {
+func (m *MockStore) GetDailyCreateUserCount(arg0 context.Context, arg1 db.GetDailyCreateUserCountParams) ([]db.GetDailyCreateUserCountRow, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetDailyCreateUserCount", arg0, arg1)
 	ret0, _ := ret[0].([]db.GetDailyCreateUserCountRow)

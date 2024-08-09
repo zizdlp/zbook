@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/require"
 	"github.com/zizdlp/zbook/util"
 )
@@ -102,13 +103,17 @@ func TestGetDailyActiveUserCount(t *testing.T) {
 	user := createRandomUser(t)
 	createRandomSession(t, user)
 	timezone := "America/New_York"
-	count1, err := testStore.GetDailyActiveUserCount(context.Background(), timezone)
+	arg := GetDailyActiveUserCountParams{
+		Timezone:     timezone,
+		IntervalDays: pgtype.Text{String: "7", Valid: true},
+	}
+	count1, err := testStore.GetDailyActiveUserCount(context.Background(), arg)
 	require.NoError(t, err)
 	require.True(t, len(count1) > 0)
 
 	user2 := createRandomUser(t)
 	createRandomSession(t, user2)
-	count2, err := testStore.GetDailyActiveUserCount(context.Background(), timezone)
+	count2, err := testStore.GetDailyActiveUserCount(context.Background(), arg)
 	require.NoError(t, err)
 	require.True(t, len(count2) > 0)
 	require.Equal(t, count2[0].ActiveUsersCount, count1[0].ActiveUsersCount+1)

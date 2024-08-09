@@ -52,6 +52,6 @@ OFFSET $2;
 -- name: GetDailyActiveUserCount :many
 SELECT (created_at AT TIME ZONE 'UTC' AT TIME ZONE @timezone)::date AS registration_date, COUNT(DISTINCT user_id) AS active_users_count
 FROM sessions
-WHERE  (created_at AT TIME ZONE 'UTC' AT TIME ZONE @timezone) >= (CURRENT_DATE AT TIME ZONE @timezone) - INTERVAL '7 days'
+WHERE  (created_at AT TIME ZONE 'UTC' AT TIME ZONE @timezone) >= (CURRENT_DATE AT TIME ZONE @timezone) - (@interval_days || ' days')::INTERVAL
 GROUP BY registration_date
 ORDER BY registration_date DESC;

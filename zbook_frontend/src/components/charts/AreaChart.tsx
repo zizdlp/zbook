@@ -4,50 +4,29 @@ import { useTranslations } from "next-intl";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from "next-themes";
 import { getAreaChartOptions } from "@/utils/const_value";
-interface TrafficData {
-  count: number;
-  date: string;
-}
 
-interface WebTrafficProps {
-  counts: TrafficData[];
+export default function AreaChart({
+  dates,
+  counts,
+  title,
+  label,
+}: {
+  dates: string[];
+  counts: number[];
   title: string;
   label: string;
-}
-export default function AreaChart({ counts, title, label }: WebTrafficProps) {
+}) {
   const { theme } = useTheme();
   const t = useTranslations("AdminOverView");
-  const dates: string[] = [];
-  for (let i = 30; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    dates.push(date.toISOString().split("T")[0]); // 只获取日期部分
-  }
 
   counts = counts || [];
-  // 构建日期到计数的映射
-  const countsMap = new Map();
-  counts.forEach(({ date, count }) => {
-    let datePart = date;
-    if (date.includes("T")) {
-      datePart = date.split("T")[0]; // 只获取日期部分
-    }
-    countsMap.set(datePart, count || 0);
-  });
-
-  // 生成计数数组
-  const countsArray: number[] = [];
-  dates.forEach((date) => {
-    countsArray.push(
-      parseInt(countsMap.has(date) ? countsMap.get(date) : 0) || 0
-    );
-  });
-  const totalCount = countsArray.reduce((sum, count) => sum + count, 0);
+  dates = dates || [];
+  const totalCount = counts.reduce((sum, count) => sum + count, 0);
   let options = getAreaChartOptions(theme, dates);
   let series = [
     {
       name: label,
-      data: countsArray,
+      data: counts,
       color: "#7E3BF2",
     },
   ];

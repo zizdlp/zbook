@@ -61,13 +61,16 @@ interface GetListRepoCountRequest {
   query: string;
 }
 interface GetDailyVisitorCountRequest {
+  time_zone: string;
   ndays: number;
 }
 interface GetDailyActiveUserCountRequest {
   time_zone: string;
+  ndays: number;
 }
 interface GetDailyCreateUserCountRequest {
   time_zone: string;
+  ndays: number;
 }
 
 interface ListUserRequest {
