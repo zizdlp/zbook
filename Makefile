@@ -25,8 +25,6 @@ dropdb:
 migrateup:
 	cd zbook_backend && \
 	migrate -path db/migration -database "$(DB_SOURCE)" -verbose up
-	# docker exec -it zbook-local-database gunzip geoip_data.sql.gz 
-	docker exec -it zbook-local-database psql -U root -d zbook -f geoip_data.sql
 migratedown:
 	cd zbook_backend && \
 	migrate -path db/migration -database "$(DB_SOURCE)" -verbose down
