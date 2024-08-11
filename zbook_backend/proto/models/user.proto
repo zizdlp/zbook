@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/zizdlp/zbook/pb/models";
+
+message UserBasicInfo {
+  int64 user_id                        = 1;
+  string username                      = 2;
+  string email                         = 3;
+  string motto                         = 4;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  bool onboarding                      = 8;
+}
+
+message UserImageInfo {
+  int64 user_id                                  = 1;
+  bytes avatar                                   = 2;
+  google.protobuf.Timestamp update_image_info_at = 3;
+}
+message DailyCount {
+  int64 count = 1;
+  string date = 2;
+}
+
+message UserCount {
+  string username = 1;
+  int64 count     = 2;
+}
+message UserCountInfo {
+  int64 user_id         = 1;
+  int32 count_likes     = 2;
+  int32 count_following = 3;
+  int32 count_follower  = 4;
+  int32 count_repos     = 5;
+  bool following        = 6;
+}
+
+message ListUserInfo {
+  string username                      = 1;
+  string email                         = 2;
+  bool blocked                         = 3;
+  bool verified                        = 4;
+  bool onboarding                      = 6;
+  string role                          = 7;
+  google.protobuf.Timestamp updated_at = 8;
+  google.protobuf.Timestamp created_at = 9;
+}

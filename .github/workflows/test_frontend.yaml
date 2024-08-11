@@ -1,0 +1,37 @@
+name: TEST_FRONTEND
+
+on:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Change directory to frontend
+        run: cd zbook_frontend
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: zbook_frontend
+      - name: Run lint
+        run: npm run lint
+        working-directory: zbook_frontend
+      - name: Run build
+        run: npm run build
+        working-directory: zbook_frontend
+
+      - name: Run tests
+        run: npm test -- --updateSnapshot
+        working-directory: zbook_frontend

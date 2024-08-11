@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/models";
+
+message RepoBasicInfo {
+  int64 repo_id                        = 1;
+  string repo_name                     = 2;
+  string repo_description              = 3;
+  string visibility_level              = 4;
+  string sync_token                    = 5;
+  string git_host                      = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message ListRepoInfo {
+  int64 repo_id                        = 1;
+  string repo_name                     = 2;
+  string repo_description              = 3;
+  string visibility_level              = 4;
+  string git_host                      = 6;
+  int32 like_count                     = 7;
+  bool is_liked                        = 8;
+  google.protobuf.Timestamp updated_at = 9;
+  google.protobuf.Timestamp created_at = 10;
+  string username                      = 11;
+}
+
+message RepoCountInfo {
+  int64 repo_id       = 1;
+  int32 like_count    = 2;
+  int32 dislike_count = 3;
+  int32 shared_count  = 4;
+  bool is_liked       = 5;
+  bool is_disliked    = 6;
+  bool is_shared      = 7;
+}

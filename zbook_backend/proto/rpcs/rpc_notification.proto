@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package pb;
+import "models/notification.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.ListFollowerNotification
+message ListFollowerNotificationRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+}
+message ListFollowerNotificationResponse {
+  repeated ListFollowerNotificationInfo notifications = 1;
+}
+
+// 2.ListRepoNotification
+message ListRepoNotificationRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+}
+message ListRepoNotificationResponse {
+  repeated ListRepoNotificationInfo notifications = 1;
+}
+
+// 3.ListCommentNotification
+message ListCommentNotificationRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+}
+message ListCommentNotificationResponse {
+  repeated ListCommentNotificationInfo notifications = 1;
+}
+
+// 4.ListSystemNotification
+message ListSystemNotificationRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+}
+message ListSystemNotificationResponse {
+  repeated ListSystemNotificationInfo notifications = 1;
+}
+
+// 5.MarkFollowerNotificationReaded
+message MarkFollowerNotificationReadedRequest {
+  int64 noti_id = 1;
+}
+
+// 6.MarkSystemNotificationReaded
+message MarkSystemNotificationReadedRequest {
+  int64 noti_id = 1;
+}
+
+// 7.MarkCommentNotificationReaded
+message MarkCommentNotificationReadedRequest {
+  int64 noti_id = 1;
+}
+
+// 8.MarkRepoNotificationReaded
+message MarkRepoNotificationReadedRequest {
+  int64 noti_id = 1;
+}
+message SetNotiReadResponse {}
+
+// 9.GetUnReadCount
+message GetUnReadCountRequest {}
+message GetUnReadCountResponse {
+  int32 unread_count = 1;
+}
+
+// 10.ResetUnreadCount
+message ResetUnreadCountRequest {}
+message ResetUnreadCountResponse {}
+
+
+// 11.GetListFollowerNotificationUnreadedCount
+message GetListFollowerNotificationUnreadedCountRequest {
+}
+message GetListFollowerNotificationUnreadedCountResponse {
+  int64 count = 1;
+}
+// 12.GetListRepoNotificationUnreadedCount
+message GetListRepoNotificationUnreadedCountRequest {
+}
+message GetListRepoNotificationUnreadedCountResponse {
+  int64 count = 1;
+}
+
+// 13.GetListCommentNotificationUnreadedCount
+message GetListCommentNotificationUnreadedCountRequest {
+}
+message GetListCommentNotificationUnreadedCountResponse {
+  int64 count = 1;
+}
+
+// 14.GetListSystemNotificationUnreadedCount
+message GetListSystemNotificationUnreadedCountRequest {
+}
+message GetListSystemNotificationUnreadedCountResponse {
+  int64 count = 1;
+}

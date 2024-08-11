@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/models";
+
+message Follow {
+  int64 follow_id                      = 1;
+  int64 follower_id                    = 2;
+  int64 following_id                   = 3;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+message ListFollowInfo {
+  string username                      = 1;
+  string email                         = 2;
+  bool is_following                    = 3;
+  int32 repo_count                     = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  google.protobuf.Timestamp created_at = 6;
+}

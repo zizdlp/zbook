@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.CreateCommentRelation
+message CreateCommentRelationRequest {
+  int64 comment_id     = 1;
+  string relation_type = 2;
+}
+message CreateCommentRelationResponse {
+  int64 like_id = 1;
+}
+
+// 2.CreateCommentReport
+message DeleteCommentRelationRequest {
+  int64 comment_id     = 1;
+  string relation_type = 2;
+}
+message DeleteCommentRelationResponse {}
+
+// 3.DeleteCommentRelation
+message CreateCommentReportRequest {
+  int64 comment_id      = 1;
+  string report_content = 2;
+}
+message CreateCommentReportResponse {
+  int64 comment_id = 1;
+}

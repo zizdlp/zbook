@@ -1,0 +1,43 @@
+
+syntax = "proto3";
+
+package pb;
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.CreateOAuthLink
+message CreateOAuthLinkRequest {
+  string oauth_type = 1;
+  string app_id     = 2;
+}
+message CreateOAuthLinkResponse {}
+
+// 2.CheckOAuthStatus
+message CheckOAuthStatusRequest {}
+message CheckOAuthStatusResponse {
+  bool github = 1;
+  bool google = 2;
+}
+
+// 3.DeleteOAuthLink
+message DeleteOAuthLinkRequest {
+  string oauth_type = 1;
+}
+message DeleteOAuthLinkResponse {}
+
+// 4.LoginByOAuth
+message LoginByOAuthRequest {
+  string oauth_type   = 1;
+  string app_id       = 2;
+  string access_token = 3;
+}
+
+message LoginByOAuthResponse {
+  string access_token                                = 1;
+  string refresh_token                               = 2;
+  string username                                    = 3;
+  string role                                        = 4;
+  google.protobuf.Timestamp access_token_expires_at  = 5;
+  google.protobuf.Timestamp refresh_token_expires_at = 6;
+}

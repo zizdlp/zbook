@@ -1,0 +1,182 @@
+version: 2.1
+
+commands: # a reusable command with parameters
+  task-docker:
+    parameters:
+      to:
+        default: "build"
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install Docker
+          command: |
+            apt-get update
+            apt-get install curl -y
+            apt-get install apt-utils -y
+            curl -fsSL https://get.docker.com -o get-docker.sh
+            sh ./get-docker.sh
+      - run:
+          name: Install Docker Buildx
+          command: |
+            docker run --privileged --rm tonistiigi/binfmt --install all
+            mkdir -p ~/.docker/cli-plugins
+            docker buildx create --name mybuilder --use
+            docker buildx inspect --bootstrap
+      - run:
+          name: Switch to containerd image store
+          command: |
+            docker context create mycontext
+            docker context use mycontext
+      - run:
+          name: Login to Docker Hub
+          command: |
+            docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+  task-tag:
+    parameters:
+      to:
+        default: "build"
+        type: string
+    steps:
+      - run:
+          name: Check tag creator
+          command: |
+            authorized_users=("zizdlp")
+            if [[ ! " ${authorized_users[@]} " =~ " $CIRCLE_USERNAME " ]]; then
+              echo "Unauthorized user: $CIRCLE_USERNAME"
+              exit 1
+            fi
+      - run:
+          name: Ensure tag is greater than latest tag
+          command: |
+            current_tag=${CIRCLE_TAG}
+            git fetch --tags
+            latest_tag=$(git tag --sort=-v:refname --list 'v[0-9]*.[0-9]*.[0-9]*' | head -n1)
+
+            if [ -z "$latest_tag" ]; then
+              echo "No previous tags found. Assuming ${current_tag} is the first tag."
+              exit 0
+            fi
+
+            echo "Current tag: ${current_tag}"
+            echo "Latest tag: ${latest_tag}"
+
+            # Remove 'v' prefix and compare versions
+            current_version=$(echo "$current_tag" | sed 's/^v//')
+            latest_version=$(echo "$latest_tag" | sed 's/^v//')
+
+            # Compare versions
+            if [ "$(printf '%s\n%s\n' "$current_version" "$latest_version" | sort -V | head -n1)" != "$latest_version" ]; then
+              echo "Error: Tag ${current_tag} is not greater than or equal to the latest tag ${latest_tag}."
+              exit 1
+            fi
+
+            echo "Tag ${current_tag} is greater than or equal to the latest tag ${latest_tag}. Proceeding."
+
+jobs:
+  build_frontend:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+        to: "build_frontend"
+      - task-tag:
+        to: "build_frontend"
+      - run:
+          name: Build multi-architecture zbook frontend image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_frontend:${CIRCLE_TAG} -t zizdlp/zbook_frontend:latest -f ./zbook_frontend/zbook_frontend.Dockerfile ./zbook_frontend --push
+
+  build_backend:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+        to: "build_frontend"
+      - task-tag:
+        to: "build_frontend"
+      - run:
+          name: Build multi-architecture zbook backend image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_backend:${CIRCLE_TAG} -t zizdlp/zbook_backend:latest -f ./zbook_backend/zbook_backend.Dockerfile ./zbook_backend --push
+
+  build_database:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+        to: "build_frontend"
+      - task-tag:
+        to: "build_frontend"
+      - run:
+          name: Build multi-architecture zbook database image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_database:${CIRCLE_TAG} -t zizdlp/zbook_database:latest -f ./zbook_database/zbook_database.Dockerfile ./zbook_database --push
+
+  build_release_frontend:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+          to: "build_another_frontend"
+      - run:
+          name: Build another multi-architecture frontend image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_frontend -f ./zbook_frontend/zbook_frontend.Dockerfile ./zbook_frontend
+
+  build_release_backend:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+          to: "build_another_backend"
+      - run:
+          name: Build another multi-architecture backend image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_backend -f ./zbook_backend/zbook_backend.Dockerfile ./zbook_backend
+
+  build_release_database:
+    docker:
+      - image: ubuntu:22.04
+    steps:
+      - task-docker:
+          to: "build_another_database"
+      - run:
+          name: Build another multi-architecture database image
+          command: |
+            docker buildx build --platform linux/amd64,linux/arm64 -t zizdlp/zbook_database -f ./zbook_database/zbook_database.Dockerfile ./zbook_database
+
+workflows:
+  build-and-test:
+    jobs:
+      - build_frontend:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/
+      - build_backend:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/
+      - build_database:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/
+      - build_release_frontend:
+          filters:
+            branches:
+              only: release
+      - build_release_backend:
+          filters:
+            branches:
+              only: release
+      - build_release_database:
+          filters:
+            branches:
+              only: release

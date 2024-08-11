@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package pb;
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.VerifyEmail
+message VerifyEmailRequest {
+  string verification_url = 1;
+}
+message VerifyEmailResponse {
+  bool is_verified = 1;
+}
+
+// 2.ResetPassword
+message ResetPasswordRequest {
+  string verification_url = 1;
+  string password        = 2;
+  string email           = 3;
+}
+message ResetPasswordResponse {
+  bool is_reset = 1;
+}
+
+// 3.SendEmailToResetPassword
+message SendEmailToResetPasswordRequest {
+  string email = 1;
+}
+message SendEmailToResetPasswordResponse {
+  bool is_send = 1;
+}
+
+// 4.SendEmailToVerifyEmail
+message SendEmailToVerifyEmailRequest {
+  string email = 1;
+}
+message SendEmailToVerifyEmailResponse {
+  bool is_send = 1;
+}
+
+// 5.RefreshToken
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  string access_token                               = 1;
+  google.protobuf.Timestamp access_token_expires_at = 2;
+}

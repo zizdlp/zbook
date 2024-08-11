@@ -1,0 +1,309 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookVerification"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/refresh_token": {
+      "post": {
+        "summary": "refresh token",
+        "description": "Use this api to refresh token",
+        "operationId": "ZBookVerification_RefreshToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRefreshTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbRefreshTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookVerification"
+        ]
+      }
+    },
+    "/v1/reset_password": {
+      "post": {
+        "summary": "reset password",
+        "description": "Use this API to reset password",
+        "operationId": "ZBookVerification_ResetPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbResetPasswordResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbResetPasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookVerification"
+        ]
+      }
+    },
+    "/v1/send_email_to_reset_password": {
+      "post": {
+        "summary": "Use this api to send verify code to your email",
+        "description": "Use this api to send verify code to your email",
+        "operationId": "ZBookVerification_SendEmailToResetPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSendEmailToResetPasswordResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbSendEmailToResetPasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookVerification"
+        ]
+      }
+    },
+    "/v1/send_email_to_verify_email": {
+      "post": {
+        "summary": "Use this api to send verify email to your email",
+        "description": "Use this api to send verify email to your email",
+        "operationId": "ZBookVerification_SendEmailToVerifyEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSendEmailToVerifyEmailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbSendEmailToVerifyEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookVerification"
+        ]
+      }
+    },
+    "/v1/verify_email": {
+      "get": {
+        "summary": "Verify email",
+        "description": "Use this API to verify user's email address",
+        "operationId": "ZBookVerification_VerifyEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbVerifyEmailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "verificationUrl",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ZBookVerification"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbRefreshTokenRequest": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      },
+      "title": "5.RefreshToken"
+    },
+    "pbRefreshTokenResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbResetPasswordRequest": {
+      "type": "object",
+      "properties": {
+        "verificationUrl": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "2.ResetPassword"
+    },
+    "pbResetPasswordResponse": {
+      "type": "object",
+      "properties": {
+        "isReset": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbSendEmailToResetPasswordRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "3.SendEmailToResetPassword"
+    },
+    "pbSendEmailToResetPasswordResponse": {
+      "type": "object",
+      "properties": {
+        "isSend": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbSendEmailToVerifyEmailRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "4.SendEmailToVerifyEmail"
+    },
+    "pbSendEmailToVerifyEmailResponse": {
+      "type": "object",
+      "properties": {
+        "isSend": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbVerifyEmailResponse": {
+      "type": "object",
+      "properties": {
+        "isVerified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

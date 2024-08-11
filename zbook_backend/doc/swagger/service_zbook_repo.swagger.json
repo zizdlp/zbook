@@ -1,0 +1,884 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookRepo"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/auto_sync_repo": {
+      "post": {
+        "summary": "自动远端同步仓库",
+        "description": "自动远端同步仓库",
+        "operationId": "ZBookRepo_AutoSyncRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbAutoSyncRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbAutoSyncRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/create_repo": {
+      "post": {
+        "summary": "create repo",
+        "description": "Use this api to create repo",
+        "operationId": "ZBookRepo_CreateRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/delete_repo": {
+      "post": {
+        "summary": "delete repo",
+        "description": "Use this api to delete repo",
+        "operationId": "ZBookRepo_DeleteRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/get_list_repo_count": {
+      "post": {
+        "summary": "get_repo_count",
+        "description": "Use this api to list_repo_private",
+        "operationId": "ZBookRepo_GetListRepoCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListRepoCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListRepoCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/get_list_user_like_repo_count": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepo_GetListUserLikeRepoCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListUserLikeRepoCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListUserLikeRepoCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/get_list_user_own_repo_count": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepo_GetListUserOwnRepoCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListUserOwnRepoCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListUserOwnRepoCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/get_repo_basic_info": {
+      "post": {
+        "summary": "get repo info",
+        "description": "Use this api to get repo info",
+        "operationId": "ZBookRepo_GetRepoBasicInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetRepoBasicInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetRepoBasicInfoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/get_repo_config": {
+      "post": {
+        "summary": "get repo config",
+        "description": "Use this api to  get repo config",
+        "operationId": "ZBookRepo_GetRepoConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetRepoConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetRepoConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/list_repo": {
+      "post": {
+        "summary": "list_repo",
+        "description": "Use this api to list_repo_private",
+        "operationId": "ZBookRepo_ListRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/list_user_like_repo": {
+      "post": {
+        "summary": "列出用户可见喜欢帖子归属信息",
+        "description": "分页列出指定用户喜欢可见帖子的归属信息",
+        "operationId": "ZBookRepo_ListUserLikeRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListUserLikeRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListUserLikeRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/list_user_own_repo": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepo_ListUserOwnRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListUserOwnRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListUserOwnRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/manual_sync_repo": {
+      "post": {
+        "summary": "手动与远端同步仓库",
+        "description": "手动与远端同步仓库",
+        "operationId": "ZBookRepo_ManualSyncRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbManualSyncRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbManualSyncRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
+    "/v1/update_repo_info": {
+      "post": {
+        "summary": "update repo",
+        "description": "Use this api to update repo",
+        "operationId": "ZBookRepo_UpdateRepoInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateRepoInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateRepoInfoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbAutoSyncRepoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "syncToken": {
+          "type": "string"
+        }
+      },
+      "title": "5.AutoSyncRepo"
+    },
+    "pbAutoSyncRepoResponse": {
+      "type": "object"
+    },
+    "pbCreateRepoRequest": {
+      "type": "object",
+      "properties": {
+        "repoName": {
+          "type": "string"
+        },
+        "repoDescription": {
+          "type": "string"
+        },
+        "gitAddr": {
+          "type": "string"
+        },
+        "gitAccessToken": {
+          "type": "string"
+        },
+        "syncToken": {
+          "type": "string"
+        },
+        "visibilityLevel": {
+          "type": "string"
+        },
+        "homePage": {
+          "type": "string"
+        },
+        "themeSidebar": {
+          "type": "string"
+        },
+        "themeColor": {
+          "type": "string"
+        }
+      },
+      "title": "1.CreateRepo"
+    },
+    "pbCreateRepoResponse": {
+      "type": "object"
+    },
+    "pbDeleteRepoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        }
+      },
+      "title": "3.DeleteRepo"
+    },
+    "pbDeleteRepoResponse": {
+      "type": "object"
+    },
+    "pbGetListRepoCountRequest": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "14.GetListRepoCount"
+    },
+    "pbGetListRepoCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListUserLikeRepoCountRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "12.GetListUserLikeRepoCount"
+    },
+    "pbGetListUserLikeRepoCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListUserOwnRepoCountRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "10.GetListUserOwnRepoCount"
+    },
+    "pbGetListUserOwnRepoCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetRepoBasicInfoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        }
+      },
+      "title": "7.GetRepoBasicInfo"
+    },
+    "pbGetRepoBasicInfoResponse": {
+      "type": "object",
+      "properties": {
+        "repoName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "byte"
+        },
+        "repoDescription": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "homePage": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGetRepoConfigRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        }
+      },
+      "title": "2.GetRepoConfig"
+    },
+    "pbGetRepoConfigResponse": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "config": {
+          "type": "string"
+        },
+        "visibilityLevel": {
+          "type": "string"
+        },
+        "themeSidebar": {
+          "type": "string"
+        },
+        "themeColor": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListRepoInfo": {
+      "type": "object",
+      "properties": {
+        "repoId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "repoDescription": {
+          "type": "string"
+        },
+        "visibilityLevel": {
+          "type": "string"
+        },
+        "gitHost": {
+          "type": "string"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isLiked": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListRepoRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "13.ListRepo"
+    },
+    "pbListRepoResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListRepoInfo"
+          }
+        }
+      }
+    },
+    "pbListUserLikeRepoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "11.ListUserLikeRepo"
+    },
+    "pbListUserLikeRepoResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListRepoInfo"
+          }
+        }
+      }
+    },
+    "pbListUserOwnRepoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "9.ListUserOwnRepo"
+    },
+    "pbListUserOwnRepoResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListRepoInfo"
+          }
+        }
+      }
+    },
+    "pbManualSyncRepoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        }
+      },
+      "title": "4.ManualSyncRepo"
+    },
+    "pbManualSyncRepoResponse": {
+      "type": "object"
+    },
+    "pbUpdateRepoInfoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "oldRepoName": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "gitAccessToken": {
+          "type": "string"
+        },
+        "repoDescription": {
+          "type": "string"
+        },
+        "visibilityLevel": {
+          "type": "string"
+        },
+        "syncToken": {
+          "type": "string"
+        },
+        "homePage": {
+          "type": "string"
+        },
+        "themeSidebar": {
+          "type": "string"
+        },
+        "themeColor": {
+          "type": "string"
+        }
+      },
+      "title": "6.UpdateRepoInfo"
+    },
+    "pbUpdateRepoInfoResponse": {
+      "type": "object"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1157 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookAdmin"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/create_invitation": {
+      "post": {
+        "summary": "send invitation",
+        "description": "Use this api to send invitation",
+        "operationId": "ZBookAdmin_SendInvitation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbSendInvitationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbSendInvitationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/create_system_notification": {
+      "post": {
+        "summary": "create system noti",
+        "description": "Use this api to create system noti",
+        "operationId": "ZBookAdmin_CreateSystemNotification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateSystemNotificationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateSystemNotificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/delete_user": {
+      "post": {
+        "summary": "ban user",
+        "description": "Use this api to  ban  user",
+        "operationId": "ZBookAdmin_DeleteUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_configuration": {
+      "post": {
+        "summary": "parse ip",
+        "description": "Use this api to get configuration",
+        "operationId": "ZBookAdmin_GetConfiguration",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetConfigurationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetConfigurationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_daily_active_user_count": {
+      "post": {
+        "summary": "get details of user",
+        "description": "Use this api to get details of user",
+        "operationId": "ZBookAdmin_GetDailyActiveUserCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyActiveUserCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyActiveUserCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_daily_create_user_count": {
+      "post": {
+        "summary": "get details of user",
+        "description": "Use this api to get details of user",
+        "operationId": "ZBookAdmin_GetDailyCreateUserCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyCreateUserCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyCreateUserCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_daily_visitor_count": {
+      "post": {
+        "summary": "get details of user",
+        "description": "Use this api to get details of user",
+        "operationId": "ZBookAdmin_GetDailyVisitorCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyVisitorCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyVisitorCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_daily_visitors": {
+      "post": {
+        "summary": "parse ip",
+        "description": "Use this api to parse ip",
+        "operationId": "ZBookAdmin_GetDailyVisitors",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyVisitorsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetDailyVisitorsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_list_comment_count": {
+      "post": {
+        "summary": "GetUserPrivateCountResponse",
+        "description": "Use this api to GetUserPrivateCountResponse",
+        "operationId": "ZBookAdmin_GetListCommentCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_list_comment_report_count": {
+      "post": {
+        "summary": "GetListCommentReportCountRequest",
+        "description": "Use this api to GetListCommentReportCountRequest",
+        "operationId": "ZBookAdmin_GetListCommentReportCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentReportCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentReportCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/get_list_session_count": {
+      "post": {
+        "summary": "GetSessionCountRequest",
+        "description": "Use this api to GetSessionCountRequest",
+        "operationId": "ZBookAdmin_GetListSessionCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListSessionCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListSessionCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/list_comment": {
+      "post": {
+        "summary": "list_repo_report",
+        "description": "Use this api to list_repo_report",
+        "operationId": "ZBookAdmin_ListComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListCommentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListCommentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/list_comment_report": {
+      "post": {
+        "summary": "list_comment_report",
+        "description": "Use this api to list_all_comment_report",
+        "operationId": "ZBookAdmin_ListCommentReport",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListCommentReportResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListCommentReportRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/list_session": {
+      "post": {
+        "summary": "list active session",
+        "description": "Use this api to  list active session",
+        "operationId": "ZBookAdmin_ListSession",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListSessionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListSessionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/log_visitor": {
+      "post": {
+        "summary": "get details of user",
+        "description": "Use this api to get details of user",
+        "operationId": "ZBookAdmin_LogVisitor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbLogVisitorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbLogVisitorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/update_comment_report_status": {
+      "post": {
+        "summary": " list user",
+        "description": "Use this api to  ban  user",
+        "operationId": "ZBookAdmin_UpdateCommentReportStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateCommentReportStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateCommentReportStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/update_configuration": {
+      "post": {
+        "summary": "parse ip",
+        "description": "Use this api to parse ip",
+        "operationId": "ZBookAdmin_UpdateConfiguration",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateConfigurationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateConfigurationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    },
+    "/v1/update_user_block": {
+      "post": {
+        "summary": "ban user",
+        "description": "Use this api to  ban  user",
+        "operationId": "ZBookAdmin_UpdateUserBlock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateUserBlockResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateUserBlockRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookAdmin"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCreateSystemNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "contents": {
+          "type": "string"
+        },
+        "redirectUrl": {
+          "type": "string"
+        }
+      },
+      "title": "3.CreateSystemNotification"
+    },
+    "pbCreateSystemNotificationResponse": {
+      "type": "object"
+    },
+    "pbDeleteUserRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "2.DeleteUser"
+    },
+    "pbDeleteUserResponse": {
+      "type": "object"
+    },
+    "pbGetConfigurationRequest": {
+      "type": "object",
+      "properties": {
+        "configName": {
+          "type": "string"
+        }
+      },
+      "title": "17.GetConfiguration"
+    },
+    "pbGetConfigurationResponse": {
+      "type": "object",
+      "properties": {
+        "configValue": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbGetDailyActiveUserCountRequest": {
+      "type": "object",
+      "properties": {
+        "timeZone": {
+          "type": "string"
+        },
+        "ndays": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "12.GetDailyActiveUserCount"
+    },
+    "pbGetDailyActiveUserCountResponse": {
+      "type": "object",
+      "properties": {
+        "dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "pbGetDailyCreateUserCountRequest": {
+      "type": "object",
+      "properties": {
+        "timeZone": {
+          "type": "string"
+        },
+        "ndays": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "13.GetDailyCreateUserCount"
+    },
+    "pbGetDailyCreateUserCountResponse": {
+      "type": "object",
+      "properties": {
+        "dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "pbGetDailyVisitorCountRequest": {
+      "type": "object",
+      "properties": {
+        "timeZone": {
+          "type": "string"
+        },
+        "ndays": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "11.GetDailyVisitorCount"
+    },
+    "pbGetDailyVisitorCountResponse": {
+      "type": "object",
+      "properties": {
+        "dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "pbGetDailyVisitorsRequest": {
+      "type": "object",
+      "properties": {
+        "ndays": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lang": {
+          "type": "string"
+        }
+      },
+      "title": "16.GetDailyVisitors"
+    },
+    "pbGetDailyVisitorsResponse": {
+      "type": "object",
+      "properties": {
+        "visitors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbVisitor"
+          }
+        }
+      }
+    },
+    "pbGetListCommentCountRequest": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "8.GetListCommentCount"
+    },
+    "pbGetListCommentCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListCommentReportCountRequest": {
+      "type": "object",
+      "title": "10.GetListCommentReportCount"
+    },
+    "pbGetListCommentReportCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListSessionCountRequest": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "6.GetListSessionCount"
+    },
+    "pbGetListSessionCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbListAdminCommentInfo": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "commentContent": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbListCommentReportInfo": {
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "repoUsername": {
+          "type": "string"
+        },
+        "relativePath": {
+          "type": "string"
+        },
+        "reportContent": {
+          "type": "string"
+        },
+        "commentContent": {
+          "type": "string"
+        },
+        "processed": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "pbListCommentReportRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "9.ListCommentReport"
+    },
+    "pbListCommentReportResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListCommentReportInfo"
+          }
+        }
+      }
+    },
+    "pbListCommentRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "7.ListComment"
+    },
+    "pbListCommentResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListAdminCommentInfo"
+          }
+        }
+      }
+    },
+    "pbListSessionRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "5.ListSession"
+    },
+    "pbListSessionResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbSessionInfo"
+          }
+        }
+      }
+    },
+    "pbLogVisitorRequest": {
+      "type": "object",
+      "title": "14.LogVisitor"
+    },
+    "pbLogVisitorResponse": {
+      "type": "object"
+    },
+    "pbSendInvitationRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "19.SendInvitation"
+    },
+    "pbSendInvitationResponse": {
+      "type": "object",
+      "properties": {
+        "isSend": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbSessionInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "userAgent": {
+          "type": "string"
+        },
+        "clientIp": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbUpdateCommentReportStatusRequest": {
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "processed": {
+          "type": "boolean"
+        }
+      },
+      "title": "4.UpdateCommentReportStatus"
+    },
+    "pbUpdateCommentReportStatusResponse": {
+      "type": "object"
+    },
+    "pbUpdateConfigurationRequest": {
+      "type": "object",
+      "properties": {
+        "configName": {
+          "type": "string"
+        },
+        "configValue": {
+          "type": "boolean"
+        }
+      },
+      "title": "18.UpdateConfiguration"
+    },
+    "pbUpdateConfigurationResponse": {
+      "type": "object"
+    },
+    "pbUpdateUserBlockRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "blocked": {
+          "type": "boolean"
+        }
+      },
+      "title": "1.UpdateUserBlock"
+    },
+    "pbUpdateUserBlockResponse": {
+      "type": "object",
+      "properties": {
+        "blocked": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbVisitor": {
+      "type": "object",
+      "properties": {
+        "IP": {
+          "type": "string"
+        },
+        "Agent": {
+          "type": "string"
+        },
+        "Count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "city": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "number",
+          "format": "double"
+        },
+        "long": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

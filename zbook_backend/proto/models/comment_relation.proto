@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/models";
+
+message ListCommentReportInfo {
+  int64 report_id                      = 1;
+  int64 comment_id                     = 2;
+  string repo_name                     = 3;
+  string repo_username                 = 4;
+  string relative_path                 = 5;
+  string report_content                = 6;
+  string comment_content               = 7;
+  bool processed                       = 8;
+  google.protobuf.Timestamp created_at = 9;
+  string username                      = 10;
+}

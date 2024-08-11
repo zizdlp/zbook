@@ -1,0 +1,537 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookComment"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/create_comment": {
+      "post": {
+        "summary": "创建一级评论",
+        "description": "创建评论",
+        "operationId": "ZBookComment_CreateComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateCommentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateCommentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookComment"
+        ]
+      }
+    },
+    "/v1/delete_comment": {
+      "post": {
+        "summary": "delete comment",
+        "description": "Use this api to delete comment",
+        "operationId": "ZBookComment_DeleteComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteCommentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteCommentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookComment"
+        ]
+      }
+    },
+    "/v1/get_comment_count_info": {
+      "post": {
+        "summary": "get details of comment",
+        "description": "Use this api to get count info of comment",
+        "operationId": "ZBookComment_GetCommentCountInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetCommentCountInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetCommentCountInfoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookComment"
+        ]
+      }
+    },
+    "/v1/get_list_comment_level_one_count": {
+      "post": {
+        "summary": "list level one comment",
+        "description": "Use this api to  list level one comment",
+        "operationId": "ZBookComment_GetListCommentLevelOneCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentLevelCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentLevelOneCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookComment"
+        ]
+      }
+    },
+    "/v1/get_list_comment_level_two_count": {
+      "post": {
+        "summary": "list_comment_level_two",
+        "description": "Use this api to list_comment_level_two",
+        "operationId": "ZBookComment_GetListCommentLevelTwoCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentLevelCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListCommentLevelTwoCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookComment"
+        ]
+      }
+    },
+    "/v1/list_comment_level_one": {
+      "post": {
+        "summary": "list level one comment",
+        "description": "Use this api to  list level one comment",
+        "operationId": "ZBookComment_ListCommentLevelOne",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListCommentLevelResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListCommentLevelOneRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookComment"
+        ]
+      }
+    },
+    "/v1/list_comment_level_two": {
+      "post": {
+        "summary": "list_comment_level_two",
+        "description": "Use this api to list_comment_level_two",
+        "operationId": "ZBookComment_ListCommentLevelTwo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListCommentLevelResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListCommentLevelTwoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookComment"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCommentBasicInfo": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "markdownId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "parentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "rootId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "commentContent": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbCommentCountInfo": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "replyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isLiked": {
+          "type": "boolean"
+        },
+        "isDisliked": {
+          "type": "boolean"
+        },
+        "isShared": {
+          "type": "boolean"
+        },
+        "isReported": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbCreateCommentRequest": {
+      "type": "object",
+      "properties": {
+        "markdownId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "parentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "commentContent": {
+          "type": "string"
+        }
+      },
+      "title": "1.CreateComment"
+    },
+    "pbCreateCommentResponse": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "$ref": "#/definitions/pbCommentBasicInfo"
+        }
+      }
+    },
+    "pbDeleteCommentRequest": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "2.DeleteComment"
+    },
+    "pbDeleteCommentResponse": {
+      "type": "object"
+    },
+    "pbGetCommentCountInfoRequest": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "5.GetCommentCountInfo"
+    },
+    "pbGetCommentCountInfoResponse": {
+      "type": "object",
+      "properties": {
+        "commentCountInfo": {
+          "$ref": "#/definitions/pbCommentCountInfo"
+        }
+      }
+    },
+    "pbGetListCommentLevelCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetListCommentLevelOneCountRequest": {
+      "type": "object",
+      "properties": {
+        "markdownId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "3.GetListCommentLevelOneCount"
+    },
+    "pbGetListCommentLevelTwoCountRequest": {
+      "type": "object",
+      "properties": {
+        "rootId": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "4.GetListCommentLevelTwoCount"
+    },
+    "pbListCommentInfo": {
+      "type": "object",
+      "properties": {
+        "markdownId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "parentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "pusername": {
+          "type": "string"
+        },
+        "commentContent": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "likeCount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "replyCount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "isLiked": {
+          "type": "boolean"
+        },
+        "isDisliked": {
+          "type": "boolean"
+        },
+        "isShared": {
+          "type": "boolean"
+        },
+        "isReported": {
+          "type": "boolean"
+        },
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbListCommentLevelOneRequest": {
+      "type": "object",
+      "properties": {
+        "markdownId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "3.ListCommentLevelOne"
+    },
+    "pbListCommentLevelResponse": {
+      "type": "object",
+      "properties": {
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListCommentInfo"
+          }
+        }
+      }
+    },
+    "pbListCommentLevelTwoRequest": {
+      "type": "object",
+      "properties": {
+        "rootId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "4.ListCommentLevelTwo"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

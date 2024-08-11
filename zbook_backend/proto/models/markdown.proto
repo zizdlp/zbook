@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package pb;
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/zizdlp/zbook/pb/models";
+
+message Markdown {
+  int64 markdown_id                    = 1;
+  string relative_path                 = 2;
+  int64 user_id                        = 3;
+  int64 repo_id                        = 4;
+  string main_content                  = 5;
+  string table_content                 = 6;
+  string md5                           = 7;
+  string version_key                   = 8;
+  google.protobuf.Timestamp created_at = 9;
+  string username                      = 10;
+  string repo_name                     = 11;
+}
+
+message FooterSocial {
+  string name = 1;
+  string icon = 2;
+  string url  = 3;
+}

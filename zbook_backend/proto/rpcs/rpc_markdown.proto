@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package pb;
+import "models/markdown.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.GetMarkdownContent
+message GetMarkdownContentRequest {
+  string username      = 1;
+  string repo_name     = 2;
+  string relative_path = 3;
+}
+message GetMarkdownContentResponse {
+  Markdown markdown                    = 1;
+  string prev                          = 2;
+  string next                          = 3;
+  repeated FooterSocial footers        = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  string theme_color                   = 6;
+}
+
+// 2.GetMarkdownImage
+message GetMarkdownImageRequest {
+  string username  = 1;
+  string repo_name = 2;
+  string file_path = 3;
+}
+
+message GetMarkdownImageResponse {
+  bytes file = 1;
+}
+
+// 3.QueryRepoMarkdown
+message QueryRepoMarkdownRequest {
+  string username         = 1;
+  string repo_name        = 2;
+  string plain_to_tsquery = 3;
+  int32 page_id           = 4;
+  int32 page_size         = 5;
+}
+message QueryRepoMarkdownResponse {
+  repeated Markdown elements = 1;
+}
+
+// 4.QueryUserMarkdown
+message QueryUserMarkdownRequest {
+  string username         = 1;
+  string plain_to_tsquery = 2;
+  int32 page_id           = 3;
+  int32 page_size         = 4;
+}
+
+message QueryUserMarkdownResponse {
+  repeated Markdown elements = 1;
+}
+// 4.QueryMarkdown
+message QueryMarkdownRequest {
+  string plain_to_tsquery = 1;
+  int32 page_id           = 2;
+  int32 page_size         = 3;
+}
+
+message QueryMarkdownResponse {
+  repeated Markdown elements = 1;
+}

@@ -1,0 +1,98 @@
+
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_markdown.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { title: "image api";
+version: "0.1";
+contact: {
+name:
+  "zizdlp.com";
+url:
+  "https://github.com/zizdlp/zbook";
+email:
+  "zizdlp@gmail.com";
+};
+}
+;
+}
+;
+service ZBookMarkdown {
+  // 1.GetMarkdownContent
+  rpc GetMarkdownContent(GetMarkdownContentRequest)
+      returns (GetMarkdownContentResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_markdown_content",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to  get markdown";
+  summary:
+    "get markdown";
+  };
+};
+
+// 2.GetMarkdownImage
+rpc GetMarkdownImage(GetMarkdownImageRequest)
+    returns (GetMarkdownImageResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_markdown_image",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "获取markdown image";
+summary:
+  "获取markdown image";
+};
+}
+;
+
+// 3.QueryRepoMarkdown
+rpc QueryRepoMarkdown(QueryRepoMarkdownRequest)
+    returns (QueryRepoMarkdownResponse) {
+  option (google.api.http) = {
+    post: "/v1/query_repo_markdown",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  query markdown repo";
+summary:
+  "query markdown repo";
+};
+}
+;
+
+// 4.QueryUserMarkdown
+rpc QueryUserMarkdown(QueryUserMarkdownRequest)
+    returns (QueryUserMarkdownResponse) {
+  option (google.api.http) = {
+    post: "/v1/query_user_markdown",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  query markdown user";
+summary:
+  "query markdown user";
+};
+}
+;
+// 5.QueryMarkdown
+rpc QueryMarkdown(QueryMarkdownRequest) returns (QueryMarkdownResponse) {
+  option (google.api.http) = {
+    post: "/v1/query_markdown",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  query markdown";
+summary:
+  "query markdown";
+};
+}
+;
+}

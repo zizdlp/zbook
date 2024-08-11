@@ -1,0 +1,109 @@
+// clang-format off
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_comment.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { 
+    title: "zbook api";
+    version: "0.1";
+    contact: {
+      name:
+        "zizdlp.com";
+      url:
+        "https://github.com/zizdlp/zbook";
+      email:
+        "zizdlp@gmail.com";
+    };
+  };
+};
+service ZBookComment {
+  // 1.CreateComment
+  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse) {
+    option (google.api.http) = {
+      post: "/v1/create_comment",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "创建评论";
+      summary: "创建一级评论";
+    };
+  };
+
+  // 2.DeleteComment
+  rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentResponse) {
+    option (google.api.http) = {
+      post: "/v1/delete_comment",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to delete comment";
+      summary: "delete comment";  
+    };
+  };
+
+  // 3.ListCommentLevelOne
+  rpc ListCommentLevelOne(ListCommentLevelOneRequest) returns (ListCommentLevelResponse) {
+    option (google.api.http) = {
+      post: "/v1/list_comment_level_one",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to  list level one comment";
+      summary: "list level one comment";
+    };
+  };
+
+  // 4.ListCommentLevelTwo
+  rpc ListCommentLevelTwo(ListCommentLevelTwoRequest) returns (ListCommentLevelResponse) {
+    option (google.api.http) = {
+      post: "/v1/list_comment_level_two",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to list_comment_level_two";
+      summary: "list_comment_level_two";
+    };
+  };
+
+  // 5.GetCommentCountInfo
+  rpc GetCommentCountInfo(GetCommentCountInfoRequest) returns (GetCommentCountInfoResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_comment_count_info",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to get count info of comment";
+      summary: "get details of comment";
+    };
+  };
+
+  // 3.GetListCommentLevelOneCount
+  rpc GetListCommentLevelOneCount(GetListCommentLevelOneCountRequest) returns (GetListCommentLevelCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_list_comment_level_one_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to  list level one comment";
+      summary: "list level one comment";
+    };
+  };
+
+  // 4.GetListCommentLevelTwoCount
+  rpc GetListCommentLevelTwoCount(GetListCommentLevelTwoCountRequest) returns (GetListCommentLevelCountResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_list_comment_level_two_count",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to list_comment_level_two";
+      summary: "list_comment_level_two";
+    };
+  };
+}

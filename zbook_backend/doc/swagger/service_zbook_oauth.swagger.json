@@ -1,0 +1,273 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookOAuth"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/check_oauth_status": {
+      "post": {
+        "summary": "check oauth status",
+        "description": "Use this api to check oauth status",
+        "operationId": "ZBookOAuth_CheckOAuthStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCheckOAuthStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCheckOAuthStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookOAuth"
+        ]
+      }
+    },
+    "/v1/create_oauth_link": {
+      "post": {
+        "summary": "create new oauth user",
+        "description": "Use this api to  create new oauth user",
+        "operationId": "ZBookOAuth_CreateOAuthLink",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateOAuthLinkResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateOAuthLinkRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookOAuth"
+        ]
+      }
+    },
+    "/v1/delete_oauth_link": {
+      "post": {
+        "summary": "delete oauth user",
+        "description": "Use this api to  delete oauth user",
+        "operationId": "ZBookOAuth_DeleteOAuthLink",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteOAuthLinkResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteOAuthLinkRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookOAuth"
+        ]
+      }
+    },
+    "/v1/login_by_oauth": {
+      "post": {
+        "summary": "login oauth user",
+        "description": "Use this api to login  oauth user",
+        "operationId": "ZBookOAuth_LoginByOAuth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbLoginByOAuthResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbLoginByOAuthRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookOAuth"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCheckOAuthStatusRequest": {
+      "type": "object",
+      "title": "2.CheckOAuthStatus"
+    },
+    "pbCheckOAuthStatusResponse": {
+      "type": "object",
+      "properties": {
+        "github": {
+          "type": "boolean"
+        },
+        "google": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbCreateOAuthLinkRequest": {
+      "type": "object",
+      "properties": {
+        "oauthType": {
+          "type": "string"
+        },
+        "appId": {
+          "type": "string"
+        }
+      },
+      "title": "1.CreateOAuthLink"
+    },
+    "pbCreateOAuthLinkResponse": {
+      "type": "object"
+    },
+    "pbDeleteOAuthLinkRequest": {
+      "type": "object",
+      "properties": {
+        "oauthType": {
+          "type": "string"
+        }
+      },
+      "title": "3.DeleteOAuthLink"
+    },
+    "pbDeleteOAuthLinkResponse": {
+      "type": "object"
+    },
+    "pbLoginByOAuthRequest": {
+      "type": "object",
+      "properties": {
+        "oauthType": {
+          "type": "string"
+        },
+        "appId": {
+          "type": "string"
+        },
+        "accessToken": {
+          "type": "string"
+        }
+      },
+      "title": "4.LoginByOAuth"
+    },
+    "pbLoginByOAuthResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "refreshTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

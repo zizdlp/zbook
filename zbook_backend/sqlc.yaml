@@ -1,0 +1,40 @@
+version: "2"
+sql:
+  - schema: "db/migration"
+    queries: "db/query"
+    engine: "postgresql"
+    gen:
+      go:
+        package: "db"
+        out: "db/sqlc"
+        sql_package: "pgx/v5"
+        emit_json_tags: true #### set true allow sqlc generate json tag
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false ### 提取table名,而不是生成合适的(单数)
+        emit_empty_slices: true ### if true: null->[]
+        overrides:
+          - db_type: "timestamptz"
+            go_type: "time.Time"
+          - db_type: "interval"
+            go_type: "string" # 修改这里，将 interval 映射为 string
+          - db_type: "uuid"
+            go_type: "github.com/google/uuid.UUID"
+          - column: "users.fts_username"
+            go_type: "string"
+          - column: "markdowns.fts_zh"
+            go_type: "string"
+          - column: "markdowns.fts_en"
+            go_type: "string"
+          - column: "comments.fts_comment_zh"
+            go_type: "string"
+          - column: "comments.fts_comment_en"
+            go_type: "string"
+          - column: "repos.fts_repo_en"
+            go_type: "string"
+          - column: "repos.fts_repo_zh"
+            go_type: "string"
+          - column: "comment_reports.fts_report_zh"
+            go_type: "string"
+          - column: "comment_reports.fts_report_en"
+            go_type: "string"

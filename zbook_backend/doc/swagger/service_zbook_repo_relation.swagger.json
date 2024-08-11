@@ -1,0 +1,414 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "image repo relation api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookRepoRelation"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/create_repo_relation": {
+      "post": {
+        "summary": "create like on repo",
+        "description": "Use this api to create like on repo",
+        "operationId": "ZBookRepoRelation_CreateRepoRelation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateRepoRelationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateRepoRelationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
+    },
+    "/v1/create_repo_visibility": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepoRelation_CreateRepoVisibility",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateRepoVisibilityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateRepoVisibilityRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
+    },
+    "/v1/delete_repo_relation": {
+      "post": {
+        "summary": "delete like on repo",
+        "description": "Use this api to delete like on repo",
+        "operationId": "ZBookRepoRelation_DeleteRepoRelation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteRepoRelationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteRepoRelationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
+    },
+    "/v1/delete_repo_visibility": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepoRelation_DeleteRepoVisibility",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteRepoVisibilityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteRepoVisibilityRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
+    },
+    "/v1/get_repo_visibility_count": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepoRelation_GetRepoVisibilityCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetRepoVisibilityCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetRepoVisibilityCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
+    },
+    "/v1/list_repo_visibility": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepoRelation_ListRepoVisibility",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListRepoVisibilityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListRepoVisibilityRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCreateRepoRelationRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "relationType": {
+          "type": "string"
+        }
+      },
+      "title": "1.CreateRepoRelation"
+    },
+    "pbCreateRepoRelationResponse": {
+      "type": "object",
+      "properties": {
+        "likeId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbCreateRepoVisibilityRequest": {
+      "type": "object",
+      "properties": {
+        "repoUsername": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "3.CreateRepoVisibility"
+    },
+    "pbCreateRepoVisibilityResponse": {
+      "type": "object"
+    },
+    "pbDeleteRepoRelationRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "relationType": {
+          "type": "string"
+        }
+      },
+      "title": "2.DeleteRepoRelation"
+    },
+    "pbDeleteRepoRelationResponse": {
+      "type": "object"
+    },
+    "pbDeleteRepoVisibilityRequest": {
+      "type": "object",
+      "properties": {
+        "repoUsername": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "4.DeleteRepoVisibility"
+    },
+    "pbDeleteRepoVisibilityResponse": {
+      "type": "object"
+    },
+    "pbGetRepoVisibilityCountRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        }
+      },
+      "title": "6.GetRepoVisibilityCount"
+    },
+    "pbGetRepoVisibilityCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbListRepoVisibilityRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "5.ListRepoVisibility"
+    },
+    "pbListRepoVisibilityResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListUserRepoVisiblityInfo"
+          }
+        }
+      }
+    },
+    "pbListUserRepoVisiblityInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "isFollowing": {
+          "type": "boolean"
+        },
+        "isRepoVisible": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

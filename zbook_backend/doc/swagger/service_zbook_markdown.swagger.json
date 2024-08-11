@@ -1,0 +1,444 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "image api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookMarkdown"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/get_markdown_content": {
+      "post": {
+        "summary": "get markdown",
+        "description": "Use this api to  get markdown",
+        "operationId": "ZBookMarkdown_GetMarkdownContent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMarkdownContentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetMarkdownContentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookMarkdown"
+        ]
+      }
+    },
+    "/v1/get_markdown_image": {
+      "post": {
+        "summary": "获取markdown image",
+        "description": "获取markdown image",
+        "operationId": "ZBookMarkdown_GetMarkdownImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMarkdownImageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetMarkdownImageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookMarkdown"
+        ]
+      }
+    },
+    "/v1/query_markdown": {
+      "post": {
+        "summary": "query markdown",
+        "description": "Use this api to  query markdown",
+        "operationId": "ZBookMarkdown_QueryMarkdown",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbQueryMarkdownResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbQueryMarkdownRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookMarkdown"
+        ]
+      }
+    },
+    "/v1/query_repo_markdown": {
+      "post": {
+        "summary": "query markdown repo",
+        "description": "Use this api to  query markdown repo",
+        "operationId": "ZBookMarkdown_QueryRepoMarkdown",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbQueryRepoMarkdownResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbQueryRepoMarkdownRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookMarkdown"
+        ]
+      }
+    },
+    "/v1/query_user_markdown": {
+      "post": {
+        "summary": "query markdown user",
+        "description": "Use this api to  query markdown user",
+        "operationId": "ZBookMarkdown_QueryUserMarkdown",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserMarkdownResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserMarkdownRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookMarkdown"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbFooterSocial": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGetMarkdownContentRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "relativePath": {
+          "type": "string"
+        }
+      },
+      "title": "1.GetMarkdownContent"
+    },
+    "pbGetMarkdownContentResponse": {
+      "type": "object",
+      "properties": {
+        "markdown": {
+          "$ref": "#/definitions/pbMarkdown"
+        },
+        "prev": {
+          "type": "string"
+        },
+        "next": {
+          "type": "string"
+        },
+        "footers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbFooterSocial"
+          }
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "themeColor": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGetMarkdownImageRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "filePath": {
+          "type": "string"
+        }
+      },
+      "title": "2.GetMarkdownImage"
+    },
+    "pbGetMarkdownImageResponse": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "pbMarkdown": {
+      "type": "object",
+      "properties": {
+        "markdownId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "relativePath": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "repoId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "mainContent": {
+          "type": "string"
+        },
+        "tableContent": {
+          "type": "string"
+        },
+        "md5": {
+          "type": "string"
+        },
+        "versionKey": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        }
+      }
+    },
+    "pbQueryMarkdownRequest": {
+      "type": "object",
+      "properties": {
+        "plainToTsquery": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "4.QueryMarkdown"
+    },
+    "pbQueryMarkdownResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbMarkdown"
+          }
+        }
+      }
+    },
+    "pbQueryRepoMarkdownRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "plainToTsquery": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "3.QueryRepoMarkdown"
+    },
+    "pbQueryRepoMarkdownResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbMarkdown"
+          }
+        }
+      }
+    },
+    "pbQueryUserMarkdownRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "plainToTsquery": {
+          "type": "string"
+        },
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "4.QueryUserMarkdown"
+    },
+    "pbQueryUserMarkdownResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbMarkdown"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

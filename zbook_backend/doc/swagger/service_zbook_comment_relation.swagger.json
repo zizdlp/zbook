@@ -1,0 +1,217 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookCommentRelation"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/create_comment_relation": {
+      "post": {
+        "summary": "create like on comment",
+        "description": "Use this api to create like on comment",
+        "operationId": "ZBookCommentRelation_CreateCommentRelation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateCommentRelationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateCommentRelationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookCommentRelation"
+        ]
+      }
+    },
+    "/v1/create_comment_report": {
+      "post": {
+        "summary": "create report on comment",
+        "description": "Use this api to create report on comment",
+        "operationId": "ZBookCommentRelation_CreateCommentReport",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateCommentReportResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateCommentReportRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookCommentRelation"
+        ]
+      }
+    },
+    "/v1/delete_comment_relation": {
+      "post": {
+        "summary": "delete like on comment",
+        "description": "Use this api to delete like on comment",
+        "operationId": "ZBookCommentRelation_DeleteCommentRelation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDeleteCommentRelationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDeleteCommentRelationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookCommentRelation"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCreateCommentRelationRequest": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "relationType": {
+          "type": "string"
+        }
+      },
+      "title": "1.CreateCommentRelation"
+    },
+    "pbCreateCommentRelationResponse": {
+      "type": "object",
+      "properties": {
+        "likeId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbCreateCommentReportRequest": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "reportContent": {
+          "type": "string"
+        }
+      },
+      "title": "3.DeleteCommentRelation"
+    },
+    "pbCreateCommentReportResponse": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbDeleteCommentRelationRequest": {
+      "type": "object",
+      "properties": {
+        "commentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "relationType": {
+          "type": "string"
+        }
+      },
+      "title": "2.CreateCommentReport"
+    },
+    "pbDeleteCommentRelationResponse": {
+      "type": "object"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

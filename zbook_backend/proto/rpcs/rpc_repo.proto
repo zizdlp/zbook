@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+package pb;
+import "models/repo.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.CreateRepo
+message CreateRepoRequest {
+  string repo_name        = 1;
+  string repo_description = 2;
+  string git_addr         = 3;
+  string git_access_token = 4;
+  string sync_token       = 5;
+  string visibility_level = 6;
+  string home_page        = 7;
+  string theme_sidebar    = 9;
+  string theme_color      = 10;
+}
+message CreateRepoResponse {}
+
+// 2.GetRepoConfig
+message GetRepoConfigRequest {
+  string username  = 1;
+  string repo_name = 2;
+}
+message GetRepoConfigResponse {
+  string username         = 1;
+  string config           = 2;
+  string visibility_level = 3;
+  string theme_sidebar    = 4;
+  string theme_color      = 5;
+}
+
+// 3.DeleteRepo
+message DeleteRepoRequest {
+  string username  = 1;
+  string repo_name = 2;
+}
+message DeleteRepoResponse {}
+
+// 4.ManualSyncRepo
+message ManualSyncRepoRequest {
+  string username  = 1;
+  string repo_name = 2;
+}
+message ManualSyncRepoResponse {}
+
+// 5.AutoSyncRepo
+message AutoSyncRepoRequest {
+  string username   = 1;
+  string repo_name  = 2;
+  string sync_token = 3;
+}
+message AutoSyncRepoResponse {}
+
+// 6.UpdateRepoInfo
+message UpdateRepoInfoRequest {
+  string username         = 1;
+  string old_repo_name    = 2;
+  string repo_name        = 3;
+  string git_access_token = 4;
+  string repo_description = 5;
+  string visibility_level = 6;
+  string sync_token       = 7;
+  string home_page        = 8;
+  string theme_sidebar    = 9;
+  string theme_color      = 10;
+}
+message UpdateRepoInfoResponse {}
+
+// 7.GetRepoBasicInfo
+message GetRepoBasicInfoRequest {
+  string username  = 1;
+  string repo_name = 2;
+}
+message GetRepoBasicInfoResponse {
+  string repo_name                     = 2;
+  string username                      = 3;
+  string email                         = 4;
+  bytes avatar                         = 5;
+  string repo_description              = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  string home_page                     = 8;
+}
+
+// 9.ListUserOwnRepo
+message ListUserOwnRepoRequest {
+  string username = 1;
+  int32 page_id   = 2;
+  int32 page_size = 3;
+  string query    = 4;
+}
+message ListUserOwnRepoResponse {
+  repeated ListRepoInfo elements = 1;
+}
+
+// 10.GetListUserOwnRepoCount
+message GetListUserOwnRepoCountRequest {
+  string username = 1;
+  string query    = 2;
+}
+message GetListUserOwnRepoCountResponse {
+  int64 count = 1;
+}
+
+// 11.ListUserLikeRepo
+message ListUserLikeRepoRequest {
+  string username = 1;
+  int32 page_id   = 2;
+  int32 page_size = 3;
+  string query    = 4;
+}
+message ListUserLikeRepoResponse {
+  repeated ListRepoInfo elements = 1;
+}
+
+// 12.GetListUserLikeRepoCount
+message GetListUserLikeRepoCountRequest {
+  string username = 1;
+  string query    = 2;
+}
+message GetListUserLikeRepoCountResponse {
+  int64 count = 1;
+}
+
+// 13.ListRepo
+message ListRepoRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+  string query    = 3;
+}
+message ListRepoResponse {
+  repeated ListRepoInfo elements = 1;
+}
+// 14.GetListRepoCount
+message GetListRepoCountRequest {
+  string query = 1;
+}
+message GetListRepoCountResponse {
+  int64 count = 1;
+}

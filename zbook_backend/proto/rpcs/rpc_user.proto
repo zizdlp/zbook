@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package pb;
+import "google/protobuf/timestamp.proto";
+import "models/user.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.CreateUser
+message CreateUserRequest {
+  string username = 1;
+  string password = 2;
+  string email    = 3;
+  string invitation_url=4;
+}
+message CreateUserResponse {}
+
+// 2.LoginUser
+message LoginUserRequest {
+  string email    = 1;
+  string password = 2;
+}
+
+message LoginUserResponse {
+  string username                                    = 1;
+  string role                                        = 2;
+  string access_token                                = 3;
+  string refresh_token                               = 4;
+  google.protobuf.Timestamp access_token_expires_at  = 5;
+  google.protobuf.Timestamp refresh_token_expires_at = 6;
+}
+
+// 3.UpdateUser
+message UpdateUserRequest {
+  string motto    = 1;
+  string password = 2;
+  bytes avatar    = 3;
+}
+message UpdateUserResponse {}
+
+// 4.UpdateUserOnBoarding
+message UpdateUserOnBoardingRequest {
+  bool onboarding = 1;
+}
+message UpdateUserOnBoardingResponse {
+  bool onboarding = 1;
+}
+
+// 5.QueryUser
+message QueryUserRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+  string query    = 3;
+}
+message QueryUserResponse {
+  repeated ListUserInfo elements = 1;
+}
+
+// 6.GetUserInfo
+message GetUserInfoRequest {
+  string username = 1;
+  bool user_count = 2;
+  bool user_basic = 3;
+  bool user_image = 4;
+}
+
+message GetUserInfoResponse {
+  UserCountInfo user_count_info = 1;
+  UserBasicInfo user_basic_info = 2;
+  UserImageInfo user_image_info = 3;
+}
+
+// 7.GetUserAvatar
+message GetUserAvatarRequest {
+  string username = 1;
+}
+
+message GetUserAvatarResponse {
+  bytes avatar = 1;
+}
+
+// 8.ListUser
+message ListUserRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+  string query    = 3;
+}
+
+message ListUserResponse {
+  repeated ListUserInfo elements = 1;
+}
+
+// 9.GetListUserCount
+message GetListUserCountRequest {
+  string query = 1;
+}
+
+message GetListUserCountResponse {
+  int64 count = 1;
+}
+
+// 10.GetQueryUserCount
+message GetQueryUserCountRequest {
+  string query = 1;
+}
+
+message GetQueryUserCountResponse {
+  int64 count = 1;
+}

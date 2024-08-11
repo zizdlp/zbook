@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_repo_relation.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { title: "image repo relation api";
+version: "0.1";
+contact: {
+name:
+  "zizdlp.com";
+url:
+  "https://github.com/zizdlp/zbook";
+email:
+  "zizdlp@gmail.com";
+};
+}
+;
+}
+;
+
+service ZBookRepoRelation {
+  // 1.CreateRepoRelation
+  rpc CreateRepoRelation(CreateRepoRelationRequest)
+      returns (CreateRepoRelationResponse) {
+    option (google.api.http) = {
+      post: "/v1/create_repo_relation",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to create like on repo";
+  summary:
+    "create like on repo";
+  };
+};
+// 2.DeleteRepoRelation
+rpc DeleteRepoRelation(DeleteRepoRelationRequest)
+    returns (DeleteRepoRelationResponse) {
+  option (google.api.http) = {
+    post: "/v1/delete_repo_relation",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to delete like on repo";
+summary:
+  "delete like on repo";
+};
+}
+;
+
+
+// 3.CreateRepoVisibility
+rpc CreateRepoVisibility(CreateRepoVisibilityRequest)
+    returns (CreateRepoVisibilityResponse) {
+  option (google.api.http) = {
+    post: "/v1/create_repo_visibility",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+
+// 4.DeleteRepoVisibility
+rpc DeleteRepoVisibility(DeleteRepoVisibilityRequest)
+    returns (DeleteRepoVisibilityResponse) {
+  option (google.api.http) = {
+    post: "/v1/delete_repo_visibility",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+
+// 5.ListRepoVisibility
+rpc ListRepoVisibility(ListRepoVisibilityRequest)
+    returns (ListRepoVisibilityResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_repo_visibility",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+
+// 6.GetRepoVisibilityCount
+rpc GetRepoVisibilityCount(GetRepoVisibilityCountRequest)
+    returns (GetRepoVisibilityCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_repo_visibility_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+}

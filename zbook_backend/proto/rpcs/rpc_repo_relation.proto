@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package pb;
+import "models/repo_relation.proto";
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.CreateRepoRelation
+message CreateRepoRelationRequest {
+  string username      = 1;
+  string repo_name     = 2;
+  string relation_type = 3;
+}
+message CreateRepoRelationResponse {
+  int64 like_id = 1;
+}
+
+// 2.DeleteRepoRelation
+message DeleteRepoRelationRequest {
+  string username      = 1;
+  string repo_name     = 2;
+  string relation_type = 3;
+}
+message DeleteRepoRelationResponse {}
+
+// 3.CreateRepoVisibility
+message CreateRepoVisibilityRequest {
+  string repo_username = 1;
+  string repo_name     = 2;
+  string username      = 3;
+}
+message CreateRepoVisibilityResponse {}
+
+// 4.DeleteRepoVisibility
+message DeleteRepoVisibilityRequest {
+  string repo_username = 1;
+  string repo_name     = 2;
+  string username      = 3;
+}
+message DeleteRepoVisibilityResponse {}
+
+// 5.ListRepoVisibility
+message ListRepoVisibilityRequest {
+  int32 page_id    = 1;
+  int32 page_size  = 2;
+  string username  = 3;
+  string repo_name = 4;
+  string query     = 5;
+}
+message ListRepoVisibilityResponse {
+  repeated ListUserRepoVisiblityInfo elements = 1;
+}
+
+// 6.GetRepoVisibilityCount
+message GetRepoVisibilityCountRequest {
+  string username  = 1;
+  string repo_name = 2;
+}
+message GetRepoVisibilityCountResponse {
+  int64 count = 1;
+}

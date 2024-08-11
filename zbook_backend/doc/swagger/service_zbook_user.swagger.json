@@ -1,0 +1,727 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "zbook api",
+    "version": "0.1",
+    "contact": {
+      "name": "zizdlp.com",
+      "url": "https://github.com/zizdlp/zbook",
+      "email": "zizdlp@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ZBookUser"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/create_user": {
+      "post": {
+        "summary": "create new user",
+        "description": "Use this api to  create new user",
+        "operationId": "ZBookUser_CreateUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbCreateUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbCreateUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/get_list_user_count": {
+      "post": {
+        "summary": "list all user",
+        "description": "Use this api to list all user",
+        "operationId": "ZBookUser_GetListUserCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetListUserCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetListUserCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/get_query_user_count": {
+      "post": {
+        "summary": "list all user",
+        "description": "Use this api to list all user",
+        "operationId": "ZBookUser_GetQueryUserCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetQueryUserCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetQueryUserCountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/get_user_avatar": {
+      "get": {
+        "summary": "Verify email",
+        "description": "Use this API to verify user's email address",
+        "operationId": "ZBookUser_GetUserAvatar",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetUserAvatarResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/get_user_info": {
+      "post": {
+        "summary": "get details of user",
+        "description": "Use this api to get details of user",
+        "operationId": "ZBookUser_GetUserInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetUserInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetUserInfoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/list_user": {
+      "post": {
+        "summary": "list all user",
+        "description": "Use this api to list all user",
+        "operationId": "ZBookUser_ListUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbListUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/login_user": {
+      "post": {
+        "summary": "login user",
+        "description": "Use this api to login  user",
+        "operationId": "ZBookUser_LoginUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbLoginUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbLoginUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/query_user": {
+      "post": {
+        "summary": "检索用户",
+        "description": "使用用户名关键词检索用户",
+        "operationId": "ZBookUser_QueryUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/update_user": {
+      "post": {
+        "summary": " update user",
+        "description": "Use this api to  update  user",
+        "operationId": "ZBookUser_UpdateUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    },
+    "/v1/update_user_onboarding": {
+      "post": {
+        "summary": " update user",
+        "description": "Use this api to  update  user",
+        "operationId": "ZBookUser_UpdateUserOnBoarding",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateUserOnBoardingResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateUserOnBoardingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookUser"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbCreateUserRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "invitationUrl": {
+          "type": "string"
+        }
+      },
+      "title": "1.CreateUser"
+    },
+    "pbCreateUserResponse": {
+      "type": "object"
+    },
+    "pbGetListUserCountRequest": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "9.GetListUserCount"
+    },
+    "pbGetListUserCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetQueryUserCountRequest": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "10.GetQueryUserCount"
+    },
+    "pbGetQueryUserCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbGetUserAvatarResponse": {
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "pbGetUserInfoRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "userCount": {
+          "type": "boolean"
+        },
+        "userBasic": {
+          "type": "boolean"
+        },
+        "userImage": {
+          "type": "boolean"
+        }
+      },
+      "title": "6.GetUserInfo"
+    },
+    "pbGetUserInfoResponse": {
+      "type": "object",
+      "properties": {
+        "userCountInfo": {
+          "$ref": "#/definitions/pbUserCountInfo"
+        },
+        "userBasicInfo": {
+          "$ref": "#/definitions/pbUserBasicInfo"
+        },
+        "userImageInfo": {
+          "$ref": "#/definitions/pbUserImageInfo"
+        }
+      }
+    },
+    "pbListUserInfo": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "blocked": {
+          "type": "boolean"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "onboarding": {
+          "type": "boolean"
+        },
+        "role": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbListUserRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "8.ListUser"
+    },
+    "pbListUserResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListUserInfo"
+          }
+        }
+      }
+    },
+    "pbLoginUserRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "2.LoginUser"
+    },
+    "pbLoginUserResponse": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "accessToken": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "refreshTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbQueryUserRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "5.QueryUser"
+    },
+    "pbQueryUserResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListUserInfo"
+          }
+        }
+      }
+    },
+    "pbUpdateUserOnBoardingRequest": {
+      "type": "object",
+      "properties": {
+        "onboarding": {
+          "type": "boolean"
+        }
+      },
+      "title": "4.UpdateUserOnBoarding"
+    },
+    "pbUpdateUserOnBoardingResponse": {
+      "type": "object",
+      "properties": {
+        "onboarding": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbUpdateUserRequest": {
+      "type": "object",
+      "properties": {
+        "motto": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "title": "3.UpdateUser"
+    },
+    "pbUpdateUserResponse": {
+      "type": "object"
+    },
+    "pbUserBasicInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "motto": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "onboarding": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbUserCountInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "countLikes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "countFollowing": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "countFollower": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "countRepos": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "following": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbUserImageInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "byte"
+        },
+        "updateImageInfoAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package pb;
+import "models/session.proto";
+import "models/comment_relation.proto";
+import "models/comment.proto";
+option go_package = "github.com/zizdlp/zbook/pb/rpcs";
+
+// 1.UpdateUserBlock
+message UpdateUserBlockRequest {
+  string username = 1;
+  bool blocked    = 2;
+}
+message UpdateUserBlockResponse {
+  bool blocked = 1;
+}
+
+// 2.DeleteUser
+message DeleteUserRequest {
+  string username = 1;
+}
+message DeleteUserResponse {}
+
+// 3.CreateSystemNotification
+message CreateSystemNotificationRequest {
+  string username     = 1;
+  string title        = 2;
+  string contents     = 3;
+  string redirect_url = 4;
+}
+message CreateSystemNotificationResponse {}
+
+// 4.UpdateCommentReportStatus
+message UpdateCommentReportStatusRequest {
+  int64 report_id = 1;
+  bool processed  = 2;
+}
+message UpdateCommentReportStatusResponse {}
+
+// 5.ListSession
+message ListSessionRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+  string query    = 3;
+}
+message ListSessionResponse {
+  repeated SessionInfo elements = 1;
+}
+
+// 6.GetListSessionCount
+message GetListSessionCountRequest {
+  string query = 1;
+}
+message GetListSessionCountResponse {
+  int64 count = 1;
+}
+
+// 7.ListComment
+message ListCommentRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+  string query    = 3;
+}
+message ListCommentResponse {
+  repeated ListAdminCommentInfo elements = 1;
+}
+
+// 8.GetListCommentCount
+message GetListCommentCountRequest {
+  string query = 1;
+}
+message GetListCommentCountResponse {
+  int64 count = 1;
+}
+
+// 9.ListCommentReport
+message ListCommentReportRequest {
+  int32 page_id   = 1;
+  int32 page_size = 2;
+  string query    = 3;
+}
+message ListCommentReportResponse {
+  repeated ListCommentReportInfo elements = 1;
+}
+
+// 10.GetListCommentReportCount
+message GetListCommentReportCountRequest {}
+message GetListCommentReportCountResponse {
+  int64 count = 1;
+}
+
+// 11.GetDailyVisitorCount
+message GetDailyVisitorCountRequest {
+  string time_zone = 1;
+  int32 ndays      = 2;
+}
+message GetDailyVisitorCountResponse {
+  repeated string dates = 1;
+  repeated int32 counts = 2;
+}
+
+// 12.GetDailyActiveUserCount
+message GetDailyActiveUserCountRequest {
+  string time_zone = 1;
+  int32 ndays      = 2;
+}
+message GetDailyActiveUserCountResponse {
+  repeated string dates = 1;
+  repeated int32 counts = 2;
+}
+// 13.GetDailyCreateUserCount
+message GetDailyCreateUserCountRequest {
+  string time_zone = 1;
+  int32 ndays      = 2;
+}
+message GetDailyCreateUserCountResponse {
+  repeated string dates = 1;
+  repeated int32 counts = 2;
+}
+
+// 14.LogVisitor
+message LogVisitorRequest {}
+
+message LogVisitorResponse {}
+
+message ParsedIPData {
+  string city = 1;
+  double lat  = 2;
+  double long = 3;
+}
+
+message Visitor {
+  string IP    = 1;
+  string Agent = 2;
+  int32 Count  = 3;
+  string city  = 4;
+  double lat   = 5;
+  double long  = 6;
+}
+
+// 16.GetDailyVisitors
+message GetDailyVisitorsRequest {
+  int32 ndays = 1;
+  string lang = 2;
+}
+
+message GetDailyVisitorsResponse {
+  repeated Visitor visitors = 1;
+}
+
+// 17.GetConfiguration
+message GetConfigurationRequest {
+  string config_name = 1;
+}
+
+message GetConfigurationResponse {
+  bool config_value = 1;
+}
+
+// 18.UpdateConfiguration
+message UpdateConfigurationRequest {
+  string config_name = 1;
+  bool config_value  = 2;
+}
+
+message UpdateConfigurationResponse {}
+
+// 19.SendInvitation
+message SendInvitationRequest {
+  string email = 1;
+}
+message SendInvitationResponse {
+  bool is_send = 1;
+}

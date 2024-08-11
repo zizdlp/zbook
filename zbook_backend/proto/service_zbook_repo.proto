@@ -1,0 +1,210 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "rpcs/rpc_repo.proto";
+
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: { title: "zbook api";
+version: "0.1";
+contact: {
+name:
+  "zizdlp.com";
+url:
+  "https://github.com/zizdlp/zbook";
+email:
+  "zizdlp@gmail.com";
+};
+}
+;
+}
+;
+service ZBookRepo {
+  // 1.CreateRepo
+  rpc CreateRepo(CreateRepoRequest) returns (CreateRepoResponse) {
+    option (google.api.http) = {
+      post: "/v1/create_repo",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to create repo";
+  summary:
+    "create repo";
+  };
+};
+
+// 2.GetRepoConfig
+rpc GetRepoConfig(GetRepoConfigRequest) returns (GetRepoConfigResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_repo_config",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  get repo config";
+summary:
+  "get repo config";
+};
+}
+;
+
+// 3.DeleteRepo
+rpc DeleteRepo(DeleteRepoRequest) returns (DeleteRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/delete_repo",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to delete repo";
+summary:
+  "delete repo";
+};
+}
+;
+
+// 4.ManualSyncRepo
+rpc ManualSyncRepo(ManualSyncRepoRequest) returns (ManualSyncRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/manual_sync_repo",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "手动与远端同步仓库";
+summary:
+  "手动与远端同步仓库";
+};
+}
+;
+
+// 5.AutoSyncRepo
+rpc AutoSyncRepo(AutoSyncRepoRequest) returns (AutoSyncRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/auto_sync_repo",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "自动远端同步仓库";
+summary:
+  "自动远端同步仓库";
+};
+}
+;
+
+// 6.UpdateRepoInfo
+rpc UpdateRepoInfo(UpdateRepoInfoRequest) returns (UpdateRepoInfoResponse) {
+  option (google.api.http) = {
+    post: "/v1/update_repo_info",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to update repo";
+summary:
+  "update repo";
+};
+}
+;
+
+// 7.GetRepoBasicInfo
+rpc GetRepoBasicInfo(GetRepoBasicInfoRequest)
+    returns (GetRepoBasicInfoResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_repo_basic_info",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get repo info";
+summary:
+  "get repo info";
+};
+}
+;
+
+// 9.ListUserOwnRepo
+rpc ListUserOwnRepo(ListUserOwnRepoRequest) returns (ListUserOwnRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_user_own_repo",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+
+// 10.GetListUserOwnRepoCount
+rpc GetListUserOwnRepoCount(GetListUserOwnRepoCountRequest)
+    returns (GetListUserOwnRepoCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_list_user_own_repo_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+
+// 11.ListUserLikeRepo
+rpc ListUserLikeRepo(ListUserLikeRepoRequest)
+    returns (ListUserLikeRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_user_like_repo",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户喜欢可见帖子的归属信息";
+summary:
+  "列出用户可见喜欢帖子归属信息";
+};
+}
+;
+
+// 12.GetListUserLikeRepoCount
+rpc GetListUserLikeRepoCount(GetListUserLikeRepoCountRequest)
+    returns (GetListUserLikeRepoCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_list_user_like_repo_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+
+// 13.ListRepo
+rpc ListRepo(ListRepoRequest) returns (ListRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_repo",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list_repo_private";
+summary:
+  "list_repo";
+};
+}
+;
+// 14.GetListRepoCount
+rpc GetListRepoCount(GetListRepoCountRequest)
+    returns (GetListRepoCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_list_repo_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list_repo_private";
+summary:
+  "get_repo_count";
+};
+}
+;
+}

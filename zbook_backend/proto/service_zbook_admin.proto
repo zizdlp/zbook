@@ -1,0 +1,280 @@
+// clang-format off
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+
+import "rpcs/rpc_admin.proto";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+option go_package = "github.com/zizdlp/zbook/pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: { title: "zbook api";
+    version: "0.1";
+    contact: {
+      name:
+        "zizdlp.com";
+      url:
+        "https://github.com/zizdlp/zbook";
+      email:
+        "zizdlp@gmail.com";
+    };
+  };
+};
+service ZBookAdmin {
+  // 1.UpdateUserBlock
+  rpc UpdateUserBlock(UpdateUserBlockRequest) returns (UpdateUserBlockResponse) {
+    option (google.api.http) = {
+      post: "/v1/update_user_block",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to  ban  user";
+      summary: "ban user";
+      };
+  };
+  // 2.DeleteUser
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/delete_user",
+      body: "*",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this api to  ban  user";
+      summary:  "ban user";
+      };
+  };
+
+// 3.CreateSystemNotification
+rpc CreateSystemNotification(CreateSystemNotificationRequest)
+    returns (CreateSystemNotificationResponse) {
+  option (google.api.http) = {
+    post: "/v1/create_system_notification",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to create system noti";
+summary:
+  "create system noti";
+};
+}
+;
+
+// 4.UpdateCommentReportStatus
+rpc UpdateCommentReportStatus(UpdateCommentReportStatusRequest)
+    returns (UpdateCommentReportStatusResponse) {
+  option (google.api.http) = {
+    post: "/v1/update_comment_report_status",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  ban  user";
+summary:
+  " list user";
+};
+}
+;
+
+// 5.ListSession
+rpc ListSession(ListSessionRequest)
+    returns (ListSessionResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_session",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to  list active session";
+summary:
+  "list active session";
+};
+}
+;
+
+// 6.GetListSessionCount
+rpc GetListSessionCount(GetListSessionCountRequest)
+    returns (GetListSessionCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_list_session_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to GetSessionCountRequest";
+summary:
+  "GetSessionCountRequest";
+};
+}
+;
+
+// 7.ListComment
+rpc ListComment(ListCommentRequest) returns (ListCommentResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_comment",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list_repo_report";
+summary:
+  "list_repo_report";
+};
+}
+;
+
+// 8.GetListCommentCount
+rpc GetListCommentCount(GetListCommentCountRequest)
+    returns (GetListCommentCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_list_comment_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to GetUserPrivateCountResponse";
+summary:
+  "GetUserPrivateCountResponse";
+};
+}
+;
+
+// 9.ListCommentReport
+rpc ListCommentReport(ListCommentReportRequest)
+    returns (ListCommentReportResponse) {
+  option (google.api.http) = {
+    post: "/v1/list_comment_report",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list_all_comment_report";
+summary:
+  "list_comment_report";
+};
+}
+;
+
+// 10.GetListCommentReportCount
+rpc GetListCommentReportCount(GetListCommentReportCountRequest)
+    returns (GetListCommentReportCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_list_comment_report_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to GetListCommentReportCountRequest";
+summary:
+  "GetListCommentReportCountRequest";
+};
+}
+;
+
+// 11.GetDailyVisitorCount
+rpc GetDailyVisitorCount(GetDailyVisitorCountRequest)
+    returns (GetDailyVisitorCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_daily_visitor_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get details of user";
+summary:
+  "get details of user";
+};
+}
+;
+
+// 12.GetDailyActiveUserCount
+rpc GetDailyActiveUserCount(GetDailyActiveUserCountRequest)
+    returns (GetDailyActiveUserCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_daily_active_user_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get details of user";
+summary:
+  "get details of user";
+};
+}
+;
+
+// 13.GetDailyCreateUserCount
+rpc GetDailyCreateUserCount(GetDailyCreateUserCountRequest)
+    returns (GetDailyCreateUserCountResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_daily_create_user_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get details of user";
+summary:
+  "get details of user";
+};
+}
+;
+// 14.LogVisitor
+rpc LogVisitor(LogVisitorRequest) returns (LogVisitorResponse) {
+  option (google.api.http) = {
+    post: "/v1/log_visitor",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get details of user";
+summary:
+  "get details of user";
+};
+}
+;
+
+// 16.GetDailyVisitors
+rpc GetDailyVisitors(GetDailyVisitorsRequest) returns (GetDailyVisitorsResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_daily_visitors",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to parse ip";
+summary:
+  "parse ip";
+};
+}
+;
+// 17.GetConfiguration
+rpc GetConfiguration(GetConfigurationRequest) returns (GetConfigurationResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_configuration",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to get configuration";
+summary:
+  "parse ip";
+};
+}
+;
+// 18.UpdateConfiguration
+rpc UpdateConfiguration(UpdateConfigurationRequest) returns (UpdateConfigurationResponse) {
+  option (google.api.http) = {
+    post: "/v1/update_configuration",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to parse ip";
+summary:
+  "parse ip";
+};
+}
+;
+
+// 19.SendInvitation
+rpc SendInvitation(SendInvitationRequest)
+    returns (SendInvitationResponse) {
+  option (google.api.http) = {
+    post: "/v1/create_invitation",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to send invitation";
+summary:
+  "send invitation";
+};
+}
+;
+}
