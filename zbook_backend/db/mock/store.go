@@ -655,6 +655,21 @@ func (mr *MockStoreMockRecorder) GetGeoInfo(arg0, arg1 interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGeoInfo", reflect.TypeOf((*MockStore)(nil).GetGeoInfo), arg0, arg1)
 }
 
+// GetGeoInfoBatch mocks base method.
+func (m *MockStore) GetGeoInfoBatch(arg0 context.Context, arg1 []netip.Addr) ([]db.Geoip, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetGeoInfoBatch", arg0, arg1)
+	ret0, _ := ret[0].([]db.Geoip)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetGeoInfoBatch indicates an expected call of GetGeoInfoBatch.
+func (mr *MockStoreMockRecorder) GetGeoInfoBatch(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGeoInfoBatch", reflect.TypeOf((*MockStore)(nil).GetGeoInfoBatch), arg0, arg1)
+}
+
 // GetInvitation mocks base method.
 func (m *MockStore) GetInvitation(arg0 context.Context, arg1 db.GetInvitationParams) (db.Invitation, error) {
 	m.ctrl.T.Helper()

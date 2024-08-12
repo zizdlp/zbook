@@ -76,7 +76,8 @@ type FollowerNotification struct {
 }
 
 type Geoip struct {
-	IpRangeCidr  netip.Prefix  `json:"ip_range_cidr"`
+	GeoipID      int64         `json:"geoip_id"`
+	IpRangeCidr  *netip.Prefix `json:"ip_range_cidr"`
 	CityNameEn   pgtype.Text   `json:"city_name_en"`
 	CityNameZhCn pgtype.Text   `json:"city_name_zh_cn"`
 	Latitude     pgtype.Float8 `json:"latitude"`

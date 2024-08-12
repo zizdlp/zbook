@@ -47,6 +47,7 @@ type Querier interface {
 	GetDailyActiveUserCount(ctx context.Context, arg GetDailyActiveUserCountParams) ([]GetDailyActiveUserCountRow, error)
 	GetDailyCreateUserCount(ctx context.Context, arg GetDailyCreateUserCountParams) ([]GetDailyCreateUserCountRow, error)
 	GetGeoInfo(ctx context.Context, dollar_1 netip.Addr) (Geoip, error)
+	GetGeoInfoBatch(ctx context.Context, dollar_1 []netip.Addr) ([]Geoip, error)
 	GetInvitation(ctx context.Context, arg GetInvitationParams) (Invitation, error)
 	GetListCommentCount(ctx context.Context) (int64, error)
 	GetListCommentLevelOneCount(ctx context.Context, markdownID int64) (int64, error)
