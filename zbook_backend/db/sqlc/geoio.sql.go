@@ -11,7 +11,7 @@ import (
 )
 
 const getGeoInfo = `-- name: GetGeoInfo :one
-SELECT  ip_range_cidr, city_name_en, city_name_zh_cn, latitude, longitude
+SELECT  geoip_id, ip_range_cidr, city_name_en, city_name_zh_cn, latitude, longitude
 FROM
     geoip
 WHERE
@@ -22,6 +22,7 @@ func (q *Queries) GetGeoInfo(ctx context.Context, dollar_1 netip.Addr) (Geoip, e
 	row := q.db.QueryRow(ctx, getGeoInfo, dollar_1)
 	var i Geoip
 	err := row.Scan(
+		&i.GeoipID,
 		&i.IpRangeCidr,
 		&i.CityNameEn,
 		&i.CityNameZhCn,
@@ -29,4 +30,37 @@ func (q *Queries) GetGeoInfo(ctx context.Context, dollar_1 netip.Addr) (Geoip, e
 		&i.Longitude,
 	)
 	return i, err
+}
+
+const getGeoInfoBatch = `-- name: GetGeoInfoBatch :many
+SELECT geoip_id, ip_range_cidr, city_name_en, city_name_zh_cn, latitude, longitude
+FROM geoip
+WHERE ip_range_cidr && ANY($1::inet[])
+`
+
+func (q *Queries) GetGeoInfoBatch(ctx context.Context, dollar_1 []netip.Addr) ([]Geoip, error) {
+	rows, err := q.db.Query(ctx, getGeoInfoBatch, dollar_1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Geoip{}
+	for rows.Next() {
+		var i Geoip
+		if err := rows.Scan(
+			&i.GeoipID,
+			&i.IpRangeCidr,
+			&i.CityNameEn,
+			&i.CityNameZhCn,
+			&i.Latitude,
+			&i.Longitude,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
