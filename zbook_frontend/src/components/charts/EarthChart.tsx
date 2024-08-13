@@ -17,21 +17,25 @@ export default function EarthChart({
   lakeData,
   riverData,
   markers,
-  isSmall,
 }: {
   landData: FeatureCollection<Geometry, GeoJsonProperties>;
   lakeData: FeatureCollection<Geometry, GeoJsonProperties>;
   riverData: FeatureCollection<Geometry, GeoJsonProperties>;
   markers: Marker[];
-  isSmall: boolean;
 }) {
   markers = markers || [];
   const svgRef = useRef<SVGSVGElement>(null);
+
   useEffect(() => {
     const svg = d3.select(svgRef.current);
-    const width = +svg.attr("width")!;
-    const height = +svg.attr("height")!;
-
+    const container = svg.node()?.parentElement;
+    if (!container) return;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    svg.attr("width", width).attr("height", width);
+    // const width = +svg.attr("width")!;
+    // const height = +svg.attr("height")!;
+    console.log("width:", width, height);
     const tooltip = d3
       .select("body")
       .append("div")
@@ -47,8 +51,8 @@ export default function EarthChart({
 
     const projection: GeoProjection = d3
       .geoOrthographic()
-      .center([0, 0])
-      .scale(isSmall ? 150 : 300)
+      .center([0, height > 600 ? -15 : -30])
+      .scale(height > 600 ? 300 : 120)
       .clipAngle(90)
       .translate([width / 2, height / 2])
       .rotate([0, 0]);
@@ -169,11 +173,5 @@ export default function EarthChart({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
-    <svg
-      ref={svgRef}
-      width={`${isSmall ? "330" : "660"}`}
-      height={`${isSmall ? "330" : "660"}`}
-    ></svg>
-  );
+  return <svg className="md:h-[655px] h-[330px]" ref={svgRef}></svg>;
 }

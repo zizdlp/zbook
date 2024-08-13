@@ -46,6 +46,21 @@ export default async function AdminOverviewPage({
       throw new FetchError(data.message, data.status);
     }
 
+    const landFile = await fs.readFile(
+      process.cwd() + "/public/ne_110m_land.geojson",
+      "utf8"
+    );
+    const lakeFile = await fs.readFile(
+      process.cwd() + "/public/ne_110m_lakes.geojson",
+      "utf8"
+    );
+    const riverFile = await fs.readFile(
+      process.cwd() + "/public/ne_110m_rivers_lake_centerlines.geojson",
+      "utf8"
+    );
+    const landData = JSON.parse(landFile);
+    const lakeData = JSON.parse(lakeFile);
+    const riverData = JSON.parse(riverFile);
     const { visitors, agent_count } = data;
     // 提取前5个IP和对应的count
     let ips: string[] = [];
@@ -63,21 +78,7 @@ export default async function AdminOverviewPage({
       counts = [];
       cities = [];
     }
-    const landFile = await fs.readFile(
-      process.cwd() + "/public/ne_110m_land.geojson",
-      "utf8"
-    );
-    const lakeFile = await fs.readFile(
-      process.cwd() + "/public/ne_110m_lakes.geojson",
-      "utf8"
-    );
-    const riverFile = await fs.readFile(
-      process.cwd() + "/public/ne_110m_rivers_lake_centerlines.geojson",
-      "utf8"
-    );
-    const landData = JSON.parse(landFile);
-    const lakeData = JSON.parse(lakeFile);
-    const riverData = JSON.parse(riverFile);
+
     return (
       <>
         <div className="xl:col-span-2 md:col-span-2 col-span-1 md:row-span-2">
@@ -95,26 +96,13 @@ export default async function AdminOverviewPage({
               </div>
               <NDay oldNdays={ndays} />
             </div>
-            <div className="md:hidden block">
-              <EarthChart
-                key={ndays}
-                landData={landData}
-                lakeData={lakeData}
-                riverData={riverData}
-                markers={visitors}
-                isSmall={true}
-              />
-            </div>
-            <div className="hidden md:block">
-              <EarthChart
-                key={ndays}
-                landData={landData}
-                lakeData={lakeData}
-                riverData={riverData}
-                markers={visitors}
-                isSmall={false}
-              />
-            </div>
+            <EarthChart
+              key={ndays}
+              landData={landData}
+              lakeData={lakeData}
+              riverData={riverData}
+              markers={visitors}
+            />
           </div>
         </div>
         <div className="col-span-1">

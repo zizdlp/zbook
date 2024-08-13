@@ -71,7 +71,6 @@ export default function DonuChart({
     agentCounts.bot ?? 0,
     agentCounts.unknown ?? 0,
   ];
-  console.log("series:", series);
   return (
     <div className="w-full h-[400px]  bg-gray-50 dark:bg-slate-800/50 dark:shadow-lg rounded-md p-4 md:p-6  border-[0.01rem] border-slate-300 dark:border-0">
       <div className="flex justify-between items-start w-full">

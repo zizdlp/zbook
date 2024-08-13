@@ -1,26 +1,47 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from "next-themes";
 import { getAreaChartOptions } from "@/utils/const_value";
+import { useEffect, useState } from "react";
+import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
+import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 
-export default function AreaChart({
-  dates,
-  counts,
+export default function AreaVisitorChart({
   title,
   label,
 }: {
-  dates: string[];
-  counts: number[];
   title: string;
   label: string;
 }) {
   const { theme } = useTheme();
-  const t = useTranslations("AdminOverView");
+  const [counts, setCounts] = useState<number[]>([]);
+  const [dates, setDates] = useState<string[]>([]);
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  counts = counts || [];
-  dates = dates || [];
+  useEffect(() => {
+    fetchServerWithAuthWrapper({
+      endpoint: FetchServerWithAuthWrapperEndPoint.DAILY_VISITOR_COUNT,
+      xforward: "",
+      agent: "",
+      tags: [],
+      values: { ndays: 31, time_zone: timezone },
+    }).then((data) => {
+      setCounts(data.counts);
+      // 生成与 counts 等长的日期序列
+      const today = new Date();
+      const generatedDates = Array.from(
+        { length: data.counts.length },
+        (_, i) => {
+          const date = new Date();
+          date.setDate(today.getDate() - i);
+          return date.toISOString().split("T")[0]; // 获取 YYYY-MM-DD 格式的日期
+        }
+      ).reverse();
+      setDates(generatedDates);
+    });
+  }, []);
+
   const totalCount = counts.reduce((sum, count) => sum + count, 0);
   let options = getAreaChartOptions(theme, dates);
   let series = [
@@ -39,7 +60,7 @@ export default function AreaChart({
               {totalCount}
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-              {t("DailyVisitors")}
+              {title}
             </p>
           </div>
         </div>
