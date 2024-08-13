@@ -5,27 +5,63 @@ const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from "next-themes";
 import EnableElement from "./EnableElement";
 import { getAreaChartOptions } from "@/utils/const_value";
+import { useEffect, useState } from "react";
+import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
+import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 
 interface WebTrafficProps {
-  newUserCounts: number[];
-  activeUserCounts: number[];
   allow_login: boolean;
   allow_registration: boolean;
   allow_invitation: boolean;
-  dates: string[];
 }
 
 export default function AreaUserChart({
-  newUserCounts,
-  dates,
-  activeUserCounts,
   allow_login,
   allow_registration,
   allow_invitation,
 }: WebTrafficProps) {
   const { theme } = useTheme();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log("client timezone:", timezone);
+  const [newUserCounts, setNewUserCounts] = useState<number[]>([]);
+  const [activeUserCounts, setActiveUserCounts] = useState<number[]>([]);
+  const [dates, setDates] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchServerWithAuthWrapper({
+      endpoint: FetchServerWithAuthWrapperEndPoint.DAILY_CREATE_USER_COUNT,
+      xforward: "",
+      agent: "",
+      tags: [],
+      values: {
+        time_zone: timezone,
+        ndays: 7,
+      },
+    }).then((data) => {
+      setNewUserCounts(data.counts);
+
+      const today = new Date();
+      const generatedDates = Array.from(
+        { length: data.counts.length },
+        (_, i) => {
+          const date = new Date();
+          date.setDate(today.getDate() - i);
+          return date.toISOString().split("T")[0]; // 获取 YYYY-MM-DD 格式的日期
+        }
+      ).reverse();
+      setDates(generatedDates);
+    });
+
+    fetchServerWithAuthWrapper({
+      endpoint: FetchServerWithAuthWrapperEndPoint.DAILY_ACTIVE_USER_COUNT,
+      xforward: "",
+      agent: "",
+      tags: [],
+      values: { time_zone: timezone, ndays: 7 },
+    }).then((data) => {
+      setActiveUserCounts(data.counts);
+    });
+  }, []);
+
   const t = useTranslations("AdminOverView");
 
   let options = getAreaChartOptions(theme, dates);
