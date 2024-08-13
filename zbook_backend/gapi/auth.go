@@ -147,14 +147,8 @@ type DailyUniqueKeysCount struct {
 	Count int32
 }
 
-type VisitorData struct {
-	IP    string
-	Agent string
-	Count int
-}
-
 // 定义排序函数，按照 Count 降序排序
-type ByCountDesc []*VisitorData
+type ByCountDesc []*util.VisitorData
 
 func (a ByCountDesc) Len() int {
 	return len(a)
@@ -166,9 +160,9 @@ func (a ByCountDesc) Less(i, j int) bool {
 	return a[i].Count > a[j].Count // 降序排序
 }
 
-func (server *Server) GetDailyVisitorsForLastNDays(ndays int32) ([]*VisitorData, error) {
+func (server *Server) GetDailyVisitorsForLastNDays(ndays int32) ([]*util.VisitorData, error) {
 	// 定义用于存储符合条件的访客数据的切片
-	var visitors []*VisitorData
+	var visitors []*util.VisitorData
 	location, err := time.LoadLocation(server.config.TIMEZONE)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load location:%v", err)
@@ -202,7 +196,7 @@ func (server *Server) GetDailyVisitorsForLastNDays(ndays int32) ([]*VisitorData,
 			// 获取 IP 地址部分
 			ipParts := strings.Split(parts[1], ",")[0]
 			// 构建 VisitorData 结构体并添加到切片中
-			visitors = append(visitors, &VisitorData{
+			visitors = append(visitors, &util.VisitorData{
 				IP:    ipParts,
 				Agent: parts[len(parts)-2],
 				Count: count,

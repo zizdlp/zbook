@@ -6,17 +6,34 @@ import { useTheme } from "next-themes";
 interface WebTrafficProps {
   ips: string[];
   counts: number[];
+  cities: string[];
   title: string;
   label: string;
+}
+
+// 定义函数，根据条件生成结果数组
+function getResults(ipArray: string[], cityArray: string[]): string[] {
+  const ret: string[] = [];
+  const length = Math.max(ipArray.length, cityArray.length);
+
+  for (let i = 0; i < length; i++) {
+    const ipValue = ipArray[i];
+    const cityValue = cityArray[i];
+
+    // 使用条件运算符选择 ip 或 city
+    ret.push(cityValue ? cityValue + " " + ipValue : ipValue);
+  }
+
+  return ret;
 }
 export default function BarChart({
   ips,
   counts,
+  cities,
   title,
   label,
 }: WebTrafficProps) {
   const { theme } = useTheme();
-
   var options = {
     chart: {
       type: "bar" as "bar",
@@ -65,7 +82,7 @@ export default function BarChart({
       width: 2,
     },
     xaxis: {
-      categories: ips,
+      categories: getResults(ips, cities),
       labels: {
         style: {
           colors: theme === "dark" ? "#CBD5E1" : "#334155",

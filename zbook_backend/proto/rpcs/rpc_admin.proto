@@ -130,14 +130,19 @@ message ParsedIPData {
 }
 
 message Visitor {
-  string IP    = 1;
-  string Agent = 2;
-  int32 Count  = 3;
-  string city  = 4;
-  double lat   = 5;
-  double long  = 6;
+  string ip    = 1;
+  string city  = 2;
+  double lat   = 3;
+  double long  = 4;
+  int32 count=5;
 }
-
+message AgentCount {
+  int32 bot=1;
+	int32 computer=2;
+	int32 phone=3;
+	int32 tablet=4;
+	int32 unknown=5;
+}
 // 16.GetDailyVisitors
 message GetDailyVisitorsRequest {
   int32 ndays = 1;
@@ -146,6 +151,7 @@ message GetDailyVisitorsRequest {
 
 message GetDailyVisitorsResponse {
   repeated Visitor visitors = 1;
+  AgentCount agent_count=2;
 }
 
 // 17.GetConfiguration

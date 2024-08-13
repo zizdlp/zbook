@@ -1501,12 +1501,11 @@ type Visitor struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IP    string  `protobuf:"bytes,1,opt,name=IP,proto3" json:"IP,omitempty"`
-	Agent string  `protobuf:"bytes,2,opt,name=Agent,proto3" json:"Agent,omitempty"`
-	Count int32   `protobuf:"varint,3,opt,name=Count,proto3" json:"Count,omitempty"`
-	City  string  `protobuf:"bytes,4,opt,name=city,proto3" json:"city,omitempty"`
-	Lat   float64 `protobuf:"fixed64,5,opt,name=lat,proto3" json:"lat,omitempty"`
-	Long  float64 `protobuf:"fixed64,6,opt,name=long,proto3" json:"long,omitempty"`
+	Ip    string  `protobuf:"bytes,1,opt,name=ip,proto3" json:"ip,omitempty"`
+	City  string  `protobuf:"bytes,2,opt,name=city,proto3" json:"city,omitempty"`
+	Lat   float64 `protobuf:"fixed64,3,opt,name=lat,proto3" json:"lat,omitempty"`
+	Long  float64 `protobuf:"fixed64,4,opt,name=long,proto3" json:"long,omitempty"`
+	Count int32   `protobuf:"varint,5,opt,name=count,proto3" json:"count,omitempty"`
 }
 
 func (x *Visitor) Reset() {
@@ -1541,25 +1540,11 @@ func (*Visitor) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{29}
 }
 
-func (x *Visitor) GetIP() string {
+func (x *Visitor) GetIp() string {
 	if x != nil {
-		return x.IP
+		return x.Ip
 	}
 	return ""
-}
-
-func (x *Visitor) GetAgent() string {
-	if x != nil {
-		return x.Agent
-	}
-	return ""
-}
-
-func (x *Visitor) GetCount() int32 {
-	if x != nil {
-		return x.Count
-	}
-	return 0
 }
 
 func (x *Visitor) GetCity() string {
@@ -1583,6 +1568,92 @@ func (x *Visitor) GetLong() float64 {
 	return 0
 }
 
+func (x *Visitor) GetCount() int32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
+type AgentCount struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Bot      int32 `protobuf:"varint,1,opt,name=bot,proto3" json:"bot,omitempty"`
+	Computer int32 `protobuf:"varint,2,opt,name=computer,proto3" json:"computer,omitempty"`
+	Phone    int32 `protobuf:"varint,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	Tablet   int32 `protobuf:"varint,4,opt,name=tablet,proto3" json:"tablet,omitempty"`
+	Unknown  int32 `protobuf:"varint,5,opt,name=unknown,proto3" json:"unknown,omitempty"`
+}
+
+func (x *AgentCount) Reset() {
+	*x = AgentCount{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AgentCount) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AgentCount) ProtoMessage() {}
+
+func (x *AgentCount) ProtoReflect() protoreflect.Message {
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AgentCount.ProtoReflect.Descriptor instead.
+func (*AgentCount) Descriptor() ([]byte, []int) {
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *AgentCount) GetBot() int32 {
+	if x != nil {
+		return x.Bot
+	}
+	return 0
+}
+
+func (x *AgentCount) GetComputer() int32 {
+	if x != nil {
+		return x.Computer
+	}
+	return 0
+}
+
+func (x *AgentCount) GetPhone() int32 {
+	if x != nil {
+		return x.Phone
+	}
+	return 0
+}
+
+func (x *AgentCount) GetTablet() int32 {
+	if x != nil {
+		return x.Tablet
+	}
+	return 0
+}
+
+func (x *AgentCount) GetUnknown() int32 {
+	if x != nil {
+		return x.Unknown
+	}
+	return 0
+}
+
 // 16.GetDailyVisitors
 type GetDailyVisitorsRequest struct {
 	state         protoimpl.MessageState
@@ -1596,7 +1667,7 @@ type GetDailyVisitorsRequest struct {
 func (x *GetDailyVisitorsRequest) Reset() {
 	*x = GetDailyVisitorsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[30]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1609,7 +1680,7 @@ func (x *GetDailyVisitorsRequest) String() string {
 func (*GetDailyVisitorsRequest) ProtoMessage() {}
 
 func (x *GetDailyVisitorsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[30]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1622,7 +1693,7 @@ func (x *GetDailyVisitorsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDailyVisitorsRequest.ProtoReflect.Descriptor instead.
 func (*GetDailyVisitorsRequest) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{30}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *GetDailyVisitorsRequest) GetNdays() int32 {
@@ -1644,13 +1715,14 @@ type GetDailyVisitorsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Visitors []*Visitor `protobuf:"bytes,1,rep,name=visitors,proto3" json:"visitors,omitempty"`
+	Visitors   []*Visitor  `protobuf:"bytes,1,rep,name=visitors,proto3" json:"visitors,omitempty"`
+	AgentCount *AgentCount `protobuf:"bytes,2,opt,name=agent_count,json=agentCount,proto3" json:"agent_count,omitempty"`
 }
 
 func (x *GetDailyVisitorsResponse) Reset() {
 	*x = GetDailyVisitorsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[31]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1663,7 +1735,7 @@ func (x *GetDailyVisitorsResponse) String() string {
 func (*GetDailyVisitorsResponse) ProtoMessage() {}
 
 func (x *GetDailyVisitorsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[31]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1676,12 +1748,19 @@ func (x *GetDailyVisitorsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDailyVisitorsResponse.ProtoReflect.Descriptor instead.
 func (*GetDailyVisitorsResponse) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{31}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *GetDailyVisitorsResponse) GetVisitors() []*Visitor {
 	if x != nil {
 		return x.Visitors
+	}
+	return nil
+}
+
+func (x *GetDailyVisitorsResponse) GetAgentCount() *AgentCount {
+	if x != nil {
+		return x.AgentCount
 	}
 	return nil
 }
@@ -1698,7 +1777,7 @@ type GetConfigurationRequest struct {
 func (x *GetConfigurationRequest) Reset() {
 	*x = GetConfigurationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[32]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1711,7 +1790,7 @@ func (x *GetConfigurationRequest) String() string {
 func (*GetConfigurationRequest) ProtoMessage() {}
 
 func (x *GetConfigurationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[32]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1724,7 +1803,7 @@ func (x *GetConfigurationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetConfigurationRequest.ProtoReflect.Descriptor instead.
 func (*GetConfigurationRequest) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{32}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *GetConfigurationRequest) GetConfigName() string {
@@ -1745,7 +1824,7 @@ type GetConfigurationResponse struct {
 func (x *GetConfigurationResponse) Reset() {
 	*x = GetConfigurationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[33]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[34]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1758,7 +1837,7 @@ func (x *GetConfigurationResponse) String() string {
 func (*GetConfigurationResponse) ProtoMessage() {}
 
 func (x *GetConfigurationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[33]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[34]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1771,7 +1850,7 @@ func (x *GetConfigurationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetConfigurationResponse.ProtoReflect.Descriptor instead.
 func (*GetConfigurationResponse) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{33}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *GetConfigurationResponse) GetConfigValue() bool {
@@ -1794,7 +1873,7 @@ type UpdateConfigurationRequest struct {
 func (x *UpdateConfigurationRequest) Reset() {
 	*x = UpdateConfigurationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[34]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[35]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1807,7 +1886,7 @@ func (x *UpdateConfigurationRequest) String() string {
 func (*UpdateConfigurationRequest) ProtoMessage() {}
 
 func (x *UpdateConfigurationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[34]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[35]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1820,7 +1899,7 @@ func (x *UpdateConfigurationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateConfigurationRequest.ProtoReflect.Descriptor instead.
 func (*UpdateConfigurationRequest) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{34}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *UpdateConfigurationRequest) GetConfigName() string {
@@ -1846,7 +1925,7 @@ type UpdateConfigurationResponse struct {
 func (x *UpdateConfigurationResponse) Reset() {
 	*x = UpdateConfigurationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[35]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[36]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1859,7 +1938,7 @@ func (x *UpdateConfigurationResponse) String() string {
 func (*UpdateConfigurationResponse) ProtoMessage() {}
 
 func (x *UpdateConfigurationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[35]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[36]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1872,7 +1951,7 @@ func (x *UpdateConfigurationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateConfigurationResponse.ProtoReflect.Descriptor instead.
 func (*UpdateConfigurationResponse) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{35}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{36}
 }
 
 // 19.SendInvitation
@@ -1887,7 +1966,7 @@ type SendInvitationRequest struct {
 func (x *SendInvitationRequest) Reset() {
 	*x = SendInvitationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[36]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[37]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1900,7 +1979,7 @@ func (x *SendInvitationRequest) String() string {
 func (*SendInvitationRequest) ProtoMessage() {}
 
 func (x *SendInvitationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[36]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[37]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1913,7 +1992,7 @@ func (x *SendInvitationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendInvitationRequest.ProtoReflect.Descriptor instead.
 func (*SendInvitationRequest) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{36}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *SendInvitationRequest) GetEmail() string {
@@ -1934,7 +2013,7 @@ type SendInvitationResponse struct {
 func (x *SendInvitationResponse) Reset() {
 	*x = SendInvitationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rpcs_rpc_admin_proto_msgTypes[37]
+		mi := &file_rpcs_rpc_admin_proto_msgTypes[38]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1947,7 +2026,7 @@ func (x *SendInvitationResponse) String() string {
 func (*SendInvitationResponse) ProtoMessage() {}
 
 func (x *SendInvitationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rpcs_rpc_admin_proto_msgTypes[37]
+	mi := &file_rpcs_rpc_admin_proto_msgTypes[38]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1960,7 +2039,7 @@ func (x *SendInvitationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendInvitationResponse.ProtoReflect.Descriptor instead.
 func (*SendInvitationResponse) Descriptor() ([]byte, []int) {
-	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{37}
+	return file_rpcs_rpc_admin_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *SendInvitationResponse) GetIsSend() bool {
@@ -2102,23 +2181,33 @@ var file_rpcs_rpc_admin_proto_rawDesc = []byte{
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x69, 0x74, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6c,
 	0x61, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x03, 0x6c, 0x61, 0x74, 0x12, 0x12, 0x0a,
 	0x04, 0x6c, 0x6f, 0x6e, 0x67, 0x18, 0x03, 0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x6c, 0x6f, 0x6e,
-	0x67, 0x22, 0x7f, 0x0a, 0x07, 0x56, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x12, 0x0e, 0x0a, 0x02,
-	0x49, 0x50, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x50, 0x12, 0x14, 0x0a, 0x05,
-	0x41, 0x67, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x41, 0x67, 0x65,
-	0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x05, 0x52, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x69, 0x74, 0x79,
-	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x69, 0x74, 0x79, 0x12, 0x10, 0x0a, 0x03,
-	0x6c, 0x61, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x01, 0x52, 0x03, 0x6c, 0x61, 0x74, 0x12, 0x12,
-	0x0a, 0x04, 0x6c, 0x6f, 0x6e, 0x67, 0x18, 0x06, 0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x6c, 0x6f,
-	0x6e, 0x67, 0x22, 0x43, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x44, 0x61, 0x69, 0x6c, 0x79, 0x56, 0x69,
-	0x73, 0x69, 0x74, 0x6f, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a,
-	0x05, 0x6e, 0x64, 0x61, 0x79, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x6e, 0x64,
-	0x61, 0x79, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x22, 0x43, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x44, 0x61,
-	0x69, 0x6c, 0x79, 0x56, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x27, 0x0a, 0x08, 0x76, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x73, 0x18,
-	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x70, 0x62, 0x2e, 0x56, 0x69, 0x73, 0x69, 0x74,
-	0x6f, 0x72, 0x52, 0x08, 0x76, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x73, 0x22, 0x3a, 0x0a, 0x17,
+	0x67, 0x22, 0x69, 0x0a, 0x07, 0x56, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x70, 0x12, 0x12, 0x0a, 0x04,
+	0x63, 0x69, 0x74, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x69, 0x74, 0x79,
+	0x12, 0x10, 0x0a, 0x03, 0x6c, 0x61, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x01, 0x52, 0x03, 0x6c,
+	0x61, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x6f, 0x6e, 0x67, 0x18, 0x04, 0x20, 0x01, 0x28, 0x01,
+	0x52, 0x04, 0x6c, 0x6f, 0x6e, 0x67, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x82, 0x01, 0x0a,
+	0x0a, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x62,
+	0x6f, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x03, 0x62, 0x6f, 0x74, 0x12, 0x1a, 0x0a,
+	0x08, 0x63, 0x6f, 0x6d, 0x70, 0x75, 0x74, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x08, 0x63, 0x6f, 0x6d, 0x70, 0x75, 0x74, 0x65, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x68, 0x6f,
+	0x6e, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x12,
+	0x16, 0x0a, 0x06, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x06, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x75, 0x6e, 0x6b, 0x6e, 0x6f,
+	0x77, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x75, 0x6e, 0x6b, 0x6e, 0x6f, 0x77,
+	0x6e, 0x22, 0x43, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x44, 0x61, 0x69, 0x6c, 0x79, 0x56, 0x69, 0x73,
+	0x69, 0x74, 0x6f, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05,
+	0x6e, 0x64, 0x61, 0x79, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x6e, 0x64, 0x61,
+	0x79, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x22, 0x74, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x44, 0x61, 0x69,
+	0x6c, 0x79, 0x56, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x27, 0x0a, 0x08, 0x76, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x70, 0x62, 0x2e, 0x56, 0x69, 0x73, 0x69, 0x74, 0x6f,
+	0x72, 0x52, 0x08, 0x76, 0x69, 0x73, 0x69, 0x74, 0x6f, 0x72, 0x73, 0x12, 0x2f, 0x0a, 0x0b, 0x61,
+	0x67, 0x65, 0x6e, 0x74, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x0e, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74,
+	0x52, 0x0a, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x3a, 0x0a, 0x17,
 	0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x6f, 0x6e, 0x66, 0x69,
 	0x67, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f,
@@ -2158,7 +2247,7 @@ func file_rpcs_rpc_admin_proto_rawDescGZIP() []byte {
 	return file_rpcs_rpc_admin_proto_rawDescData
 }
 
-var file_rpcs_rpc_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
+var file_rpcs_rpc_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 39)
 var file_rpcs_rpc_admin_proto_goTypes = []interface{}{
 	(*UpdateUserBlockRequest)(nil),            // 0: pb.UpdateUserBlockRequest
 	(*UpdateUserBlockResponse)(nil),           // 1: pb.UpdateUserBlockResponse
@@ -2190,28 +2279,30 @@ var file_rpcs_rpc_admin_proto_goTypes = []interface{}{
 	(*LogVisitorResponse)(nil),                // 27: pb.LogVisitorResponse
 	(*ParsedIPData)(nil),                      // 28: pb.ParsedIPData
 	(*Visitor)(nil),                           // 29: pb.Visitor
-	(*GetDailyVisitorsRequest)(nil),           // 30: pb.GetDailyVisitorsRequest
-	(*GetDailyVisitorsResponse)(nil),          // 31: pb.GetDailyVisitorsResponse
-	(*GetConfigurationRequest)(nil),           // 32: pb.GetConfigurationRequest
-	(*GetConfigurationResponse)(nil),          // 33: pb.GetConfigurationResponse
-	(*UpdateConfigurationRequest)(nil),        // 34: pb.UpdateConfigurationRequest
-	(*UpdateConfigurationResponse)(nil),       // 35: pb.UpdateConfigurationResponse
-	(*SendInvitationRequest)(nil),             // 36: pb.SendInvitationRequest
-	(*SendInvitationResponse)(nil),            // 37: pb.SendInvitationResponse
-	(*models.SessionInfo)(nil),                // 38: pb.SessionInfo
-	(*models.ListAdminCommentInfo)(nil),       // 39: pb.ListAdminCommentInfo
-	(*models.ListCommentReportInfo)(nil),      // 40: pb.ListCommentReportInfo
+	(*AgentCount)(nil),                        // 30: pb.AgentCount
+	(*GetDailyVisitorsRequest)(nil),           // 31: pb.GetDailyVisitorsRequest
+	(*GetDailyVisitorsResponse)(nil),          // 32: pb.GetDailyVisitorsResponse
+	(*GetConfigurationRequest)(nil),           // 33: pb.GetConfigurationRequest
+	(*GetConfigurationResponse)(nil),          // 34: pb.GetConfigurationResponse
+	(*UpdateConfigurationRequest)(nil),        // 35: pb.UpdateConfigurationRequest
+	(*UpdateConfigurationResponse)(nil),       // 36: pb.UpdateConfigurationResponse
+	(*SendInvitationRequest)(nil),             // 37: pb.SendInvitationRequest
+	(*SendInvitationResponse)(nil),            // 38: pb.SendInvitationResponse
+	(*models.SessionInfo)(nil),                // 39: pb.SessionInfo
+	(*models.ListAdminCommentInfo)(nil),       // 40: pb.ListAdminCommentInfo
+	(*models.ListCommentReportInfo)(nil),      // 41: pb.ListCommentReportInfo
 }
 var file_rpcs_rpc_admin_proto_depIdxs = []int32{
-	38, // 0: pb.ListSessionResponse.elements:type_name -> pb.SessionInfo
-	39, // 1: pb.ListCommentResponse.elements:type_name -> pb.ListAdminCommentInfo
-	40, // 2: pb.ListCommentReportResponse.elements:type_name -> pb.ListCommentReportInfo
+	39, // 0: pb.ListSessionResponse.elements:type_name -> pb.SessionInfo
+	40, // 1: pb.ListCommentResponse.elements:type_name -> pb.ListAdminCommentInfo
+	41, // 2: pb.ListCommentReportResponse.elements:type_name -> pb.ListCommentReportInfo
 	29, // 3: pb.GetDailyVisitorsResponse.visitors:type_name -> pb.Visitor
-	4,  // [4:4] is the sub-list for method output_type
-	4,  // [4:4] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	30, // 4: pb.GetDailyVisitorsResponse.agent_count:type_name -> pb.AgentCount
+	5,  // [5:5] is the sub-list for method output_type
+	5,  // [5:5] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_rpcs_rpc_admin_proto_init() }
@@ -2581,7 +2672,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetDailyVisitorsRequest); i {
+			switch v := v.(*AgentCount); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2593,7 +2684,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetDailyVisitorsResponse); i {
+			switch v := v.(*GetDailyVisitorsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2605,7 +2696,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConfigurationRequest); i {
+			switch v := v.(*GetDailyVisitorsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2617,7 +2708,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConfigurationResponse); i {
+			switch v := v.(*GetConfigurationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2629,7 +2720,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateConfigurationRequest); i {
+			switch v := v.(*GetConfigurationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2641,7 +2732,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateConfigurationResponse); i {
+			switch v := v.(*UpdateConfigurationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2653,7 +2744,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SendInvitationRequest); i {
+			switch v := v.(*UpdateConfigurationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2665,6 +2756,18 @@ func file_rpcs_rpc_admin_proto_init() {
 			}
 		}
 		file_rpcs_rpc_admin_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SendInvitationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpcs_rpc_admin_proto_msgTypes[38].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SendInvitationResponse); i {
 			case 0:
 				return &v.state
@@ -2683,7 +2786,7 @@ func file_rpcs_rpc_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rpcs_rpc_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   38,
+			NumMessages:   39,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

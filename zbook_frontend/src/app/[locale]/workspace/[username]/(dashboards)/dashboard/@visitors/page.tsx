@@ -2,7 +2,6 @@ import SomeThingWrong from "@/components/SomeThingWrong";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import { headers } from "next/headers";
-import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import DonuChart from "@/components/charts/DonutChart";
 import EarthChart from "@/components/charts/EarthChart";
@@ -12,17 +11,13 @@ import { promises as fs } from "fs";
 import BarChart from "@/components/charts/BarChart";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
-import { parseUserAgent } from "@/utils/util";
 interface Visitor {
-  IP: string;
-  Agent?: string;
-  Count: number;
+  ip: string;
+  agent?: string;
+  count: number;
   city?: string;
   lat?: number;
   long?: number;
-}
-function hasValidCoordinates(visitor: Visitor): visitor is Visitor {
-  return typeof visitor.lat === "number" && typeof visitor.long === "number";
 }
 
 export default async function AdminOverviewPage({
@@ -35,20 +30,38 @@ export default async function AdminOverviewPage({
   const ndays = Number(searchParams?.ndays) || 1;
   const t = await getTranslations("AdminOverView");
   const xforward = headers().get("x-forwarded-for") ?? "";
-  const agent = headers().get("User-Agent") ?? "";
+  const user_agent = headers().get("User-Agent") ?? "";
   try {
-    const dailyVisitors = await fetchServerWithAuthWrapper({
+    const data = await fetchServerWithAuthWrapper({
       endpoint: FetchServerWithAuthWrapperEndPoint.GetDailyVisitors,
       xforward,
-      agent: agent,
+      agent: user_agent,
       tags: [],
       values: {
         lang: params.locale == "zh" ? "zh-CN" : params.locale,
         ndays: ndays,
       },
     });
-    if (dailyVisitors.error) {
-      throw new FetchError(dailyVisitors.message, dailyVisitors.status);
+    if (data.error) {
+      throw new FetchError(data.message, data.status);
+    }
+
+    const { visitors, agent_count } = data;
+    // 提取前5个IP和对应的count
+    let ips: string[] = [];
+    let counts: number[] = [];
+    let cities: string[] = [];
+    if (Array.isArray(visitors) && visitors.length > 0) {
+      visitors.slice(0, 5).forEach((visitor: Visitor) => {
+        ips.push(visitor.ip);
+        counts.push(visitor.count ?? 0);
+        cities.push(visitor.city ?? "");
+      });
+    } else {
+      // 处理visitors为空或undefined的情况，比如初始化为空数组
+      ips = [];
+      counts = [];
+      cities = [];
     }
     const landFile = await fs.readFile(
       process.cwd() + "/public/ne_110m_land.geojson",
@@ -65,78 +78,6 @@ export default async function AdminOverviewPage({
     const landData = JSON.parse(landFile);
     const lakeData = JSON.parse(lakeFile);
     const riverData = JSON.parse(riverFile);
-
-    // 聚合 IP 计数
-    const aggregated = dailyVisitors.visitors.reduce(
-      (acc: any, visitor: Visitor) => {
-        if (!acc[visitor.IP]) {
-          acc[visitor.IP] = 0;
-        }
-        acc[visitor.IP] += visitor.Count;
-        return acc;
-      },
-      {} as Record<string, number>
-    );
-
-    // 转换为数组并排序
-    const sorted = Object.entries(aggregated)
-      .sort((a: any, b: any) => b[1] - a[1])
-      .slice(0, 5);
-
-    // 分别提取 IP 和计数
-    const ips = sorted.map((entry) => entry[0]);
-    const counts = sorted.map((entry) => entry[1] as number);
-
-    // 分类统计
-    const agentCounts = {
-      computer: 0,
-      phone: 0,
-      tablet: 0,
-      bot: 0,
-      unknown: 0,
-    };
-
-    dailyVisitors.visitors.forEach((visitor: any) => {
-      const agentString = parseUserAgent(visitor.Agent).platform.toLowerCase();
-      const osString = parseUserAgent(visitor.Agent).os.toLowerCase();
-      const agent = visitor.Agent;
-      let visited = false;
-      if (agent && typeof agent === "string") {
-        const agentLowerCase = agent.toLowerCase();
-        if (
-          agentLowerCase.includes("bot") ||
-          agentLowerCase.includes("spider")
-        ) {
-          visited = true;
-          agentCounts.bot++;
-        }
-      }
-      if (visited) {
-      } else if (
-        agentString.includes("windows") ||
-        agentString.includes("macintosh") ||
-        (agentString.includes("linux") && !osString.includes("android"))
-      ) {
-        agentCounts.computer++;
-      } else if (
-        agentString.includes("iphone") ||
-        agentString.includes("android") ||
-        osString.includes("android") ||
-        agentString.includes("windows phone") ||
-        agentString.includes("blackberry")
-      ) {
-        agentCounts.phone++;
-      } else if (
-        agentString.includes("ipad") ||
-        agentString.includes("android tablet") ||
-        agentString.includes("kindle")
-      ) {
-        agentCounts.tablet++;
-      } else {
-        agentCounts.unknown++;
-      }
-    });
-    let filteredVisitors = dailyVisitors.visitors.filter(hasValidCoordinates);
     return (
       <>
         <div className="xl:col-span-2 md:col-span-2 col-span-1 md:row-span-2">
@@ -145,7 +86,7 @@ export default async function AdminOverviewPage({
               <div className="flex justify-between mb-5">
                 <div>
                   <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
-                    {dailyVisitors.visitors.length}
+                    {visitors?.length ?? 0}
                   </h5>
                   <p className="text-base font-normal text-gray-500 dark:text-gray-400">
                     {t("VisitorRegion")}
@@ -160,7 +101,7 @@ export default async function AdminOverviewPage({
                 landData={landData}
                 lakeData={lakeData}
                 riverData={riverData}
-                markers={filteredVisitors}
+                markers={visitors}
                 isSmall={true}
               />
             </div>
@@ -170,19 +111,20 @@ export default async function AdminOverviewPage({
                 landData={landData}
                 lakeData={lakeData}
                 riverData={riverData}
-                markers={filteredVisitors}
+                markers={visitors}
                 isSmall={false}
               />
             </div>
           </div>
         </div>
         <div className="col-span-1">
-          <DonuChart agentCounts={agentCounts} />
+          <DonuChart agentCounts={agent_count} />
         </div>
         <div className="col-span-1">
           <BarChart
             ips={ips}
             counts={counts}
+            cities={cities}
             title={t("TopVisitors")}
             label={t("VisitedCount")}
           />

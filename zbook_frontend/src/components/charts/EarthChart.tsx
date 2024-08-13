@@ -5,9 +5,11 @@ import { GeoProjection, GeoPath } from "d3";
 import { FeatureCollection, GeoJsonProperties, Geometry } from "geojson";
 
 interface Marker {
+  ip: string;
   long: number;
   lat: number;
-  city: string;
+  city?: string;
+  count: number;
 }
 
 export default function EarthChart({
@@ -23,8 +25,8 @@ export default function EarthChart({
   markers: Marker[];
   isSmall: boolean;
 }) {
+  markers = markers || [];
   const svgRef = useRef<SVGSVGElement>(null);
-
   useEffect(() => {
     const svg = d3.select(svgRef.current);
     const width = +svg.attr("width")!;
@@ -152,7 +154,7 @@ export default function EarthChart({
       .style("fill", "brown")
       .on("mouseover", (event, d) => {
         tooltip
-          .html(d.city)
+          .html(d.city ? d.city : d.ip)
           .style("left", `${event.pageX + 10}px`)
           .style("top", `${event.pageY + 10}px`)
           .style("opacity", 1);
@@ -167,7 +169,6 @@ export default function EarthChart({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <svg
       ref={svgRef}
