@@ -5,7 +5,7 @@ import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_ut
 import { headers } from "next/headers";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import AreaChart from "@/components/charts/AreaChart";
+import AreaVisitorChart from "@/components/charts/AreaVisitorChart";
 import AreaUserChart from "@/components/charts/AreaUserChart";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
@@ -123,7 +123,10 @@ export default async function AdminOverviewPage({
     return (
       <>
         <div className="xl:col-span-3 md:col-span-2 col-span-1">
-          <AreaChart title={t("DailyVisitors")} label={t("NewVisitor")} />
+          <AreaVisitorChart
+            title={t("DailyVisitors")}
+            label={t("NewVisitor")}
+          />
         </div>
         <div className="col-span-1 md:col-span-2">
           <AreaUserChart

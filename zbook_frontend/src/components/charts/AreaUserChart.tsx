@@ -9,17 +9,15 @@ import { useEffect, useState } from "react";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 
-interface WebTrafficProps {
-  allow_login: boolean;
-  allow_registration: boolean;
-  allow_invitation: boolean;
-}
-
 export default function AreaUserChart({
   allow_login,
   allow_registration,
   allow_invitation,
-}: WebTrafficProps) {
+}: {
+  allow_login: boolean;
+  allow_registration: boolean;
+  allow_invitation: boolean;
+}) {
   const { theme } = useTheme();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [newUserCounts, setNewUserCounts] = useState<number[]>([]);
@@ -45,7 +43,7 @@ export default function AreaUserChart({
         (_, i) => {
           const date = new Date();
           date.setDate(today.getDate() - i);
-          return date.toISOString().split("T")[0]; // 获取 YYYY-MM-DD 格式的日期
+          return date.toISOString().split("T")[0]; // YYYY-MM-DD format
         }
       ).reverse();
       setDates(generatedDates);

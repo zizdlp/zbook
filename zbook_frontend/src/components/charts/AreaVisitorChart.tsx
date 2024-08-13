@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 
-export default function AreaChart({
+export default function AreaVisitorChart({
   title,
   label,
 }: {
