@@ -45,17 +45,24 @@ export default async function AdminOverviewPage({
     if (data.error) {
       throw new FetchError(data.message, data.status);
     }
+
     const { visitors, agent_count } = data;
     // 提取前5个IP和对应的count
     let ips: string[] = [];
     let counts: number[] = [];
     let cities: string[] = [];
-
-    visitors.slice(0, 5).forEach((visitor: Visitor) => {
-      ips.push(visitor.ip);
-      counts.push(visitor.count ?? 0);
-      cities.push(visitor.city ?? "");
-    });
+    if (Array.isArray(visitors) && visitors.length > 0) {
+      visitors.slice(0, 5).forEach((visitor: Visitor) => {
+        ips.push(visitor.ip);
+        counts.push(visitor.count ?? 0);
+        cities.push(visitor.city ?? "");
+      });
+    } else {
+      // 处理visitors为空或undefined的情况，比如初始化为空数组
+      ips = [];
+      counts = [];
+      cities = [];
+    }
     const landFile = await fs.readFile(
       process.cwd() + "/public/ne_110m_land.geojson",
       "utf8"
@@ -71,7 +78,7 @@ export default async function AdminOverviewPage({
     const landData = JSON.parse(landFile);
     const lakeData = JSON.parse(lakeFile);
     const riverData = JSON.parse(riverFile);
-
+    console.log("all dona====");
     return (
       <>
         <div className="xl:col-span-2 md:col-span-2 col-span-1 md:row-span-2">
@@ -80,7 +87,7 @@ export default async function AdminOverviewPage({
               <div className="flex justify-between mb-5">
                 <div>
                   <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
-                    {visitors.length}
+                    {visitors?.length ?? 0}
                   </h5>
                   <p className="text-base font-normal text-gray-500 dark:text-gray-400">
                     {t("VisitorRegion")}

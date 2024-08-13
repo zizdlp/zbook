@@ -2,7 +2,6 @@ package gapi
 
 import (
 	"context"
-	"fmt"
 	"net/netip"
 	"sort"
 
@@ -56,13 +55,8 @@ func ConvertVisitor(server *Server, visitors map[string]int, lang string) []*rpc
 		}
 		record, err := server.store.GetGeoInfo(context.Background(), ip)
 		if err != nil {
-			// 如果解析出错，则将错误信息添加到响应中，继续处理下一个 IP
-			ret_reports = append(ret_reports,
-				&rpcs.Visitor{
-					Ip:    ipStr,
-					Count: int32(count),
-				},
-			)
+			log.Error().Err(err).Msgf("can not get GeoInfo for ip addr: %s", ipStr)
+			continue
 		} else {
 			// 如果解析成功，则将城市、经度和纬度信息添加到响应中
 			city := ""
@@ -77,7 +71,6 @@ func ConvertVisitor(server *Server, visitors map[string]int, lang string) []*rpc
 					city = record.CityNameEn.String
 				}
 			}
-			fmt.Println("visitors:====", ipStr, city, count, record.Latitude, record.Longitude)
 			ret_reports = append(ret_reports,
 				&rpcs.Visitor{
 					Ip:    ipStr,

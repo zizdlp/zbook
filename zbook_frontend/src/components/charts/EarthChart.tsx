@@ -8,7 +8,8 @@ interface Marker {
   ip: string;
   long: number;
   lat: number;
-  city: string;
+  city?: string;
+  count: number;
 }
 
 export default function EarthChart({
@@ -24,6 +25,11 @@ export default function EarthChart({
   markers: Marker[];
   isSmall: boolean;
 }) {
+  markers = markers || [];
+  markers = [
+    { ip: "66.249.66.165", lat: 37.751, long: -97.822, count: 13 },
+    { ip: "66.249.66.165", lat: 37.751, long: -97.822, count: 13 },
+  ];
   const svgRef = useRef<SVGSVGElement>(null);
   console.log("markers:", markers);
   useEffect(() => {
