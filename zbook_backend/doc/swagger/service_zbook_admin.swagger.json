@@ -635,6 +635,31 @@
     }
   },
   "definitions": {
+    "pbAgentCount": {
+      "type": "object",
+      "properties": {
+        "bot": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "computer": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "phone": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tablet": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "unknown": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "pbCreateSystemNotificationRequest": {
       "type": "object",
       "properties": {
@@ -800,6 +825,9 @@
             "type": "object",
             "$ref": "#/definitions/pbVisitor"
           }
+        },
+        "agentCount": {
+          "$ref": "#/definitions/pbAgentCount"
         }
       }
     },
@@ -1102,15 +1130,8 @@
     "pbVisitor": {
       "type": "object",
       "properties": {
-        "IP": {
+        "ip": {
           "type": "string"
-        },
-        "Agent": {
-          "type": "string"
-        },
-        "Count": {
-          "type": "integer",
-          "format": "int32"
         },
         "city": {
           "type": "string"
@@ -1122,6 +1143,10 @@
         "long": {
           "type": "number",
           "format": "double"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },

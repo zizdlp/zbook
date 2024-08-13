@@ -3,7 +3,18 @@ import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from "next-themes";
-export default function DonuChart({ agentCounts }: { agentCounts: any }) {
+interface AgentCount {
+  computer: number;
+  phone: number;
+  tablet: number;
+  bot: number;
+  unknown: number;
+}
+export default function DonuChart({
+  agentCounts,
+}: {
+  agentCounts: AgentCount;
+}) {
   const { theme } = useTheme();
   const t = useTranslations("AdminOverView");
   let options = {
@@ -15,7 +26,6 @@ export default function DonuChart({ agentCounts }: { agentCounts: any }) {
     },
     stroke: {
       colors: ["transparent"],
-      //   lineCap: "",
     },
     grid: {
       padding: {
@@ -55,12 +65,13 @@ export default function DonuChart({ agentCounts }: { agentCounts: any }) {
     },
   };
   let series = [
-    agentCounts.computer,
-    agentCounts.phone,
-    agentCounts.tablet,
-    agentCounts.bot,
-    agentCounts.unknown,
+    agentCounts.computer ?? 0,
+    agentCounts.phone ?? 0,
+    agentCounts.tablet ?? 0,
+    agentCounts.bot ?? 0,
+    agentCounts.unknown ?? 0,
   ];
+  console.log("series:", series);
   return (
     <div className="w-full h-[400px]  bg-gray-50 dark:bg-slate-800/50 dark:shadow-lg rounded-md p-4 md:p-6  border-[0.01rem] border-slate-300 dark:border-0">
       <div className="flex justify-between items-start w-full">

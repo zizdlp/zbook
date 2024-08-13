@@ -2,7 +2,9 @@ package gapi
 
 import (
 	"context"
+	"fmt"
 	"net/netip"
+	"sort"
 
 	"github.com/rs/zerolog/log"
 	"github.com/zizdlp/zbook/pb/rpcs"
@@ -23,19 +25,33 @@ func (server *Server) GetDailyVisitors(ctx context.Context, req *rpcs.GetDailyVi
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "get daily visitor failed: %s", err)
 	}
-
+	unique_visitors := util.AggregateByIP(visitors)
+	ret_visitors := ConvertVisitor(server, unique_visitors, req.GetLang())
+	agents := util.SumAgentCounts(visitors)
 	rsp := &rpcs.GetDailyVisitorsResponse{
-		Visitors: convertVisitors(server, visitors, req.GetLang()),
+		Visitors:   ret_visitors,
+		AgentCount: ConvertAgent(agents),
 	}
 	return rsp, nil
 }
+func ConvertAgent(agent util.AgentCounts) *rpcs.AgentCount {
+	// 初始化 ret_agent
+	ret_agent := &rpcs.AgentCount{
+		Bot:      int32(agent.Bot),
+		Computer: int32(agent.Computer),
+		Phone:    int32(agent.Phone), // 修复这里的错配
+		Tablet:   int32(agent.Tablet),
+		Unknown:  int32(agent.Unknown),
+	}
+	return ret_agent
+}
 
-func convertVisitors(server *Server, visitors []*VisitorData, lang string) []*rpcs.Visitor {
+func ConvertVisitor(server *Server, visitors map[string]int, lang string) []*rpcs.Visitor {
 	var ret_reports []*rpcs.Visitor
-	for i := 0; i < len(visitors); i++ {
-		ip, err := netip.ParseAddr(visitors[i].IP)
+	for ipStr, count := range visitors {
+		ip, err := netip.ParseAddr(ipStr)
 		if err != nil {
-			log.Error().Err(err).Msgf("can not parse ip addr: %s", visitors[i].IP)
+			log.Error().Err(err).Msgf("can not parse ip addr: %s", ipStr)
 			continue
 		}
 		record, err := server.store.GetGeoInfo(context.Background(), ip)
@@ -43,14 +59,12 @@ func convertVisitors(server *Server, visitors []*VisitorData, lang string) []*rp
 			// 如果解析出错，则将错误信息添加到响应中，继续处理下一个 IP
 			ret_reports = append(ret_reports,
 				&rpcs.Visitor{
-					IP:    visitors[i].IP,
-					Agent: visitors[i].Agent,
-					Count: int32(visitors[i].Count),
+					Ip:    ipStr,
+					Count: int32(count),
 				},
 			)
 		} else {
 			// 如果解析成功，则将城市、经度和纬度信息添加到响应中
-
 			city := ""
 			if lang == "en" {
 				if record.CityNameEn.Valid {
@@ -63,18 +77,21 @@ func convertVisitors(server *Server, visitors []*VisitorData, lang string) []*rp
 					city = record.CityNameEn.String
 				}
 			}
-
+			fmt.Println("visitors:====", ipStr, city, count, record.Latitude, record.Longitude)
 			ret_reports = append(ret_reports,
 				&rpcs.Visitor{
-					IP:    visitors[i].IP,
-					Agent: visitors[i].Agent,
-					Count: int32(visitors[i].Count),
+					Ip:    ipStr,
 					City:  city,
+					Count: int32(count),
 					Lat:   record.Latitude.Float64,
 					Long:  record.Longitude.Float64,
 				},
 			)
 		}
 	}
+	// 按照 Count 从大到小排序
+	sort.Slice(ret_reports, func(i, j int) bool {
+		return ret_reports[i].Count > ret_reports[j].Count
+	})
 	return ret_reports
 }

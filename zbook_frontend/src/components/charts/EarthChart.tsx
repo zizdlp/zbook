@@ -5,6 +5,7 @@ import { GeoProjection, GeoPath } from "d3";
 import { FeatureCollection, GeoJsonProperties, Geometry } from "geojson";
 
 interface Marker {
+  ip: string;
   long: number;
   lat: number;
   city: string;
@@ -24,7 +25,7 @@ export default function EarthChart({
   isSmall: boolean;
 }) {
   const svgRef = useRef<SVGSVGElement>(null);
-
+  console.log("markers:", markers);
   useEffect(() => {
     const svg = d3.select(svgRef.current);
     const width = +svg.attr("width")!;
@@ -152,7 +153,7 @@ export default function EarthChart({
       .style("fill", "brown")
       .on("mouseover", (event, d) => {
         tooltip
-          .html(d.city)
+          .html(d.city ? d.city : d.ip)
           .style("left", `${event.pageX + 10}px`)
           .style("top", `${event.pageY + 10}px`)
           .style("opacity", 1);
