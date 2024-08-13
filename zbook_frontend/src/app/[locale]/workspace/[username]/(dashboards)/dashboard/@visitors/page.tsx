@@ -78,7 +78,6 @@ export default async function AdminOverviewPage({
     const landData = JSON.parse(landFile);
     const lakeData = JSON.parse(lakeFile);
     const riverData = JSON.parse(riverFile);
-    console.log("all dona====");
     return (
       <>
         <div className="xl:col-span-2 md:col-span-2 col-span-1 md:row-span-2">
