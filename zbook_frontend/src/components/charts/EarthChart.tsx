@@ -27,8 +27,8 @@ export default function EarthChart({
 }) {
   markers = markers || [];
   markers = [
-    { ip: "66.249.66.165", lat: 37.751, long: -97.822, count: 13 },
-    { ip: "66.249.66.165", lat: 37.751, long: -97.822, count: 13 },
+    { ip: "66.249.66.165", lat: 37.751, long: -98.822, count: 13 },
+    { ip: "66.249.66.165", lat: 38.751, long: -97.822, count: 13 },
   ];
   const svgRef = useRef<SVGSVGElement>(null);
   console.log("markers:", markers);
@@ -174,7 +174,6 @@ export default function EarthChart({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <svg
       ref={svgRef}

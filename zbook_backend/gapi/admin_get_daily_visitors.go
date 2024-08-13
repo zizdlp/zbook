@@ -2,6 +2,9 @@ package gapi
 
 import (
 	"context"
+
+	"math/rand"
+
 	"net/netip"
 	"sort"
 
@@ -71,13 +74,17 @@ func ConvertVisitor(server *Server, visitors map[string]int, lang string) []*rpc
 					city = record.CityNameEn.String
 				}
 			}
+			// 在这里添加随机扰动
+			latWithNoise := record.Latitude.Float64 + (rand.Float64()*2 - 1)
+			longWithNoise := record.Longitude.Float64 + (rand.Float64()*2 - 1)
+
 			ret_reports = append(ret_reports,
 				&rpcs.Visitor{
 					Ip:    ipStr,
 					City:  city,
 					Count: int32(count),
-					Lat:   record.Latitude.Float64,
-					Long:  record.Longitude.Float64,
+					Lat:   latWithNoise,
+					Long:  longWithNoise,
 				},
 			)
 		}
