@@ -96,26 +96,13 @@ export default async function AdminOverviewPage({
               </div>
               <NDay oldNdays={ndays} />
             </div>
-            <div className="md:hidden block">
-              <EarthChart
-                key={ndays}
-                landData={landData}
-                lakeData={lakeData}
-                riverData={riverData}
-                markers={visitors}
-                isSmall={true}
-              />
-            </div>
-            <div className="hidden md:block">
-              <EarthChart
-                key={ndays}
-                landData={landData}
-                lakeData={lakeData}
-                riverData={riverData}
-                markers={visitors}
-                isSmall={false}
-              />
-            </div>
+            <EarthChart
+              key={ndays}
+              landData={landData}
+              lakeData={lakeData}
+              riverData={riverData}
+              markers={visitors}
+            />
           </div>
         </div>
         <div className="col-span-1">
