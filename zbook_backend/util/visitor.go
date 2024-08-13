@@ -12,6 +12,13 @@ type VisitorData struct {
 	Agent string
 	Count int
 }
+type GeoInfo struct {
+	IpStr        string
+	Latitude     float64
+	Longitude    float64
+	CityNameEn   string
+	CityNameZhCn string
+}
 
 // 聚合数据函数
 func AggregateByIP(visitors []*VisitorData) map[string]int {
