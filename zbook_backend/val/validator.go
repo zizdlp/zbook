@@ -22,7 +22,6 @@ func ValidTimeZone(timezone string) error {
 	}
 	_, err := time.LoadLocation(timezone)
 	if err != nil {
-		fmt.Println("timezone is:", timezone)
 		return fmt.Errorf("invalide timezone:%s", timezone)
 	}
 	return nil

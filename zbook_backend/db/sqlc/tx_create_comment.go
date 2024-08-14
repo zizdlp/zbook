@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/jackc/pgx/v5/pgtype"
 	"google.golang.org/grpc/codes"
@@ -58,12 +57,10 @@ func (store *SQLStore) CreateCommentTx(ctx context.Context, arg CreateCommentTxP
 			}
 			_, err = q.CreateCommentNotification(ctx, arg_noti_post)
 			if err != nil {
-				fmt.Println("mydebug:create post comment noti error:", err)
 				return err
 			} else {
 				err = q.UpdateUnreadCount(ctx, comment.UserID)
 				if err != nil {
-					fmt.Println("mydebug:update unread count error:", err)
 					return err
 				}
 			}
@@ -92,7 +89,6 @@ func (store *SQLStore) CreateCommentTx(ctx context.Context, arg CreateCommentTxP
 				}
 				err = q.UpdateUnreadCount(ctx, pcomment.UserID)
 				if err != nil {
-					fmt.Println("mydebug:update unread count error:", err)
 					return err
 				}
 			}

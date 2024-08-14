@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"regexp"
 	"sort"
 	"strings"
@@ -138,7 +137,6 @@ func parseUserAgent(agent string) *UserAgentData {
 	// Extract platform and OS
 	platformRegex := regexp.MustCompile(`\(([^)]+)\)`)
 	platformMatch := platformRegex.FindStringSubmatch(agent)
-	fmt.Println("plat:", platformMatch)
 	if len(platformMatch) > 1 {
 
 		platformParts := strings.Split(platformMatch[1], ";")
