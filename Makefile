@@ -12,9 +12,9 @@ tidy:
 md2html:
 	cd zbook_backend && \
 	go run cmd/md2html/main.go ${CURRENT_DIR}/zbook_data/convert_src ${CURRENT_DIR}/zbook_data/convert_dest
-compress_img:
+compress:
 	cd zbook_backend && \
-	go run cmd/compress_image/main.go ${CURRENT_DIR}/zbook_data/linchat.jpg  ${CURRENT_DIR}/zbook_data/linchat_compress.png
+	go run cmd/compress/main.go ${CURRENT_DIR}/zbook_data/source.png  ${CURRENT_DIR}/zbook_data/dest.png
 ##########################################
 database:
 	docker run --name zbook-local-database -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d zizdlp/zbook_database
