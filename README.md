@@ -16,7 +16,7 @@
 <p align="center">This repository contains the open-source code used to render and serve ZBook</p>
 
 <p align="center">
-  <img alt="ZBook Logo" src="./zbook_frontend/public/demo.gif">
+  <img alt="ZBook Logo" src="./zbook_frontend/public/group_demo.png">
 </p>
 
 ## Table of Contents

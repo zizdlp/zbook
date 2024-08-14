@@ -16,7 +16,7 @@
 <p align="center">这个仓库包含用于渲染和服务 ZBook 的开源代码。</p>
 
 <p align="center">
-  <img alt="ZBook Logo" src="./zbook_frontend/public/demo.gif">
+  <img alt="ZBook Logo" src="./zbook_frontend/public/group_demo.png">
 </p>
 
 ## 目录
