@@ -50,7 +50,9 @@ npm_build:
 jtest:
 	cd zbook_frontend && \
 	npm run test
-
+next:
+	cd zbook_frontend && \
+	npm run dev
 #########################################################
 ################## local database  ######################
 database:
@@ -74,26 +76,20 @@ create_bucket:
 	mc mb avatar/avatar
 evans:
 	evans --host localhost --port 9090 -r repl
-batch_test:
-	cd zbook_backend && \
-	go run cmd/batch_test/main.go
-build_frontend_localhost:
-	docker build -t zbook_frontend_localhost --build-arg ENV_FILE=.env.production.localhost -f ./zbook_frontend/zbook_frontend.Dockerfile ./zbook_frontend
-build_frontend_zizdlp:
-	docker build -t zbook_frontend_zizdlp --build-arg ENV_FILE=.env.production.zizdlp -f ./zbook_frontend/zbook_frontend.Dockerfile ./zbook_frontend
+#########################################################################
+################## build docker images from source ######################
+build_frontend:
+	sudo docker buildx build -t zizdlp/zbook_frontend:local -f ./zbook_frontend/zbook_frontend.Dockerfile ./zbook_frontend
 build_backend:
-	docker build -t zbook_backend --build-arg BUILDPLATFORM=amd64 -f ./zbook_backend/zbook_backend.Dockerfile ./zbook_backend
+	sudo docker buildx build -t zizdlp/zbook_backend:local -f ./zbook_backend/zbook_backend.Dockerfile ./zbook_backend
 build_database:
-	docker build -t zbook_database -f ./zbook_database/zbook_database.Dockerfile ./zbook_database
-run_frontend:
-	docker run -it zizdlp/zbook_frontend
+	sudo docker buildx build -t zizdlp/zbook_database:local -f ./zbook_database/zbook_database.Dockerfile ./zbook_database
 
-#frontend
-next:
-	cd zbook_frontend && \
-	npm run dev
+#########################################################################
+################## run as docker compose ######################
 compose:
 	sudo docker-compose -f docker-compose.yaml down --volumes
 	sudo docker-compose -f docker-compose.yaml build
 	sudo docker-compose -f docker-compose.yaml up  --remove-orphans 
+
 .PHONY: database createdb dropdb migrateup migratedown sqlc mock test server next compose
