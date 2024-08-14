@@ -178,8 +178,7 @@ func ConvertFolder(srcDir string, destDir string) {
 				// 复制文件
 				err = copyFile(srcPath, destPath)
 				if err != nil {
-					log.Error().Err(err).Msgf("failed to copy %s to %s", srcPath, destPath)
-					panic(err)
+					return err
 				}
 			}
 		}
@@ -188,7 +187,7 @@ func ConvertFolder(srcDir string, destDir string) {
 
 	if err != nil {
 		log.Error().Err(err).Msg("failed to iterate folder")
-		panic(err)
+		return
 	}
 
 	// 记录结束时间

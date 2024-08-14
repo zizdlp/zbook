@@ -52,10 +52,10 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 	// Process added and modified files
 	processFiles(addedFiles, true)
 	processFiles(modifiedFiles, false)
-	fmt.Println("addfiles:", addedFiles)
-	fmt.Println("modifiles:", modifiedFiles)
-	fmt.Println("deletfile:", deletedFiles)
-	fmt.Println("renamefiles:", renameFiles)
+	log.Info().Msgf("addfiles: %s", addedFiles)
+	log.Info().Msgf("modifiedFiles: %s", modifiedFiles)
+	log.Info().Msgf("deletedFiles: %s", deletedFiles)
+	log.Info().Msgf("renameFiles: %s", renameFiles)
 	// Process deleted files
 	filteredMarkdowns := util.FilterDiffFilesByExtensions(deletedFiles, allowedExtensions)
 	for _, filteredMarkdown := range filteredMarkdowns {
@@ -128,10 +128,6 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 // Helper function to execute database operations
 func executeDBOperations(ctx context.Context, q *Queries, createParams *util.CreateParams, updateParams *util.UpdateParams, deleteParams *util.DeleteParams) error {
 	if err := createMarkdownFiles(ctx, q, createParams); err != nil {
-		fmt.Println("RelativePaths:")
-		for _, path := range createParams.RelativePath {
-			fmt.Println(path)
-		}
 		return fmt.Errorf("create markdown failed: %v", err)
 	}
 	if err := updateMarkdownFiles(ctx, q, updateParams); err != nil {
