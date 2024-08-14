@@ -2,7 +2,6 @@ package gapi
 
 import (
 	"context"
-	"fmt"
 
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
@@ -40,7 +39,6 @@ func (server *Server) ListCommentReport(ctx context.Context, req *rpcs.ListComme
 		rsp := &rpcs.ListCommentReportResponse{
 			Elements: convertQueryCommentReport(reports),
 		}
-		fmt.Println("---:", req.GetQuery(), reports)
 		return rsp, nil
 	}
 	arg := db.ListCommentReportParams{
