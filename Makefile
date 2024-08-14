@@ -1,9 +1,6 @@
+CURRENT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
 include zbook_backend/app.env
-export
-
-CURRENT_DIR := $(shell pwd)
-
-
 ########################################################
 ################## local backend  ######################
 tidy:
@@ -15,39 +12,6 @@ md2html:
 compress:
 	cd zbook_backend && \
 	go run cmd/compress/main.go ${CURRENT_DIR}/zbook_data/source.png  ${CURRENT_DIR}/zbook_data/dest.png
-##########################################
-database:
-	docker run --name zbook-local-database -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d zizdlp/zbook_database
-createdb:
-	docker exec -it zbook-local-database createdb --username=root --owner=root zbook
-dropdb:
-	docker exec -it zbook-local-database dropdb zbook
-migrateup:
-	cd zbook_backend && \
-	migrate -path db/migration -database "$(DB_SOURCE)" -verbose up
-migratedown:
-	cd zbook_backend && \
-	migrate -path db/migration -database "$(DB_SOURCE)" -verbose down
-sqlc:
-	cd zbook_backend && \
-	sqlc generate
-mock:
-	cd zbook_backend && \
-	mockgen -package mockdb -destination db/mock/store.go github.com/zizdlp/zbook/db/sqlc Store && \
-	mockgen -package mockwk -destination worker/mock/distributor.go github.com/zizdlp/zbook/worker TaskDistributor
-test:
-	cd zbook_backend && \
-	go test -v -cover -short ./... 
-jtest:
-	cd zbook_frontend && \
-	npm run test
-redis:
-	docker run --name zbook-local-redis -p 6379:6379 -d redis:7-alpine
-minio:
-	docker run --name zbook-local-minio -itd -p 9000:9000 -p 9001:9001 -e "MINIO_ROOT_USER=${MINIO_ROOT_USER}" -e "MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}" minio/minio server /data --console-address ":9001"
-create_bucket:
-	mc alias set avatar http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}
-	mc mb avatar/avatar
 server:
 	cd zbook_backend && \
 	REQUIRE_EMAIL_VERIFY=false go run cmd/server/main.go
@@ -64,6 +28,50 @@ gp:
 	--grpc-gateway_opt paths=source_relative \
 	proto/**/*.proto proto/*.proto && \
 	statik -src=./doc -dest=./
+sqlc:
+	cd zbook_backend && \
+	sqlc generate
+mock:
+	cd zbook_backend && \
+	mockgen -package mockdb -destination db/mock/store.go github.com/zizdlp/zbook/db/sqlc Store && \
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/zizdlp/zbook/worker TaskDistributor
+test:
+	cd zbook_backend && \
+	go test -v -cover -short ./... 
+
+#########################################################
+################## local frontend  ######################
+npm_install:
+	cd zbook_frontend && \
+	npm install
+npm_build:
+	cd zbook_frontend && \
+	npm run build
+jtest:
+	cd zbook_frontend && \
+	npm run test
+
+#########################################################
+################## local database  ######################
+database:
+	docker run --name zbook-local-database -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d zizdlp/zbook_database
+createdb:
+	docker exec -it zbook-local-database createdb --username=root --owner=root zbook
+dropdb:
+	docker exec -it zbook-local-database dropdb zbook
+migrateup:
+	cd zbook_backend && \
+	migrate -path db/migration -database "$(DB_SOURCE)" -verbose up
+migratedown:
+	cd zbook_backend && \
+	migrate -path db/migration -database "$(DB_SOURCE)" -verbose down
+redis:
+	docker run --name zbook-local-redis -p 6379:6379 -d redis:7-alpine
+minio:
+	docker run --name zbook-local-minio -itd -p 9000:9000 -p 9001:9001 -e "MINIO_ROOT_USER=${MINIO_ROOT_USER}" -e "MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}" minio/minio server /data --console-address ":9001"
+create_bucket:
+	mc alias set avatar http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}
+	mc mb avatar/avatar
 evans:
 	evans --host localhost --port 9090 -r repl
 batch_test:
