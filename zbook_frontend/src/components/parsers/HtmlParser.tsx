@@ -297,7 +297,7 @@ const parseHTMLString = (
             return (
               <a
                 key={randomKey}
-                className={`text-${theme_color}-500 hover:text-${theme_color}-600 text-xs`}
+                className={`text-${theme_color}-500 hover:text-${theme_color}-600 text-xs no-underline`}
                 href={urlhref || ""}
               >
                 [{Array.from(node.childNodes).map(processNode)}]

@@ -2,6 +2,7 @@ import RepoSideBarLayout from "@/components/sidebars/RepoSideBarLayout";
 import { Suspense } from "react";
 import RepoSideBarLoading from "@/components/loadings/RepoSideBarLoading";
 import SideBarToggleSmall from "@/components/sidebars/SideBarToggleSmall";
+import MarkdownLoading from "@/components/loadings/MarkdownLoading";
 
 export default function RootLayout({
   children,
@@ -19,7 +20,7 @@ export default function RootLayout({
         />
       </Suspense>
       <SideBarToggleSmall />
-      {children}
+      <Suspense fallback={<MarkdownLoading />}>{children}</Suspense>
     </div>
   );
 }

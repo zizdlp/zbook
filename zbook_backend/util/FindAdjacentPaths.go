@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"strings"
 )
 
 // FindAdjacentPaths 查找指定 relative_path 的上一个和下一个路径
@@ -31,7 +32,7 @@ func flattenLayoutPaths(layouts []Layout) []string {
 	var paths []string
 	for _, layout := range layouts {
 		if !layout.Isdir {
-			paths = append(paths, layout.RelativePath)
+			paths = append(paths, strings.ToLower(layout.RelativePath))
 		}
 		if layout.Sublayouts != nil {
 			paths = append(paths, flattenLayoutPaths(layout.Sublayouts)...)
