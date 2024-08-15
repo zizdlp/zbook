@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-no-literals */
-
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { FaBilibili } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa";
 import { Link } from "@/navigation";
 import { getTranslations } from "next-intl/server";
+import { beian } from "@/utils/env_variable";
 
 async function LinkElement({ url, title }: { url: string; title: string }) {
   return (
@@ -43,39 +42,16 @@ export default async function HomeFooter() {
               {t("CoreConcepts")}
             </h2>
             <ul className="mt-3 space-y-2">
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="#features_section"
-                >
-                  {t("FeatureSection")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="#dashboard"
-                >
-                  {t("DashboardSection")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="#create_repo"
-                >
-                  {t("CreateRepoSection")}
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="#multi_user_section"
-                >
-                  {t("MultiUserSection")}
-                </Link>
-              </li>
+              <LinkElement
+                url="#features_section"
+                title={t("FeatureSection")}
+              />
+              <LinkElement url="#dashboard" title={t("DashboardSection")} />
+              <LinkElement url="#create_repo" title={t("CreateRepoSection")} />
+              <LinkElement
+                url="#multi_user_section"
+                title={t("MultiUserSection")}
+              />
             </ul>
           </div>
           <div className="lg:col-span-2 col-span-4">
@@ -83,38 +59,22 @@ export default async function HomeFooter() {
               {t("Community")}
             </h2>
             <ul className="mt-3 space-y-2">
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="https://github.com/zizdlp/zbook"
-                >
-                  GitHub
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="https://space.bilibili.com/1448262500"
-                >
-                  Bilibili
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg"
-                >
-                  YouTube
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-slate-900 dark:hover:text-slate-300"
-                  href="https://discord.com/channels/1250069935594536960/1250069935594536963"
-                >
-                  Discord
-                </Link>
-              </li>
+              <LinkElement
+                url="https://github.com/zizdlp/zbook"
+                title="GitHub"
+              />
+              <LinkElement
+                url="https://space.bilibili.com/1448262500"
+                title="Bilibili"
+              />
+              <LinkElement
+                url="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg"
+                title="YouTube"
+              />
+              <LinkElement
+                url="https://discord.com/channels/1250069935594536960/1250069935594536963"
+                title="Discord"
+              />
             </ul>
           </div>
           <div className="lg:col-span-2 col-span-4">
@@ -189,15 +149,16 @@ export default async function HomeFooter() {
               <FaYoutube className="h-5 w-5 fill-slate-500 group-hover:fill-slate-700" />
             </Link>
           </div>
-          <Link
-            href="https://beian.miit.gov.cn/"
-            className="mt-6 text-sm sm:mt-0"
-          >
-            {t("BeiAn")}
-          </Link>
-          <p className="text-sm">
-            Copyright ©2024 zizdlp.com. {t("AllRightsReserved")}
-          </p>
+          {beian && (
+            <Link
+              href="https://beian.miit.gov.cn/"
+              className="mt-6 text-sm sm:mt-0"
+            >
+              {beian}
+            </Link>
+          )}
+
+          <p className="text-sm">{t("Copyright")}</p>
         </div>
       </div>
     </footer>

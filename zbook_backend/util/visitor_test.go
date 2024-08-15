@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -91,7 +90,6 @@ func TestParseUserAgent(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.agent, func(t *testing.T) {
 			actual := parseUserAgent(tt.agent)
-			fmt.Println("ac:", actual)
 			require.Equal(t, tt.expected, actual, "User agent parsing did not match expected output")
 		})
 	}

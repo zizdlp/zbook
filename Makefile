@@ -86,7 +86,7 @@ build_database:
 	sudo docker buildx build -t zizdlp/zbook_database:local -f ./zbook_database/zbook_database.Dockerfile ./zbook_database
 
 #########################################################################
-################## run as docker compose ######################
+################## run as docker compose ################################
 compose:
 	sudo docker-compose -f docker-compose.yaml down --volumes
 	sudo docker-compose -f docker-compose.yaml build
