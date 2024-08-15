@@ -2,15 +2,15 @@ import MotionBounce from "../../components/MotionBounce";
 import { FaUsers } from "react-icons/fa";
 import { MdVisibility } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
-import HomeFooter from "./HomeFooter";
-import TabGroup from "./TabGroup";
+import FooterForHome from "../../components/home/FooterForHome";
+import MainTabGroup from "../../components/home/MainTabGroup";
 import { MdChevronRight, MdTableChart } from "react-icons/md";
 import { TbMathFunction } from "react-icons/tb";
 import { AiOutlineCode } from "react-icons/ai";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 
 import { Link } from "@/navigation";
-import FeatureTabGroup from "./FeatureTabGroup";
+import FeatureTabGroup from "../../components/home/FeatureTabGroup";
 import { getTranslations } from "next-intl/server";
 
 import { redirect } from "@/navigation";
@@ -53,7 +53,7 @@ export default async function Home() {
                     <MdChevronRight className="h-5 w-5" />
                   </Link>
                 </div>
-                <TabGroup />
+                <MainTabGroup />
               </div>
             </div>
           </div>
@@ -75,8 +75,8 @@ export default async function Home() {
 
                 <FeatureTabGroup
                   categories={[t("DashBoardDemo"), t("DashBoardDemoVideo")]}
-                  image_urls={["/admin_light.png", "/admin_dark.png"]}
-                  video_urls={[
+                  imageUrls={["/admin_light.png", "/admin_dark.png"]}
+                  videoUrls={[
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624008170989&bvid=BV12PV5eCE8F&cid=500001583709871&p=1&autoplay=false",
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624008233402&bvid=BV1TPV5eyE9B&cid=500001583708862&p=1&autoplay=false",
                   ]}
@@ -102,11 +102,11 @@ export default async function Home() {
 
                 <FeatureTabGroup
                   categories={[t("DashBoardDemo"), t("DashBoardDemoVideo")]}
-                  image_urls={[
+                  imageUrls={[
                     "/create_repo_light.png",
                     "/create_repo_dark.png",
                   ]}
-                  video_urls={[
+                  videoUrls={[
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624025013827&bvid=BV1TAV5eLEmr&cid=500001583711218&p=1&autoplay=false",
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624024948260&bvid=BV1mAV5e5Ena&cid=500001583710383&p=1&autoplay=false",
                   ]}
@@ -132,8 +132,8 @@ export default async function Home() {
 
                 <FeatureTabGroup
                   categories={[t("DashBoardDemo"), t("DashBoardDemoVideo")]}
-                  image_urls={["/feature_light.png", "/feature_dark.png"]}
-                  video_urls={[
+                  imageUrls={["/feature_light.png", "/feature_dark.png"]}
+                  videoUrls={[
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624025013879&bvid=BV1TAV5eLEUw&cid=500001583712129&p=1&autoplay=false",
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624025010780&bvid=BV1MAV5eLEkH&cid=500001583711739&p=1&autoplay=false",
                   ]}
@@ -158,8 +158,8 @@ export default async function Home() {
                 </p>
                 <FeatureTabGroup
                   categories={[t("DashBoardDemo"), t("DashBoardDemoVideo")]}
-                  image_urls={["/session_light.png", "/session_dark.png"]}
-                  video_urls={[
+                  imageUrls={["/session_light.png", "/session_dark.png"]}
+                  videoUrls={[
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624025141935&bvid=BV1UAV5eLEz9&cid=500001583712733&p=1&autoplay=false",
                     "https://player.bilibili.com/player.html?isOutside=true&aid=112624025013907&bvid=BV1TAV5eLE2E&cid=500001583712437&p=1&autoplay=false",
                   ]}
@@ -240,7 +240,7 @@ export default async function Home() {
           </div>
         </MotionBounce>
       </section>
-      <HomeFooter />
+      <FooterForHome />
     </div>
   );
 }

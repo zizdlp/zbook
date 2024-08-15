@@ -1,21 +1,41 @@
 "use client";
-import { Tab } from "@headlessui/react";
-import { MdImage } from "react-icons/md";
-import { MdOutlineFeaturedVideo } from "react-icons/md";
 
+import { Tab } from "@headlessui/react";
+import { MdImage, MdOutlineFeaturedVideo } from "react-icons/md";
 import Image from "next/image";
+
 export default function FeatureTabGroup({
   categories,
-  image_urls,
-  video_urls,
+  imageUrls,
+  videoUrls,
 }: {
   categories: string[];
-  image_urls: string[];
-  video_urls: string[];
+  imageUrls: string[];
+  videoUrls: string[];
 }) {
-  function classNames(...classes: string[]): string {
-    return classes.filter(Boolean).join(" ");
-  }
+  const classNames = (...classes: string[]) =>
+    classes.filter(Boolean).join(" ");
+
+  const renderMedia = (url: string, altText: string, isImage: boolean) => {
+    return isImage ? (
+      <Image
+        src={url}
+        className="rounded-md"
+        alt={altText}
+        width={1728}
+        height={1080}
+      />
+    ) : (
+      <iframe
+        className="overflow-hidden rounded-lg shadow-lg w-full aspect-mac"
+        loading="lazy"
+        src={url}
+        title={altText}
+        allowFullScreen
+      ></iframe>
+    );
+  };
+
   return (
     <div className="px-2 md:px-4 pb-2 md:pb-4 max-w-5xl mx-auto py-24">
       <Tab.Group>
@@ -32,8 +52,8 @@ export default function FeatureTabGroup({
                 )
               }
             >
-              <div className="z-10 flex items-center justify-center py-1.5 px-2 md:px-4 md:space-x-2.5">
-                {index == 0 ? (
+              <div className="flex items-center justify-center py-1.5 px-2 md:px-4 md:space-x-2.5">
+                {index === 0 ? (
                   <MdImage className="w-6 h-6 hidden md:block" />
                 ) : (
                   <MdOutlineFeaturedVideo className="w-6 h-6 hidden md:block" />
@@ -44,45 +64,21 @@ export default function FeatureTabGroup({
           ))}
         </Tab.List>
 
-        <Tab.Panels className="my-6 p-2 rounded-lg bg-[#65b1e8]  bg-opacity-20 border border-[#65b1e8]/20">
+        <Tab.Panels className="my-6 p-2 rounded-lg bg-[#65b1e8] bg-opacity-20 border border-[#65b1e8]/20">
           <Tab.Panel key={0}>
             <div className="block dark:hidden">
-              <Image
-                src={image_urls[0]}
-                className="rounded-md dark:hidden"
-                alt="Picturel of light image"
-                width={1728}
-                height={1080}
-              />
+              {renderMedia(imageUrls[0], "Light mode image", true)}
             </div>
             <div className="hidden dark:block">
-              <Image
-                src={image_urls[1]}
-                className="rounded-md hidden dark:block"
-                alt="Picture of dark image"
-                width={1728}
-                height={1080}
-              />
+              {renderMedia(imageUrls[1], "Dark mode image", true)}
             </div>
           </Tab.Panel>
           <Tab.Panel key={1}>
             <div className="block dark:hidden">
-              <iframe
-                className="overflow-hidden rounded-lg my-auto mx-auto shadow-lg block dark:hidden w-full aspect-mac"
-                loading="lazy"
-                src={video_urls[0]}
-                title="This is light video"
-                allowFullScreen
-              ></iframe>
+              {renderMedia(videoUrls[0], "Light mode video", false)}
             </div>
             <div className="hidden dark:block">
-              <iframe
-                className="overflow-hidden rounded-lg my-auto mx-auto shadow-lg dark:block hidden w-full aspect-mac"
-                loading="lazy"
-                src={video_urls[1]}
-                title="This is dark video"
-                allowFullScreen
-              ></iframe>
+              {renderMedia(videoUrls[1], "Dark mode video", false)}
             </div>
           </Tab.Panel>
         </Tab.Panels>
