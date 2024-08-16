@@ -96,7 +96,7 @@ func ConvertVisitor(server *Server, visitors map[string]int, lang string) []*rpc
 		}
 		cityNameZhCn := ""
 		if record.CityNameZhCn.Valid {
-			cityNameZhCn = record.CityNameEn.String
+			cityNameZhCn = record.CityNameZhCn.String
 		}
 		// 存储到 Redis 缓存,
 		// 在这里添加随机扰动

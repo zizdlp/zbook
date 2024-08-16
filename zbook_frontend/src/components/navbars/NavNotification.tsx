@@ -7,6 +7,8 @@ import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
+import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 export default function NavNotification({
   username,
@@ -19,6 +21,8 @@ export default function NavNotification({
   unread_count: number;
   access_token: string;
 }) {
+  const t = useTranslations("Toast");
+  console.log("=======websocket url:", websocket_url);
   const {
     notiDialogOpen,
     setNotiDialogOpen,
@@ -49,7 +53,6 @@ export default function NavNotification({
     let ws: WebSocket | null = null;
     setUnReadCount(unread_count);
     async function fetchData() {
-      // const session = await getSession();
       ws = new WebSocket(`${websocket_url}/ws?username=${username}`);
       ws.onopen = () => {
         if (ws) {
@@ -68,15 +71,19 @@ export default function NavNotification({
         // Reconnect on unexpected closure (you can add more conditions to handle specific closure codes)
         if (!event.wasClean) {
           reconnectRef.current += 1; // 使用ref的current属性修改reconnect值
-          if (reconnectRef.current < 120) {
+          if (reconnectRef.current < 5) {
             logger.warn(
               `websocket connection closed unexpectedly, attempting to reconnect...:${reconnectRef.current}`
             );
             fetchData();
           } else {
             logger.error(
-              "websocket connection closed unexpectedly, already try to reconnect 120 times"
+              "websocket connection closed unexpectedly, already try to reconnect 5 times"
             );
+            toast(t("websocket_closed"), {
+              type: "warning",
+              autoClose: 1500,
+            });
           }
         }
       };

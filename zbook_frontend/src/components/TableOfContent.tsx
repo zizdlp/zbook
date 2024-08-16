@@ -73,7 +73,6 @@ export default function TableOfContent(props: TableOfContentProps) {
     };
   }, [props.sectionIds]);
   const { hoverClass, activeClass } = getColorClasses(props.theme_color);
-  console.log("hoverClass:", hoverClass);
   var html_parser_options_list: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       if (domNode instanceof Element && domNode.name === "ul") {

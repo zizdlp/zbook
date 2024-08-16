@@ -38,7 +38,7 @@ export default async function AdminOverviewPage({
       agent: user_agent,
       tags: [],
       values: {
-        lang: params.locale == "zh" ? "zh-CN" : params.locale,
+        lang: params.locale == "zh" ? "zh_cn" : params.locale,
         ndays: ndays,
       },
     });

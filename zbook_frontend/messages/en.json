@@ -39,6 +39,7 @@
     "NeedAnAccount": "need an account?"
   },
   "Toast": {
+    "websocket_closed": "The WebSocket has been closed, please refresh the page to try to reconnect.",
     "WhyReport": "why report?",
     "Submit": "submit",
     "CopiedClipboard": "Copied to clipboard",

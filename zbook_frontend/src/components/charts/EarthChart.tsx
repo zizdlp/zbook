@@ -33,9 +33,6 @@ export default function EarthChart({
     const width = container.clientWidth;
     const height = container.clientHeight;
     svg.attr("width", width).attr("height", width);
-    // const width = +svg.attr("width")!;
-    // const height = +svg.attr("height")!;
-    console.log("width:", width, height);
     const tooltip = d3
       .select("body")
       .append("div")
