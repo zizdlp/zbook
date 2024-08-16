@@ -18,7 +18,10 @@ export default function DonuChart({
   const { theme } = useTheme();
   const t = useTranslations("AdminOverView");
   let options = {
-    colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694", "#57E694"],
+    colors:
+      theme == "dark"
+        ? ["#a69dc7", "#e64090", "#f28e4b", "#1C64F2", "#6f40a1"]
+        : ["#a69dc7", "#e64090", "#f28e4b", "#1C64F2", "#6f40a1"],
     chart: {
       height: "100%",
       width: "100%",

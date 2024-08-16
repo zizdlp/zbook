@@ -1,22 +1,26 @@
 <h1 align="center">ZBook</h1>
-
 <p align="center">
   <a href="https://github.com/zizdlp/zbook-user-guide">用户指南</a> - <a href="https://github.com/zizdlp/zbook-user-guide">开发者指南</a> - <a href="https://discord.com/channels/1250069935594536960/1250069935594536963">Discord</a> - <a href="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg">Youtube</a>
 </p>
+
+<div align="center">
 
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_MAIN/badge.svg)](https://github.com/zizdlp/zbook/actions)
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/TEST_BACKEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
 [![Actions Status](https://github.com/zizdlp/zbook/workflows/TEST_FRONTEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/zizdlp/zbook/tree/release.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/zizdlp/zbook/tree/release)
 
+</div>
+
 [English Version](README.md)
 
 ------
+
 <p align="center">欢迎来到 ZBook，一个为团队设计的完全开源的全栈知识库管理软件。</p>
 <p align="center">这个仓库包含用于渲染和服务 ZBook 的开源代码。</p>
 
 <p align="center">
-  <img alt="ZBook Logo" src="./zbook_frontend/public/group_demo.png">
+  <img alt="group_demo" src="./zbook_frontend/public/group_demo.png">
 </p>
 
 ## 目录

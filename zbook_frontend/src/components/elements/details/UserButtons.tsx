@@ -33,7 +33,6 @@ export default function UserButtons({
       if (data.error) {
         throw new FetchError(data.message, data.status);
       }
-      console.log("data is:", data);
     } catch (error) {
       let e = error as FetchError;
     }
