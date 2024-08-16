@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@/auth";
 import { unstable_noStore as noStore } from "next/cache";
-import { server_api_base_url, server_api_version } from "@/utils/env_variable";
+import { backend_url, api_version } from "@/utils/env_variable";
 import { joinUrlParts } from "@/utils/util";
 import { FetchError, RequestOptions } from "./util";
 import { redirect } from "@/navigation";
@@ -1304,7 +1304,7 @@ export async function fetchServerWithAuthWrapper({
   tags: string[];
   timeout?: number;
 }) {
-  const url = joinUrlParts(server_api_base_url, server_api_version, endpoint);
+  const url = joinUrlParts(backend_url, api_version, endpoint);
   const options: RequestOptions = {
     method: "POST",
     body: JSON.stringify(values), // 使用对象解构简化代码

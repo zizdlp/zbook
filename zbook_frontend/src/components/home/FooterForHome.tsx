@@ -2,7 +2,7 @@ import { FaDiscord, FaGithub, FaYoutube } from "react-icons/fa";
 import { FaBilibili } from "react-icons/fa6";
 import { Link } from "@/navigation";
 import { getTranslations } from "next-intl/server";
-import { beian } from "@/utils/env_variable";
+import { beian, doc_reponame, doc_username } from "@/utils/env_variable";
 import { IconType } from "react-icons/lib";
 
 const SocialLink = ({
@@ -50,7 +50,7 @@ export default async function FooterForHome() {
         { url: "/auth/register", label: t("Register") },
         { url: "/cases", label: t("Cases") },
         {
-          url: `/workspace/${process.env.DOC_USERNAME}/o/${process.env.DOC_REPONAME}`,
+          url: `/workspace/${doc_username}/o/${doc_reponame}`,
           label: t("Documentation"),
         },
       ],

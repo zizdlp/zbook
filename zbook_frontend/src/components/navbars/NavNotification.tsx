@@ -9,6 +9,7 @@ import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
+import { joinUrlParts } from "@/utils/util";
 
 export default function NavNotification({
   username,
@@ -22,7 +23,6 @@ export default function NavNotification({
   access_token: string;
 }) {
   const t = useTranslations("Toast");
-  console.log("=======websocket url:", websocket_url);
   const {
     notiDialogOpen,
     setNotiDialogOpen,
@@ -53,7 +53,8 @@ export default function NavNotification({
     let ws: WebSocket | null = null;
     setUnReadCount(unread_count);
     async function fetchData() {
-      ws = new WebSocket(`${websocket_url}/ws?username=${username}`);
+      const url = joinUrlParts(websocket_url, `ws?username=${username}`);
+      ws = new WebSocket(url); // client side
       ws.onopen = () => {
         if (ws) {
           ws.send(`${access_token}`);
@@ -82,7 +83,7 @@ export default function NavNotification({
             );
             toast(t("websocket_closed"), {
               type: "warning",
-              autoClose: 1500,
+              autoClose: 2500,
             });
           }
         }

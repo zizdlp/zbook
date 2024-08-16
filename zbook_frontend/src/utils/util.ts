@@ -45,8 +45,6 @@ export function joinUrlParts(...parts: string[]): string {
   // 使用 join 方法将处理后的部分拼接成一个字符串
   const url = processedParts.join("/");
   return url;
-  // 在最终的 URL 中添加一个斜杠，以确保它的结尾是一个有效的 URL
-  return url.endsWith("/") ? url : url + "/";
 }
 
 export function generateRandomString(length: number): string {

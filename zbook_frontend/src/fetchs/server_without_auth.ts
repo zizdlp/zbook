@@ -1,5 +1,5 @@
 "use server";
-import { server_api_base_url, server_api_version } from "@/utils/env_variable";
+import { backend_url, api_version } from "@/utils/env_variable";
 import { joinUrlParts } from "@/utils/util";
 import { RequestOptions } from "@/fetchs/util";
 import { signIn } from "../auth";
@@ -128,7 +128,7 @@ export async function fetchServerWithoutAuthWrapper({
   xforward: string;
   agent: string;
 }) {
-  const url = joinUrlParts(server_api_base_url, server_api_version, endpoint);
+  const url = joinUrlParts(backend_url, api_version, endpoint);
   const options: RequestOptions = {
     method: "POST",
     body: JSON.stringify(values), // 使用对象解构简化代码
@@ -149,18 +149,17 @@ export async function createOAuthLink(
     body: JSON.stringify(values),
   };
 
-  const response = await fetch(
-    `${server_api_base_url}v1/create_oauth_link`,
-    options
-  );
+  const response = await fetch(`${backend_url}v1/create_oauth_link`, options);
   const data = await response.json();
   return data;
 }
 
 export async function getVerify(verification_url: string) {
-  const url = `${
-    process.env.BACKEND_URL
-  }v1/verify_email?verification_url=${decodeURIComponent(verification_url)}`;
+  const url = joinUrlParts(
+    backend_url,
+    api_version,
+    `verify_email?verification_url=${decodeURIComponent(verification_url)}`
+  );
   const decodedUrl = decodeURIComponent(url);
   const res = await fetch(decodedUrl);
   return await res.json();
@@ -212,8 +211,12 @@ export async function serverSignIn({
 
 export async function getUserAvatarServer({ username }: { username: string }) {
   try {
-    const backend_url = process.env.BACKEND_URL;
-    const url = `${backend_url}v1/get_user_avatar?username=${username}`;
+    const url = joinUrlParts(
+      backend_url,
+      api_version,
+      `get_user_avatar?username=${username}`
+    );
+
     const response = await fetch(url, { next: { revalidate: 3600 } });
     const data = await response.json();
     return data;

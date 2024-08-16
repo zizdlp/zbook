@@ -15,6 +15,7 @@ import { getTranslations } from "next-intl/server";
 
 import { redirect } from "@/navigation";
 import { auth } from "@/auth";
+import { doc_reponame, doc_username } from "@/utils/env_variable";
 export default async function Home() {
   const t = await getTranslations("HomePage");
   const session = await auth();
@@ -47,7 +48,7 @@ export default async function Home() {
                   </Link>
                   <Link
                     className="flex items-center space-x-1 hover:text-slate-800 dark:hover:text-gray-100"
-                    href={`/workspace/${process.env.DOC_USERNAME}/o/${process.env.DOC_REPONAME}`}
+                    href={`/workspace/${doc_username}/o/${doc_reponame}`}
                   >
                     <span>{t("Docs")}</span>
                     <MdChevronRight className="h-5 w-5" />
@@ -198,7 +199,7 @@ export default async function Home() {
               </Link>
               <Link
                 className=" flex items-center space-x-1 hover:text-slate-800 dark:hover:text-gray-100"
-                href={`/workspace/${process.env.DOC_USERNAME}/o/${process.env.DOC_REPONAME}`}
+                href={`/workspace/${doc_username}/o/${doc_reponame}`}
               >
                 <span>{t("Docs")}</span>
                 <MdChevronRight className="h-5 w-5" />
