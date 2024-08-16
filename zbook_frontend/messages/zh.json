@@ -38,6 +38,7 @@
     "NeedAnAccount": "需要一个账号?"
   },
   "Toast": {
+    "websocket_closed": "websocket已经关闭，请刷新页面尝试重新连接",
     "WhyReport": "举报原因?",
     "Submit": "提交",
     "CopiedClipboard": "拷贝到粘贴板",
