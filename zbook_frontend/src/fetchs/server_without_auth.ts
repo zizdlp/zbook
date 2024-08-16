@@ -148,8 +148,8 @@ export async function createOAuthLink(
     },
     body: JSON.stringify(values),
   };
-
-  const response = await fetch(`${backend_url}v1/create_oauth_link`, options);
+  const url = joinUrlParts(backend_url, api_version, `create_oauth_link`);
+  const response = await fetch(url, options);
   const data = await response.json();
   return data;
 }

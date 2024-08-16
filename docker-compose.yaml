@@ -86,7 +86,7 @@ services:
       - 3000:3000
     environment:
       - WEBSOCKET_URL=ws://localhost:10099
-      - BACKEND_URL=http://zbook-compose-backend:8080/
+      - BACKEND_URL=http://zbook-compose-backend:8080
       - AUTH_URL=http://localhost:3000
       - AUTH_SECRET=abcadsfasfsdafawefwaefa2
       - AUTH_TRUST_HOST=true
