@@ -137,6 +137,7 @@ interface GetMarkdownContentRequest {
   username: string;
   repo_name: string;
   relative_path: string;
+  lang: string;
 }
 
 interface GetMarkdownImageRequest {

@@ -13,6 +13,7 @@ type Anchor struct {
 	Icon string `json:"icon"`
 	URL  string `json:"url"`
 }
+
 type FooterSocial struct {
 	Name string `json:"name"`
 	Icon string `json:"icon"`
@@ -20,9 +21,9 @@ type FooterSocial struct {
 }
 
 type RepoConfig struct {
-	Anchors       []Anchor       `json:"anchors"`
-	Layout        []Layout       `json:"layout"`
-	FooterSocials []FooterSocial `json:"footerSocials"`
+	Anchors       []Anchor            `json:"anchors"`
+	Layout        map[string][]Layout `json:"layout"` // 支持多语言的 Layout
+	FooterSocials []FooterSocial      `json:"footerSocials"`
 }
 
 func ReadRepoConfig(filePath string) (*RepoConfig, error) {

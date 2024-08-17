@@ -8,12 +8,15 @@ import { logger } from "@/utils/logger";
 import LeftSideBarWrapper from "./LeftSideBarWrapper";
 import { BiError } from "react-icons/bi";
 import { getTranslations } from "next-intl/server";
+import { getLayoutForLocale } from "@/utils/util";
 export default async function RepoSideBarLayout({
   reponame,
   username,
+  locale,
 }: {
   reponame: string;
   username: string;
+  locale: string;
 }) {
   const t = await getTranslations("SideBar");
   try {
@@ -43,10 +46,13 @@ export default async function RepoSideBarLayout({
     if (data && data.config) {
       const stringConfig = data.config;
       const jsonConfig = JSON.parse(stringConfig);
-      const layout = jsonConfig.layout;
+      const langLayout = getLayoutForLocale(
+        jsonConfig,
+        locale == "" ? "en" : locale
+      );
       return (
         <RepoSideBar
-          sublayouts={layout}
+          sublayouts={langLayout}
           anchors={jsonConfig.anchors}
           theme_sidebar={data.theme_sidebar}
           theme_color={data.theme_color}

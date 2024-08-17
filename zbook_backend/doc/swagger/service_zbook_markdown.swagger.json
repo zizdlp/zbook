@@ -218,6 +218,9 @@
         },
         "relativePath": {
           "type": "string"
+        },
+        "lang": {
+          "type": "string"
         }
       },
       "title": "1.GetMarkdownContent"

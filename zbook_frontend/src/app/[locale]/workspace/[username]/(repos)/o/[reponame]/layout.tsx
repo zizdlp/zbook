@@ -9,7 +9,7 @@ export default function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { reponame: string; username: string };
+  params: { reponame: string; username: string; locale: string };
 }) {
   return (
     <div className="px-4 mx-auto max-w-[93rem] lg:px-8">
@@ -17,6 +17,7 @@ export default function RootLayout({
         <RepoSideBarLayout
           username={params.username}
           reponame={params.reponame}
+          locale={params.locale}
         />
       </Suspense>
       <SideBarToggleSmall />

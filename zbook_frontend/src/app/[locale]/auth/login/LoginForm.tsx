@@ -5,7 +5,7 @@ import { HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import FormRow from "@/components/forms/FormRow";
 import InputRow from "@/components/forms/InputRow";
 import { emailRegex } from "@/utils/const_value";
@@ -25,7 +25,6 @@ export default function LoginForm({
   xforward: string;
   agent: string;
 }) {
-  const locale = useLocale();
   const t = useTranslations("LoginForm");
   const [showPassword, setShowPassword] = useState(false);
   const [sendVerifyEmail, setSendVerifyEmail] = useState(false);

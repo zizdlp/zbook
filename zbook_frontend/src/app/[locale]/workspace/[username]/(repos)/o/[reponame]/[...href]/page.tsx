@@ -25,7 +25,7 @@ export default async function MarkdownPage({
   params,
   searchParams,
 }: {
-  params: { href: string; username: string; reponame: string };
+  params: { href: string; username: string; reponame: string; locale: string };
   searchParams?: SearchParams;
 }) {
   try {
@@ -43,6 +43,7 @@ export default async function MarkdownPage({
         username: params.username,
         repo_name: decodeURIComponent(params.reponame),
         relative_path: decodeURIComponent(params.href).split(",").join("/"),
+        lang: params.locale == "" ? "en" : params.locale,
       },
     });
     if (data.error) {

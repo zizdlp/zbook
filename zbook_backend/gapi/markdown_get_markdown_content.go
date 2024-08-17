@@ -59,7 +59,7 @@ func (server *Server) GetMarkdownContent(ctx context.Context, req *rpcs.GetMarkd
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "ParseRepoConfigFromString error : %s", err)
 	}
-	prev, next, err := config.FindAdjacentPaths(req.GetRelativePath())
+	prev, next, err := config.FindAdjacentPaths(req.GetLang(), req.GetRelativePath())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "FindAdjacentPaths error : %s", err)
 	}
