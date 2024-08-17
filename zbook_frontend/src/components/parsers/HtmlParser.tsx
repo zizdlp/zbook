@@ -288,8 +288,15 @@ const parseHTMLString = (
           (urlhref.startsWith("http") || urlhref.startsWith("#"))
         ) {
         } else if (urlhref && urlhref.endsWith(".md")) {
-          urlhref = "/workspace/" + username + "/o/" + repo_name;
-          "/" + prefixPath + "/" + urlhref.substring(0, urlhref.length - 3);
+          urlhref =
+            "/workspace/" +
+            username +
+            "/o/" +
+            repo_name +
+            "/" +
+            prefixPath +
+            "/" +
+            urlhref.substring(0, urlhref.length - 3);
         }
         if (parentAttr) {
           const tag = parent.tagName;
