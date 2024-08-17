@@ -93,7 +93,11 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 		}
 		config := &util.RepoConfig{}
 		layout := util.CreateLayout(mdFiles)
-		config.Layout = layout
+
+		// 存储 layout 到 "default" key 下
+		config.Layout = map[string][]util.Layout{
+			"default": layout,
+		}
 		configJSON, err := json.MarshalIndent(config, "", "  ")
 		if err != nil {
 			return fmt.Errorf("generate repo config failed: %v", err)

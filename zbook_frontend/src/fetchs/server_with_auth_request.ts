@@ -17,6 +17,11 @@ interface ListFollowerRequest {
   page_size: number;
   query: string;
 }
+interface GetFirstDocumentRequest {
+  username: string;
+  repo_name: string;
+  lang: string;
+}
 interface ListFollowingRequest {
   username: string;
   page_id: number;
@@ -124,11 +129,6 @@ interface GetUserInfoRequest {
   user_basic: boolean;
   user_image: boolean;
 }
-interface GetRepoBasicInfoRequest {
-  username: string;
-  repo_name: string;
-}
-
 interface GetRepoConfigRequest {
   username: string;
   repo_name: string;
@@ -137,6 +137,7 @@ interface GetMarkdownContentRequest {
   username: string;
   repo_name: string;
   relative_path: string;
+  lang: string;
 }
 
 interface GetMarkdownImageRequest {
@@ -151,7 +152,6 @@ interface CreateRepoRequest {
   git_access_token: string;
   sync_token: string;
   visibility_level: string;
-  home_page: string;
   theme_sidebar: string;
   theme_color: string;
 }
@@ -407,7 +407,6 @@ export type {
   ListSelectedUserByRepoRequest,
   GetSelectedUserByRepoCountRequest,
   GetUserInfoRequest,
-  GetRepoBasicInfoRequest,
   GetRepoConfigRequest,
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,
@@ -420,4 +419,5 @@ export type {
   QueryMarkdownRequest,
   CreateInvitationRequest,
   QueryUserByRepoRequest,
+  GetFirstDocumentRequest,
 };

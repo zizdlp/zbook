@@ -158,7 +158,6 @@
     "RepositoryName": "Repository name",
     "RepositoryNameTip": "Please enter the desired repository name",
     "Home": "Home",
-    "HomeTip": "Repository homepage",
     "TokenPassword": "Token/Password",
     "TokenPasswordTip": "Only private repositories required",
     "GitUrl": "Git URL",

@@ -57,7 +57,6 @@ export default function UpdateRepoDialog() {
       git_access_token: "",
       visibility_level: "",
       sync_token: "",
-      home_page: "",
       theme_sidebar: "",
       theme_color: "",
     },
@@ -121,7 +120,7 @@ export default function UpdateRepoDialog() {
             </div>
 
             <FormGroupWrapper
-              classType="col-span-6 sm:col-span-6"
+              classType="col-span-6 sm:col-span-3"
               nameKey="repo_name"
               showName={t("RepositoryName")}
               formik={formik}
@@ -132,20 +131,6 @@ export default function UpdateRepoDialog() {
                 placeholder={t("RepositoryNameTip")}
                 formik={formik}
                 error={formik.errors.repo_name}
-              />
-            </FormGroupWrapper>
-            <FormGroupWrapper
-              classType="col-span-6 sm:col-span-3"
-              nameKey="home_page"
-              showName={t("Home")}
-              formik={formik}
-            >
-              <FormInputWrapper
-                show={true}
-                name="home_page"
-                placeholder={t("HomeTip")}
-                formik={formik}
-                error={formik.errors.home_page}
               />
             </FormGroupWrapper>
             <FormGroupWrapper

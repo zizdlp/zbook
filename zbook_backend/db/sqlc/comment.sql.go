@@ -178,7 +178,7 @@ func (q *Queries) GetCommentDetail(ctx context.Context, arg GetCommentDetailPara
 }
 
 const getCommentRepoInfo = `-- name: GetCommentRepoInfo :one
-SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.home_page, repos.sync_token, repos.visibility_level, repos.commit_id, repos.config, repos.theme_sidebar, repos.theme_color, repos.created_at, repos.updated_at, repos.fts_repo_en, repos.fts_repo_zh
+SELECT repos.repo_id, repos.user_id, repos.git_protocol, repos.git_host, repos.git_username, repos.git_repo, repos.git_access_token, repos.repo_name, repos.repo_description, repos.sync_token, repos.visibility_level, repos.commit_id, repos.config, repos.theme_sidebar, repos.theme_color, repos.created_at, repos.updated_at, repos.fts_repo_en, repos.fts_repo_zh
 FROM markdowns
 JOIN comments on markdowns.markdown_id=comments.markdown_id
 JOIN repos on markdowns.repo_id = repos.repo_id
@@ -200,7 +200,6 @@ func (q *Queries) GetCommentRepoInfo(ctx context.Context, commentID int64) (Repo
 		&i.GitAccessToken,
 		&i.RepoName,
 		&i.RepoDescription,
-		&i.HomePage,
 		&i.SyncToken,
 		&i.VisibilityLevel,
 		&i.CommitID,

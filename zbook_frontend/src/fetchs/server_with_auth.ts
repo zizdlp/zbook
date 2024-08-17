@@ -33,7 +33,6 @@ import {
   ListUserLikeRepoRequest,
   ListUserOwnRepoRequest,
   ListUserRequest,
-  GetRepoBasicInfoRequest,
   UpdateUserBlockRequest,
   CreateRepoRequest,
   UpdateUserRequest,
@@ -49,6 +48,7 @@ import {
   QueryMarkdownRequest,
   CreateInvitationRequest,
   QueryUserByRepoRequest,
+  GetFirstDocumentRequest,
 } from "./server_with_auth_request";
 import {
   CreateRepoVisibilityRequest,
@@ -448,8 +448,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_BASIC_INFO;
-  values: GetRepoBasicInfoRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.GET_FIRST_DOCUMENT;
+  values: GetFirstDocumentRequest;
   xforward: string;
   agent: string;
   tags: string[];

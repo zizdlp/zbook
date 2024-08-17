@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
 	"github.com/zizdlp/zbook/pb/rpcs"
@@ -59,9 +60,11 @@ func (server *Server) GetMarkdownContent(ctx context.Context, req *rpcs.GetMarkd
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "ParseRepoConfigFromString error : %s", err)
 	}
-	prev, next, err := config.FindAdjacentPaths(req.GetRelativePath())
+	prev, next, err := config.FindAdjacentPaths(req.GetLang(), req.GetRelativePath())
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "FindAdjacentPaths error : %s", err)
+		log.Error().Err(err).Msg("FindAdjacentPaths error")
+		prev = ""
+		next = ""
 	}
 
 	rsp := &rpcs.GetMarkdownContentResponse{

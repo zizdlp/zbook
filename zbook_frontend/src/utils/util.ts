@@ -205,3 +205,22 @@ export function parseUserAgent(userAgent: string) {
   }
   return uaData;
 }
+
+export function getLayoutForLocale(jsonConfig: any, locale: any) {
+  const layout = jsonConfig.layout;
+
+  // 尝试获取指定语言的布局
+  let langLayout = layout[locale];
+
+  // 如果指定语言的布局不存在，尝试获取 "default" 布局
+  if (!langLayout) {
+    langLayout = layout["default"];
+  }
+
+  // 如果 "default" 布局也不存在，返回一个空布局
+  if (!langLayout) {
+    return [];
+  }
+
+  return langLayout;
+}

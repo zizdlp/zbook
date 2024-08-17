@@ -10,6 +10,7 @@ message GetMarkdownContentRequest {
   string username      = 1;
   string repo_name     = 2;
   string relative_path = 3;
+  string lang          = 4;
 }
 message GetMarkdownContentResponse {
   Markdown markdown                    = 1;

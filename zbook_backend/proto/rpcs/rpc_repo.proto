@@ -13,9 +13,8 @@ message CreateRepoRequest {
   string git_access_token = 4;
   string sync_token       = 5;
   string visibility_level = 6;
-  string home_page        = 7;
-  string theme_sidebar    = 9;
-  string theme_color      = 10;
+  string theme_sidebar    = 7;
+  string theme_color      = 8;
 }
 message CreateRepoResponse {}
 
@@ -63,26 +62,10 @@ message UpdateRepoInfoRequest {
   string repo_description = 5;
   string visibility_level = 6;
   string sync_token       = 7;
-  string home_page        = 8;
-  string theme_sidebar    = 9;
-  string theme_color      = 10;
+  string theme_sidebar    = 8;
+  string theme_color      = 9;
 }
 message UpdateRepoInfoResponse {}
-
-// 7.GetRepoBasicInfo
-message GetRepoBasicInfoRequest {
-  string username  = 1;
-  string repo_name = 2;
-}
-message GetRepoBasicInfoResponse {
-  string repo_name                     = 2;
-  string username                      = 3;
-  string email                         = 4;
-  bytes avatar                         = 5;
-  string repo_description              = 6;
-  google.protobuf.Timestamp updated_at = 7;
-  string home_page                     = 8;
-}
 
 // 9.ListUserOwnRepo
 message ListUserOwnRepoRequest {
@@ -139,4 +122,13 @@ message GetListRepoCountRequest {
 }
 message GetListRepoCountResponse {
   int64 count = 1;
+}
+// 15.GetFirstDocument
+message GetFirstDocumentRequest {
+  string username  = 1;
+  string repo_name = 2;
+  string lang      = 3;
+}
+message GetFirstDocumentResponse {
+  string relative_path = 1;
 }

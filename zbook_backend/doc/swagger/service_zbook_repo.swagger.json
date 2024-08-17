@@ -123,6 +123,40 @@
         ]
       }
     },
+    "/v1/get_first_document": {
+      "post": {
+        "summary": "get_repo_count",
+        "description": "Use this api to list_repo_private",
+        "operationId": "ZBookRepo_GetFirstDocument",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetFirstDocumentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetFirstDocumentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
     "/v1/get_list_repo_count": {
       "post": {
         "summary": "get_repo_count",
@@ -217,40 +251,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbGetListUserOwnRepoCountRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ZBookRepo"
-        ]
-      }
-    },
-    "/v1/get_repo_basic_info": {
-      "post": {
-        "summary": "get repo info",
-        "description": "Use this api to get repo info",
-        "operationId": "ZBookRepo_GetRepoBasicInfo",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/pbGetRepoBasicInfoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/pbGetRepoBasicInfoRequest"
             }
           }
         ],
@@ -504,9 +504,6 @@
         "visibilityLevel": {
           "type": "string"
         },
-        "homePage": {
-          "type": "string"
-        },
         "themeSidebar": {
           "type": "string"
         },
@@ -533,6 +530,29 @@
     },
     "pbDeleteRepoResponse": {
       "type": "object"
+    },
+    "pbGetFirstDocumentRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        }
+      },
+      "title": "15.GetFirstDocument"
+    },
+    "pbGetFirstDocumentResponse": {
+      "type": "object",
+      "properties": {
+        "relativePath": {
+          "type": "string"
+        }
+      }
     },
     "pbGetListRepoCountRequest": {
       "type": "object",
@@ -591,46 +611,6 @@
         "count": {
           "type": "string",
           "format": "int64"
-        }
-      }
-    },
-    "pbGetRepoBasicInfoRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "repoName": {
-          "type": "string"
-        }
-      },
-      "title": "7.GetRepoBasicInfo"
-    },
-    "pbGetRepoBasicInfoResponse": {
-      "type": "object",
-      "properties": {
-        "repoName": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string",
-          "format": "byte"
-        },
-        "repoDescription": {
-          "type": "string"
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "homePage": {
-          "type": "string"
         }
       }
     },
@@ -835,9 +815,6 @@
           "type": "string"
         },
         "syncToken": {
-          "type": "string"
-        },
-        "homePage": {
           "type": "string"
         },
         "themeSidebar": {

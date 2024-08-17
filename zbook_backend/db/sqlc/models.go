@@ -124,7 +124,6 @@ type Repo struct {
 	GitAccessToken  pgtype.Text `json:"git_access_token"`
 	RepoName        string      `json:"repo_name"`
 	RepoDescription string      `json:"repo_description"`
-	HomePage        string      `json:"home_page"`
 	SyncToken       pgtype.Text `json:"sync_token"`
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`

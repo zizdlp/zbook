@@ -5,28 +5,30 @@ import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_ut
 import { headers } from "next/headers";
 import { FetchError } from "@/fetchs/util";
 export default async function RepoDetail({
-  params: { reponame, username },
+  params: { reponame, username, locale },
 }: {
-  params: { reponame: string; username: string };
+  params: { reponame: string; username: string; locale: string };
 }) {
   let home_page = "readme";
   try {
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";
-    const repo_data = await fetchServerWithAuthWrapper({
-      endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_BASIC_INFO,
+    const data = await fetchServerWithAuthWrapper({
+      endpoint: FetchServerWithAuthWrapperEndPoint.GET_FIRST_DOCUMENT,
       xforward: xforward,
       agent: agent,
       tags: [],
       values: {
         username: username,
         repo_name: decodeURIComponent(reponame),
+        lang: locale == "" ? "en" : locale,
       },
     });
-    if (repo_data.error) {
-      throw new FetchError(repo_data.message, repo_data.status);
+    console.log("error:", data);
+    if (data.error) {
+      throw new FetchError(data.message, data.status);
     }
-    home_page = repo_data.home_page;
+    home_page = data.relative_path;
   } catch (error) {
     return <NotFound />;
   }

@@ -1,5 +1,5 @@
 CURRENT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
+POD_NAME := zbook-local-database
 include zbook_backend/app.env
 ########################################################
 ################## local backend  ######################
@@ -67,6 +67,14 @@ migrateup:
 migratedown:
 	cd zbook_backend && \
 	migrate -path db/migration -database "$(DB_SOURCE)" -verbose down
+convert_db:
+	cd zbook_database && \
+	python convert.py
+import_data:
+	docker cp geoip_data.sql.gz $(POD_NAME):/tmp/
+	docker exec -it $(POD_NAME) sh -c "gunzip /tmp/geoip_data.sql.gz"
+	docker exec -it $(POD_NAME) sh -c 'psql -U root -d zbook -f /tmp/geoip_data.sql'
+	docker exec -it $(POD_NAME) sh -c "rm /tmp/geoip_data.sql"
 redis:
 	docker run --name zbook-local-redis -p 6379:6379 -d redis:7-alpine
 minio:
