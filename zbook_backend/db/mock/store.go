@@ -835,6 +835,21 @@ func (mr *MockStoreMockRecorder) GetListRepoNotificationUnreadedCount(arg0, arg1
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListRepoNotificationUnreadedCount", reflect.TypeOf((*MockStore)(nil).GetListRepoNotificationUnreadedCount), arg0, arg1)
 }
 
+// GetListSelectedUserByRepoCount mocks base method.
+func (m *MockStore) GetListSelectedUserByRepoCount(arg0 context.Context, arg1 db.GetListSelectedUserByRepoCountParams) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetListSelectedUserByRepoCount", arg0, arg1)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetListSelectedUserByRepoCount indicates an expected call of GetListSelectedUserByRepoCount.
+func (mr *MockStoreMockRecorder) GetListSelectedUserByRepoCount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListSelectedUserByRepoCount", reflect.TypeOf((*MockStore)(nil).GetListSelectedUserByRepoCount), arg0, arg1)
+}
+
 // GetListSessionCount mocks base method.
 func (m *MockStore) GetListSessionCount(arg0 context.Context) (int64, error) {
 	m.ctrl.T.Helper()
@@ -1045,6 +1060,21 @@ func (mr *MockStoreMockRecorder) GetQueryRepoCount(arg0, arg1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetQueryRepoCount", reflect.TypeOf((*MockStore)(nil).GetQueryRepoCount), arg0, arg1)
 }
 
+// GetQuerySelectedUserByRepoCount mocks base method.
+func (m *MockStore) GetQuerySelectedUserByRepoCount(arg0 context.Context, arg1 db.GetQuerySelectedUserByRepoCountParams) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetQuerySelectedUserByRepoCount", arg0, arg1)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetQuerySelectedUserByRepoCount indicates an expected call of GetQuerySelectedUserByRepoCount.
+func (mr *MockStoreMockRecorder) GetQuerySelectedUserByRepoCount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetQuerySelectedUserByRepoCount", reflect.TypeOf((*MockStore)(nil).GetQuerySelectedUserByRepoCount), arg0, arg1)
+}
+
 // GetQuerySessionCount mocks base method.
 func (m *MockStore) GetQuerySessionCount(arg0 context.Context, arg1 string) (int64, error) {
 	m.ctrl.T.Helper()
@@ -1208,21 +1238,6 @@ func (m *MockStore) GetRepoRelation(arg0 context.Context, arg1 db.GetRepoRelatio
 func (mr *MockStoreMockRecorder) GetRepoRelation(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoRelation", reflect.TypeOf((*MockStore)(nil).GetRepoRelation), arg0, arg1)
-}
-
-// GetRepoVisibilityByRepoCount mocks base method.
-func (m *MockStore) GetRepoVisibilityByRepoCount(arg0 context.Context, arg1 int64) (int64, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRepoVisibilityByRepoCount", arg0, arg1)
-	ret0, _ := ret[0].(int64)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetRepoVisibilityByRepoCount indicates an expected call of GetRepoVisibilityByRepoCount.
-func (mr *MockStoreMockRecorder) GetRepoVisibilityByRepoCount(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoVisibilityByRepoCount", reflect.TypeOf((*MockStore)(nil).GetRepoVisibilityByRepoCount), arg0, arg1)
 }
 
 // GetSession mocks base method.
@@ -1480,19 +1495,19 @@ func (mr *MockStoreMockRecorder) ListRepoNotification(arg0, arg1 interface{}) *g
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRepoNotification", reflect.TypeOf((*MockStore)(nil).ListRepoNotification), arg0, arg1)
 }
 
-// ListRepoVisibilityByRepo mocks base method.
-func (m *MockStore) ListRepoVisibilityByRepo(arg0 context.Context, arg1 db.ListRepoVisibilityByRepoParams) ([]db.User, error) {
+// ListSelectedUserByRepo mocks base method.
+func (m *MockStore) ListSelectedUserByRepo(arg0 context.Context, arg1 db.ListSelectedUserByRepoParams) ([]db.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListRepoVisibilityByRepo", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListSelectedUserByRepo", arg0, arg1)
 	ret0, _ := ret[0].([]db.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListRepoVisibilityByRepo indicates an expected call of ListRepoVisibilityByRepo.
-func (mr *MockStoreMockRecorder) ListRepoVisibilityByRepo(arg0, arg1 interface{}) *gomock.Call {
+// ListSelectedUserByRepo indicates an expected call of ListSelectedUserByRepo.
+func (mr *MockStoreMockRecorder) ListSelectedUserByRepo(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRepoVisibilityByRepo", reflect.TypeOf((*MockStore)(nil).ListRepoVisibilityByRepo), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSelectedUserByRepo", reflect.TypeOf((*MockStore)(nil).ListSelectedUserByRepo), arg0, arg1)
 }
 
 // ListSession mocks base method.
@@ -1779,19 +1794,19 @@ func (mr *MockStoreMockRecorder) QueryRepoMarkdown(arg0, arg1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryRepoMarkdown", reflect.TypeOf((*MockStore)(nil).QueryRepoMarkdown), arg0, arg1)
 }
 
-// QueryRepoVisibilityByRepo mocks base method.
-func (m *MockStore) QueryRepoVisibilityByRepo(arg0 context.Context, arg1 db.QueryRepoVisibilityByRepoParams) ([]db.QueryRepoVisibilityByRepoRow, error) {
+// QuerySelectedUserByRepo mocks base method.
+func (m *MockStore) QuerySelectedUserByRepo(arg0 context.Context, arg1 db.QuerySelectedUserByRepoParams) ([]db.QuerySelectedUserByRepoRow, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryRepoVisibilityByRepo", arg0, arg1)
-	ret0, _ := ret[0].([]db.QueryRepoVisibilityByRepoRow)
+	ret := m.ctrl.Call(m, "QuerySelectedUserByRepo", arg0, arg1)
+	ret0, _ := ret[0].([]db.QuerySelectedUserByRepoRow)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// QueryRepoVisibilityByRepo indicates an expected call of QueryRepoVisibilityByRepo.
-func (mr *MockStoreMockRecorder) QueryRepoVisibilityByRepo(arg0, arg1 interface{}) *gomock.Call {
+// QuerySelectedUserByRepo indicates an expected call of QuerySelectedUserByRepo.
+func (mr *MockStoreMockRecorder) QuerySelectedUserByRepo(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryRepoVisibilityByRepo", reflect.TypeOf((*MockStore)(nil).QueryRepoVisibilityByRepo), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QuerySelectedUserByRepo", reflect.TypeOf((*MockStore)(nil).QuerySelectedUserByRepo), arg0, arg1)
 }
 
 // QuerySession mocks base method.
@@ -1822,6 +1837,21 @@ func (m *MockStore) QueryUser(arg0 context.Context, arg1 db.QueryUserParams) ([]
 func (mr *MockStoreMockRecorder) QueryUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUser", reflect.TypeOf((*MockStore)(nil).QueryUser), arg0, arg1)
+}
+
+// QueryUserByRepo mocks base method.
+func (m *MockStore) QueryUserByRepo(arg0 context.Context, arg1 db.QueryUserByRepoParams) ([]db.QueryUserByRepoRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryUserByRepo", arg0, arg1)
+	ret0, _ := ret[0].([]db.QueryUserByRepoRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// QueryUserByRepo indicates an expected call of QueryUserByRepo.
+func (mr *MockStoreMockRecorder) QueryUserByRepo(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserByRepo", reflect.TypeOf((*MockStore)(nil).QueryUserByRepo), arg0, arg1)
 }
 
 // QueryUserLikeRepo mocks base method.

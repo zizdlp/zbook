@@ -157,16 +157,16 @@
         ]
       }
     },
-    "/v1/get_repo_visibility_count": {
+    "/v1/get_selected_user_by_repo_count": {
       "post": {
         "summary": "列出用户创建帖子的归属信息",
         "description": "分页列出指定用户创建帖子的归属信息",
-        "operationId": "ZBookRepoRelation_GetRepoVisibilityCount",
+        "operationId": "ZBookRepoRelation_GetSelectedUserByRepoCount",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/pbGetRepoVisibilityCountResponse"
+              "$ref": "#/definitions/pbGetSelectedUserByRepoCountResponse"
             }
           },
           "default": {
@@ -182,7 +182,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/pbGetRepoVisibilityCountRequest"
+              "$ref": "#/definitions/pbGetSelectedUserByRepoCountRequest"
             }
           }
         ],
@@ -191,16 +191,16 @@
         ]
       }
     },
-    "/v1/list_repo_visibility": {
+    "/v1/list_selected_user_by_repo": {
       "post": {
         "summary": "列出用户创建帖子的归属信息",
         "description": "分页列出指定用户创建帖子的归属信息",
-        "operationId": "ZBookRepoRelation_ListRepoVisibility",
+        "operationId": "ZBookRepoRelation_ListSelectedUserByRepo",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/pbListRepoVisibilityResponse"
+              "$ref": "#/definitions/pbListSelectedUserByRepoResponse"
             }
           },
           "default": {
@@ -216,7 +216,41 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/pbListRepoVisibilityRequest"
+              "$ref": "#/definitions/pbListSelectedUserByRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
+    },
+    "/v1/query_user_by_repo": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepoRelation_QueryUserByRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserByRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserByRepoRequest"
             }
           }
         ],
@@ -305,7 +339,7 @@
     "pbDeleteRepoVisibilityResponse": {
       "type": "object"
     },
-    "pbGetRepoVisibilityCountRequest": {
+    "pbGetSelectedUserByRepoCountRequest": {
       "type": "object",
       "properties": {
         "username": {
@@ -313,11 +347,14 @@
         },
         "repoName": {
           "type": "string"
+        },
+        "query": {
+          "type": "string"
         }
       },
-      "title": "6.GetRepoVisibilityCount"
+      "title": "6.GetSelectedUserByRepoCount"
     },
-    "pbGetRepoVisibilityCountResponse": {
+    "pbGetSelectedUserByRepoCountResponse": {
       "type": "object",
       "properties": {
         "count": {
@@ -326,7 +363,7 @@
         }
       }
     },
-    "pbListRepoVisibilityRequest": {
+    "pbListSelectedUserByRepoRequest": {
       "type": "object",
       "properties": {
         "pageId": {
@@ -347,9 +384,9 @@
           "type": "string"
         }
       },
-      "title": "5.ListRepoVisibility"
+      "title": "5.ListSelectedUserByRepo"
     },
-    "pbListRepoVisibilityResponse": {
+    "pbListSelectedUserByRepoResponse": {
       "type": "object",
       "properties": {
         "elements": {
@@ -370,15 +407,51 @@
         "email": {
           "type": "string"
         },
-        "isFollowing": {
-          "type": "boolean"
-        },
         "isRepoVisible": {
           "type": "boolean"
         },
         "updatedAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbQueryUserByRepoRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "7.QueryUserByRepo"
+    },
+    "pbQueryUserByRepoResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListUserRepoVisiblityInfo"
+          }
         }
       }
     },

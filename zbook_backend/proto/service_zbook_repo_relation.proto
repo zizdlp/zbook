@@ -52,7 +52,6 @@ summary:
 }
 ;
 
-
 // 3.CreateRepoVisibility
 rpc CreateRepoVisibility(CreateRepoVisibilityRequest)
     returns (CreateRepoVisibilityResponse) {
@@ -83,11 +82,11 @@ summary:
 }
 ;
 
-// 5.ListRepoVisibility
-rpc ListRepoVisibility(ListRepoVisibilityRequest)
-    returns (ListRepoVisibilityResponse) {
+// 5.ListSelectedUserByRepo
+rpc ListSelectedUserByRepo(ListSelectedUserByRepoRequest)
+    returns (ListSelectedUserByRepoResponse) {
   option (google.api.http) = {
-    post: "/v1/list_repo_visibility",
+    post: "/v1/list_selected_user_by_repo",
     body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
@@ -98,11 +97,25 @@ summary:
 }
 ;
 
-// 6.GetRepoVisibilityCount
-rpc GetRepoVisibilityCount(GetRepoVisibilityCountRequest)
-    returns (GetRepoVisibilityCountResponse) {
+// 6.GetSelectedUserByRepoCount
+rpc GetSelectedUserByRepoCount(GetSelectedUserByRepoCountRequest)
+    returns (GetSelectedUserByRepoCountResponse) {
   option (google.api.http) = {
-    post: "/v1/get_repo_visibility_count",
+    post: "/v1/get_selected_user_by_repo_count",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
+
+// 7.QueryUserByRepo
+rpc QueryUserByRepo(QueryUserByRepoRequest) returns (QueryUserByRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/query_user_by_repo",
     body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {

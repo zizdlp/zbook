@@ -20,12 +20,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ZBookRepoRelation_CreateRepoRelation_FullMethodName     = "/pb.ZBookRepoRelation/CreateRepoRelation"
-	ZBookRepoRelation_DeleteRepoRelation_FullMethodName     = "/pb.ZBookRepoRelation/DeleteRepoRelation"
-	ZBookRepoRelation_CreateRepoVisibility_FullMethodName   = "/pb.ZBookRepoRelation/CreateRepoVisibility"
-	ZBookRepoRelation_DeleteRepoVisibility_FullMethodName   = "/pb.ZBookRepoRelation/DeleteRepoVisibility"
-	ZBookRepoRelation_ListRepoVisibility_FullMethodName     = "/pb.ZBookRepoRelation/ListRepoVisibility"
-	ZBookRepoRelation_GetRepoVisibilityCount_FullMethodName = "/pb.ZBookRepoRelation/GetRepoVisibilityCount"
+	ZBookRepoRelation_CreateRepoRelation_FullMethodName         = "/pb.ZBookRepoRelation/CreateRepoRelation"
+	ZBookRepoRelation_DeleteRepoRelation_FullMethodName         = "/pb.ZBookRepoRelation/DeleteRepoRelation"
+	ZBookRepoRelation_CreateRepoVisibility_FullMethodName       = "/pb.ZBookRepoRelation/CreateRepoVisibility"
+	ZBookRepoRelation_DeleteRepoVisibility_FullMethodName       = "/pb.ZBookRepoRelation/DeleteRepoVisibility"
+	ZBookRepoRelation_ListSelectedUserByRepo_FullMethodName     = "/pb.ZBookRepoRelation/ListSelectedUserByRepo"
+	ZBookRepoRelation_GetSelectedUserByRepoCount_FullMethodName = "/pb.ZBookRepoRelation/GetSelectedUserByRepoCount"
+	ZBookRepoRelation_QueryUserByRepo_FullMethodName            = "/pb.ZBookRepoRelation/QueryUserByRepo"
 )
 
 // ZBookRepoRelationClient is the client API for ZBookRepoRelation service.
@@ -40,10 +41,12 @@ type ZBookRepoRelationClient interface {
 	CreateRepoVisibility(ctx context.Context, in *rpcs.CreateRepoVisibilityRequest, opts ...grpc.CallOption) (*rpcs.CreateRepoVisibilityResponse, error)
 	// 4.DeleteRepoVisibility
 	DeleteRepoVisibility(ctx context.Context, in *rpcs.DeleteRepoVisibilityRequest, opts ...grpc.CallOption) (*rpcs.DeleteRepoVisibilityResponse, error)
-	// 5.ListRepoVisibility
-	ListRepoVisibility(ctx context.Context, in *rpcs.ListRepoVisibilityRequest, opts ...grpc.CallOption) (*rpcs.ListRepoVisibilityResponse, error)
-	// 6.GetRepoVisibilityCount
-	GetRepoVisibilityCount(ctx context.Context, in *rpcs.GetRepoVisibilityCountRequest, opts ...grpc.CallOption) (*rpcs.GetRepoVisibilityCountResponse, error)
+	// 5.ListSelectedUserByRepo
+	ListSelectedUserByRepo(ctx context.Context, in *rpcs.ListSelectedUserByRepoRequest, opts ...grpc.CallOption) (*rpcs.ListSelectedUserByRepoResponse, error)
+	// 6.GetSelectedUserByRepoCount
+	GetSelectedUserByRepoCount(ctx context.Context, in *rpcs.GetSelectedUserByRepoCountRequest, opts ...grpc.CallOption) (*rpcs.GetSelectedUserByRepoCountResponse, error)
+	// 7.QueryUserByRepo
+	QueryUserByRepo(ctx context.Context, in *rpcs.QueryUserByRepoRequest, opts ...grpc.CallOption) (*rpcs.QueryUserByRepoResponse, error)
 }
 
 type zBookRepoRelationClient struct {
@@ -90,18 +93,27 @@ func (c *zBookRepoRelationClient) DeleteRepoVisibility(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *zBookRepoRelationClient) ListRepoVisibility(ctx context.Context, in *rpcs.ListRepoVisibilityRequest, opts ...grpc.CallOption) (*rpcs.ListRepoVisibilityResponse, error) {
-	out := new(rpcs.ListRepoVisibilityResponse)
-	err := c.cc.Invoke(ctx, ZBookRepoRelation_ListRepoVisibility_FullMethodName, in, out, opts...)
+func (c *zBookRepoRelationClient) ListSelectedUserByRepo(ctx context.Context, in *rpcs.ListSelectedUserByRepoRequest, opts ...grpc.CallOption) (*rpcs.ListSelectedUserByRepoResponse, error) {
+	out := new(rpcs.ListSelectedUserByRepoResponse)
+	err := c.cc.Invoke(ctx, ZBookRepoRelation_ListSelectedUserByRepo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *zBookRepoRelationClient) GetRepoVisibilityCount(ctx context.Context, in *rpcs.GetRepoVisibilityCountRequest, opts ...grpc.CallOption) (*rpcs.GetRepoVisibilityCountResponse, error) {
-	out := new(rpcs.GetRepoVisibilityCountResponse)
-	err := c.cc.Invoke(ctx, ZBookRepoRelation_GetRepoVisibilityCount_FullMethodName, in, out, opts...)
+func (c *zBookRepoRelationClient) GetSelectedUserByRepoCount(ctx context.Context, in *rpcs.GetSelectedUserByRepoCountRequest, opts ...grpc.CallOption) (*rpcs.GetSelectedUserByRepoCountResponse, error) {
+	out := new(rpcs.GetSelectedUserByRepoCountResponse)
+	err := c.cc.Invoke(ctx, ZBookRepoRelation_GetSelectedUserByRepoCount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *zBookRepoRelationClient) QueryUserByRepo(ctx context.Context, in *rpcs.QueryUserByRepoRequest, opts ...grpc.CallOption) (*rpcs.QueryUserByRepoResponse, error) {
+	out := new(rpcs.QueryUserByRepoResponse)
+	err := c.cc.Invoke(ctx, ZBookRepoRelation_QueryUserByRepo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -120,10 +132,12 @@ type ZBookRepoRelationServer interface {
 	CreateRepoVisibility(context.Context, *rpcs.CreateRepoVisibilityRequest) (*rpcs.CreateRepoVisibilityResponse, error)
 	// 4.DeleteRepoVisibility
 	DeleteRepoVisibility(context.Context, *rpcs.DeleteRepoVisibilityRequest) (*rpcs.DeleteRepoVisibilityResponse, error)
-	// 5.ListRepoVisibility
-	ListRepoVisibility(context.Context, *rpcs.ListRepoVisibilityRequest) (*rpcs.ListRepoVisibilityResponse, error)
-	// 6.GetRepoVisibilityCount
-	GetRepoVisibilityCount(context.Context, *rpcs.GetRepoVisibilityCountRequest) (*rpcs.GetRepoVisibilityCountResponse, error)
+	// 5.ListSelectedUserByRepo
+	ListSelectedUserByRepo(context.Context, *rpcs.ListSelectedUserByRepoRequest) (*rpcs.ListSelectedUserByRepoResponse, error)
+	// 6.GetSelectedUserByRepoCount
+	GetSelectedUserByRepoCount(context.Context, *rpcs.GetSelectedUserByRepoCountRequest) (*rpcs.GetSelectedUserByRepoCountResponse, error)
+	// 7.QueryUserByRepo
+	QueryUserByRepo(context.Context, *rpcs.QueryUserByRepoRequest) (*rpcs.QueryUserByRepoResponse, error)
 	mustEmbedUnimplementedZBookRepoRelationServer()
 }
 
@@ -143,11 +157,14 @@ func (UnimplementedZBookRepoRelationServer) CreateRepoVisibility(context.Context
 func (UnimplementedZBookRepoRelationServer) DeleteRepoVisibility(context.Context, *rpcs.DeleteRepoVisibilityRequest) (*rpcs.DeleteRepoVisibilityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRepoVisibility not implemented")
 }
-func (UnimplementedZBookRepoRelationServer) ListRepoVisibility(context.Context, *rpcs.ListRepoVisibilityRequest) (*rpcs.ListRepoVisibilityResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListRepoVisibility not implemented")
+func (UnimplementedZBookRepoRelationServer) ListSelectedUserByRepo(context.Context, *rpcs.ListSelectedUserByRepoRequest) (*rpcs.ListSelectedUserByRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSelectedUserByRepo not implemented")
 }
-func (UnimplementedZBookRepoRelationServer) GetRepoVisibilityCount(context.Context, *rpcs.GetRepoVisibilityCountRequest) (*rpcs.GetRepoVisibilityCountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRepoVisibilityCount not implemented")
+func (UnimplementedZBookRepoRelationServer) GetSelectedUserByRepoCount(context.Context, *rpcs.GetSelectedUserByRepoCountRequest) (*rpcs.GetSelectedUserByRepoCountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSelectedUserByRepoCount not implemented")
+}
+func (UnimplementedZBookRepoRelationServer) QueryUserByRepo(context.Context, *rpcs.QueryUserByRepoRequest) (*rpcs.QueryUserByRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryUserByRepo not implemented")
 }
 func (UnimplementedZBookRepoRelationServer) mustEmbedUnimplementedZBookRepoRelationServer() {}
 
@@ -234,38 +251,56 @@ func _ZBookRepoRelation_DeleteRepoVisibility_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookRepoRelation_ListRepoVisibility_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.ListRepoVisibilityRequest)
+func _ZBookRepoRelation_ListSelectedUserByRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.ListSelectedUserByRepoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ZBookRepoRelationServer).ListRepoVisibility(ctx, in)
+		return srv.(ZBookRepoRelationServer).ListSelectedUserByRepo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ZBookRepoRelation_ListRepoVisibility_FullMethodName,
+		FullMethod: ZBookRepoRelation_ListSelectedUserByRepo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookRepoRelationServer).ListRepoVisibility(ctx, req.(*rpcs.ListRepoVisibilityRequest))
+		return srv.(ZBookRepoRelationServer).ListSelectedUserByRepo(ctx, req.(*rpcs.ListSelectedUserByRepoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ZBookRepoRelation_GetRepoVisibilityCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.GetRepoVisibilityCountRequest)
+func _ZBookRepoRelation_GetSelectedUserByRepoCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.GetSelectedUserByRepoCountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ZBookRepoRelationServer).GetRepoVisibilityCount(ctx, in)
+		return srv.(ZBookRepoRelationServer).GetSelectedUserByRepoCount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ZBookRepoRelation_GetRepoVisibilityCount_FullMethodName,
+		FullMethod: ZBookRepoRelation_GetSelectedUserByRepoCount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookRepoRelationServer).GetRepoVisibilityCount(ctx, req.(*rpcs.GetRepoVisibilityCountRequest))
+		return srv.(ZBookRepoRelationServer).GetSelectedUserByRepoCount(ctx, req.(*rpcs.GetSelectedUserByRepoCountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ZBookRepoRelation_QueryUserByRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.QueryUserByRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ZBookRepoRelationServer).QueryUserByRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ZBookRepoRelation_QueryUserByRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ZBookRepoRelationServer).QueryUserByRepo(ctx, req.(*rpcs.QueryUserByRepoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -294,12 +329,16 @@ var ZBookRepoRelation_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ZBookRepoRelation_DeleteRepoVisibility_Handler,
 		},
 		{
-			MethodName: "ListRepoVisibility",
-			Handler:    _ZBookRepoRelation_ListRepoVisibility_Handler,
+			MethodName: "ListSelectedUserByRepo",
+			Handler:    _ZBookRepoRelation_ListSelectedUserByRepo_Handler,
 		},
 		{
-			MethodName: "GetRepoVisibilityCount",
-			Handler:    _ZBookRepoRelation_GetRepoVisibilityCount_Handler,
+			MethodName: "GetSelectedUserByRepoCount",
+			Handler:    _ZBookRepoRelation_GetSelectedUserByRepoCount_Handler,
+		},
+		{
+			MethodName: "QueryUserByRepo",
+			Handler:    _ZBookRepoRelation_QueryUserByRepo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

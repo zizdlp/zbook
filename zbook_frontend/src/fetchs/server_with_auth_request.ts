@@ -23,6 +23,13 @@ interface ListFollowingRequest {
   page_size: number;
   query: string;
 }
+interface QueryUserByRepoRequest {
+  username: string;
+  repo_name: string;
+  page_id: number;
+  page_size: number;
+  query: string;
+}
 interface UpdateUserBlockRequest {
   username: string;
   blocked: boolean;
@@ -98,16 +105,17 @@ interface ListRepoRequest {
   page_size: number;
   query: string;
 }
-interface ListRepoVisibilityRequest {
+interface ListSelectedUserByRepoRequest {
   page_id: number;
   page_size: number;
   query: string;
   username: string;
   repo_name: string;
 }
-interface GetRepoVisibilityCountRequest {
+interface GetSelectedUserByRepoCountRequest {
   username: string;
   repo_name: string;
+  query: string;
 }
 
 interface GetUserInfoRequest {
@@ -396,8 +404,8 @@ export type {
   ListCommentReportRequest,
   ListCommentRequest,
   ListRepoRequest,
-  ListRepoVisibilityRequest,
-  GetRepoVisibilityCountRequest,
+  ListSelectedUserByRepoRequest,
+  GetSelectedUserByRepoCountRequest,
   GetUserInfoRequest,
   GetRepoBasicInfoRequest,
   GetRepoConfigRequest,
@@ -411,4 +419,5 @@ export type {
   UpdateConfigurationRequest,
   QueryMarkdownRequest,
   CreateInvitationRequest,
+  QueryUserByRepoRequest,
 };

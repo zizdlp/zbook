@@ -438,8 +438,8 @@ func (*DeleteRepoVisibilityResponse) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_relation_proto_rawDescGZIP(), []int{7}
 }
 
-// 5.ListRepoVisibility
-type ListRepoVisibilityRequest struct {
+// 5.ListSelectedUserByRepo
+type ListSelectedUserByRepoRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -451,8 +451,8 @@ type ListRepoVisibilityRequest struct {
 	Query    string `protobuf:"bytes,5,opt,name=query,proto3" json:"query,omitempty"`
 }
 
-func (x *ListRepoVisibilityRequest) Reset() {
-	*x = ListRepoVisibilityRequest{}
+func (x *ListSelectedUserByRepoRequest) Reset() {
+	*x = ListSelectedUserByRepoRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -460,13 +460,13 @@ func (x *ListRepoVisibilityRequest) Reset() {
 	}
 }
 
-func (x *ListRepoVisibilityRequest) String() string {
+func (x *ListSelectedUserByRepoRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListRepoVisibilityRequest) ProtoMessage() {}
+func (*ListSelectedUserByRepoRequest) ProtoMessage() {}
 
-func (x *ListRepoVisibilityRequest) ProtoReflect() protoreflect.Message {
+func (x *ListSelectedUserByRepoRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -478,47 +478,47 @@ func (x *ListRepoVisibilityRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListRepoVisibilityRequest.ProtoReflect.Descriptor instead.
-func (*ListRepoVisibilityRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListSelectedUserByRepoRequest.ProtoReflect.Descriptor instead.
+func (*ListSelectedUserByRepoRequest) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_relation_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *ListRepoVisibilityRequest) GetPageId() int32 {
+func (x *ListSelectedUserByRepoRequest) GetPageId() int32 {
 	if x != nil {
 		return x.PageId
 	}
 	return 0
 }
 
-func (x *ListRepoVisibilityRequest) GetPageSize() int32 {
+func (x *ListSelectedUserByRepoRequest) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
 	}
 	return 0
 }
 
-func (x *ListRepoVisibilityRequest) GetUsername() string {
+func (x *ListSelectedUserByRepoRequest) GetUsername() string {
 	if x != nil {
 		return x.Username
 	}
 	return ""
 }
 
-func (x *ListRepoVisibilityRequest) GetRepoName() string {
+func (x *ListSelectedUserByRepoRequest) GetRepoName() string {
 	if x != nil {
 		return x.RepoName
 	}
 	return ""
 }
 
-func (x *ListRepoVisibilityRequest) GetQuery() string {
+func (x *ListSelectedUserByRepoRequest) GetQuery() string {
 	if x != nil {
 		return x.Query
 	}
 	return ""
 }
 
-type ListRepoVisibilityResponse struct {
+type ListSelectedUserByRepoResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -526,8 +526,8 @@ type ListRepoVisibilityResponse struct {
 	Elements []*models.ListUserRepoVisiblityInfo `protobuf:"bytes,1,rep,name=elements,proto3" json:"elements,omitempty"`
 }
 
-func (x *ListRepoVisibilityResponse) Reset() {
-	*x = ListRepoVisibilityResponse{}
+func (x *ListSelectedUserByRepoResponse) Reset() {
+	*x = ListSelectedUserByRepoResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -535,13 +535,13 @@ func (x *ListRepoVisibilityResponse) Reset() {
 	}
 }
 
-func (x *ListRepoVisibilityResponse) String() string {
+func (x *ListSelectedUserByRepoResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListRepoVisibilityResponse) ProtoMessage() {}
+func (*ListSelectedUserByRepoResponse) ProtoMessage() {}
 
-func (x *ListRepoVisibilityResponse) ProtoReflect() protoreflect.Message {
+func (x *ListSelectedUserByRepoResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -553,30 +553,31 @@ func (x *ListRepoVisibilityResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListRepoVisibilityResponse.ProtoReflect.Descriptor instead.
-func (*ListRepoVisibilityResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListSelectedUserByRepoResponse.ProtoReflect.Descriptor instead.
+func (*ListSelectedUserByRepoResponse) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_relation_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ListRepoVisibilityResponse) GetElements() []*models.ListUserRepoVisiblityInfo {
+func (x *ListSelectedUserByRepoResponse) GetElements() []*models.ListUserRepoVisiblityInfo {
 	if x != nil {
 		return x.Elements
 	}
 	return nil
 }
 
-// 6.GetRepoVisibilityCount
-type GetRepoVisibilityCountRequest struct {
+// 6.GetSelectedUserByRepoCount
+type GetSelectedUserByRepoCountRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	RepoName string `protobuf:"bytes,2,opt,name=repo_name,json=repoName,proto3" json:"repo_name,omitempty"`
+	Query    string `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
 }
 
-func (x *GetRepoVisibilityCountRequest) Reset() {
-	*x = GetRepoVisibilityCountRequest{}
+func (x *GetSelectedUserByRepoCountRequest) Reset() {
+	*x = GetSelectedUserByRepoCountRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -584,13 +585,13 @@ func (x *GetRepoVisibilityCountRequest) Reset() {
 	}
 }
 
-func (x *GetRepoVisibilityCountRequest) String() string {
+func (x *GetSelectedUserByRepoCountRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetRepoVisibilityCountRequest) ProtoMessage() {}
+func (*GetSelectedUserByRepoCountRequest) ProtoMessage() {}
 
-func (x *GetRepoVisibilityCountRequest) ProtoReflect() protoreflect.Message {
+func (x *GetSelectedUserByRepoCountRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -602,26 +603,33 @@ func (x *GetRepoVisibilityCountRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRepoVisibilityCountRequest.ProtoReflect.Descriptor instead.
-func (*GetRepoVisibilityCountRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetSelectedUserByRepoCountRequest.ProtoReflect.Descriptor instead.
+func (*GetSelectedUserByRepoCountRequest) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_relation_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *GetRepoVisibilityCountRequest) GetUsername() string {
+func (x *GetSelectedUserByRepoCountRequest) GetUsername() string {
 	if x != nil {
 		return x.Username
 	}
 	return ""
 }
 
-func (x *GetRepoVisibilityCountRequest) GetRepoName() string {
+func (x *GetSelectedUserByRepoCountRequest) GetRepoName() string {
 	if x != nil {
 		return x.RepoName
 	}
 	return ""
 }
 
-type GetRepoVisibilityCountResponse struct {
+func (x *GetSelectedUserByRepoCountRequest) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+type GetSelectedUserByRepoCountResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -629,8 +637,8 @@ type GetRepoVisibilityCountResponse struct {
 	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
 }
 
-func (x *GetRepoVisibilityCountResponse) Reset() {
-	*x = GetRepoVisibilityCountResponse{}
+func (x *GetSelectedUserByRepoCountResponse) Reset() {
+	*x = GetSelectedUserByRepoCountResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -638,13 +646,13 @@ func (x *GetRepoVisibilityCountResponse) Reset() {
 	}
 }
 
-func (x *GetRepoVisibilityCountResponse) String() string {
+func (x *GetSelectedUserByRepoCountResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetRepoVisibilityCountResponse) ProtoMessage() {}
+func (*GetSelectedUserByRepoCountResponse) ProtoMessage() {}
 
-func (x *GetRepoVisibilityCountResponse) ProtoReflect() protoreflect.Message {
+func (x *GetSelectedUserByRepoCountResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -656,16 +664,143 @@ func (x *GetRepoVisibilityCountResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRepoVisibilityCountResponse.ProtoReflect.Descriptor instead.
-func (*GetRepoVisibilityCountResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetSelectedUserByRepoCountResponse.ProtoReflect.Descriptor instead.
+func (*GetSelectedUserByRepoCountResponse) Descriptor() ([]byte, []int) {
 	return file_rpcs_rpc_repo_relation_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GetRepoVisibilityCountResponse) GetCount() int64 {
+func (x *GetSelectedUserByRepoCountResponse) GetCount() int64 {
 	if x != nil {
 		return x.Count
 	}
 	return 0
+}
+
+// 7.QueryUserByRepo
+type QueryUserByRepoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PageId   int32  `protobuf:"varint,1,opt,name=page_id,json=pageId,proto3" json:"page_id,omitempty"`
+	PageSize int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Username string `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
+	RepoName string `protobuf:"bytes,4,opt,name=repo_name,json=repoName,proto3" json:"repo_name,omitempty"`
+	Query    string `protobuf:"bytes,5,opt,name=query,proto3" json:"query,omitempty"`
+}
+
+func (x *QueryUserByRepoRequest) Reset() {
+	*x = QueryUserByRepoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryUserByRepoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryUserByRepoRequest) ProtoMessage() {}
+
+func (x *QueryUserByRepoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryUserByRepoRequest.ProtoReflect.Descriptor instead.
+func (*QueryUserByRepoRequest) Descriptor() ([]byte, []int) {
+	return file_rpcs_rpc_repo_relation_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *QueryUserByRepoRequest) GetPageId() int32 {
+	if x != nil {
+		return x.PageId
+	}
+	return 0
+}
+
+func (x *QueryUserByRepoRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *QueryUserByRepoRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *QueryUserByRepoRequest) GetRepoName() string {
+	if x != nil {
+		return x.RepoName
+	}
+	return ""
+}
+
+func (x *QueryUserByRepoRequest) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+type QueryUserByRepoResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Elements []*models.ListUserRepoVisiblityInfo `protobuf:"bytes,1,rep,name=elements,proto3" json:"elements,omitempty"`
+}
+
+func (x *QueryUserByRepoResponse) Reset() {
+	*x = QueryUserByRepoResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryUserByRepoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryUserByRepoResponse) ProtoMessage() {}
+
+func (x *QueryUserByRepoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpcs_rpc_repo_relation_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryUserByRepoResponse.ProtoReflect.Descriptor instead.
+func (*QueryUserByRepoResponse) Descriptor() ([]byte, []int) {
+	return file_rpcs_rpc_repo_relation_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *QueryUserByRepoResponse) GetElements() []*models.ListUserRepoVisiblityInfo {
+	if x != nil {
+		return x.Elements
+	}
+	return nil
 }
 
 var File_rpcs_rpc_repo_relation_proto protoreflect.FileDescriptor
@@ -715,34 +850,52 @@ var file_rpcs_rpc_repo_relation_proto_rawDesc = []byte{
 	0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
 	0x61, 0x6d, 0x65, 0x22, 0x1e, 0x0a, 0x1c, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x70,
 	0x6f, 0x56, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0xa0, 0x01, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x70, 0x6f,
-	0x56, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x17, 0x0a, 0x07, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x05, 0x52, 0x06, 0x70, 0x61, 0x67, 0x65, 0x49, 0x64, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61,
-	0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70,
-	0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
-	0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
-	0x61, 0x6d, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x70, 0x6f, 0x5f, 0x6e, 0x61, 0x6d, 0x65,
-	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x70, 0x6f, 0x4e, 0x61, 0x6d, 0x65,
-	0x12, 0x14, 0x0a, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x22, 0x57, 0x0a, 0x1a, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65,
-	0x70, 0x6f, 0x56, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x08, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73,
-	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x70, 0x6f, 0x56, 0x69, 0x73, 0x69, 0x62, 0x6c, 0x69, 0x74,
-	0x79, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x08, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x22,
-	0x58, 0x0a, 0x1d, 0x47, 0x65, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x56, 0x69, 0x73, 0x69, 0x62, 0x69,
-	0x6c, 0x69, 0x74, 0x79, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1b, 0x0a, 0x09,
-	0x72, 0x65, 0x70, 0x6f, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x08, 0x72, 0x65, 0x70, 0x6f, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x36, 0x0a, 0x1e, 0x47, 0x65, 0x74,
-	0x52, 0x65, 0x70, 0x6f, 0x56, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x43, 0x6f,
-	0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x63,
-	0x6f, 0x75, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e,
-	0x74, 0x42, 0x21, 0x5a, 0x1f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x7a, 0x69, 0x7a, 0x64, 0x6c, 0x70, 0x2f, 0x7a, 0x62, 0x6f, 0x6f, 0x6b, 0x2f, 0x70, 0x62, 0x2f,
-	0x72, 0x70, 0x63, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x73, 0x65, 0x22, 0xa4, 0x01, 0x0a, 0x1d, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x65, 0x6c, 0x65,
+	0x63, 0x74, 0x65, 0x64, 0x55, 0x73, 0x65, 0x72, 0x42, 0x79, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x70, 0x61, 0x67, 0x65, 0x49, 0x64, 0x12, 0x1b,
+	0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x75,
+	0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75,
+	0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x70, 0x6f, 0x5f,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x70, 0x6f,
+	0x4e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x22, 0x5b, 0x0a, 0x1e, 0x4c, 0x69,
+	0x73, 0x74, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x55, 0x73, 0x65, 0x72, 0x42, 0x79,
+	0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x08,
+	0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1d,
+	0x2e, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x70, 0x6f,
+	0x56, 0x69, 0x73, 0x69, 0x62, 0x6c, 0x69, 0x74, 0x79, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x08, 0x65,
+	0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x22, 0x72, 0x0a, 0x21, 0x47, 0x65, 0x74, 0x53, 0x65,
+	0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x55, 0x73, 0x65, 0x72, 0x42, 0x79, 0x52, 0x65, 0x70, 0x6f,
+	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08,
+	0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
+	0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x70, 0x6f,
+	0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x70,
+	0x6f, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x22, 0x3a, 0x0a, 0x22, 0x47,
+	0x65, 0x74, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x55, 0x73, 0x65, 0x72, 0x42, 0x79,
+	0x52, 0x65, 0x70, 0x6f, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x9d, 0x01, 0x0a, 0x16, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x55, 0x73, 0x65, 0x72, 0x42, 0x79, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x06, 0x70, 0x61, 0x67, 0x65, 0x49, 0x64, 0x12, 0x1b, 0x0a, 0x09, 0x70,
+	0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08,
+	0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72,
+	0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x70, 0x6f, 0x5f, 0x6e, 0x61, 0x6d,
+	0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x70, 0x6f, 0x4e, 0x61, 0x6d,
+	0x65, 0x12, 0x14, 0x0a, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x22, 0x54, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x55, 0x73, 0x65, 0x72, 0x42, 0x79, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x39, 0x0a, 0x08, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x70, 0x62, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x55, 0x73,
+	0x65, 0x72, 0x52, 0x65, 0x70, 0x6f, 0x56, 0x69, 0x73, 0x69, 0x62, 0x6c, 0x69, 0x74, 0x79, 0x49,
+	0x6e, 0x66, 0x6f, 0x52, 0x08, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x42, 0x21, 0x5a,
+	0x1f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x7a, 0x69, 0x7a, 0x64,
+	0x6c, 0x70, 0x2f, 0x7a, 0x62, 0x6f, 0x6f, 0x6b, 0x2f, 0x70, 0x62, 0x2f, 0x72, 0x70, 0x63, 0x73,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -757,29 +910,32 @@ func file_rpcs_rpc_repo_relation_proto_rawDescGZIP() []byte {
 	return file_rpcs_rpc_repo_relation_proto_rawDescData
 }
 
-var file_rpcs_rpc_repo_relation_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_rpcs_rpc_repo_relation_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_rpcs_rpc_repo_relation_proto_goTypes = []interface{}{
-	(*CreateRepoRelationRequest)(nil),        // 0: pb.CreateRepoRelationRequest
-	(*CreateRepoRelationResponse)(nil),       // 1: pb.CreateRepoRelationResponse
-	(*DeleteRepoRelationRequest)(nil),        // 2: pb.DeleteRepoRelationRequest
-	(*DeleteRepoRelationResponse)(nil),       // 3: pb.DeleteRepoRelationResponse
-	(*CreateRepoVisibilityRequest)(nil),      // 4: pb.CreateRepoVisibilityRequest
-	(*CreateRepoVisibilityResponse)(nil),     // 5: pb.CreateRepoVisibilityResponse
-	(*DeleteRepoVisibilityRequest)(nil),      // 6: pb.DeleteRepoVisibilityRequest
-	(*DeleteRepoVisibilityResponse)(nil),     // 7: pb.DeleteRepoVisibilityResponse
-	(*ListRepoVisibilityRequest)(nil),        // 8: pb.ListRepoVisibilityRequest
-	(*ListRepoVisibilityResponse)(nil),       // 9: pb.ListRepoVisibilityResponse
-	(*GetRepoVisibilityCountRequest)(nil),    // 10: pb.GetRepoVisibilityCountRequest
-	(*GetRepoVisibilityCountResponse)(nil),   // 11: pb.GetRepoVisibilityCountResponse
-	(*models.ListUserRepoVisiblityInfo)(nil), // 12: pb.ListUserRepoVisiblityInfo
+	(*CreateRepoRelationRequest)(nil),          // 0: pb.CreateRepoRelationRequest
+	(*CreateRepoRelationResponse)(nil),         // 1: pb.CreateRepoRelationResponse
+	(*DeleteRepoRelationRequest)(nil),          // 2: pb.DeleteRepoRelationRequest
+	(*DeleteRepoRelationResponse)(nil),         // 3: pb.DeleteRepoRelationResponse
+	(*CreateRepoVisibilityRequest)(nil),        // 4: pb.CreateRepoVisibilityRequest
+	(*CreateRepoVisibilityResponse)(nil),       // 5: pb.CreateRepoVisibilityResponse
+	(*DeleteRepoVisibilityRequest)(nil),        // 6: pb.DeleteRepoVisibilityRequest
+	(*DeleteRepoVisibilityResponse)(nil),       // 7: pb.DeleteRepoVisibilityResponse
+	(*ListSelectedUserByRepoRequest)(nil),      // 8: pb.ListSelectedUserByRepoRequest
+	(*ListSelectedUserByRepoResponse)(nil),     // 9: pb.ListSelectedUserByRepoResponse
+	(*GetSelectedUserByRepoCountRequest)(nil),  // 10: pb.GetSelectedUserByRepoCountRequest
+	(*GetSelectedUserByRepoCountResponse)(nil), // 11: pb.GetSelectedUserByRepoCountResponse
+	(*QueryUserByRepoRequest)(nil),             // 12: pb.QueryUserByRepoRequest
+	(*QueryUserByRepoResponse)(nil),            // 13: pb.QueryUserByRepoResponse
+	(*models.ListUserRepoVisiblityInfo)(nil),   // 14: pb.ListUserRepoVisiblityInfo
 }
 var file_rpcs_rpc_repo_relation_proto_depIdxs = []int32{
-	12, // 0: pb.ListRepoVisibilityResponse.elements:type_name -> pb.ListUserRepoVisiblityInfo
-	1,  // [1:1] is the sub-list for method output_type
-	1,  // [1:1] is the sub-list for method input_type
-	1,  // [1:1] is the sub-list for extension type_name
-	1,  // [1:1] is the sub-list for extension extendee
-	0,  // [0:1] is the sub-list for field type_name
+	14, // 0: pb.ListSelectedUserByRepoResponse.elements:type_name -> pb.ListUserRepoVisiblityInfo
+	14, // 1: pb.QueryUserByRepoResponse.elements:type_name -> pb.ListUserRepoVisiblityInfo
+	2,  // [2:2] is the sub-list for method output_type
+	2,  // [2:2] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_rpcs_rpc_repo_relation_proto_init() }
@@ -885,7 +1041,7 @@ func file_rpcs_rpc_repo_relation_proto_init() {
 			}
 		}
 		file_rpcs_rpc_repo_relation_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListRepoVisibilityRequest); i {
+			switch v := v.(*ListSelectedUserByRepoRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -897,7 +1053,7 @@ func file_rpcs_rpc_repo_relation_proto_init() {
 			}
 		}
 		file_rpcs_rpc_repo_relation_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListRepoVisibilityResponse); i {
+			switch v := v.(*ListSelectedUserByRepoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -909,7 +1065,7 @@ func file_rpcs_rpc_repo_relation_proto_init() {
 			}
 		}
 		file_rpcs_rpc_repo_relation_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetRepoVisibilityCountRequest); i {
+			switch v := v.(*GetSelectedUserByRepoCountRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -921,7 +1077,31 @@ func file_rpcs_rpc_repo_relation_proto_init() {
 			}
 		}
 		file_rpcs_rpc_repo_relation_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetRepoVisibilityCountResponse); i {
+			switch v := v.(*GetSelectedUserByRepoCountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpcs_rpc_repo_relation_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryUserByRepoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpcs_rpc_repo_relation_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryUserByRepoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -939,7 +1119,7 @@ func file_rpcs_rpc_repo_relation_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rpcs_rpc_repo_relation_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

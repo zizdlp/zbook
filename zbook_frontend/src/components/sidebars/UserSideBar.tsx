@@ -15,6 +15,7 @@ import OAuthWrapper from "./OAuthWrapper";
 import { auth } from "@/auth";
 import { SearchType } from "@/utils/const_value";
 import UserSideBarProfile from "./UserSideBarProfile";
+import { BiError } from "react-icons/bi";
 export default async function UserSideBar({
   username,
   authname,
@@ -166,7 +167,14 @@ export default async function UserSideBar({
     );
     return (
       <LeftSideBarWrapper small={true}>
-        <SomeThingWrong />
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+          <div className="text-center">
+            <BiError className="text-red-600 dark:text-red-400 w-12 h-12 mx-auto" />
+            <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+              {t("ErrorLoadingUserSideBar")}
+            </p>
+          </div>
+        </div>
       </LeftSideBarWrapper>
     );
   }

@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@/auth";
 import { unstable_noStore as noStore } from "next/cache";
-import { server_api_base_url, server_api_version } from "@/utils/env_variable";
+import { backend_url, api_version } from "@/utils/env_variable";
 import { joinUrlParts } from "@/utils/util";
 import { FetchError, RequestOptions } from "./util";
 import { redirect } from "@/navigation";
@@ -21,7 +21,7 @@ import {
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,
   GetRepoConfigRequest,
-  GetRepoVisibilityCountRequest,
+  GetSelectedUserByRepoCountRequest,
   GetUserInfoRequest,
   ListSessionRequest,
   ListCommentReportRequest,
@@ -29,7 +29,7 @@ import {
   ListFollowingRequest,
   ListFollowerRequest,
   ListRepoRequest,
-  ListRepoVisibilityRequest,
+  ListSelectedUserByRepoRequest,
   ListUserLikeRepoRequest,
   ListUserOwnRepoRequest,
   ListUserRequest,
@@ -48,6 +48,7 @@ import {
   UpdateConfigurationRequest,
   QueryMarkdownRequest,
   CreateInvitationRequest,
+  QueryUserByRepoRequest,
 } from "./server_with_auth_request";
 import {
   CreateRepoVisibilityRequest,
@@ -264,6 +265,19 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.GetDailyVisitors;
   values: GetDailyVisitorsRequest;
+  xforward: string;
+  agent: string;
+  tags: string[];
+}): Promise<any>;
+export async function fetchServerWithAuthWrapper({
+  endpoint,
+  values,
+  xforward,
+  agent,
+  tags,
+}: {
+  endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_USER_BY_REPO;
+  values: QueryUserByRepoRequest;
   xforward: string;
   agent: string;
   tags: string[];
@@ -729,8 +743,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.LIST_REPO_VISIBILITY;
-  values: ListRepoVisibilityRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.LIST_SELECTED_USER_BY_REPO;
+  values: ListSelectedUserByRepoRequest;
   xforward: string;
   agent: string;
   tags: string[];
@@ -742,8 +756,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_VISIBILITY_COUNT;
-  values: GetRepoVisibilityCountRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.GET_SELECTED_USER_BY_REPO_COUNT;
+  values: GetSelectedUserByRepoCountRequest;
   xforward: string;
   agent: string;
   tags: string[];
@@ -1304,7 +1318,7 @@ export async function fetchServerWithAuthWrapper({
   tags: string[];
   timeout?: number;
 }) {
-  const url = joinUrlParts(server_api_base_url, server_api_version, endpoint);
+  const url = joinUrlParts(backend_url, api_version, endpoint);
   const options: RequestOptions = {
     method: "POST",
     body: JSON.stringify(values), // 使用对象解构简化代码

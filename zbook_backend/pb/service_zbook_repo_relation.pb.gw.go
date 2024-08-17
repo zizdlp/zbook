@@ -136,54 +136,80 @@ func local_request_ZBookRepoRelation_DeleteRepoVisibility_0(ctx context.Context,
 
 }
 
-func request_ZBookRepoRelation_ListRepoVisibility_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookRepoRelationClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.ListRepoVisibilityRequest
+func request_ZBookRepoRelation_ListSelectedUserByRepo_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookRepoRelationClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.ListSelectedUserByRepoRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.ListRepoVisibility(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ListSelectedUserByRepo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ZBookRepoRelation_ListRepoVisibility_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookRepoRelationServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.ListRepoVisibilityRequest
+func local_request_ZBookRepoRelation_ListSelectedUserByRepo_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookRepoRelationServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.ListSelectedUserByRepoRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.ListRepoVisibility(ctx, &protoReq)
+	msg, err := server.ListSelectedUserByRepo(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-func request_ZBookRepoRelation_GetRepoVisibilityCount_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookRepoRelationClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.GetRepoVisibilityCountRequest
+func request_ZBookRepoRelation_GetSelectedUserByRepoCount_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookRepoRelationClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.GetSelectedUserByRepoCountRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetRepoVisibilityCount(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetSelectedUserByRepoCount(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ZBookRepoRelation_GetRepoVisibilityCount_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookRepoRelationServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq rpcs.GetRepoVisibilityCountRequest
+func local_request_ZBookRepoRelation_GetSelectedUserByRepoCount_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookRepoRelationServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.GetSelectedUserByRepoCountRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetRepoVisibilityCount(ctx, &protoReq)
+	msg, err := server.GetSelectedUserByRepoCount(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+func request_ZBookRepoRelation_QueryUserByRepo_0(ctx context.Context, marshaler runtime.Marshaler, client ZBookRepoRelationClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.QueryUserByRepoRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.QueryUserByRepo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_ZBookRepoRelation_QueryUserByRepo_0(ctx context.Context, marshaler runtime.Marshaler, server ZBookRepoRelationServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq rpcs.QueryUserByRepoRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.QueryUserByRepo(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -294,7 +320,7 @@ func RegisterZBookRepoRelationHandlerServer(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("POST", pattern_ZBookRepoRelation_ListRepoVisibility_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookRepoRelation_ListSelectedUserByRepo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -302,12 +328,12 @@ func RegisterZBookRepoRelationHandlerServer(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookRepoRelation/ListRepoVisibility", runtime.WithHTTPPathPattern("/v1/list_repo_visibility"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookRepoRelation/ListSelectedUserByRepo", runtime.WithHTTPPathPattern("/v1/list_selected_user_by_repo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ZBookRepoRelation_ListRepoVisibility_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ZBookRepoRelation_ListSelectedUserByRepo_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -315,11 +341,11 @@ func RegisterZBookRepoRelationHandlerServer(ctx context.Context, mux *runtime.Se
 			return
 		}
 
-		forward_ZBookRepoRelation_ListRepoVisibility_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookRepoRelation_ListSelectedUserByRepo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_ZBookRepoRelation_GetRepoVisibilityCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookRepoRelation_GetSelectedUserByRepoCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -327,12 +353,12 @@ func RegisterZBookRepoRelationHandlerServer(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookRepoRelation/GetRepoVisibilityCount", runtime.WithHTTPPathPattern("/v1/get_repo_visibility_count"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookRepoRelation/GetSelectedUserByRepoCount", runtime.WithHTTPPathPattern("/v1/get_selected_user_by_repo_count"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ZBookRepoRelation_GetRepoVisibilityCount_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ZBookRepoRelation_GetSelectedUserByRepoCount_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -340,7 +366,32 @@ func RegisterZBookRepoRelationHandlerServer(ctx context.Context, mux *runtime.Se
 			return
 		}
 
-		forward_ZBookRepoRelation_GetRepoVisibilityCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookRepoRelation_GetSelectedUserByRepoCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_ZBookRepoRelation_QueryUserByRepo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.ZBookRepoRelation/QueryUserByRepo", runtime.WithHTTPPathPattern("/v1/query_user_by_repo"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_ZBookRepoRelation_QueryUserByRepo_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ZBookRepoRelation_QueryUserByRepo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -473,47 +524,69 @@ func RegisterZBookRepoRelationHandlerClient(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("POST", pattern_ZBookRepoRelation_ListRepoVisibility_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookRepoRelation_ListSelectedUserByRepo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookRepoRelation/ListRepoVisibility", runtime.WithHTTPPathPattern("/v1/list_repo_visibility"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookRepoRelation/ListSelectedUserByRepo", runtime.WithHTTPPathPattern("/v1/list_selected_user_by_repo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ZBookRepoRelation_ListRepoVisibility_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ZBookRepoRelation_ListSelectedUserByRepo_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ZBookRepoRelation_ListRepoVisibility_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookRepoRelation_ListSelectedUserByRepo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_ZBookRepoRelation_GetRepoVisibilityCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ZBookRepoRelation_GetSelectedUserByRepoCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookRepoRelation/GetRepoVisibilityCount", runtime.WithHTTPPathPattern("/v1/get_repo_visibility_count"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookRepoRelation/GetSelectedUserByRepoCount", runtime.WithHTTPPathPattern("/v1/get_selected_user_by_repo_count"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ZBookRepoRelation_GetRepoVisibilityCount_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ZBookRepoRelation_GetSelectedUserByRepoCount_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ZBookRepoRelation_GetRepoVisibilityCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ZBookRepoRelation_GetSelectedUserByRepoCount_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("POST", pattern_ZBookRepoRelation_QueryUserByRepo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/pb.ZBookRepoRelation/QueryUserByRepo", runtime.WithHTTPPathPattern("/v1/query_user_by_repo"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_ZBookRepoRelation_QueryUserByRepo_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ZBookRepoRelation_QueryUserByRepo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -529,9 +602,11 @@ var (
 
 	pattern_ZBookRepoRelation_DeleteRepoVisibility_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "delete_repo_visibility"}, ""))
 
-	pattern_ZBookRepoRelation_ListRepoVisibility_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_repo_visibility"}, ""))
+	pattern_ZBookRepoRelation_ListSelectedUserByRepo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "list_selected_user_by_repo"}, ""))
 
-	pattern_ZBookRepoRelation_GetRepoVisibilityCount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "get_repo_visibility_count"}, ""))
+	pattern_ZBookRepoRelation_GetSelectedUserByRepoCount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "get_selected_user_by_repo_count"}, ""))
+
+	pattern_ZBookRepoRelation_QueryUserByRepo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "query_user_by_repo"}, ""))
 )
 
 var (
@@ -543,7 +618,9 @@ var (
 
 	forward_ZBookRepoRelation_DeleteRepoVisibility_0 = runtime.ForwardResponseMessage
 
-	forward_ZBookRepoRelation_ListRepoVisibility_0 = runtime.ForwardResponseMessage
+	forward_ZBookRepoRelation_ListSelectedUserByRepo_0 = runtime.ForwardResponseMessage
 
-	forward_ZBookRepoRelation_GetRepoVisibilityCount_0 = runtime.ForwardResponseMessage
+	forward_ZBookRepoRelation_GetSelectedUserByRepoCount_0 = runtime.ForwardResponseMessage
+
+	forward_ZBookRepoRelation_QueryUserByRepo_0 = runtime.ForwardResponseMessage
 )

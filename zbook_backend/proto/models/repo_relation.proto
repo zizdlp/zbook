@@ -18,7 +18,7 @@ message ListRepoReportInfo {
 message ListUserRepoVisiblityInfo {
   string username                      = 1;
   string email                         = 2;
-  bool is_following                    = 3;
-  bool is_repo_visible                 = 4;
-  google.protobuf.Timestamp updated_at = 5;
+  bool is_repo_visible                 = 3;
+  google.protobuf.Timestamp updated_at = 4;
+  google.protobuf.Timestamp created_at = 5;
 }

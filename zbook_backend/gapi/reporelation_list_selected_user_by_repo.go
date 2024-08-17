@@ -15,14 +15,14 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func (server *Server) ListRepoVisibility(ctx context.Context, req *rpcs.ListRepoVisibilityRequest) (*rpcs.ListRepoVisibilityResponse, error) {
-	violations := validateListRepoVisibilityRequest(req)
+func (server *Server) ListSelectedUserByRepo(ctx context.Context, req *rpcs.ListSelectedUserByRepoRequest) (*rpcs.ListSelectedUserByRepoResponse, error) {
+	violations := validateListSelectedUserByRepoRequest(req)
 	if violations != nil {
 		return nil, invalidArgumentError(violations)
 	}
 	apiUserDailyLimit := 10000
-	apiKey := "ListRepoVisibility"
-	_, err := server.authUser(ctx, []string{util.AdminRole}, apiUserDailyLimit, apiKey)
+	apiKey := "ListSelectedUserByRepo"
+	authUser, err := server.authUser(ctx, []string{util.AdminRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
 	}
@@ -36,41 +36,43 @@ func (server *Server) ListRepoVisibility(ctx context.Context, req *rpcs.ListRepo
 		return nil, status.Errorf(codes.Internal, "get repo id failed: %s", err)
 	}
 	if req.GetQuery() != "" {
-		arg := db.QueryRepoVisibilityByRepoParams{
-			Limit:    req.GetPageSize(),
-			Offset:   (req.GetPageId() - 1) * req.GetPageSize(),
-			Username: req.GetQuery(),
-			RepoID:   repo_id,
+		arg := db.QuerySelectedUserByRepoParams{
+			Limit:  req.GetPageSize(),
+			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
+			RepoID: repo_id,
+			Query:  req.GetQuery(),
+			Role:   authUser.UserRole,
 		}
 
-		users, err := server.store.QueryRepoVisibilityByRepo(ctx, arg)
+		users, err := server.store.QuerySelectedUserByRepo(ctx, arg)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "query repo visisiblity by repo failed: %s", err)
 		}
-		rsp := &rpcs.ListRepoVisibilityResponse{
+		rsp := &rpcs.ListSelectedUserByRepoResponse{
 			Elements: convertQueryRepoVisibility(users),
 		}
 		return rsp, nil
 	} else {
-		arg := db.ListRepoVisibilityByRepoParams{
+		arg := db.ListSelectedUserByRepoParams{
 			Limit:  req.GetPageSize(),
 			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
 			RepoID: repo_id,
+			Role:   authUser.UserRole,
 		}
 
-		users, err := server.store.ListRepoVisibilityByRepo(ctx, arg)
+		users, err := server.store.ListSelectedUserByRepo(ctx, arg)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "list repo visibilisty by repo failed: %s", err)
 		}
 
-		rsp := &rpcs.ListRepoVisibilityResponse{
-			Elements: convertListRepoVisibility(users),
+		rsp := &rpcs.ListSelectedUserByRepoResponse{
+			Elements: convertListSelectedUserByRepo(users),
 		}
 		return rsp, nil
 	}
 
 }
-func validateListRepoVisibilityRequest(req *rpcs.ListRepoVisibilityRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateListSelectedUserByRepoRequest(req *rpcs.ListSelectedUserByRepoRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := val.ValidateInt32ID(req.GetPageId()); err != nil {
 		violations = append(violations, fieldViolation("page_id", err))
 	}
@@ -79,13 +81,14 @@ func validateListRepoVisibilityRequest(req *rpcs.ListRepoVisibilityRequest) (vio
 	}
 	return violations
 }
-func convertListRepoVisibility(users []db.User) []*models.ListUserRepoVisiblityInfo {
+func convertListSelectedUserByRepo(users []db.User) []*models.ListUserRepoVisiblityInfo {
 	var ret_users []*models.ListUserRepoVisiblityInfo
 	for i := 0; i < len(users); i++ {
 		ret_users = append(ret_users,
 			&models.ListUserRepoVisiblityInfo{
 				Username:      users[i].Username,
 				Email:         users[i].Email,
+				CreatedAt:     timestamppb.New(users[i].CreatedAt),
 				UpdatedAt:     timestamppb.New(users[i].UpdatedAt),
 				IsRepoVisible: true,
 			},
@@ -93,15 +96,16 @@ func convertListRepoVisibility(users []db.User) []*models.ListUserRepoVisiblityI
 	}
 	return ret_users
 }
-func convertQueryRepoVisibility(users []db.QueryRepoVisibilityByRepoRow) []*models.ListUserRepoVisiblityInfo {
+func convertQueryRepoVisibility(users []db.QuerySelectedUserByRepoRow) []*models.ListUserRepoVisiblityInfo {
 	var ret_users []*models.ListUserRepoVisiblityInfo
 	for i := 0; i < len(users); i++ {
 		ret_users = append(ret_users,
 			&models.ListUserRepoVisiblityInfo{
 				Username:      users[i].Username,
 				Email:         users[i].Email,
+				CreatedAt:     timestamppb.New(users[i].CreatedAt),
 				UpdatedAt:     timestamppb.New(users[i].UpdatedAt),
-				IsRepoVisible: users[i].IsVisible,
+				IsRepoVisible: true,
 			},
 		)
 	}
