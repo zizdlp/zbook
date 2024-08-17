@@ -171,7 +171,7 @@ export default async function UserSideBar({
           <div className="text-center">
             <BiError className="text-red-600 dark:text-red-400 w-12 h-12 mx-auto" />
             <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-              Error loading SideBar
+              {t("ErrorLoadingUserSideBar")}
             </p>
           </div>
         </div>

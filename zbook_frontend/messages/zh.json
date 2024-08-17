@@ -5,6 +5,7 @@
     "TotalPage": "{duration, plural, =0 {共 0 页} =1 {共 # 页} other {共 # 页} }",
     "Ellipsis": "..."
   },
+
   "Footer": {
     "UpdatedAt": "编辑于 ",
     "PowerBy": "ZBook 提供支持",
@@ -238,6 +239,8 @@
     "FailedDeleteRepo": "删除仓库失败"
   },
   "SideBar": {
+    "ErrorLoadingRepoSideBar": "加载仓库侧边栏失败",
+    "ErrorLoadingUserSideBar": "加载用户侧边栏失败",
     "SearchShortcuts": "⌘K",
     "FailedUnLinkAccount": "取消账号关联失败",
     "UpdatingFollowStatus": "更新关注状态...",

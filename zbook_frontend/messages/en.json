@@ -5,6 +5,7 @@
     "TotalPage": "{duration, plural, =0 {Total 0 page} =1 {Total # page} other {Total # Pages} }",
     "Ellipsis": "..."
   },
+
   "Footer": {
     "UpdatedAt": "Updated At ",
     "PowerBy": "Power By ZBook",
@@ -235,6 +236,8 @@
     "FailedDeleteRepo": "Failed to delete the repo"
   },
   "SideBar": {
+    "ErrorLoadingRepoSideBar": "Error loading Repo SideBar",
+    "ErrorLoadingUserSideBar": "Error loading User SideBar",
     "SearchShortcuts": "⌘K",
     "FailedUnLinkAccount": "Failed to unlink account",
     "UpdatingFollowStatus": "Updating follow status...",
