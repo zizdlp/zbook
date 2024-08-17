@@ -1,11 +1,10 @@
 import { ListDataType } from "@/fetchs/model";
 import ListSessionElement from "./details/ListSessionElement";
 import ListAdminCommentElement from "./details/ListAdminCommentElement";
-import ListAdminUserElement from "./details/ListAdminUserElement";
 import ListCommentReportElement from "./details/ListCommentReportElement";
-import ListFollowElement from "./details/ListFollowElement";
 import ListRepoElement from "./details/ListRepoElement";
 import ListRepoVisiElement from "./details/ListRepoVisiElement";
+import ListUserElement from "./details/ListUserElement";
 
 export default function ListElementContainer({
   model,
@@ -21,13 +20,14 @@ export default function ListElementContainer({
     listType == ListDataType.LIST_USER_FOLLOWING
   ) {
     return (
-      <ListFollowElement
+      <ListUserElement
         username={model.username}
         email={model.email}
         is_following={model.is_following ?? false}
         repo_count={model.repo_count ?? 0}
         updated_at={model.updated_at}
         created_at={model.created_at}
+        listType={listType}
       />
     );
   } else if (listType === ListDataType.LIST_REPO_VISI) {
@@ -64,13 +64,15 @@ export default function ListElementContainer({
     );
   } else if (listType === ListDataType.LIST_ADMIN_USER) {
     return (
-      <ListAdminUserElement
+      <ListUserElement
         username={model.username}
         email={model.email}
         blocked={model.blocked}
         verified={model.verified}
         role={model.role}
+        created_at={model.updated_at}
         updated_at={model.updated_at}
+        listType={ListDataType.LIST_ADMIN_USER}
       />
     );
   } else if (listType === ListDataType.LIST_ADMIN_SESSION) {
