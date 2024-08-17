@@ -48,7 +48,7 @@ func (server *Server) GetFirstDocument(ctx context.Context, req *rpcs.GetFirstDo
 	}
 	relative_path, err := config.GetFirstDocument(req.GetLang())
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "FindAdjacentPaths error : %s", err)
+		return nil, status.Errorf(codes.Internal, "GetFirstDocument error : %s", err)
 	}
 
 	rsp := &rpcs.GetFirstDocumentResponse{
