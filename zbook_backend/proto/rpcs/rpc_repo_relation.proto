@@ -54,7 +54,20 @@ message ListSelectedUserByRepoResponse {
 message GetSelectedUserByRepoCountRequest {
   string username  = 1;
   string repo_name = 2;
+  string query     = 3;
 }
 message GetSelectedUserByRepoCountResponse {
   int64 count = 1;
+}
+
+// 7.QueryUserByRepo
+message QueryUserByRepoRequest {
+  int32 page_id    = 1;
+  int32 page_size  = 2;
+  string username  = 3;
+  string repo_name = 4;
+  string query     = 5;
+}
+message QueryUserByRepoResponse {
+  repeated ListUserRepoVisiblityInfo elements = 1;
 }

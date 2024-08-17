@@ -23,6 +23,13 @@ interface ListFollowingRequest {
   page_size: number;
   query: string;
 }
+interface QueryUserByRepoRequest {
+  username: string;
+  repo_name: string;
+  page_id: number;
+  page_size: number;
+  query: string;
+}
 interface UpdateUserBlockRequest {
   username: string;
   blocked: boolean;
@@ -108,6 +115,7 @@ interface ListSelectedUserByRepoRequest {
 interface GetSelectedUserByRepoCountRequest {
   username: string;
   repo_name: string;
+  query: string;
 }
 
 interface GetUserInfoRequest {
@@ -411,4 +419,5 @@ export type {
   UpdateConfigurationRequest,
   QueryMarkdownRequest,
   CreateInvitationRequest,
+  QueryUserByRepoRequest,
 };

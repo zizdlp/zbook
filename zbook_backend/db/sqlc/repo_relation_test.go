@@ -83,8 +83,11 @@ func TestGetSelectedUserByRepoCount(t *testing.T) {
 	}
 	err := testStore.CreateRepoRelation(context.Background(), arg)
 	require.NoError(t, err)
-
-	count, err := testStore.GetSelectedUserByRepoCount(context.Background(), arg.RepoID)
+	arg_list := GetListSelectedUserByRepoCountParams{
+		RepoID: repo.RepoID,
+		Role:   util.AdminRole,
+	}
+	count, err := testStore.GetListSelectedUserByRepoCount(context.Background(), arg_list)
 	require.NoError(t, err)
 	require.Equal(t, count, int64(1))
 }
@@ -122,10 +125,11 @@ func TestQuerySelectedUserByRepo(t *testing.T) {
 	require.NoError(t, err)
 
 	arg_list := QuerySelectedUserByRepoParams{
-		Limit:    5,
-		Offset:   0,
-		RepoID:   arg.RepoID,
-		Username: user.Username,
+		Limit:  5,
+		Offset: 0,
+		RepoID: arg.RepoID,
+		Query:  user.Username,
+		Role:   util.AdminRole,
 	}
 	rets, err := testStore.QuerySelectedUserByRepo(context.Background(), arg_list)
 	require.NoError(t, err)

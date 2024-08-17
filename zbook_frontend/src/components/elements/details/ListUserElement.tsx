@@ -8,6 +8,7 @@ import UserButtons from "./UserButtons";
 import { ListDataType } from "@/fetchs/model";
 import ToolTip from "@/components/ToolTip";
 import { IoMdBookmarks } from "react-icons/io";
+import UpdateVisibleButton from "@/components/wrappers/UpdateVisibilityButton";
 export default function ListUserElement({
   username,
   email,
@@ -16,6 +17,8 @@ export default function ListUserElement({
   is_following,
   repo_count,
   role,
+  repo_name,
+  repo_username,
   created_at,
   updated_at,
   listType,
@@ -27,6 +30,8 @@ export default function ListUserElement({
   is_following?: boolean;
   repo_count?: number;
   role?: string;
+  repo_name?: string;
+  repo_username?: string;
   created_at: string;
   updated_at: string;
   listType: ListDataType;
@@ -65,6 +70,14 @@ export default function ListUserElement({
             )}
             {listType == ListDataType.LIST_ADMIN_USER && role != "admin" && (
               <UserButtons username={username} is_blocked={blocked ?? false} />
+            )}
+            {listType == ListDataType.LIST_REPO_VISI && (
+              <UpdateVisibleButton
+                username={username}
+                repo_username={repo_username ?? ""}
+                repo_name={repo_name ?? ""}
+                is_visible={true}
+              />
             )}
           </div>
         </>

@@ -224,6 +224,40 @@
           "ZBookRepoRelation"
         ]
       }
+    },
+    "/v1/query_user_by_repo": {
+      "post": {
+        "summary": "列出用户创建帖子的归属信息",
+        "description": "分页列出指定用户创建帖子的归属信息",
+        "operationId": "ZBookRepoRelation_QueryUserByRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserByRepoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbQueryUserByRepoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepoRelation"
+        ]
+      }
     }
   },
   "definitions": {
@@ -313,6 +347,9 @@
         },
         "repoName": {
           "type": "string"
+        },
+        "query": {
+          "type": "string"
         }
       },
       "title": "6.GetSelectedUserByRepoCount"
@@ -370,15 +407,51 @@
         "email": {
           "type": "string"
         },
-        "isFollowing": {
-          "type": "boolean"
-        },
         "isRepoVisible": {
           "type": "boolean"
         },
         "updatedAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbQueryUserByRepoRequest": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "title": "7.QueryUserByRepo"
+    },
+    "pbQueryUserByRepoResponse": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbListUserRepoVisiblityInfo"
+          }
         }
       }
     },

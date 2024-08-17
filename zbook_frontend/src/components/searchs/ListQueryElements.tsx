@@ -95,14 +95,13 @@ export default function ListQueryElements({
               break;
             case SearchType.VISI_USER:
               data = await fetchServerWithAuthWrapper({
-                endpoint:
-                  FetchServerWithAuthWrapperEndPoint.LIST_SELECTED_USER_BY_REPO,
+                endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_USER_BY_REPO,
                 xforward: "",
                 agent: "",
                 tags: [],
                 values: {
                   username: operationUsername,
-                  repo_name: operationUsername,
+                  repo_name: operationRepoName,
                   query: query,
                   page_id: currentPage,
                   page_size: 10,

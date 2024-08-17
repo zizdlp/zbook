@@ -198,6 +198,7 @@ export default async function ListElementWrapper({
         values: {
           username: username,
           repo_name: decodeURIComponent(repo_name),
+          query: query,
         },
       });
       if (data_counts.error) {
@@ -299,6 +300,8 @@ export default async function ListElementWrapper({
               model={model}
               listType={listType}
               authname={authname}
+              repo_name={repo_name}
+              username={username}
             />
           ))}
         </div>

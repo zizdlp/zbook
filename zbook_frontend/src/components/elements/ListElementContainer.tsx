@@ -3,17 +3,20 @@ import ListSessionElement from "./details/ListSessionElement";
 import ListAdminCommentElement from "./details/ListAdminCommentElement";
 import ListCommentReportElement from "./details/ListCommentReportElement";
 import ListRepoElement from "./details/ListRepoElement";
-import ListRepoVisiElement from "./details/ListRepoVisiElement";
 import ListUserElement from "./details/ListUserElement";
 
 export default function ListElementContainer({
   model,
   listType,
   authname,
+  username,
+  repo_name,
 }: {
   model: any;
   listType: ListDataType;
   authname: string;
+  username?: string;
+  repo_name?: string;
 }) {
   if (
     listType === ListDataType.LIST_USER_FOLLOWER ||
@@ -32,13 +35,14 @@ export default function ListElementContainer({
     );
   } else if (listType === ListDataType.LIST_REPO_VISI) {
     return (
-      <ListRepoVisiElement
+      <ListUserElement
         username={model.username}
         email={model.email}
-        is_following={model.is_following ?? false}
-        repo_count={model.repo_count ?? 0}
         updated_at={model.updated_at}
         created_at={model.created_at}
+        listType={listType}
+        repo_username={username}
+        repo_name={repo_name}
       />
     );
   } else if (

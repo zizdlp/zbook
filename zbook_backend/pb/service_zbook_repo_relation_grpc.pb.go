@@ -26,6 +26,7 @@ const (
 	ZBookRepoRelation_DeleteRepoVisibility_FullMethodName       = "/pb.ZBookRepoRelation/DeleteRepoVisibility"
 	ZBookRepoRelation_ListSelectedUserByRepo_FullMethodName     = "/pb.ZBookRepoRelation/ListSelectedUserByRepo"
 	ZBookRepoRelation_GetSelectedUserByRepoCount_FullMethodName = "/pb.ZBookRepoRelation/GetSelectedUserByRepoCount"
+	ZBookRepoRelation_QueryUserByRepo_FullMethodName            = "/pb.ZBookRepoRelation/QueryUserByRepo"
 )
 
 // ZBookRepoRelationClient is the client API for ZBookRepoRelation service.
@@ -44,6 +45,8 @@ type ZBookRepoRelationClient interface {
 	ListSelectedUserByRepo(ctx context.Context, in *rpcs.ListSelectedUserByRepoRequest, opts ...grpc.CallOption) (*rpcs.ListSelectedUserByRepoResponse, error)
 	// 6.GetSelectedUserByRepoCount
 	GetSelectedUserByRepoCount(ctx context.Context, in *rpcs.GetSelectedUserByRepoCountRequest, opts ...grpc.CallOption) (*rpcs.GetSelectedUserByRepoCountResponse, error)
+	// 7.QueryUserByRepo
+	QueryUserByRepo(ctx context.Context, in *rpcs.QueryUserByRepoRequest, opts ...grpc.CallOption) (*rpcs.QueryUserByRepoResponse, error)
 }
 
 type zBookRepoRelationClient struct {
@@ -108,6 +111,15 @@ func (c *zBookRepoRelationClient) GetSelectedUserByRepoCount(ctx context.Context
 	return out, nil
 }
 
+func (c *zBookRepoRelationClient) QueryUserByRepo(ctx context.Context, in *rpcs.QueryUserByRepoRequest, opts ...grpc.CallOption) (*rpcs.QueryUserByRepoResponse, error) {
+	out := new(rpcs.QueryUserByRepoResponse)
+	err := c.cc.Invoke(ctx, ZBookRepoRelation_QueryUserByRepo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ZBookRepoRelationServer is the server API for ZBookRepoRelation service.
 // All implementations must embed UnimplementedZBookRepoRelationServer
 // for forward compatibility
@@ -124,6 +136,8 @@ type ZBookRepoRelationServer interface {
 	ListSelectedUserByRepo(context.Context, *rpcs.ListSelectedUserByRepoRequest) (*rpcs.ListSelectedUserByRepoResponse, error)
 	// 6.GetSelectedUserByRepoCount
 	GetSelectedUserByRepoCount(context.Context, *rpcs.GetSelectedUserByRepoCountRequest) (*rpcs.GetSelectedUserByRepoCountResponse, error)
+	// 7.QueryUserByRepo
+	QueryUserByRepo(context.Context, *rpcs.QueryUserByRepoRequest) (*rpcs.QueryUserByRepoResponse, error)
 	mustEmbedUnimplementedZBookRepoRelationServer()
 }
 
@@ -148,6 +162,9 @@ func (UnimplementedZBookRepoRelationServer) ListSelectedUserByRepo(context.Conte
 }
 func (UnimplementedZBookRepoRelationServer) GetSelectedUserByRepoCount(context.Context, *rpcs.GetSelectedUserByRepoCountRequest) (*rpcs.GetSelectedUserByRepoCountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSelectedUserByRepoCount not implemented")
+}
+func (UnimplementedZBookRepoRelationServer) QueryUserByRepo(context.Context, *rpcs.QueryUserByRepoRequest) (*rpcs.QueryUserByRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryUserByRepo not implemented")
 }
 func (UnimplementedZBookRepoRelationServer) mustEmbedUnimplementedZBookRepoRelationServer() {}
 
@@ -270,6 +287,24 @@ func _ZBookRepoRelation_GetSelectedUserByRepoCount_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ZBookRepoRelation_QueryUserByRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(rpcs.QueryUserByRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ZBookRepoRelationServer).QueryUserByRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ZBookRepoRelation_QueryUserByRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ZBookRepoRelationServer).QueryUserByRepo(ctx, req.(*rpcs.QueryUserByRepoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ZBookRepoRelation_ServiceDesc is the grpc.ServiceDesc for ZBookRepoRelation service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -300,6 +335,10 @@ var ZBookRepoRelation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSelectedUserByRepoCount",
 			Handler:    _ZBookRepoRelation_GetSelectedUserByRepoCount_Handler,
+		},
+		{
+			MethodName: "QueryUserByRepo",
+			Handler:    _ZBookRepoRelation_QueryUserByRepo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

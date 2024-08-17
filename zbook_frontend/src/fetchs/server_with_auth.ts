@@ -48,6 +48,7 @@ import {
   UpdateConfigurationRequest,
   QueryMarkdownRequest,
   CreateInvitationRequest,
+  QueryUserByRepoRequest,
 } from "./server_with_auth_request";
 import {
   CreateRepoVisibilityRequest,
@@ -264,6 +265,19 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.GetDailyVisitors;
   values: GetDailyVisitorsRequest;
+  xforward: string;
+  agent: string;
+  tags: string[];
+}): Promise<any>;
+export async function fetchServerWithAuthWrapper({
+  endpoint,
+  values,
+  xforward,
+  agent,
+  tags,
+}: {
+  endpoint: FetchServerWithAuthWrapperEndPoint.QUERY_USER_BY_REPO;
+  values: QueryUserByRepoRequest;
   xforward: string;
   agent: string;
   tags: string[];

@@ -22,7 +22,7 @@ func (server *Server) ListSelectedUserByRepo(ctx context.Context, req *rpcs.List
 	}
 	apiUserDailyLimit := 10000
 	apiKey := "ListSelectedUserByRepo"
-	_, err := server.authUser(ctx, []string{util.AdminRole}, apiUserDailyLimit, apiKey)
+	authUser, err := server.authUser(ctx, []string{util.AdminRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
 	}
@@ -37,10 +37,11 @@ func (server *Server) ListSelectedUserByRepo(ctx context.Context, req *rpcs.List
 	}
 	if req.GetQuery() != "" {
 		arg := db.QuerySelectedUserByRepoParams{
-			Limit:    req.GetPageSize(),
-			Offset:   (req.GetPageId() - 1) * req.GetPageSize(),
-			Username: req.GetQuery(),
-			RepoID:   repo_id,
+			Limit:  req.GetPageSize(),
+			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
+			RepoID: repo_id,
+			Query:  req.GetQuery(),
+			Role:   authUser.UserRole,
 		}
 
 		users, err := server.store.QuerySelectedUserByRepo(ctx, arg)
@@ -56,6 +57,7 @@ func (server *Server) ListSelectedUserByRepo(ctx context.Context, req *rpcs.List
 			Limit:  req.GetPageSize(),
 			Offset: (req.GetPageId() - 1) * req.GetPageSize(),
 			RepoID: repo_id,
+			Role:   authUser.UserRole,
 		}
 
 		users, err := server.store.ListSelectedUserByRepo(ctx, arg)
@@ -86,6 +88,7 @@ func convertListSelectedUserByRepo(users []db.User) []*models.ListUserRepoVisibl
 			&models.ListUserRepoVisiblityInfo{
 				Username:      users[i].Username,
 				Email:         users[i].Email,
+				CreatedAt:     timestamppb.New(users[i].CreatedAt),
 				UpdatedAt:     timestamppb.New(users[i].UpdatedAt),
 				IsRepoVisible: true,
 			},
@@ -100,8 +103,9 @@ func convertQueryRepoVisibility(users []db.QuerySelectedUserByRepoRow) []*models
 			&models.ListUserRepoVisiblityInfo{
 				Username:      users[i].Username,
 				Email:         users[i].Email,
+				CreatedAt:     timestamppb.New(users[i].CreatedAt),
 				UpdatedAt:     timestamppb.New(users[i].UpdatedAt),
-				IsRepoVisible: users[i].IsVisible,
+				IsRepoVisible: true,
 			},
 		)
 	}

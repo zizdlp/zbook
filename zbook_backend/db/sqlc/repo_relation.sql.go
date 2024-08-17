@@ -45,6 +45,47 @@ func (q *Queries) DeleteRepoRelation(ctx context.Context, arg DeleteRepoRelation
 	return err
 }
 
+const getListSelectedUserByRepoCount = `-- name: GetListSelectedUserByRepoCount :one
+SELECT COUNT(*)
+FROM repos as r
+LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
+JOIN users as u ON u.user_id = rr.user_id AND (u.blocked='false' OR $2::text='admin')
+WHERE r.repo_id=$1 AND rr.relation_type = 'visi'
+`
+
+type GetListSelectedUserByRepoCountParams struct {
+	RepoID int64  `json:"repo_id"`
+	Role   string `json:"role"`
+}
+
+func (q *Queries) GetListSelectedUserByRepoCount(ctx context.Context, arg GetListSelectedUserByRepoCountParams) (int64, error) {
+	row := q.db.QueryRow(ctx, getListSelectedUserByRepoCount, arg.RepoID, arg.Role)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const getQuerySelectedUserByRepoCount = `-- name: GetQuerySelectedUserByRepoCount :one
+SELECT COUNT(*)
+FROM repos as r
+LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
+JOIN users as u ON u.user_id = rr.user_id
+WHERE r.repo_id=$1 AND rr.relation_type = 'visi' AND (u.blocked='false' OR $2::text='admin') AND fts_username @@ plainto_tsquery($3)
+`
+
+type GetQuerySelectedUserByRepoCountParams struct {
+	RepoID int64  `json:"repo_id"`
+	Role   string `json:"role"`
+	Query  string `json:"query"`
+}
+
+func (q *Queries) GetQuerySelectedUserByRepoCount(ctx context.Context, arg GetQuerySelectedUserByRepoCountParams) (int64, error) {
+	row := q.db.QueryRow(ctx, getQuerySelectedUserByRepoCount, arg.RepoID, arg.Role, arg.Query)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getRepoRelation = `-- name: GetRepoRelation :one
 SELECT relation_id, relation_type, user_id, repo_id, created_at
 FROM repo_relations
@@ -70,26 +111,11 @@ func (q *Queries) GetRepoRelation(ctx context.Context, arg GetRepoRelationParams
 	return i, err
 }
 
-const getSelectedUserByRepoCount = `-- name: GetSelectedUserByRepoCount :one
-SELECT COUNT(*)
-FROM repos as r
-LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
-JOIN users as u ON u.user_id = rr.user_id
-WHERE r.repo_id=$1 AND rr.relation_type = 'visi'
-`
-
-func (q *Queries) GetSelectedUserByRepoCount(ctx context.Context, repoID int64) (int64, error) {
-	row := q.db.QueryRow(ctx, getSelectedUserByRepoCount, repoID)
-	var count int64
-	err := row.Scan(&count)
-	return count, err
-}
-
 const listSelectedUserByRepo = `-- name: ListSelectedUserByRepo :many
 SELECT u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username
 FROM repos as r
 LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
-JOIN users as u ON u.user_id = rr.user_id
+JOIN users as u ON u.user_id = rr.user_id AND (u.blocked='false' OR $4::text='admin')
 WHERE r.repo_id=$3 AND rr.relation_type = 'visi'
 ORDER BY rr.created_at DESC
 LIMIT $1
@@ -97,13 +123,19 @@ OFFSET $2
 `
 
 type ListSelectedUserByRepoParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-	RepoID int64 `json:"repo_id"`
+	Limit  int32  `json:"limit"`
+	Offset int32  `json:"offset"`
+	RepoID int64  `json:"repo_id"`
+	Role   string `json:"role"`
 }
 
 func (q *Queries) ListSelectedUserByRepo(ctx context.Context, arg ListSelectedUserByRepoParams) ([]User, error) {
-	rows, err := q.db.Query(ctx, listSelectedUserByRepo, arg.Limit, arg.Offset, arg.RepoID)
+	rows, err := q.db.Query(ctx, listSelectedUserByRepo,
+		arg.Limit,
+		arg.Offset,
+		arg.RepoID,
+		arg.Role,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -138,25 +170,22 @@ func (q *Queries) ListSelectedUserByRepo(ctx context.Context, arg ListSelectedUs
 }
 
 const querySelectedUserByRepo = `-- name: QuerySelectedUserByRepo :many
-SELECT
-   u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
-   CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
-FROM 
-  users as u 
-LEFT JOIN 
-    repo_relations rr ON rr.user_id = u.user_id AND rr.repo_id=$3
-WHERE u.username=$4
-GROUP BY u.user_id,rr.created_at
-ORDER BY rr.created_at DESC
+select u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,ts_rank(fts_username, plainto_tsquery($4)) as rank
+FROM repos as r
+LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
+JOIN users as u ON u.user_id = rr.user_id
+WHERE r.repo_id=$3 AND rr.relation_type = 'visi' AND (u.blocked='false' OR $5::text='admin') AND fts_username @@ plainto_tsquery($4)
+ORDER BY rank DESC
 LIMIT $1
 OFFSET $2
 `
 
 type QuerySelectedUserByRepoParams struct {
-	Limit    int32  `json:"limit"`
-	Offset   int32  `json:"offset"`
-	RepoID   int64  `json:"repo_id"`
-	Username string `json:"username"`
+	Limit  int32  `json:"limit"`
+	Offset int32  `json:"offset"`
+	RepoID int64  `json:"repo_id"`
+	Query  string `json:"query"`
+	Role   string `json:"role"`
 }
 
 type QuerySelectedUserByRepoRow struct {
@@ -174,7 +203,7 @@ type QuerySelectedUserByRepoRow struct {
 	UnreadCount          int32     `json:"unread_count"`
 	UnreadCountUpdatedAt time.Time `json:"unread_count_updated_at"`
 	FtsUsername          string    `json:"fts_username"`
-	IsVisible            bool      `json:"is_visible"`
+	Rank                 float32   `json:"rank"`
 }
 
 func (q *Queries) QuerySelectedUserByRepo(ctx context.Context, arg QuerySelectedUserByRepoParams) ([]QuerySelectedUserByRepoRow, error) {
@@ -182,7 +211,8 @@ func (q *Queries) QuerySelectedUserByRepo(ctx context.Context, arg QuerySelected
 		arg.Limit,
 		arg.Offset,
 		arg.RepoID,
-		arg.Username,
+		arg.Query,
+		arg.Role,
 	)
 	if err != nil {
 		return nil, err
@@ -206,6 +236,91 @@ func (q *Queries) QuerySelectedUserByRepo(ctx context.Context, arg QuerySelected
 			&i.UnreadCount,
 			&i.UnreadCountUpdatedAt,
 			&i.FtsUsername,
+			&i.Rank,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const queryUserByRepo = `-- name: QueryUserByRepo :many
+SELECT
+   u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,ts_rank(fts_username, plainto_tsquery($4)) as rank,
+   CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
+FROM 
+  users as u 
+LEFT JOIN 
+    repo_relations rr ON rr.user_id = u.user_id AND rr.repo_id=$3
+WHERE (u.blocked='false' OR $5::text='admin') AND fts_username @@ plainto_tsquery($4)
+GROUP BY u.user_id,rr.created_at
+ORDER BY rank DESC,rr.created_at DESC
+LIMIT $1
+OFFSET $2
+`
+
+type QueryUserByRepoParams struct {
+	Limit  int32  `json:"limit"`
+	Offset int32  `json:"offset"`
+	RepoID int64  `json:"repo_id"`
+	Query  string `json:"query"`
+	Role   string `json:"role"`
+}
+
+type QueryUserByRepoRow struct {
+	UserID               int64     `json:"user_id"`
+	Username             string    `json:"username"`
+	Email                string    `json:"email"`
+	HashedPassword       string    `json:"hashed_password"`
+	Blocked              bool      `json:"blocked"`
+	Verified             bool      `json:"verified"`
+	Motto                string    `json:"motto"`
+	UserRole             string    `json:"user_role"`
+	Onboarding           bool      `json:"onboarding"`
+	CreatedAt            time.Time `json:"created_at"`
+	UpdatedAt            time.Time `json:"updated_at"`
+	UnreadCount          int32     `json:"unread_count"`
+	UnreadCountUpdatedAt time.Time `json:"unread_count_updated_at"`
+	FtsUsername          string    `json:"fts_username"`
+	Rank                 float32   `json:"rank"`
+	IsVisible            bool      `json:"is_visible"`
+}
+
+func (q *Queries) QueryUserByRepo(ctx context.Context, arg QueryUserByRepoParams) ([]QueryUserByRepoRow, error) {
+	rows, err := q.db.Query(ctx, queryUserByRepo,
+		arg.Limit,
+		arg.Offset,
+		arg.RepoID,
+		arg.Query,
+		arg.Role,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []QueryUserByRepoRow{}
+	for rows.Next() {
+		var i QueryUserByRepoRow
+		if err := rows.Scan(
+			&i.UserID,
+			&i.Username,
+			&i.Email,
+			&i.HashedPassword,
+			&i.Blocked,
+			&i.Verified,
+			&i.Motto,
+			&i.UserRole,
+			&i.Onboarding,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UnreadCount,
+			&i.UnreadCountUpdatedAt,
+			&i.FtsUsername,
+			&i.Rank,
 			&i.IsVisible,
 		); err != nil {
 			return nil, err

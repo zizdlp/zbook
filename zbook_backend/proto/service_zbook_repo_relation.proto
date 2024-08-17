@@ -111,4 +111,18 @@ summary:
 };
 }
 ;
+
+// 7.QueryUserByRepo
+rpc QueryUserByRepo(QueryUserByRepoRequest) returns (QueryUserByRepoResponse) {
+  option (google.api.http) = {
+    post: "/v1/query_user_by_repo",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "分页列出指定用户创建帖子的归属信息";
+summary:
+  "列出用户创建帖子的归属信息";
+};
+}
+;
 }

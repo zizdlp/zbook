@@ -3,6 +3,8 @@
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import React, { useState } from "react";
+import { MdVisibility } from "react-icons/md";
+
 export default function UpdateVisibleButton({
   username,
   repo_name,
@@ -47,6 +49,18 @@ export default function UpdateVisibleButton({
       });
     }
   }
+  // return (
+  //   <>
+  //     {isVisible && (
+  //       <MdVisibility
+  //         onClick={async () => {
+  //           // await actionUpdateUserBlock();
+  //         }}
+  //         className="p-1 w-7 h-7 cursor-pointer text-gray-500 border dark:border-0 border-gray-200 rounded dark:bg-[#263142] hover:bg-sky-500 hover:text-white dark:hover:bg-gray-900 dark:text-gray-400"
+  //       />
+  //     )}
+  //   </>
+  // );
   return (
     <div
       className="bg-green-500 dark:bg-green-700 text-white rounded-lg py-2 px-4 font-semibold text-sm cursor-pointer hover:bg-green-600 dark:hover:bg-green-500"
