@@ -2,7 +2,6 @@ package gapi
 
 import (
 	"context"
-	"strings"
 
 	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zizdlp/zbook/db/sqlc"
@@ -43,7 +42,6 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 			RepoDescription: req.GetRepoDescription(),
 			SyncToken:       pgtype.Text{String: req.GetSyncToken(), Valid: req.GetSyncToken() != ""},
 			VisibilityLevel: req.GetVisibilityLevel(),
-			HomePage:        strings.ToLower(req.GetHomePage()),
 			ThemeSidebar:    req.GetThemeSidebar(),
 			ThemeColor:      req.GetThemeColor(),
 		},

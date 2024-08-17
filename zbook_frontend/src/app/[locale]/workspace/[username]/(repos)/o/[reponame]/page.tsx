@@ -10,7 +10,6 @@ export default async function RepoDetail({
   params: { reponame: string; username: string; locale: string };
 }) {
   let home_page = "readme";
-  console.log("lang:", locale);
   try {
     const xforward = headers().get("x-forwarded-for") ?? "";
     const agent = headers().get("User-Agent") ?? "";

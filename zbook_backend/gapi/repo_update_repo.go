@@ -3,7 +3,6 @@ package gapi
 import (
 	"context"
 	"errors"
-	"strings"
 
 	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zizdlp/zbook/db/sqlc"
@@ -62,7 +61,6 @@ func (server *Server) UpdateRepoInfo(ctx context.Context, req *rpcs.UpdateRepoIn
 		ThemeSidebar: pgtype.Text{String: req.GetThemeSidebar(), Valid: len(req.GetThemeSidebar()) != 0},
 		ThemeColor:   pgtype.Text{String: req.GetThemeColor(), Valid: len(req.GetThemeColor()) != 0},
 		SyncToken:    pgtype.Text{String: req.GetSyncToken(), Valid: len(req.GetSyncToken()) != 0},
-		HomePage:     pgtype.Text{String: strings.ToLower(req.GetHomePage()), Valid: len(req.GetHomePage()) != 0},
 	}
 
 	_, err = server.store.UpdateRepoInfo(ctx, arg)

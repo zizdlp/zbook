@@ -13,9 +13,8 @@ message CreateRepoRequest {
   string git_access_token = 4;
   string sync_token       = 5;
   string visibility_level = 6;
-  string home_page        = 7;
-  string theme_sidebar    = 9;
-  string theme_color      = 10;
+  string theme_sidebar    = 7;
+  string theme_color      = 8;
 }
 message CreateRepoResponse {}
 
@@ -63,9 +62,8 @@ message UpdateRepoInfoRequest {
   string repo_description = 5;
   string visibility_level = 6;
   string sync_token       = 7;
-  string home_page        = 8;
-  string theme_sidebar    = 9;
-  string theme_color      = 10;
+  string theme_sidebar    = 8;
+  string theme_color      = 9;
 }
 message UpdateRepoInfoResponse {}
 

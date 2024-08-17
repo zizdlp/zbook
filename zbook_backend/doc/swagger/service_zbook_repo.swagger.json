@@ -504,9 +504,6 @@
         "visibilityLevel": {
           "type": "string"
         },
-        "homePage": {
-          "type": "string"
-        },
         "themeSidebar": {
           "type": "string"
         },
@@ -818,9 +815,6 @@
           "type": "string"
         },
         "syncToken": {
-          "type": "string"
-        },
-        "homePage": {
           "type": "string"
         },
         "themeSidebar": {
