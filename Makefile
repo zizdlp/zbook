@@ -96,9 +96,9 @@ build_database:
 #########################################################################
 ################## run as docker compose ################################
 compose_build:
-	sudo docker-compose --env-file compose.env -f docker-compose.yaml down --volumes
-	sudo docker-compose --env-file compose.env -f docker-compose.yaml build
-	sudo docker-compose --env-file compose.env -f docker-compose.yaml up  --remove-orphans 
+	sudo docker-compose --env-file compose.env -f docker-compose-build.yaml down --volumes
+	sudo docker-compose --env-file compose.env -f docker-compose-build.yaml build
+	sudo docker-compose --env-file compose.env -f docker-compose-build.yaml up  --remove-orphans 
 compose_pull:
 	sudo docker-compose --env-file compose.env -f docker-compose-pull.yaml down --volumes
 	sudo docker-compose --env-file compose.env -f docker-compose-pull.yaml build
