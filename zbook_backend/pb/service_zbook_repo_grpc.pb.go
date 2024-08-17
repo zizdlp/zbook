@@ -26,7 +26,6 @@ const (
 	ZBookRepo_ManualSyncRepo_FullMethodName           = "/pb.ZBookRepo/ManualSyncRepo"
 	ZBookRepo_AutoSyncRepo_FullMethodName             = "/pb.ZBookRepo/AutoSyncRepo"
 	ZBookRepo_UpdateRepoInfo_FullMethodName           = "/pb.ZBookRepo/UpdateRepoInfo"
-	ZBookRepo_GetRepoBasicInfo_FullMethodName         = "/pb.ZBookRepo/GetRepoBasicInfo"
 	ZBookRepo_ListUserOwnRepo_FullMethodName          = "/pb.ZBookRepo/ListUserOwnRepo"
 	ZBookRepo_GetListUserOwnRepoCount_FullMethodName  = "/pb.ZBookRepo/GetListUserOwnRepoCount"
 	ZBookRepo_ListUserLikeRepo_FullMethodName         = "/pb.ZBookRepo/ListUserLikeRepo"
@@ -52,8 +51,6 @@ type ZBookRepoClient interface {
 	AutoSyncRepo(ctx context.Context, in *rpcs.AutoSyncRepoRequest, opts ...grpc.CallOption) (*rpcs.AutoSyncRepoResponse, error)
 	// 6.UpdateRepoInfo
 	UpdateRepoInfo(ctx context.Context, in *rpcs.UpdateRepoInfoRequest, opts ...grpc.CallOption) (*rpcs.UpdateRepoInfoResponse, error)
-	// 7.GetRepoBasicInfo
-	GetRepoBasicInfo(ctx context.Context, in *rpcs.GetRepoBasicInfoRequest, opts ...grpc.CallOption) (*rpcs.GetRepoBasicInfoResponse, error)
 	// 9.ListUserOwnRepo
 	ListUserOwnRepo(ctx context.Context, in *rpcs.ListUserOwnRepoRequest, opts ...grpc.CallOption) (*rpcs.ListUserOwnRepoResponse, error)
 	// 10.GetListUserOwnRepoCount
@@ -126,15 +123,6 @@ func (c *zBookRepoClient) AutoSyncRepo(ctx context.Context, in *rpcs.AutoSyncRep
 func (c *zBookRepoClient) UpdateRepoInfo(ctx context.Context, in *rpcs.UpdateRepoInfoRequest, opts ...grpc.CallOption) (*rpcs.UpdateRepoInfoResponse, error) {
 	out := new(rpcs.UpdateRepoInfoResponse)
 	err := c.cc.Invoke(ctx, ZBookRepo_UpdateRepoInfo_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *zBookRepoClient) GetRepoBasicInfo(ctx context.Context, in *rpcs.GetRepoBasicInfoRequest, opts ...grpc.CallOption) (*rpcs.GetRepoBasicInfoResponse, error) {
-	out := new(rpcs.GetRepoBasicInfoResponse)
-	err := c.cc.Invoke(ctx, ZBookRepo_GetRepoBasicInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -220,8 +208,6 @@ type ZBookRepoServer interface {
 	AutoSyncRepo(context.Context, *rpcs.AutoSyncRepoRequest) (*rpcs.AutoSyncRepoResponse, error)
 	// 6.UpdateRepoInfo
 	UpdateRepoInfo(context.Context, *rpcs.UpdateRepoInfoRequest) (*rpcs.UpdateRepoInfoResponse, error)
-	// 7.GetRepoBasicInfo
-	GetRepoBasicInfo(context.Context, *rpcs.GetRepoBasicInfoRequest) (*rpcs.GetRepoBasicInfoResponse, error)
 	// 9.ListUserOwnRepo
 	ListUserOwnRepo(context.Context, *rpcs.ListUserOwnRepoRequest) (*rpcs.ListUserOwnRepoResponse, error)
 	// 10.GetListUserOwnRepoCount
@@ -260,9 +246,6 @@ func (UnimplementedZBookRepoServer) AutoSyncRepo(context.Context, *rpcs.AutoSync
 }
 func (UnimplementedZBookRepoServer) UpdateRepoInfo(context.Context, *rpcs.UpdateRepoInfoRequest) (*rpcs.UpdateRepoInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRepoInfo not implemented")
-}
-func (UnimplementedZBookRepoServer) GetRepoBasicInfo(context.Context, *rpcs.GetRepoBasicInfoRequest) (*rpcs.GetRepoBasicInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRepoBasicInfo not implemented")
 }
 func (UnimplementedZBookRepoServer) ListUserOwnRepo(context.Context, *rpcs.ListUserOwnRepoRequest) (*rpcs.ListUserOwnRepoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserOwnRepo not implemented")
@@ -402,24 +385,6 @@ func _ZBookRepo_UpdateRepoInfo_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ZBookRepoServer).UpdateRepoInfo(ctx, req.(*rpcs.UpdateRepoInfoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ZBookRepo_GetRepoBasicInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(rpcs.GetRepoBasicInfoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ZBookRepoServer).GetRepoBasicInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ZBookRepo_GetRepoBasicInfo_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ZBookRepoServer).GetRepoBasicInfo(ctx, req.(*rpcs.GetRepoBasicInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -580,10 +545,6 @@ var ZBookRepo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateRepoInfo",
 			Handler:    _ZBookRepo_UpdateRepoInfo_Handler,
-		},
-		{
-			MethodName: "GetRepoBasicInfo",
-			Handler:    _ZBookRepo_GetRepoBasicInfo_Handler,
 		},
 		{
 			MethodName: "ListUserOwnRepo",

@@ -106,21 +106,6 @@ summary:
 }
 ;
 
-// 7.GetRepoBasicInfo
-rpc GetRepoBasicInfo(GetRepoBasicInfoRequest)
-    returns (GetRepoBasicInfoResponse) {
-  option (google.api.http) = {
-    post: "/v1/get_repo_basic_info",
-    body: "*",
-  };
-  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-    description: "Use this api to get repo info";
-summary:
-  "get repo info";
-};
-}
-;
-
 // 9.ListUserOwnRepo
 rpc ListUserOwnRepo(ListUserOwnRepoRequest) returns (ListUserOwnRepoResponse) {
   option (google.api.http) = {

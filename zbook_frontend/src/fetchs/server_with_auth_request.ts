@@ -129,11 +129,6 @@ interface GetUserInfoRequest {
   user_basic: boolean;
   user_image: boolean;
 }
-interface GetRepoBasicInfoRequest {
-  username: string;
-  repo_name: string;
-}
-
 interface GetRepoConfigRequest {
   username: string;
   repo_name: string;
@@ -413,7 +408,6 @@ export type {
   ListSelectedUserByRepoRequest,
   GetSelectedUserByRepoCountRequest,
   GetUserInfoRequest,
-  GetRepoBasicInfoRequest,
   GetRepoConfigRequest,
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,

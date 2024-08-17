@@ -33,7 +33,6 @@ import {
   ListUserLikeRepoRequest,
   ListUserOwnRepoRequest,
   ListUserRequest,
-  GetRepoBasicInfoRequest,
   UpdateUserBlockRequest,
   CreateRepoRequest,
   UpdateUserRequest,
@@ -451,19 +450,6 @@ export async function fetchServerWithAuthWrapper({
 }: {
   endpoint: FetchServerWithAuthWrapperEndPoint.GET_FIRST_DOCUMENT;
   values: GetFirstDocumentRequest;
-  xforward: string;
-  agent: string;
-  tags: string[];
-}): Promise<any>;
-export async function fetchServerWithAuthWrapper({
-  endpoint,
-  values,
-  xforward,
-  agent,
-  tags,
-}: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_BASIC_INFO;
-  values: GetRepoBasicInfoRequest;
   xforward: string;
   agent: string;
   tags: string[];

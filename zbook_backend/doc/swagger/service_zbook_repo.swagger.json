@@ -259,40 +259,6 @@
         ]
       }
     },
-    "/v1/get_repo_basic_info": {
-      "post": {
-        "summary": "get repo info",
-        "description": "Use this api to get repo info",
-        "operationId": "ZBookRepo_GetRepoBasicInfo",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/pbGetRepoBasicInfoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/pbGetRepoBasicInfoRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ZBookRepo"
-        ]
-      }
-    },
     "/v1/get_repo_config": {
       "post": {
         "summary": "get repo config",
@@ -648,46 +614,6 @@
         "count": {
           "type": "string",
           "format": "int64"
-        }
-      }
-    },
-    "pbGetRepoBasicInfoRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "repoName": {
-          "type": "string"
-        }
-      },
-      "title": "7.GetRepoBasicInfo"
-    },
-    "pbGetRepoBasicInfoResponse": {
-      "type": "object",
-      "properties": {
-        "repoName": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string",
-          "format": "byte"
-        },
-        "repoDescription": {
-          "type": "string"
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "homePage": {
-          "type": "string"
         }
       }
     },

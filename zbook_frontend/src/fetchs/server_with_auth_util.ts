@@ -30,7 +30,6 @@ export enum FetchServerWithAuthWrapperEndPoint {
 
   GET_USER_INFO = "get_user_info",
 
-  GET_REPO_BASIC_INFO = "get_repo_basic_info",
   GET_REPO_CONFIG = "get_repo_config",
   GET_FIRST_DOCUMENT = "get_first_document",
 
