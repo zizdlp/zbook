@@ -67,6 +67,9 @@ migrateup:
 migratedown:
 	cd zbook_backend && \
 	migrate -path db/migration -database "$(DB_SOURCE)" -verbose down
+convert_db:
+	cd zbook_database && \
+	python convert.py
 import_data:
 	docker cp geoip_data.sql.gz $(POD_NAME):/tmp/
 	docker exec -it $(POD_NAME) sh -c "gunzip /tmp/geoip_data.sql.gz"
