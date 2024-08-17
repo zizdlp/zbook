@@ -31,7 +31,7 @@ export default function EnableElement({
                   : t("TipInviation")
             }
           >
-            <>{label}</>
+            <div>{label}</div>
           </ToolTip>
         </Switch.Label>
         <Switch
