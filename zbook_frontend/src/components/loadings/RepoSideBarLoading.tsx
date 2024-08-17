@@ -1,3 +1,4 @@
+import { BiError } from "react-icons/bi";
 import LeftSideBarWrapper from "../sidebars/LeftSideBarWrapper";
 
 export default function RepoSideBarLoading() {

@@ -6,7 +6,9 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
-import { ThemeColor } from "../TableOfContent";
+import RepoSideBarLoading from "../loadings/RepoSideBarLoading";
+import LeftSideBarWrapper from "./LeftSideBarWrapper";
+import { BiError } from "react-icons/bi";
 export default async function RepoSideBarLayout({
   reponame,
   username,
@@ -60,6 +62,17 @@ export default async function RepoSideBarLayout({
   } catch (error) {
     let e = error as FetchError;
     logger.error(`Fetch SideBarlayout:${e.message}`, e.status);
-    return <NotFound />;
+    return (
+      <LeftSideBarWrapper small={true}>
+        <div className="absolute inset-0 flex items-center justify-center   z-50">
+          <div className="text-center">
+            <BiError className="text-red-600 dark:text-red-400 w-12 h-12 mx-auto" />
+            <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+              Error loading SideBar data
+            </p>
+          </div>
+        </div>
+      </LeftSideBarWrapper>
+    );
   }
 }
