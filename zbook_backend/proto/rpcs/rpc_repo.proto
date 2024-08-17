@@ -140,3 +140,12 @@ message GetListRepoCountRequest {
 message GetListRepoCountResponse {
   int64 count = 1;
 }
+// 15.GetFirstDocument
+message GetFirstDocumentRequest {
+  string username  = 1;
+  string repo_name = 2;
+  string lang      = 3;
+}
+message GetFirstDocumentResponse {
+  string relative_path = 1;
+}

@@ -207,4 +207,19 @@ summary:
 };
 }
 ;
+
+// 15.GetFirstDocument
+rpc GetFirstDocument(GetFirstDocumentRequest)
+    returns (GetFirstDocumentResponse) {
+  option (google.api.http) = {
+    post: "/v1/get_first_document",
+    body: "*",
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this api to list_repo_private";
+summary:
+  "get_repo_count";
+};
+}
+;
 }

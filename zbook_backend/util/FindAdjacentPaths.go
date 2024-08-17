@@ -49,3 +49,29 @@ func flattenLayoutPaths(layoutMap map[string][]Layout, lang string) []string {
 	}
 	return paths
 }
+
+// GetFirstDocument 查找指定语言的第一个文档，如果找不到，则返回默认语言中的第一个文档
+func (config *RepoConfig) GetFirstDocument(lang string) (string, error) {
+	layouts, ok := config.Layout[lang]
+	if !ok {
+		layouts, ok = config.Layout["default"]
+		if !ok {
+			return "", fmt.Errorf("no documents found for language: %s", lang)
+		}
+	}
+
+	for _, layout := range layouts {
+		if !layout.Isdir {
+			return layout.RelativePath, nil
+		}
+		if layout.Sublayouts != nil {
+			for _, sublayout := range layout.Sublayouts {
+				if !sublayout.Isdir {
+					return sublayout.RelativePath, nil
+				}
+			}
+		}
+	}
+
+	return "", fmt.Errorf("no documents found for language: %s", lang)
+}

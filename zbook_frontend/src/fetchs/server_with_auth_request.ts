@@ -17,6 +17,11 @@ interface ListFollowerRequest {
   page_size: number;
   query: string;
 }
+interface GetFirstDocumentRequest {
+  username: string;
+  repo_name: string;
+  lang: string;
+}
 interface ListFollowingRequest {
   username: string;
   page_id: number;
@@ -421,4 +426,5 @@ export type {
   QueryMarkdownRequest,
   CreateInvitationRequest,
   QueryUserByRepoRequest,
+  GetFirstDocumentRequest,
 };

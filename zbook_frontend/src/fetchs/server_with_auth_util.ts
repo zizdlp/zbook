@@ -32,6 +32,7 @@ export enum FetchServerWithAuthWrapperEndPoint {
 
   GET_REPO_BASIC_INFO = "get_repo_basic_info",
   GET_REPO_CONFIG = "get_repo_config",
+  GET_FIRST_DOCUMENT = "get_first_document",
 
   GET_MARKDOWN_CONTENT = "get_markdown_content",
   GET_MARKDOWN_IMAGE = "get_markdown_image",

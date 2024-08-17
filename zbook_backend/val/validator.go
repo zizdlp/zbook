@@ -46,6 +46,12 @@ func ValidateRepoSideBarTheme(value string) error {
 	}
 	return nil
 }
+func ValidateLang(value string) error {
+	if value != util.LangEn && value != util.LangZh {
+		return fmt.Errorf("invalid language")
+	}
+	return nil
+}
 func ValidateRepoThemeColor(value string) error {
 	if value != util.ThemeColorViolet && value != util.ThemeColorGreen && value != util.ThemeColorRed && value != util.ThemeColorYellow && value != util.ThemeColorTeal && value != util.ThemeColorSky && value != util.ThemeColorCyan && value != util.ThemeColorPink && value != util.ThemeColorIndigo {
 		return fmt.Errorf("invalid theme color")

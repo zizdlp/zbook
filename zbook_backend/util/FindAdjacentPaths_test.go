@@ -88,3 +88,63 @@ func TestFindAdjacentPaths(t *testing.T) {
 		require.Equal(t, tt.expectedNext, next)
 	}
 }
+
+func TestGetFirstDocument(t *testing.T) {
+	// 创建测试配置
+	config := &RepoConfig{
+		Layout: map[string][]Layout{
+			"en": {
+				{
+					Title:        "doc1",
+					RelativePath: "doc1",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+				{
+					Title:        "doc2",
+					RelativePath: "doc2",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+			},
+			"zh": {
+				{
+					Title:        "文档1",
+					RelativePath: "doc1-zh",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+			},
+			"default": {
+				{
+					Title:        "default-doc",
+					RelativePath: "default-doc",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+			},
+		},
+	}
+
+	tests := []struct {
+		lang          string
+		expectedDoc   string
+		expectedError bool
+	}{
+		{"en", "doc1", false},
+		{"zh", "doc1-zh", false},
+		{"fr", "default-doc", false}, // Testing for a non-existent language should fallback to default
+		{"", "default-doc", false},   // Testing with an invalid language that should return an error
+	}
+
+	for _, tt := range tests {
+		doc, err := config.GetFirstDocument(tt.lang)
+		if tt.expectedError {
+			require.Error(t, err)
+			require.Empty(t, doc)
+		} else {
+			require.NoError(t, err)
+			require.Equal(t, tt.expectedDoc, doc)
+		}
+	}
+}

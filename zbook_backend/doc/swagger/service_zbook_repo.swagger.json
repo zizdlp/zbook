@@ -123,6 +123,40 @@
         ]
       }
     },
+    "/v1/get_first_document": {
+      "post": {
+        "summary": "get_repo_count",
+        "description": "Use this api to list_repo_private",
+        "operationId": "ZBookRepo_GetFirstDocument",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetFirstDocumentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbGetFirstDocumentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ZBookRepo"
+        ]
+      }
+    },
     "/v1/get_list_repo_count": {
       "post": {
         "summary": "get_repo_count",
@@ -533,6 +567,29 @@
     },
     "pbDeleteRepoResponse": {
       "type": "object"
+    },
+    "pbGetFirstDocumentRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        }
+      },
+      "title": "15.GetFirstDocument"
+    },
+    "pbGetFirstDocumentResponse": {
+      "type": "object",
+      "properties": {
+        "relativePath": {
+          "type": "string"
+        }
+      }
     },
     "pbGetListRepoCountRequest": {
       "type": "object",

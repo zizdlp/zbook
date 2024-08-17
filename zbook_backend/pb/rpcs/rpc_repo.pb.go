@@ -1556,6 +1556,117 @@ func (x *GetListRepoCountResponse) GetCount() int64 {
 	return 0
 }
 
+// 15.GetFirstDocument
+type GetFirstDocumentRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	RepoName string `protobuf:"bytes,2,opt,name=repo_name,json=repoName,proto3" json:"repo_name,omitempty"`
+	Lang     string `protobuf:"bytes,3,opt,name=lang,proto3" json:"lang,omitempty"`
+}
+
+func (x *GetFirstDocumentRequest) Reset() {
+	*x = GetFirstDocumentRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpcs_rpc_repo_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetFirstDocumentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFirstDocumentRequest) ProtoMessage() {}
+
+func (x *GetFirstDocumentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpcs_rpc_repo_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFirstDocumentRequest.ProtoReflect.Descriptor instead.
+func (*GetFirstDocumentRequest) Descriptor() ([]byte, []int) {
+	return file_rpcs_rpc_repo_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *GetFirstDocumentRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *GetFirstDocumentRequest) GetRepoName() string {
+	if x != nil {
+		return x.RepoName
+	}
+	return ""
+}
+
+func (x *GetFirstDocumentRequest) GetLang() string {
+	if x != nil {
+		return x.Lang
+	}
+	return ""
+}
+
+type GetFirstDocumentResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RelativePath string `protobuf:"bytes,1,opt,name=relative_path,json=relativePath,proto3" json:"relative_path,omitempty"`
+}
+
+func (x *GetFirstDocumentResponse) Reset() {
+	*x = GetFirstDocumentResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpcs_rpc_repo_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetFirstDocumentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFirstDocumentResponse) ProtoMessage() {}
+
+func (x *GetFirstDocumentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpcs_rpc_repo_proto_msgTypes[27]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFirstDocumentResponse.ProtoReflect.Descriptor instead.
+func (*GetFirstDocumentResponse) Descriptor() ([]byte, []int) {
+	return file_rpcs_rpc_repo_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *GetFirstDocumentResponse) GetRelativePath() string {
+	if x != nil {
+		return x.RelativePath
+	}
+	return ""
+}
+
 var File_rpcs_rpc_repo_proto protoreflect.FileDescriptor
 
 var file_rpcs_rpc_repo_proto_rawDesc = []byte{
@@ -1731,9 +1842,20 @@ var file_rpcs_rpc_repo_proto_rawDesc = []byte{
 	0x22, 0x30, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x43,
 	0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05,
 	0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x63, 0x6f, 0x75,
-	0x6e, 0x74, 0x42, 0x21, 0x5a, 0x1f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x7a, 0x69, 0x7a, 0x64, 0x6c, 0x70, 0x2f, 0x7a, 0x62, 0x6f, 0x6f, 0x6b, 0x2f, 0x70, 0x62,
-	0x2f, 0x72, 0x70, 0x63, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x74, 0x22, 0x66, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x46, 0x69, 0x72, 0x73, 0x74, 0x44, 0x6f,
+	0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a,
+	0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x70,
+	0x6f, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65,
+	0x70, 0x6f, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6c, 0x61, 0x6e, 0x67, 0x22, 0x3f, 0x0a, 0x18, 0x47, 0x65,
+	0x74, 0x46, 0x69, 0x72, 0x73, 0x74, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x72, 0x65, 0x6c, 0x61, 0x74, 0x69,
+	0x76, 0x65, 0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x72,
+	0x65, 0x6c, 0x61, 0x74, 0x69, 0x76, 0x65, 0x50, 0x61, 0x74, 0x68, 0x42, 0x21, 0x5a, 0x1f, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x7a, 0x69, 0x7a, 0x64, 0x6c, 0x70,
+	0x2f, 0x7a, 0x62, 0x6f, 0x6f, 0x6b, 0x2f, 0x70, 0x62, 0x2f, 0x72, 0x70, 0x63, 0x73, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1748,7 +1870,7 @@ func file_rpcs_rpc_repo_proto_rawDescGZIP() []byte {
 	return file_rpcs_rpc_repo_proto_rawDescData
 }
 
-var file_rpcs_rpc_repo_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_rpcs_rpc_repo_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_rpcs_rpc_repo_proto_goTypes = []interface{}{
 	(*CreateRepoRequest)(nil),                // 0: pb.CreateRepoRequest
 	(*CreateRepoResponse)(nil),               // 1: pb.CreateRepoResponse
@@ -1776,14 +1898,16 @@ var file_rpcs_rpc_repo_proto_goTypes = []interface{}{
 	(*ListRepoResponse)(nil),                 // 23: pb.ListRepoResponse
 	(*GetListRepoCountRequest)(nil),          // 24: pb.GetListRepoCountRequest
 	(*GetListRepoCountResponse)(nil),         // 25: pb.GetListRepoCountResponse
-	(*timestamppb.Timestamp)(nil),            // 26: google.protobuf.Timestamp
-	(*models.ListRepoInfo)(nil),              // 27: pb.ListRepoInfo
+	(*GetFirstDocumentRequest)(nil),          // 26: pb.GetFirstDocumentRequest
+	(*GetFirstDocumentResponse)(nil),         // 27: pb.GetFirstDocumentResponse
+	(*timestamppb.Timestamp)(nil),            // 28: google.protobuf.Timestamp
+	(*models.ListRepoInfo)(nil),              // 29: pb.ListRepoInfo
 }
 var file_rpcs_rpc_repo_proto_depIdxs = []int32{
-	26, // 0: pb.GetRepoBasicInfoResponse.updated_at:type_name -> google.protobuf.Timestamp
-	27, // 1: pb.ListUserOwnRepoResponse.elements:type_name -> pb.ListRepoInfo
-	27, // 2: pb.ListUserLikeRepoResponse.elements:type_name -> pb.ListRepoInfo
-	27, // 3: pb.ListRepoResponse.elements:type_name -> pb.ListRepoInfo
+	28, // 0: pb.GetRepoBasicInfoResponse.updated_at:type_name -> google.protobuf.Timestamp
+	29, // 1: pb.ListUserOwnRepoResponse.elements:type_name -> pb.ListRepoInfo
+	29, // 2: pb.ListUserLikeRepoResponse.elements:type_name -> pb.ListRepoInfo
+	29, // 3: pb.ListRepoResponse.elements:type_name -> pb.ListRepoInfo
 	4,  // [4:4] is the sub-list for method output_type
 	4,  // [4:4] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
@@ -2109,6 +2233,30 @@ func file_rpcs_rpc_repo_proto_init() {
 				return nil
 			}
 		}
+		file_rpcs_rpc_repo_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetFirstDocumentRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpcs_rpc_repo_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetFirstDocumentResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2116,7 +2264,7 @@ func file_rpcs_rpc_repo_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rpcs_rpc_repo_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   26,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
