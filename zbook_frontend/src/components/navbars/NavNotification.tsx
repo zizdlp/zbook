@@ -69,6 +69,11 @@ export default function NavNotification({
       };
 
       ws.onclose = (event) => {
+        // 如果 reconnect 次数大于等于 5，直接返回，不再递归调用 fetchData
+        if (reconnectRef.current >= 5) {
+          return;
+        }
+
         // Reconnect on unexpected closure (you can add more conditions to handle specific closure codes)
         if (!event.wasClean) {
           reconnectRef.current += 1; // 使用ref的current属性修改reconnect值
