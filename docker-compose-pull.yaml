@@ -37,9 +37,7 @@ services:
 
   zbook-compose-backend:
     container_name: zbook-compose-backend
-    build:
-      context: ./zbook_backend
-      dockerfile: zbook_backend.Dockerfile
+    image: zizdlp/zbook_backend
     expose:
       - "8080"
       - "9090"
@@ -77,9 +75,7 @@ services:
 
   zbook-compose-frontend:
     container_name: zbook-compose-frontend
-    build:
-      context: ./zbook_frontend
-      dockerfile: zbook_frontend.Dockerfile
+    image: zizdlp/zbook_frontend
     restart: always
     ports:
       - 3000:3000
