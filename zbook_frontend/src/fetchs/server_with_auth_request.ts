@@ -152,7 +152,6 @@ interface CreateRepoRequest {
   git_access_token: string;
   sync_token: string;
   visibility_level: string;
-  home_page: string;
   theme_sidebar: string;
   theme_color: string;
 }

@@ -41,7 +41,6 @@ export default function CreateRepoDialog() {
     git_access_token: string;
     sync_token: string;
     visibility_level: string;
-    home_page: string;
     theme_color: string;
     theme_sidebar: string;
   }
@@ -67,9 +66,6 @@ export default function CreateRepoDialog() {
     if (!values.repo_description) {
       errors.repo_description = t("Required");
     }
-    if (!values.home_page) {
-      errors.home_page = t("Required");
-    }
     if (
       values.visibility_level != "public" &&
       values.visibility_level != "private" &&
@@ -88,7 +84,6 @@ export default function CreateRepoDialog() {
       git_access_token: "",
       visibility_level: "",
       sync_token: "",
-      home_page: "",
       theme_sidebar: "",
       theme_color: "",
     },
@@ -151,7 +146,7 @@ export default function CreateRepoDialog() {
             </div>
 
             <FormGroupWrapper
-              classType="col-span-6 sm:col-span-6"
+              classType="col-span-6 sm:col-span-3"
               nameKey="repo_name"
               showName={t("RepositoryName")}
               formik={formik}
@@ -162,20 +157,6 @@ export default function CreateRepoDialog() {
                 placeholder={t("RepositoryNameTip")}
                 formik={formik}
                 error={formik.errors.repo_name}
-              />
-            </FormGroupWrapper>
-            <FormGroupWrapper
-              classType="col-span-6 sm:col-span-3"
-              nameKey="home_page"
-              showName={t("Home")}
-              formik={formik}
-            >
-              <FormInputWrapper
-                show={true}
-                name="home_page"
-                placeholder={t("HomeTip")}
-                formik={formik}
-                error={formik.errors.home_page}
               />
             </FormGroupWrapper>
             <FormGroupWrapper

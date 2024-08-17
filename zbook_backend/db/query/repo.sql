@@ -9,12 +9,11 @@ INSERT INTO repos (
   repo_name,
   theme_sidebar,
   theme_color,
-  home_page,
   repo_description,
   sync_token,
   commit_id,
   visibility_level
-) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) 
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) 
 RETURNING *;
 
 -- name: UpdateRepoConfig :exec
@@ -31,8 +30,7 @@ sync_token=COALESCE(sqlc.narg(sync_token),sync_token),
 visibility_level=COALESCE(sqlc.narg(visibility_level),visibility_level),
 git_access_token=COALESCE(sqlc.narg(git_access_token),git_access_token),
 theme_sidebar=COALESCE(sqlc.narg(theme_sidebar),theme_sidebar),
-theme_color=COALESCE(sqlc.narg(theme_color),theme_color),
-home_page=COALESCE(sqlc.narg(home_page),home_page)
+theme_color=COALESCE(sqlc.narg(theme_color),theme_color)
 WHERE repo_id = sqlc.arg(repo_id)
 RETURNING *;
 

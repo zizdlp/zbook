@@ -8,7 +8,6 @@ CREATE TABLE "repos" (
   "git_access_token" varchar(255) DEFAULT '',
   "repo_name" varchar(255) NOT NULL,
   "repo_description" text NOT NULL,
-  "home_page" text NOT NULL,
   "sync_token" varchar(255) DEFAULT '',
   "visibility_level" varchar(255) NOT NULL,
   "commit_id" varchar(255) NOT NULL,

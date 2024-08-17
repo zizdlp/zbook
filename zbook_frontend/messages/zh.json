@@ -185,7 +185,6 @@
     "RepositoryName": "仓库名",
     "RepositoryNameTip": "请输入仓库名称",
     "Home": "首页",
-    "HomeTip": "仓库首页",
     "TokenPassword": "令牌/密码",
     "TokenPasswordTip": "对于私有仓库，需要给出令牌或者密码",
     "GitUrl": "Git URL",
