@@ -1,7 +1,6 @@
 import { ListDataType } from "@/fetchs/model";
 import ListSessionElement from "./details/ListSessionElement";
 import ListAdminCommentElement from "./details/ListAdminCommentElement";
-import ListAdminRepoElement from "./details/ListAdminRepoElement";
 import ListAdminUserElement from "./details/ListAdminUserElement";
 import ListCommentReportElement from "./details/ListCommentReportElement";
 import ListFollowElement from "./details/ListFollowElement";
