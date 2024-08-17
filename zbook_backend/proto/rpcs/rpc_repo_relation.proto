@@ -38,23 +38,23 @@ message DeleteRepoVisibilityRequest {
 }
 message DeleteRepoVisibilityResponse {}
 
-// 5.ListRepoVisibility
-message ListRepoVisibilityRequest {
+// 5.ListSelectedUserByRepo
+message ListSelectedUserByRepoRequest {
   int32 page_id    = 1;
   int32 page_size  = 2;
   string username  = 3;
   string repo_name = 4;
   string query     = 5;
 }
-message ListRepoVisibilityResponse {
+message ListSelectedUserByRepoResponse {
   repeated ListUserRepoVisiblityInfo elements = 1;
 }
 
-// 6.GetRepoVisibilityCount
-message GetRepoVisibilityCountRequest {
+// 6.GetSelectedUserByRepoCount
+message GetSelectedUserByRepoCountRequest {
   string username  = 1;
   string repo_name = 2;
 }
-message GetRepoVisibilityCountResponse {
+message GetSelectedUserByRepoCountResponse {
   int64 count = 1;
 }

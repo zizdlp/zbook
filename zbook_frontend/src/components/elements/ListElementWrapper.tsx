@@ -190,7 +190,8 @@ export default async function ListElementWrapper({
       }
     } else if (listType === ListDataType.LIST_REPO_VISI) {
       data_counts = await fetchServerWithAuthWrapper({
-        endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_VISIBILITY_COUNT,
+        endpoint:
+          FetchServerWithAuthWrapperEndPoint.GET_SELECTED_USER_BY_REPO_COUNT,
         xforward: xforward,
         agent: agent,
         tags: [],
@@ -203,7 +204,7 @@ export default async function ListElementWrapper({
         throw new FetchError(data_counts.message, data_counts.status);
       }
       data_elements = await fetchServerWithAuthWrapper({
-        endpoint: FetchServerWithAuthWrapperEndPoint.LIST_REPO_VISIBILITY,
+        endpoint: FetchServerWithAuthWrapperEndPoint.LIST_SELECTED_USER_BY_REPO,
         xforward: xforward,
         agent: agent,
         tags: [],

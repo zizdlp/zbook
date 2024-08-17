@@ -98,14 +98,14 @@ interface ListRepoRequest {
   page_size: number;
   query: string;
 }
-interface ListRepoVisibilityRequest {
+interface ListSelectedUserByRepoRequest {
   page_id: number;
   page_size: number;
   query: string;
   username: string;
   repo_name: string;
 }
-interface GetRepoVisibilityCountRequest {
+interface GetSelectedUserByRepoCountRequest {
   username: string;
   repo_name: string;
 }
@@ -396,8 +396,8 @@ export type {
   ListCommentReportRequest,
   ListCommentRequest,
   ListRepoRequest,
-  ListRepoVisibilityRequest,
-  GetRepoVisibilityCountRequest,
+  ListSelectedUserByRepoRequest,
+  GetSelectedUserByRepoCountRequest,
   GetUserInfoRequest,
   GetRepoBasicInfoRequest,
   GetRepoConfigRequest,

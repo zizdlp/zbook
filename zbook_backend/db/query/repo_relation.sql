@@ -15,14 +15,14 @@ FROM repo_relations
 WHERE user_id = $1 and repo_id=$2 and relation_type = $3;
 
 
--- name: GetRepoVisibilityByRepoCount :one
+-- name: GetSelectedUserByRepoCount :one
 SELECT COUNT(*)
 FROM repos as r
 LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
 JOIN users as u ON u.user_id = rr.user_id
 WHERE r.repo_id=$1 AND rr.relation_type = 'visi';
 
--- name: ListRepoVisibilityByRepo :many
+-- name: ListSelectedUserByRepo :many
 SELECT u.*
 FROM repos as r
 LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
@@ -33,7 +33,7 @@ LIMIT $1
 OFFSET $2;
 
 
--- name: QueryRepoVisibilityByRepo :many
+-- name: QuerySelectedUserByRepo :many
 SELECT
    u.*,
    CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible

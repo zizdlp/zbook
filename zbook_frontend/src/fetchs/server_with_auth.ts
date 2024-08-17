@@ -21,7 +21,7 @@ import {
   GetMarkdownContentRequest,
   GetMarkdownImageRequest,
   GetRepoConfigRequest,
-  GetRepoVisibilityCountRequest,
+  GetSelectedUserByRepoCountRequest,
   GetUserInfoRequest,
   ListSessionRequest,
   ListCommentReportRequest,
@@ -29,7 +29,7 @@ import {
   ListFollowingRequest,
   ListFollowerRequest,
   ListRepoRequest,
-  ListRepoVisibilityRequest,
+  ListSelectedUserByRepoRequest,
   ListUserLikeRepoRequest,
   ListUserOwnRepoRequest,
   ListUserRequest,
@@ -729,8 +729,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.LIST_REPO_VISIBILITY;
-  values: ListRepoVisibilityRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.LIST_SELECTED_USER_BY_REPO;
+  values: ListSelectedUserByRepoRequest;
   xforward: string;
   agent: string;
   tags: string[];
@@ -742,8 +742,8 @@ export async function fetchServerWithAuthWrapper({
   agent,
   tags,
 }: {
-  endpoint: FetchServerWithAuthWrapperEndPoint.GET_REPO_VISIBILITY_COUNT;
-  values: GetRepoVisibilityCountRequest;
+  endpoint: FetchServerWithAuthWrapperEndPoint.GET_SELECTED_USER_BY_REPO_COUNT;
+  values: GetSelectedUserByRepoCountRequest;
   xforward: string;
   agent: string;
   tags: string[];

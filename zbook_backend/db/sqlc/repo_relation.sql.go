@@ -70,7 +70,7 @@ func (q *Queries) GetRepoRelation(ctx context.Context, arg GetRepoRelationParams
 	return i, err
 }
 
-const getRepoVisibilityByRepoCount = `-- name: GetRepoVisibilityByRepoCount :one
+const getSelectedUserByRepoCount = `-- name: GetSelectedUserByRepoCount :one
 SELECT COUNT(*)
 FROM repos as r
 LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
@@ -78,14 +78,14 @@ JOIN users as u ON u.user_id = rr.user_id
 WHERE r.repo_id=$1 AND rr.relation_type = 'visi'
 `
 
-func (q *Queries) GetRepoVisibilityByRepoCount(ctx context.Context, repoID int64) (int64, error) {
-	row := q.db.QueryRow(ctx, getRepoVisibilityByRepoCount, repoID)
+func (q *Queries) GetSelectedUserByRepoCount(ctx context.Context, repoID int64) (int64, error) {
+	row := q.db.QueryRow(ctx, getSelectedUserByRepoCount, repoID)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
 }
 
-const listRepoVisibilityByRepo = `-- name: ListRepoVisibilityByRepo :many
+const listSelectedUserByRepo = `-- name: ListSelectedUserByRepo :many
 SELECT u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username
 FROM repos as r
 LEFT JOIN repo_relations as rr ON rr.repo_id=r.repo_id
@@ -96,14 +96,14 @@ LIMIT $1
 OFFSET $2
 `
 
-type ListRepoVisibilityByRepoParams struct {
+type ListSelectedUserByRepoParams struct {
 	Limit  int32 `json:"limit"`
 	Offset int32 `json:"offset"`
 	RepoID int64 `json:"repo_id"`
 }
 
-func (q *Queries) ListRepoVisibilityByRepo(ctx context.Context, arg ListRepoVisibilityByRepoParams) ([]User, error) {
-	rows, err := q.db.Query(ctx, listRepoVisibilityByRepo, arg.Limit, arg.Offset, arg.RepoID)
+func (q *Queries) ListSelectedUserByRepo(ctx context.Context, arg ListSelectedUserByRepoParams) ([]User, error) {
+	rows, err := q.db.Query(ctx, listSelectedUserByRepo, arg.Limit, arg.Offset, arg.RepoID)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +137,7 @@ func (q *Queries) ListRepoVisibilityByRepo(ctx context.Context, arg ListRepoVisi
 	return items, nil
 }
 
-const queryRepoVisibilityByRepo = `-- name: QueryRepoVisibilityByRepo :many
+const querySelectedUserByRepo = `-- name: QuerySelectedUserByRepo :many
 SELECT
    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,
    CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
@@ -152,14 +152,14 @@ LIMIT $1
 OFFSET $2
 `
 
-type QueryRepoVisibilityByRepoParams struct {
+type QuerySelectedUserByRepoParams struct {
 	Limit    int32  `json:"limit"`
 	Offset   int32  `json:"offset"`
 	RepoID   int64  `json:"repo_id"`
 	Username string `json:"username"`
 }
 
-type QueryRepoVisibilityByRepoRow struct {
+type QuerySelectedUserByRepoRow struct {
 	UserID               int64     `json:"user_id"`
 	Username             string    `json:"username"`
 	Email                string    `json:"email"`
@@ -177,8 +177,8 @@ type QueryRepoVisibilityByRepoRow struct {
 	IsVisible            bool      `json:"is_visible"`
 }
 
-func (q *Queries) QueryRepoVisibilityByRepo(ctx context.Context, arg QueryRepoVisibilityByRepoParams) ([]QueryRepoVisibilityByRepoRow, error) {
-	rows, err := q.db.Query(ctx, queryRepoVisibilityByRepo,
+func (q *Queries) QuerySelectedUserByRepo(ctx context.Context, arg QuerySelectedUserByRepoParams) ([]QuerySelectedUserByRepoRow, error) {
+	rows, err := q.db.Query(ctx, querySelectedUserByRepo,
 		arg.Limit,
 		arg.Offset,
 		arg.RepoID,
@@ -188,9 +188,9 @@ func (q *Queries) QueryRepoVisibilityByRepo(ctx context.Context, arg QueryRepoVi
 		return nil, err
 	}
 	defer rows.Close()
-	items := []QueryRepoVisibilityByRepoRow{}
+	items := []QuerySelectedUserByRepoRow{}
 	for rows.Next() {
-		var i QueryRepoVisibilityByRepoRow
+		var i QuerySelectedUserByRepoRow
 		if err := rows.Scan(
 			&i.UserID,
 			&i.Username,

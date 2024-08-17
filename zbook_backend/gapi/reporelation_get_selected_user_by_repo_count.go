@@ -11,9 +11,9 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) GetRepoVisibilityCount(ctx context.Context, req *rpcs.GetRepoVisibilityCountRequest) (*rpcs.GetRepoVisibilityCountResponse, error) {
+func (server *Server) GetSelectedUserByRepoCount(ctx context.Context, req *rpcs.GetSelectedUserByRepoCountRequest) (*rpcs.GetSelectedUserByRepoCountResponse, error) {
 	apiUserDailyLimit := 10000
-	apiKey := "GetRepoVisibilityCount"
+	apiKey := "GetSelectedUserByRepoCount"
 	_, err := server.authUser(ctx, []string{util.AdminRole, util.UserRole}, apiUserDailyLimit, apiKey)
 	if err != nil {
 		return nil, err
@@ -27,11 +27,11 @@ func (server *Server) GetRepoVisibilityCount(ctx context.Context, req *rpcs.GetR
 		log.Info().Msgf("get repo layout get repo id failed:%s,%s", req.GetUsername(), req.GetRepoName())
 		return nil, status.Errorf(codes.Internal, "get repo id failed: %s", err)
 	}
-	userCount, err := server.store.GetRepoVisibilityByRepoCount(ctx, repo_id)
+	userCount, err := server.store.GetSelectedUserByRepoCount(ctx, repo_id)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to get repository visibility count: %s", err)
 	}
-	rsp := &rpcs.GetRepoVisibilityCountResponse{
+	rsp := &rpcs.GetSelectedUserByRepoCountResponse{
 		Count: userCount,
 	}
 	return rsp, nil

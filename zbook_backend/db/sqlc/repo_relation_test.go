@@ -73,7 +73,7 @@ func TestGetRepoRelation(t *testing.T) {
 	require.Equal(t, relation.RepoID, arg_get.RepoID)
 }
 
-func TestGetRepoVisibilityByRepoCount(t *testing.T) {
+func TestGetSelectedUserByRepoCount(t *testing.T) {
 	user := createRandomUser(t)
 	repo := createRandomRepo(t)
 	arg := CreateRepoRelationParams{
@@ -84,11 +84,11 @@ func TestGetRepoVisibilityByRepoCount(t *testing.T) {
 	err := testStore.CreateRepoRelation(context.Background(), arg)
 	require.NoError(t, err)
 
-	count, err := testStore.GetRepoVisibilityByRepoCount(context.Background(), arg.RepoID)
+	count, err := testStore.GetSelectedUserByRepoCount(context.Background(), arg.RepoID)
 	require.NoError(t, err)
 	require.Equal(t, count, int64(1))
 }
-func TestListRepoVisibilityByRepo(t *testing.T) {
+func TestListSelectedUserByRepo(t *testing.T) {
 	user := createRandomUser(t)
 	repo := createRandomRepo(t)
 	arg := CreateRepoRelationParams{
@@ -99,18 +99,18 @@ func TestListRepoVisibilityByRepo(t *testing.T) {
 	err := testStore.CreateRepoRelation(context.Background(), arg)
 	require.NoError(t, err)
 
-	arg_list := ListRepoVisibilityByRepoParams{
+	arg_list := ListSelectedUserByRepoParams{
 		Limit:  5,
 		Offset: 0,
 		RepoID: arg.RepoID,
 	}
-	rets, err := testStore.ListRepoVisibilityByRepo(context.Background(), arg_list)
+	rets, err := testStore.ListSelectedUserByRepo(context.Background(), arg_list)
 	require.NoError(t, err)
 	require.Equal(t, len(rets), 1)
 	require.Equal(t, rets[0].UserID, user.UserID)
 }
 
-func TestQueryRepoVisibilityByRepo(t *testing.T) {
+func TestQuerySelectedUserByRepo(t *testing.T) {
 	user := createRandomUser(t)
 	repo := createRandomRepo(t)
 	arg := CreateRepoRelationParams{
@@ -121,13 +121,13 @@ func TestQueryRepoVisibilityByRepo(t *testing.T) {
 	err := testStore.CreateRepoRelation(context.Background(), arg)
 	require.NoError(t, err)
 
-	arg_list := QueryRepoVisibilityByRepoParams{
+	arg_list := QuerySelectedUserByRepoParams{
 		Limit:    5,
 		Offset:   0,
 		RepoID:   arg.RepoID,
 		Username: user.Username,
 	}
-	rets, err := testStore.QueryRepoVisibilityByRepo(context.Background(), arg_list)
+	rets, err := testStore.QuerySelectedUserByRepo(context.Background(), arg_list)
 	require.NoError(t, err)
 	require.Equal(t, len(rets), 1)
 	require.Equal(t, rets[0].UserID, user.UserID)

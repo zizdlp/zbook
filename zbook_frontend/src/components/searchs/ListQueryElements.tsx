@@ -96,7 +96,7 @@ export default function ListQueryElements({
             case SearchType.VISI_USER:
               data = await fetchServerWithAuthWrapper({
                 endpoint:
-                  FetchServerWithAuthWrapperEndPoint.LIST_REPO_VISIBILITY,
+                  FetchServerWithAuthWrapperEndPoint.LIST_SELECTED_USER_BY_REPO,
                 xforward: "",
                 agent: "",
                 tags: [],

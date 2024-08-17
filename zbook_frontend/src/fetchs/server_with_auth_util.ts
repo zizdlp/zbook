@@ -24,9 +24,9 @@ export enum FetchServerWithAuthWrapperEndPoint {
   LIST_COMMENT = "list_comment",
   LIST_REPO = "list_repo",
 
-  LIST_REPO_VISIBILITY = "list_repo_visibility",
+  LIST_SELECTED_USER_BY_REPO = "list_selected_user_by_repo",
 
-  GET_REPO_VISIBILITY_COUNT = "get_repo_visibility_count",
+  GET_SELECTED_USER_BY_REPO_COUNT = "get_selected_user_by_repo_count",
 
   GET_USER_INFO = "get_user_info",
 
