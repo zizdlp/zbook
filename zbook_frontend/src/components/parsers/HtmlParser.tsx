@@ -13,7 +13,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import { MdError, MdTipsAndUpdates } from "react-icons/md";
 import { TiWarning } from "react-icons/ti";
 import { ThemeColor } from "../TableOfContent";
-
+import { headers } from "next/headers";
 interface Attribute {
   name: string;
   value: string;
@@ -140,7 +140,7 @@ const parseHTMLString = (
         );
       } else if (tagName === "LI") {
         return (
-          <li key={randomKey} {...props}>
+          <li key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </li>
         );
@@ -347,7 +347,10 @@ interface HtmlParserProps {
   repo_name: string;
   theme_color: ThemeColor;
 }
-
+function isSafari(userAgent: string): boolean {
+  const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(userAgent);
+  return isSafari;
+}
 const HtmlParser: React.FC<HtmlParserProps> = ({
   htmlString,
   prefixPath,
@@ -362,11 +365,12 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
     repo_name,
     theme_color
   );
+  const agent = headers().get("User-Agent") ?? "";
   return (
     <div
-      className="prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
-    prose-th:lg:ps-8 prose-th:ps-4 prose-ol:
-    prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0"
+      className={`prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
+    prose-th:lg:ps-8 prose-th:ps-4 ${isSafari(agent) ? "prose-ol:list-inside" : ""}
+    prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0`}
     >
       {parsedHTML}
     </div>
