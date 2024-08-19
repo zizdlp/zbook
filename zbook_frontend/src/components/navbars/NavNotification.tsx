@@ -88,7 +88,7 @@ export default function NavNotification({
             );
             toast(t("websocket_closed"), {
               type: "warning",
-              autoClose: 2500,
+              autoClose: false,
             });
           }
         }
