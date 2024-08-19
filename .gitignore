@@ -3,3 +3,4 @@ zbook_data
 __snapshots__
 .swc
 geoip_data.sql.gz
+*.mmdb

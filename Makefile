@@ -70,6 +70,14 @@ migratedown:
 convert_db:
 	cd zbook_database && \
 	python convert.py
+mmdb2psql:
+	cd zbook_backend && \
+	go run cmd/mmdb2psql/main.go  ${CURRENT_DIR}/GeoLite2-City.mmdb
+download_data:
+	pg_dump -U root -d zbook -t geoip --data-only > geoip_data.sql # in database docker container
+	gzip geoip_data.sql # in database docker container
+	docker cp zbook-local-database:/geoip_data.sql.gz .
+	psql -U root -d zbook -f geoip_data.sql
 import_data:
 	docker cp geoip_data.sql.gz $(POD_NAME):/tmp/
 	docker exec -it $(POD_NAME) sh -c "gunzip /tmp/geoip_data.sql.gz"
