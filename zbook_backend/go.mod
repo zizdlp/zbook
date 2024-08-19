@@ -77,6 +77,7 @@ require (
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/o1egl/paseto v1.0.0
+	github.com/oschwald/maxminddb-golang v1.13.1
 	github.com/pelletier/go-toml/v2 v2.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
@@ -85,7 +86,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/yuin/goldmark v1.7.0
 	golang.org/x/image v0.18.0
-	golang.org/x/sys v0.20.0 // indirect
+	golang.org/x/sys v0.21.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	google.golang.org/protobuf v1.33.0
 	gopkg.in/ini.v1 v1.67.0 // indirect
