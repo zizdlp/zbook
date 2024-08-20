@@ -2,6 +2,7 @@ package util
 
 import (
 	"regexp"
+	"strings"
 )
 
 // FilterDiffFilesByExtensions 过滤指定后缀名的文件
@@ -25,4 +26,27 @@ func getFileExtension(fileName string) string {
 		return match
 	}
 	return ""
+}
+
+func ExtractLogDetails(logKey string) (ip, userAgent, date string) {
+	// 移除前缀 "logvisitor:"
+	keyWithoutPrefix := strings.TrimPrefix(logKey, "logvisitor:")
+
+	// 查找最后一个冒号的位置，用来确定日期和 UserAgent 的分隔点
+	lastColonIndex := strings.LastIndex(keyWithoutPrefix, ":")
+
+	// 提取日期
+	date = keyWithoutPrefix[lastColonIndex+1:]
+
+	// 移除日期后缀部分，剩下的是 IP 和 UserAgent
+	keyWithoutDate := keyWithoutPrefix[:lastColonIndex]
+
+	// 再次查找最后一个冒号的位置，以分离 UserAgent 和 IP
+	lastColonIndex = strings.LastIndex(keyWithoutDate, ":")
+
+	// 提取 IP 和 UserAgent
+	ip = keyWithoutDate[:lastColonIndex]
+	userAgent = keyWithoutDate[lastColonIndex+1:]
+
+	return ip, userAgent, date
 }

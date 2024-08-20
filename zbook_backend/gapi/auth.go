@@ -194,7 +194,7 @@ func (server *Server) GetDailyVisitorsForLastNDays(ndays int32) ([]*util.Visitor
 			// 将键解析为 IP 和 UserAgent
 			parts := strings.Split(key, ":")
 			// 获取 IP 地址部分
-			ipParts := strings.Split(parts[1], ",")[0]
+			ipParts, _, _ := util.ExtractLogDetails(key)
 			// 构建 VisitorData 结构体并添加到切片中
 			visitors = append(visitors, &util.VisitorData{
 				IP:    ipParts,
