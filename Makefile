@@ -15,6 +15,9 @@ compress:
 server:
 	cd zbook_backend && \
 	REQUIRE_EMAIL_VERIFY=false go run cmd/server/main.go
+mail:
+	cd zbook_backend && \
+	go run cmd/mail/main.go
 gp:
 	cd zbook_backend && \
 	mkdir -p pb && \
@@ -67,9 +70,6 @@ migrateup:
 migratedown:
 	cd zbook_backend && \
 	migrate -path db/migration -database "$(DB_SOURCE)" -verbose down
-convert_db:
-	cd zbook_database && \
-	python convert.py
 mmdb2psql:
 	cd zbook_backend && \
 	go run cmd/mmdb2psql/main.go  ${CURRENT_DIR}/GeoLite2-City.mmdb
