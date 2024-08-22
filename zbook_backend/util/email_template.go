@@ -116,7 +116,7 @@ const EmailTemplate = `<!DOCTYPE html>
           >
         </div>
         <p style="font-size: 14px; color: #888888">
-          © 2024 zizdlp.com. All rights reserved.
+          © 2024 zbook. All rights reserved.
         </p>
       </div>
     </div>

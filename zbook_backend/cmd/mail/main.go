@@ -17,7 +17,7 @@ func main() {
 
 	sender := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
 
-	subject := "A test email from @zizdlp.com"
+	subject := "A test email from zbook"
 	// 模拟用户数据
 	user := struct {
 		Username string

@@ -8,11 +8,11 @@ import "rpcs/rpc_oauth.proto";
 
 option go_package = "github.com/zizdlp/zbook/pb";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
-  info : {title : "zbook api";
-version : "0.1";
-contact : {
+  info: { title: "zbook api";
+version: "0.1";
+contact: {
 name:
-  "zizdlp.com";
+  "zbook";
 url:
   "https://github.com/zizdlp/zbook";
 email:
@@ -23,16 +23,15 @@ email:
 }
 ;
 service ZBookOAuth {
-
   // 1.CreateOAuthLink
   rpc CreateOAuthLink(CreateOAuthLinkRequest)
       returns (CreateOAuthLinkResponse) {
     option (google.api.http) = {
-      post : "/v1/create_oauth_link",
-      body : "*",
+      post: "/v1/create_oauth_link",
+      body: "*",
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      description : "Use this api to  create new oauth user";
+      description: "Use this api to  create new oauth user";
   summary:
     "create new oauth user";
   };
@@ -42,11 +41,11 @@ service ZBookOAuth {
 rpc CheckOAuthStatus(CheckOAuthStatusRequest)
     returns (CheckOAuthStatusResponse) {
   option (google.api.http) = {
-    post : "/v1/check_oauth_status",
-    body : "*",
+    post: "/v1/check_oauth_status",
+    body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-    description : "Use this api to check oauth status";
+    description: "Use this api to check oauth status";
 summary:
   "check oauth status";
 };
@@ -56,11 +55,11 @@ summary:
 // 3.DeleteOAuthLink
 rpc DeleteOAuthLink(DeleteOAuthLinkRequest) returns (DeleteOAuthLinkResponse) {
   option (google.api.http) = {
-    post : "/v1/delete_oauth_link",
-    body : "*",
+    post: "/v1/delete_oauth_link",
+    body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-    description : "Use this api to  delete oauth user";
+    description: "Use this api to  delete oauth user";
 summary:
   "delete oauth user";
 };
@@ -70,11 +69,11 @@ summary:
 // 4.LoginByOAuth
 rpc LoginByOAuth(LoginByOAuthRequest) returns (LoginByOAuthResponse) {
   option (google.api.http) = {
-    post : "/v1/login_by_oauth",
-    body : "*",
+    post: "/v1/login_by_oauth",
+    body: "*",
   };
   option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-    description : "Use this api to login  oauth user";
+    description: "Use this api to login  oauth user";
 summary:
   "login oauth user";
 };
