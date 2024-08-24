@@ -56,8 +56,10 @@ func (server *Server) CreateRepoVisibility(ctx context.Context, req *rpcs.Create
 		UserID:       user.UserID,
 		RelationType: util.RelationTypeVisi,
 	}
-	server.store.CreateRepoRelation(ctx, arg)
-
+	err = server.store.CreateRepoRelation(ctx, arg)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "CreateRepoRelation failed: %s", err)
+	}
 	rsp := &rpcs.CreateRepoVisibilityResponse{}
 	return rsp, nil
 }
