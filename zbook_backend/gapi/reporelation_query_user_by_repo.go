@@ -2,7 +2,6 @@ package gapi
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
@@ -68,7 +67,6 @@ func validateQueryUserByRepoRequest(req *rpcs.QueryUserByRepoRequest) (violation
 func convertQueryUserByRepo(users []db.QueryUserByRepoRow) []*models.ListUserRepoVisiblityInfo {
 	var ret_users []*models.ListUserRepoVisiblityInfo
 	for i := 0; i < len(users); i++ {
-		fmt.Println("users:", users)
 		ret_users = append(ret_users,
 			&models.ListUserRepoVisiblityInfo{
 				Username:      users[i].Username,

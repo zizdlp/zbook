@@ -3,7 +3,7 @@ name: BUILD_MAIN
 on:
   push:
     branches:
-      - feature/bugfix_repo
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
