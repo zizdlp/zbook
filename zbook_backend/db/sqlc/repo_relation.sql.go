@@ -251,7 +251,11 @@ func (q *Queries) QuerySelectedUserByRepo(ctx context.Context, arg QuerySelected
 const queryUserByRepo = `-- name: QueryUserByRepo :many
 SELECT
    u.user_id, u.username, u.email, u.hashed_password, u.blocked, u.verified, u.motto, u.user_role, u.onboarding, u.created_at, u.updated_at, u.unread_count, u.unread_count_updated_at, u.fts_username,ts_rank(fts_username, plainto_tsquery($4)) as rank,
-   CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
+   CASE 
+       WHEN MAX(CASE WHEN rr.relation_type = 'visi' THEN rr.user_id END) IS NOT NULL 
+       THEN true 
+       ELSE false 
+   END AS is_visible
 FROM 
   users as u 
 LEFT JOIN 

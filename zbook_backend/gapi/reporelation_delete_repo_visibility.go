@@ -57,8 +57,10 @@ func (server *Server) DeleteRepoVisibility(ctx context.Context, req *rpcs.Delete
 		UserID:       user.UserID,
 		RelationType: util.RelationTypeVisi,
 	}
-	server.store.DeleteRepoRelation(ctx, arg)
-
+	err = server.store.DeleteRepoRelation(ctx, arg)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "DeleteRepoRelation failed: %s", err)
+	}
 	rsp := &rpcs.DeleteRepoVisibilityResponse{}
 	return rsp, nil
 }

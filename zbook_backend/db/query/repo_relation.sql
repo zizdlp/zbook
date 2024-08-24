@@ -54,7 +54,11 @@ WHERE r.repo_id=$1 AND rr.relation_type = 'visi' AND (u.blocked='false' OR @role
 -- name: QueryUserByRepo :many
 SELECT
    u.*,ts_rank(fts_username, plainto_tsquery(@query)) as rank,
-   CASE WHEN MAX(rr.user_id) IS NOT NULL THEN true ELSE false END AS is_visible
+   CASE 
+       WHEN MAX(CASE WHEN rr.relation_type = 'visi' THEN rr.user_id END) IS NOT NULL 
+       THEN true 
+       ELSE false 
+   END AS is_visible
 FROM 
   users as u 
 LEFT JOIN 
