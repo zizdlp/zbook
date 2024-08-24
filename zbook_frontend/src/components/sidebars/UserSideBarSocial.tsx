@@ -9,6 +9,7 @@ import { MdBook } from "react-icons/md";
 import { usePathname } from "@/navigation";
 import SideBarLiContent from "./SideBarLiContent";
 import { useTranslations } from "next-intl";
+import { Lexend_Tera } from "next/font/google";
 export default function UserSideBarSocial({
   username,
   count_following,
