@@ -1,5 +1,5 @@
 # Step 1. Rebuild the source code only when needed
-FROM node:22-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN yarn build
 
 # Step 2. Production image, copy all the files and run next
-FROM node:22-alpine AS runner
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 
