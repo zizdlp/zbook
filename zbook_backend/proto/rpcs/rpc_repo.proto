@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package pb;
 import "models/repo.proto";
-import "google/protobuf/timestamp.proto";
 option go_package = "github.com/zizdlp/zbook/pb/rpcs";
 
 // 1.CreateRepo
