@@ -56,7 +56,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
       />
 
       {session?.access_token && (
-        <>
+        <div className="print:hidden">
           <CreateComment
             parentID={0}
             markdownID={props.markdown_id}
@@ -70,7 +70,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
               authname={session.username}
             />
           </div>
-        </>
+        </div>
       )}
     </MainContentWrapper>
   );

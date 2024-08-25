@@ -7,7 +7,7 @@ import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_ut
 import { FetchError } from "@/fetchs/util";
 import { OperationContext } from "@/providers/OperationProvider";
 import { useContext } from "react";
-import { MdDeleteOutline, MdLockOpen, MdLockOutline } from "react-icons/md";
+import { MdDeleteOutline, MdLockOpen, MdLockPerson } from "react-icons/md";
 
 export default function UserButtons({
   username,
@@ -41,7 +41,7 @@ export default function UserButtons({
   return (
     <>
       {is_blocked && (
-        <MdLockOutline
+        <MdLockPerson
           onClick={async () => {
             await actionUpdateUserBlock();
           }}

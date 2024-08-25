@@ -39,13 +39,13 @@ export default function ListRepoElement({
     <ListElementCard
       header={
         <>
-          <div className="flex items-center justify-center space-x-2 py-1">
+          <div className="flex items-center justify-center space-x-2 py-1 overflow-hidden">
             <GitHost
               git_host={git_host}
               className="flex-none w-8 h-8 rounded-full object-cover"
             />
 
-            <div className="flex flex-col justify-begin">
+            <div className="flex flex-col justify-begin overflow-scroll">
               <Link
                 href={`/workspace/${username}/o/${repo_name}`}
                 className="cursor-pointer"
