@@ -27,7 +27,7 @@ export default async function MainContentFooter({
       <div className="not-prose my-12 grid lg:grid-cols-2 gap-4">
         {prev && (
           <div
-            className={`group relative rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:dark:border-${theme_color}-600 hover:border-${theme_color}-500 hover:bg-${theme_color}-400/10 dark:hover:bg-slate-800 `}
+            className={`group relative rounded-xl border border-slate-200 dark:border-slate-800 hover:dark:border-${theme_color}-600 hover:border-${theme_color}-500 hover:bg-${theme_color}-400/10 dark:hover:bg-slate-800 `}
           >
             <div className="relative overflow-hidden rounded-xl py-3 px-6 text-left">
               <h2 className="mt-1 font-display text-base text-slate-900 dark:text-white">
@@ -45,7 +45,7 @@ export default async function MainContentFooter({
 
         {next && (
           <div
-            className={`group relative rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:dark:border-${theme_color}-600 hover:border-${theme_color}-500 hover:bg-${theme_color}-400/10 dark:hover:bg-slate-800 ${prev ? "" : "lg:col-start-2"}`}
+            className={`group relative rounded-xl border border-slate-200 dark:border-slate-800 hover:dark:border-${theme_color}-600 hover:border-${theme_color}-500 hover:bg-${theme_color}-400/10 dark:hover:bg-slate-800 ${prev ? "" : "lg:col-start-2"}`}
           >
             <div className="relative overflow-hidden rounded-xl py-3 px-6 text-right">
               <h2 className="mt-1 font-display text-base text-slate-900 dark:text-white">

@@ -39,7 +39,6 @@ export default function RepoSideBarSetting({
     if (matches) {
       page_type = matches[2] || "";
     }
-    console.log("page_type:", page_type);
   }
 
   const t = useTranslations("SideBar");
