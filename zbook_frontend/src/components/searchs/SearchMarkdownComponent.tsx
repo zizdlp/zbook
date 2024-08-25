@@ -33,7 +33,6 @@ export default function SearchMarkdownComponent(props: ProfileProps) {
     <SearchItemWrapper>
       <div
         onClick={() => {
-          console.log("refresh page");
           setSideBarReload(!sideBarReload);
           // refreshPage("/", true, false);
         }}
