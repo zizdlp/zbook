@@ -13,7 +13,7 @@ import { Anchor } from "@/types/interface";
 import RepoSideBarSettingItem from "./RepoSideBarSetttingItem";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { ThemeColor } from "../TableOfContent";
-
+import { usePathname } from "@/navigation";
 export default function RepoSideBarSetting({
   username,
   reponame,
@@ -29,6 +29,19 @@ export default function RepoSideBarSetting({
   visibility_level: string;
   theme_color: ThemeColor;
 }) {
+  const pathname = usePathname();
+  let page_type = "";
+  if (pathname !== undefined) {
+    const regex = new RegExp(
+      `^\/([^\/]+)?\/?workspace\/${username}\/(?:[^\/]*)\/(?:[^\/]*)\/([^\/]*)`
+    );
+    const matches = pathname.match(regex);
+    if (matches) {
+      page_type = matches[2] || "";
+    }
+    console.log("page_type:", page_type);
+  }
+
   const t = useTranslations("SideBar");
   async function manualSyncRepoHandler() {
     const id = toast(t("SynchronizingRepository"), {
@@ -70,7 +83,7 @@ export default function RepoSideBarSetting({
     <>
       <RepoSideBarSettingItem
         href={`/workspace/${username}/o/${reponame}`}
-        selected={true}
+        selected={page_type != "~visi"}
         icon={IoBook}
         text={t("RepoHome")}
         theme_color={theme_color}
@@ -92,7 +105,7 @@ export default function RepoSideBarSetting({
             <RepoSideBarSettingItem
               href={`/workspace/${username}/o/${reponame}/~visi`}
               text={t("VisibleTo")}
-              selected={false}
+              selected={page_type == "~visi"}
               icon={MdOutlineVisibility}
               theme_color={theme_color}
             />

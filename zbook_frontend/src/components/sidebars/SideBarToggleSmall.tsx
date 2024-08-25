@@ -12,7 +12,7 @@ export default function SideBarToggleSmall() {
   );
   return (
     <div
-      className={`lg:hidden fixed bottom-5 z-50 right-5 h-11 w-11 rounded-md  backdrop-blur-sm`}
+      className={`lg:hidden fixed bottom-5 z-50 right-5 h-11 w-11 rounded-md  backdrop-blur-sm print:hidden`}
     >
       <IconText
         Icon={sideBarOpen === false ? RiMenuLine : RiMenu4Line}
