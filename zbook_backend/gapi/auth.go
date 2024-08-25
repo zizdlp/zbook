@@ -272,24 +272,16 @@ func (server *Server) LogRedisVisitor(ctx context.Context) (err error) {
 	UserAgent := mtdt.UserAgent
 	ClientIp := mtdt.ClientIP
 
-	if strings.HasPrefix(ClientIp, "::1") {
-		ClientIp = "127.0.0.1" + strings.TrimPrefix(ClientIp, "::1")
-	}
 	// 分隔ClientIp并取第一个部分
-	if ClientIp == "" {
-		ClientIp = "unknown"
-	} else {
-		// 分隔ClientIp并取第一个部分
-		ClientIpParts := strings.Split(ClientIp, ",")
-		ClientIp = ClientIpParts[0]
-	}
+	ClientIpParts := strings.Split(ClientIp, ",")
+	ClientIp = ClientIpParts[0]
 	location, err := time.LoadLocation(server.config.TIMEZONE)
 	if err != nil {
 		return fmt.Errorf("failed to load location:%v", err)
 	}
 	today := time.Now().In(location).Format("2006-01-02")
 	redisKey := fmt.Sprintf("%s:%s:%s:%s", "logvisitor", ClientIp, UserAgent, today)
-	log.Info().Msgf("inser to redis: %s", redisKey)
+	log.Info().Msgf("insert key: %s", redisKey)
 	return server.insertRedisKey(redisKey, 1000000, 24*31) //保留31天，设置较大使用限制
 }
 
