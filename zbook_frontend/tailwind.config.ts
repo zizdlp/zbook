@@ -11,7 +11,7 @@ const config: Config = {
   safelist: [
     {
       pattern:
-        /(text|bg|from|to|boder)-(violet|green|red|yellow|teal|sky|cyan|pink|rose|indigo)-(200|300|400|500|900)\/(10|20|30|40|50|60|70|80|90|100)/,
+        /(text|bg|from|to|boder)-(gray|violet|green|red|lime|yellow|teal|sky|cyan|pink|rose|indigo)-(200|300|400|500|600|900)\/(10|20|30|40|50|60|70|75|80|90|100)/,
       variants: ["hover", "dark", "hover:dark", "group-hover"],
     },
     {

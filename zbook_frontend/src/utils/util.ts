@@ -1,5 +1,10 @@
 import { toast } from "react-toastify";
 import { logger } from "./logger";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
+import { TiWarning } from "react-icons/ti";
+import { FaInfoCircle } from "react-icons/fa";
+import { MdError, MdTipsAndUpdates } from "react-icons/md";
+import { IconType } from "react-icons/lib";
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -223,4 +228,54 @@ export function getLayoutForLocale(jsonConfig: any, locale: any) {
   }
 
   return langLayout;
+}
+const bgColorsMap = new Map<string, string>([
+  ["note", "cyan"],
+  ["warning", "yellow"],
+  ["info", "green"],
+  ["tip", "lime"],
+  ["error", "red"],
+]);
+
+const iconTypes = {
+  note: BsFillBookmarkCheckFill,
+  warning: TiWarning,
+  info: FaInfoCircle,
+  tip: MdTipsAndUpdates,
+  error: MdError,
+};
+
+export function getAdmonitionBackground(admonitionType: string): string {
+  const color = bgColorsMap.get(admonitionType);
+  if (!color) {
+    console.warn(`Unknown admonition type: ${admonitionType}`);
+    return "bg-gray-600/75 dark:bg-gray-500/25"; // 默认颜色
+  }
+  return `bg-${color}-600/75 dark:bg-${color}-500/25`;
+}
+
+type ParentType = "note" | "warning" | "info" | "tip" | "error";
+
+export function getAdmonitionType(parent: HTMLElement | null): {
+  bg: string;
+  Icon: IconType;
+} {
+  let type: ParentType = "note"; // 默认类型为 "note"
+
+  if (parent) {
+    const classList = parent.getAttribute("class");
+    if (classList) {
+      if (classList.toLowerCase().includes("adm-note")) type = "note";
+      else if (classList.toLowerCase().includes("adm-warning"))
+        type = "warning";
+      else if (classList.toLowerCase().includes("adm-info")) type = "info";
+      else if (classList.toLowerCase().includes("adm-tip")) type = "tip";
+      else if (classList.toLowerCase().includes("adm-error")) type = "error";
+    }
+  }
+
+  return {
+    bg: getAdmonitionBackground(type),
+    Icon: iconTypes[type],
+  };
 }

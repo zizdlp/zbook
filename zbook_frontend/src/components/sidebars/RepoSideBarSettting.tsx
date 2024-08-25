@@ -72,7 +72,7 @@ export default function RepoSideBarSetting({
       refreshPage("#", true, false);
     } catch (error) {
       toast.update(id, {
-        render: t("RepositorySynchronizationFiled"),
+        render: t("RepositorySynchronizationFiled") + error,
         type: "error",
         isLoading: false,
         autoClose: 1500,
