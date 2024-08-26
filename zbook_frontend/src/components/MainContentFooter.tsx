@@ -24,7 +24,7 @@ export default async function MainContentFooter({
   const t = await getTranslations("Footer");
   return (
     <div className="leading-6 mt-14">
-      <div className="not-prose my-12 grid lg:grid-cols-2 gap-4">
+      <div className="not-prose my-12 grid lg:grid-cols-2 gap-4 print:hidden">
         {prev && (
           <div
             className={`group relative rounded-xl border border-slate-200 dark:border-slate-800 hover:dark:border-${theme_color}-600 hover:border-${theme_color}-500 hover:bg-${theme_color}-400/10 dark:hover:bg-slate-800 `}
