@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { JSDOM } from "jsdom";
 import React, { Suspense } from "react";
 import MathDisplay from "./MathDisplay";
@@ -265,7 +264,9 @@ const parseHTMLString = (
                 className={`text-${theme_color}-500 hover:text-${theme_color}-600 text-xs no-underline`}
                 href={urlhref || ""}
               >
-                [{Array.from(node.childNodes).map(processNode)}]
+                {[
+                  `[${Array.from(node.childNodes).map(processNode).join(",")}]`,
+                ]}
               </a>
             );
           }
