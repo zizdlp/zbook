@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 "use client";
 import type { MenuStruct } from "@/types/interface";
 import FoldSubMenu from "./FoldSubMenu";

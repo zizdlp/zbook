@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { JSDOM } from "jsdom";
 import React, { Suspense } from "react";
 import MathDisplay from "./MathDisplay";
@@ -8,10 +7,6 @@ import { CiImageOn } from "react-icons/ci";
 import ParserElement from "./ParserElement";
 import CodeBlock from "./CodeBlock";
 import ImageWithFallback from "./ImageWithFallback";
-import { BsFillBookmarkCheckFill } from "react-icons/bs";
-import { FaInfoCircle } from "react-icons/fa";
-import { MdError, MdTipsAndUpdates } from "react-icons/md";
-import { TiWarning } from "react-icons/ti";
 import { ThemeColor } from "../TableOfContent";
 import { headers } from "next/headers";
 import { getAdmonitionType } from "@/utils/util";
@@ -269,7 +264,9 @@ const parseHTMLString = (
                 className={`text-${theme_color}-500 hover:text-${theme_color}-600 text-xs no-underline`}
                 href={urlhref || ""}
               >
-                [{Array.from(node.childNodes).map(processNode)}]
+                {[
+                  `[${Array.from(node.childNodes).map(processNode).join(",")}]`,
+                ]}
               </a>
             );
           }
@@ -288,6 +285,16 @@ const parseHTMLString = (
           <strong key={randomKey}>
             {Array.from(node.childNodes).map(processNode)}
           </strong>
+        );
+      } else if (tagName === "IFRAME") {
+        return (
+          <iframe
+            key={randomKey}
+            {...props}
+            className="w-full embed-video my-[1.25em] rounded-md"
+          >
+            {Array.from(node.childNodes).map(processNode)}
+          </iframe>
         );
       }
     } else if (node instanceof window.Text) {
