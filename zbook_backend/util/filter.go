@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
@@ -31,10 +30,9 @@ func getFileExtension(fileName string) string {
 
 func ExtractLogDetails(logKey string) (ip, userAgent, date string) {
 	// 移除前缀 "logvisitor:"
-	fmt.Println("mydebug: logKey is:", logKey)
 	keyWithoutPrefix := strings.TrimPrefix(logKey, "logvisitor:")
 
-	// 查找最后一个冒号的位置，用来确定日期的分隔点
+	// 查找最后一个冒号的位置，用来确定日期和 UserAgent 的分隔点
 	lastColonIndex := strings.LastIndex(keyWithoutPrefix, ":")
 
 	// 提取日期
@@ -43,15 +41,12 @@ func ExtractLogDetails(logKey string) (ip, userAgent, date string) {
 	// 移除日期后缀部分，剩下的是 IP 和 UserAgent
 	keyWithoutDate := keyWithoutPrefix[:lastColonIndex]
 
-	// 确保以 IPv6 的情况来处理 IP
-	ipAndUserAgent := strings.SplitN(keyWithoutDate, ":", 2)
-	if len(ipAndUserAgent) == 2 {
-		ip = ipAndUserAgent[0]
-		userAgent = ipAndUserAgent[1]
-	} else {
-		ip = keyWithoutDate
-		userAgent = ""
-	}
+	// 再次查找最后一个冒号的位置，以分离 UserAgent 和 IP
+	lastColonIndex = strings.LastIndex(keyWithoutDate, ":")
+
+	// 提取 IP 和 UserAgent
+	ip = keyWithoutDate[:lastColonIndex]
+	userAgent = keyWithoutDate[lastColonIndex+1:]
 
 	return ip, userAgent, date
 }
