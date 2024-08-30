@@ -3,6 +3,7 @@ package gapi
 import (
 	"context"
 	"fmt"
+	"net"
 	"sort"
 	"strconv"
 	"strings"
@@ -275,9 +276,18 @@ func (server *Server) LogRedisVisitor(ctx context.Context) (err error) {
 	// 分隔ClientIp并取第一个部分
 	ClientIpParts := strings.Split(ClientIp, ",")
 	ClientIp = ClientIpParts[0]
+
+	// 验证 IP 地址
+	if net.ParseIP(ClientIp) == nil {
+		return fmt.Errorf("invalid IP address when log visitor: %s", ClientIp)
+	}
+
+	// 替换 UserAgent 中的冒号为下划线
+	UserAgent = strings.ReplaceAll(UserAgent, ":", "_")
+
 	location, err := time.LoadLocation(server.config.TIMEZONE)
 	if err != nil {
-		return fmt.Errorf("failed to load location:%v", err)
+		return fmt.Errorf("failed to load location: %v", err)
 	}
 	today := time.Now().In(location).Format("2006-01-02")
 	redisKey := fmt.Sprintf("%s:%s:%s:%s", "logvisitor", ClientIp, UserAgent, today)
