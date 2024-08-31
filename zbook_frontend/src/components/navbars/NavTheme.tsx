@@ -6,11 +6,12 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useTheme } from "next-themes";
 import NavBarIcon from "./NavBarIcon";
+import { useTranslations } from "next-intl";
 const themeClass = ["dark", "light", "system"];
 export default function NavLang() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-
+  const t = useTranslations("HomePage");
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true);
@@ -45,10 +46,10 @@ export default function NavLang() {
           leaveTo="opacity-0"
         >
           <Listbox.Options className="absolute mt-2 max-h-60 w-36 overflow-auto rounded-md bg-white dark:bg-slate-800 py-1 text-base border-[0.01rem] dark:border-slate-600 ring-1 ring-black/5 focus:outline-none sm:text-sm right-0">
-            {themeClass.map((lang, langIdx) => (
-              <div key={langIdx}>
+            {themeClass.map((choosed, idx) => (
+              <div key={idx}>
                 <Listbox.Option
-                  key={langIdx}
+                  key={idx}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active
@@ -56,7 +57,7 @@ export default function NavLang() {
                         : "text-gray-900 dark:text-white"
                     }`
                   }
-                  value={lang}
+                  value={choosed}
                 >
                   {({ selected }) => (
                     <>
@@ -65,7 +66,11 @@ export default function NavLang() {
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {lang}
+                        {choosed == "dark"
+                          ? t("Dark")
+                          : choosed == "light"
+                            ? t("Light")
+                            : t("System")}
                       </span>
                       {selected && (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-600 dark:text-white">

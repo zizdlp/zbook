@@ -400,6 +400,9 @@
     "AppName": "ZBook"
   },
   "HomePage": {
+    "Light": "Light",
+    "Dark": "Dark",
+    "System": "System",
     "AppName": "ZBook",
     "ManageUsers": "Manage visitors",
     "NewRepo": "Add documentation",

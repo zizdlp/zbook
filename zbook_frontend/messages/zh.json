@@ -397,6 +397,9 @@
     "AppName": "ZBook"
   },
   "HomePage": {
+    "Light": "日间模式",
+    "Dark": "夜间模式",
+    "System": "跟随系统",
     "AppName": "ZBook",
     "ManageUsers": "管理访客或用户",
     "NewRepo": "新建仓库",
