@@ -31,7 +31,7 @@ export default function UpdateRepoDialog() {
     operationRepoName,
     operationUsername,
   } = useContext(OperationContext);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState({ sync_token: false, access_token: false });
   const cancelButtonRef = useRef(null);
   function updateRepoValidate(values: any) {
     let errors: FormikErrors<FormikValues> = {};
@@ -209,13 +209,23 @@ export default function UpdateRepoDialog() {
               showName={t("GitHubSyncToken")}
               formik={formik}
             >
-              <FormInputWrapper
-                show={true}
-                name="sync_token"
-                placeholder={t("GitHubSyncTokenTip")}
-                formik={formik}
-                error={formik.errors.sync_token}
-              />
+              <div className="flex items-center space-x-2 relative">
+                <FormInputWrapper
+                  show={show.sync_token}
+                  name="sync_token"
+                  placeholder={t("GitHubSyncTokenTip")}
+                  formik={formik}
+                  error={formik.errors.sync_token}
+                />
+                <div
+                  className="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer"
+                  onClick={() =>
+                    setShow({ ...show, sync_token: !show.sync_token })
+                  }
+                >
+                  <HiFingerPrint size={25} />
+                </div>
+              </div>
             </FormGroupWrapper>
             <FormGroupWrapper
               classType="col-span-6 sm:col-span-3"
@@ -225,7 +235,7 @@ export default function UpdateRepoDialog() {
             >
               <div className="flex items-center space-x-2 relative">
                 <FormInputWrapper
-                  show={show}
+                  show={show.access_token}
                   name="git_access_token"
                   placeholder={t("TokenPasswordTip")}
                   formik={formik}
@@ -233,7 +243,9 @@ export default function UpdateRepoDialog() {
                 />
                 <div
                   className="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer"
-                  onClick={() => setShow(!show)}
+                  onClick={() =>
+                    setShow({ ...show, access_token: !show.access_token })
+                  }
                 >
                   <HiFingerPrint size={25} />
                 </div>

@@ -77,18 +77,18 @@ export default function NavNotification({
         // Reconnect on unexpected closure (you can add more conditions to handle specific closure codes)
         if (!event.wasClean) {
           reconnectRef.current += 1; // 使用ref的current属性修改reconnect值
-          if (reconnectRef.current < 5) {
+          if (reconnectRef.current < 10) {
             logger.warn(
               `websocket connection closed unexpectedly, attempting to reconnect...:${reconnectRef.current}`
             );
             fetchData();
           } else {
             logger.error(
-              "websocket connection closed unexpectedly, already try to reconnect 5 times"
+              "websocket connection closed unexpectedly, already try to reconnect 10 times"
             );
             toast(t("websocket_closed"), {
               type: "warning",
-              autoClose: false,
+              autoClose: 2500,
             });
           }
         }
