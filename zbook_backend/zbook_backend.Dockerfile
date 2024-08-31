@@ -19,7 +19,6 @@ COPY app.env .
 COPY start.sh .
 COPY wait-for.sh .
 COPY db/migration ./db/migration
-COPY cert.pem ./cert.pem
 
 # Set timezone data
 ENV TZ=Etc/UTC
