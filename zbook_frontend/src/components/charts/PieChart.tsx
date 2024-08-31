@@ -14,7 +14,7 @@ export default function PieChart({
   comment_report_count: string;
   user_count: string;
 }) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const t = useTranslations("AdminOverView");
   let repo_count_n = parseInt(repo_count);
   let comment_count_n = parseInt(comment_count);
@@ -29,7 +29,7 @@ export default function PieChart({
       fontFamily: "Inter, sans-serif",
       position: "bottom" as "bottom",
       labels: {
-        colors: theme == "dark" ? "#CBD5E1" : "#334155",
+        colors: resolvedTheme == "dark" ? "#CBD5E1" : "#334155",
       },
     },
     total: {
@@ -37,7 +37,7 @@ export default function PieChart({
     },
     stroke: {
       colors: ["white"],
-      width: theme == "dark" ? 0 : 1,
+      width: resolvedTheme == "dark" ? 0 : 1,
       lineCap: "square" as "square",
     },
   };

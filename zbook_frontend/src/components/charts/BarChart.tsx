@@ -33,7 +33,7 @@ export default function BarChart({
   title,
   label,
 }: WebTrafficProps) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   var options = {
     chart: {
       type: "bar" as "bar",
@@ -42,7 +42,7 @@ export default function BarChart({
       },
     },
     grid: {
-      borderColor: theme === "dark" ? "#334155" : "#E2E8F0",
+      borderColor: resolvedTheme === "dark" ? "#334155" : "#E2E8F0",
       xaxis: {
         lines: {
           show: false,
@@ -55,7 +55,7 @@ export default function BarChart({
       },
     },
     tooltip: {
-      theme: theme == "dark" ? "dark" : "light",
+      theme: resolvedTheme == "dark" ? "dark" : "light",
       enabled: true,
       x: {
         show: false,
@@ -74,7 +74,7 @@ export default function BarChart({
     legend: {
       show: true,
       labels: {
-        colors: theme == "dark" ? "#CBD5E1" : "#334155",
+        colors: resolvedTheme == "dark" ? "#CBD5E1" : "#334155",
       },
     },
 
@@ -85,7 +85,7 @@ export default function BarChart({
       categories: getResults(ips, cities),
       labels: {
         style: {
-          colors: theme === "dark" ? "#CBD5E1" : "#334155",
+          colors: resolvedTheme === "dark" ? "#CBD5E1" : "#334155",
         },
       },
     },
@@ -93,7 +93,7 @@ export default function BarChart({
       show: true,
       labels: {
         style: {
-          colors: theme === "dark" ? "#CBD5E1" : "#334155",
+          colors: resolvedTheme === "dark" ? "#CBD5E1" : "#334155",
         },
       },
     },

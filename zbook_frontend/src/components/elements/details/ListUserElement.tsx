@@ -88,7 +88,7 @@ export default function ListUserElement({
           <div className="flex items-center justify-end space-x-1">
             {(listType === ListDataType.LIST_USER_FOLLOWER ||
               listType === ListDataType.LIST_USER_FOLLOWING) && (
-              <ToolTip message={t("PublicRepoCount")}>
+              <ToolTip message={t("RepoCount")}>
                 <div className="px-2 py-1 text-xs flex space-x-1 items-center justify-center">
                   <IoMdBookmarks className="h-5 w-5" />
                   <p className="text-sm">{repo_count}</p>

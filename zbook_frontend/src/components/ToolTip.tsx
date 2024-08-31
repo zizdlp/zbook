@@ -14,11 +14,11 @@ export default function ToolTip({
   message: string;
   children: ReactElement;
 }) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   return (
     <Tippy
       content={message}
-      theme={theme == "dark" ? "material" : "light"}
+      theme={resolvedTheme == "dark" ? "material" : "light"}
       animation={"scale"}
     >
       {children}

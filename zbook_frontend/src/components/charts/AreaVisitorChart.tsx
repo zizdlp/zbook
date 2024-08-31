@@ -14,7 +14,7 @@ export default function AreaVisitorChart({
   title: string;
   label: string;
 }) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [counts, setCounts] = useState<number[]>([]);
   const [dates, setDates] = useState<string[]>([]);
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -43,7 +43,7 @@ export default function AreaVisitorChart({
   }, []);
 
   const totalCount = counts.reduce((sum, count) => sum + count, 0);
-  let options = getAreaChartOptions(theme, dates);
+  let options = getAreaChartOptions(resolvedTheme, dates);
   let series = [
     {
       name: label,

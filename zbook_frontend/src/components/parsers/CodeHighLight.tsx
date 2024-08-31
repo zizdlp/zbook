@@ -17,8 +17,11 @@ function truncateLastNewline(str: string) {
   return str.endsWith("\n") ? str.slice(0, -1) : str;
 }
 
-export default function CodeHighLight({ codeString, lang }: CodeHighLightProps) {
-  const { theme } = useTheme();
+export default function CodeHighLight({
+  codeString,
+  lang,
+}: CodeHighLightProps) {
+  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,8 +29,8 @@ export default function CodeHighLight({ codeString, lang }: CodeHighLightProps) 
   }, []);
 
   const style = useMemo(
-    () => (theme === "dark" ? atomOneDark : atomOneLight),
-    [theme]
+    () => (resolvedTheme === "dark" ? atomOneDark : atomOneLight),
+    [resolvedTheme]
   );
 
   if (!mounted) {

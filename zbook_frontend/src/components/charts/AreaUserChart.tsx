@@ -18,7 +18,7 @@ export default function AreaUserChart({
   allow_registration: boolean;
   allow_invitation: boolean;
 }) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [newUserCounts, setNewUserCounts] = useState<number[]>([]);
   const [activeUserCounts, setActiveUserCounts] = useState<number[]>([]);
@@ -62,7 +62,7 @@ export default function AreaUserChart({
 
   const t = useTranslations("AdminOverView");
 
-  let options = getAreaChartOptions(theme, dates);
+  let options = getAreaChartOptions(resolvedTheme, dates);
 
   let series = [
     {

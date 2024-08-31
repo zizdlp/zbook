@@ -15,7 +15,7 @@ export default function DonuChart({
 }: {
   agentCounts: AgentCount;
 }) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const t = useTranslations("AdminOverView");
   let options = {
     colors: ["#14b8a6", "#0ea5e9", "#f28e4b", "#e11d48", "#6366f1"],
@@ -40,7 +40,7 @@ export default function DonuChart({
       position: "bottom" as "bottom",
       fontFamily: "Inter, sans-serif",
       labels: {
-        colors: theme == "dark" ? "#CBD5E1" : "#334155",
+        colors: resolvedTheme == "dark" ? "#CBD5E1" : "#334155",
       },
     },
     yaxis: {

@@ -67,7 +67,7 @@ const LIGHT_THEME_CONFIG = {
 };
 
 function CodeMermaid({ graphDefinition }: { graphDefinition: string }) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const { mutationToggleTheme } = useContext(OperationContext);
   const [htmlText, setHtmlText] = useState("");
@@ -99,11 +99,12 @@ function CodeMermaid({ graphDefinition }: { graphDefinition: string }) {
 
   useEffect(() => {
     if (mounted && graphDefinition) {
-      const config = theme === "dark" ? DARK_THEME_CONFIG : LIGHT_THEME_CONFIG;
+      const config =
+        resolvedTheme === "dark" ? DARK_THEME_CONFIG : LIGHT_THEME_CONFIG;
       renderMermaid(config);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted, theme, mutationToggleTheme]);
+  }, [mounted, resolvedTheme, mutationToggleTheme]);
 
   if (!mounted) {
     return (

@@ -21,7 +21,7 @@ export default function SideBarSearchButton({
   const t = useTranslations("SideBar");
   return (
     <div className="sticky top-0 pointer-events-none z-50 px-4">
-      <div className="h-10 bg-white dark:bg-gray-900"></div>
+      <div className="h-10 bg-white dark:bg-slate-900"></div>
       <div className="bg-white dark:bg-gray-900 relative pointer-events-auto">
         <button
           onClick={() => {

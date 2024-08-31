@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import SearchDialog from "@/providers/dialogs/SearchDialog";
 import SideBarProvider from "@/providers/SideBarProvider";
 import SearchDialogProvider from "@/providers/SearchDialogProvider";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import NotiDialogProvider from "@/providers/NotiDialogProvider";
 import { ToastContainer } from "react-toastify";
 import NavBar from "@/components/navbars/NavBar";
@@ -83,7 +83,7 @@ export default async function LocaleLayout({
             <SearchDialogProvider>
               <NotiDialogProvider>
                 <OperationProvider>
-                  <ThemeProvider attribute="class">
+                  <ThemeProvider>
                     <SideBarProvider>
                       <NavBar />
                       <NotificationDialog />
