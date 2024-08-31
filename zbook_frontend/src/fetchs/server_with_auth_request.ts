@@ -132,6 +132,7 @@ interface GetUserInfoRequest {
 interface GetRepoConfigRequest {
   username: string;
   repo_name: string;
+  lang: string;
 }
 interface GetMarkdownContentRequest {
   username: string;

@@ -18,6 +18,7 @@ export default function RepoSideBar({
   theme_sidebar,
   theme_color,
   visibility_level,
+  first_path,
 }: {
   sublayouts: MenuStruct[];
   anchors: Anchor[];
@@ -27,6 +28,7 @@ export default function RepoSideBar({
   theme_color: ThemeColor;
   theme_sidebar: string;
   visibility_level: string;
+  first_path: string;
 }) {
   const pathname = usePathname();
   const locale = useLocale();
@@ -48,6 +50,7 @@ export default function RepoSideBar({
             anchors={anchors ?? []}
             visibility_level={visibility_level}
             theme_color={theme_color}
+            first_path={first_path}
           />
           {theme_sidebar == "theme_sidebar_fold" ? (
             <FoldSubMenu

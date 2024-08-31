@@ -37,6 +37,7 @@ export default async function RepoSideBarLayout({
       values: {
         repo_name: decodeURIComponent(reponame),
         username: username,
+        lang: locale == "" ? "en" : locale,
       },
     });
 
@@ -60,6 +61,7 @@ export default async function RepoSideBarLayout({
           username={data.username}
           authname={authname}
           visibility_level={data.visibility_level}
+          first_path={data.first_path}
         />
       );
     } else {
