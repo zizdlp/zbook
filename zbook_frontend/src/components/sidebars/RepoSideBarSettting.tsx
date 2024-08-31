@@ -8,7 +8,7 @@ import {
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import { useTranslations } from "next-intl";
 import { FetchError } from "@/fetchs/util";
-import { MdCloudSync, MdOutlineVisibility, MdSync } from "react-icons/md";
+import { MdCloudSync, MdOutlineVisibility } from "react-icons/md";
 import { Anchor } from "@/types/interface";
 import RepoSideBarSettingItem from "./RepoSideBarSetttingItem";
 import { FaDiscord, FaGithub } from "react-icons/fa";
@@ -21,6 +21,7 @@ export default function RepoSideBarSetting({
   anchors,
   visibility_level,
   theme_color,
+  first_path,
 }: {
   username: string;
   reponame: string;
@@ -28,6 +29,7 @@ export default function RepoSideBarSetting({
   anchors: Anchor[];
   visibility_level: string;
   theme_color: ThemeColor;
+  first_path: string;
 }) {
   const pathname = usePathname();
   let page_type = "";
@@ -81,7 +83,7 @@ export default function RepoSideBarSetting({
   return (
     <>
       <RepoSideBarSettingItem
-        href={`/workspace/${username}/o/${reponame}`}
+        href={`/workspace/${username}/o/${reponame}/${first_path}`}
         selected={page_type != "~visi"}
         icon={IoBook}
         text={t("RepoHome")}

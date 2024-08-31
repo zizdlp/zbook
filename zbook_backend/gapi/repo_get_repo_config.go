@@ -7,6 +7,7 @@ import (
 	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/rpcs"
+	"github.com/zizdlp/zbook/util"
 	"github.com/zizdlp/zbook/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
@@ -49,12 +50,21 @@ func (server *Server) GetRepoConfig(ctx context.Context, req *rpcs.GetRepoConfig
 		return nil, status.Errorf(codes.Internal, "get user by id failed: %s", err)
 	}
 
+	config, err := util.ParseRepoConfigFromString(repo.Config)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "ParseRepoConfigFromString error : %s", err)
+	}
+	relative_path, err := config.GetFirstDocument(req.GetLang())
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "GetFirstDocument error : %s", err)
+	}
 	rsp := &rpcs.GetRepoConfigResponse{
 		Config:          repo.Config,
 		Username:        user.Username,
 		VisibilityLevel: repo.VisibilityLevel,
 		ThemeSidebar:    repo.ThemeSidebar,
 		ThemeColor:      repo.ThemeColor,
+		FirstPath:       relative_path,
 	}
 	return rsp, nil
 }

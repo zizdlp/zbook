@@ -622,6 +622,9 @@
         },
         "repoName": {
           "type": "string"
+        },
+        "lang": {
+          "type": "string"
         }
       },
       "title": "2.GetRepoConfig"
@@ -642,6 +645,9 @@
           "type": "string"
         },
         "themeColor": {
+          "type": "string"
+        },
+        "firstPath": {
           "type": "string"
         }
       }

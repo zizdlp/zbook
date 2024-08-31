@@ -21,6 +21,7 @@ message CreateRepoResponse {}
 message GetRepoConfigRequest {
   string username  = 1;
   string repo_name = 2;
+  string lang      = 3;
 }
 message GetRepoConfigResponse {
   string username         = 1;
@@ -28,6 +29,7 @@ message GetRepoConfigResponse {
   string visibility_level = 3;
   string theme_sidebar    = 4;
   string theme_color      = 5;
+  string first_path       = 6;
 }
 
 // 3.DeleteRepo
