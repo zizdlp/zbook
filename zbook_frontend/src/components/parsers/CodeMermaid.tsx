@@ -108,7 +108,7 @@ function CodeMermaid({ graphDefinition }: { graphDefinition: string }) {
 
   if (!mounted) {
     return (
-      <MdOutlineCode className="w-full h-96 my-[2em] rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
+      <MdOutlineCode className="w-full h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
     );
   }
 
@@ -121,7 +121,7 @@ function CodeMermaid({ graphDefinition }: { graphDefinition: string }) {
     );
   } else {
     return (
-      <MdOutlineCodeOff className="my-[2em] rounded-md w-full h-96 py-40 bg-gray-200 dark:bg-gray-700/75 text-slate-500 dark:text-slate-400" />
+      <MdOutlineCodeOff className="rounded-md w-full h-96 py-40 bg-gray-200 dark:bg-gray-700/75 text-slate-500 dark:text-slate-400" />
     );
   }
 }
