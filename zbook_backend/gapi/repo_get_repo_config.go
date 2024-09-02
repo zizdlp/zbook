@@ -50,21 +50,18 @@ func (server *Server) GetRepoConfig(ctx context.Context, req *rpcs.GetRepoConfig
 		return nil, status.Errorf(codes.Internal, "get user by id failed: %s", err)
 	}
 
-	config, err := util.ParseRepoConfigFromString(repo.Config)
+	path, err := util.GetDocumentPath(repo.Home, req.GetLang())
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "ParseRepoConfigFromString error : %s", err)
+		return nil, status.Errorf(codes.Internal, "parse home error : %s", err)
 	}
-	relative_path, err := config.GetFirstDocument(req.GetLang())
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "GetFirstDocument error : %s", err)
-	}
+
 	rsp := &rpcs.GetRepoConfigResponse{
 		Config:          repo.Config,
 		Username:        user.Username,
 		VisibilityLevel: repo.VisibilityLevel,
 		ThemeSidebar:    repo.ThemeSidebar,
 		ThemeColor:      repo.ThemeColor,
-		FirstPath:       relative_path,
+		Home:            path,
 	}
 	return rsp, nil
 }

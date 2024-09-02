@@ -83,6 +83,7 @@ type Querier interface {
 	GetRepoBasicInfo(ctx context.Context, arg GetRepoBasicInfoParams) (GetRepoBasicInfoRow, error)
 	GetRepoByRepoName(ctx context.Context, arg GetRepoByRepoNameParams) (GetRepoByRepoNameRow, error)
 	GetRepoConfig(ctx context.Context, arg GetRepoConfigParams) (GetRepoConfigRow, error)
+	GetRepoHome(ctx context.Context, arg GetRepoHomeParams) (string, error)
 	GetRepoID(ctx context.Context, arg GetRepoIDParams) (int64, error)
 	GetRepoPermission(ctx context.Context, repoID int64) (GetRepoPermissionRow, error)
 	GetRepoRelation(ctx context.Context, arg GetRepoRelationParams) (RepoRelation, error)

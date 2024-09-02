@@ -3,6 +3,7 @@ package gapi
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
 	"github.com/zizdlp/zbook/pb/rpcs"
@@ -39,7 +40,7 @@ func (server *Server) ListRepo(ctx context.Context, req *rpcs.ListRepoRequest) (
 				return nil, status.Errorf(codes.Internal, "query repo failed: %s", err)
 			}
 			rsp := &rpcs.ListRepoResponse{
-				Elements: convertQueryRepo(reports),
+				Elements: convertQueryRepo(reports, req.GetLang()),
 			}
 			return rsp, nil
 		}
@@ -57,7 +58,7 @@ func (server *Server) ListRepo(ctx context.Context, req *rpcs.ListRepoRequest) (
 		}
 
 		rsp := &rpcs.ListRepoResponse{
-			Elements: convertListRepos(reports),
+			Elements: convertListRepos(reports, req.GetLang()),
 		}
 		return rsp, nil
 	}
@@ -77,7 +78,7 @@ func (server *Server) ListRepo(ctx context.Context, req *rpcs.ListRepoRequest) (
 			return nil, status.Errorf(codes.Internal, "query repo failed: %s", err)
 		}
 		rsp := &rpcs.ListRepoResponse{
-			Elements: convertQueryRepo(reports),
+			Elements: convertQueryRepo(reports, req.GetLang()),
 		}
 		return rsp, nil
 	}
@@ -94,7 +95,7 @@ func (server *Server) ListRepo(ctx context.Context, req *rpcs.ListRepoRequest) (
 		return nil, status.Errorf(codes.Internal, "list repo failed: %s", err)
 	}
 	rsp := &rpcs.ListRepoResponse{
-		Elements: convertListRepos(reports),
+		Elements: convertListRepos(reports, req.GetLang()),
 	}
 	return rsp, nil
 }
@@ -105,13 +106,20 @@ func validateListRepoRequest(req *rpcs.ListRepoRequest) (violations []*errdetail
 	if err := val.ValidatePageSize(req.GetPageSize()); err != nil {
 		violations = append(violations, fieldViolation("page_size", err))
 	}
+	if err := val.ValidateLang(req.GetLang()); err != nil {
+		violations = append(violations, fieldViolation("lang", err))
+	}
 	return violations
 }
 
-func convertListRepos(reports []db.ListRepoRow) []*models.ListRepoInfo {
+func convertListRepos(reports []db.ListRepoRow, lang string) []*models.ListRepoInfo {
 	var ret_reports []*models.ListRepoInfo
 	for i := 0; i < len(reports); i++ {
-
+		path := ""
+		path, err := util.GetDocumentPath(reports[i].Home, lang)
+		if err != nil {
+			log.Error().Err(err).Msgf("failed to find home for:%s", lang)
+		}
 		ret_reports = append(ret_reports,
 			&models.ListRepoInfo{
 				RepoId:          reports[i].RepoID,
@@ -124,15 +132,21 @@ func convertListRepos(reports []db.ListRepoRow) []*models.ListRepoInfo {
 				IsLiked:         reports[i].IsLiked,
 				UpdatedAt:       timestamppb.New(reports[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(reports[i].CreatedAt),
+				Home:            path,
 			},
 		)
 	}
 	return ret_reports
 }
 
-func convertQueryRepo(reports []db.QueryRepoRow) []*models.ListRepoInfo {
+func convertQueryRepo(reports []db.QueryRepoRow, lang string) []*models.ListRepoInfo {
 	var ret_reports []*models.ListRepoInfo
 	for i := 0; i < len(reports); i++ {
+		path := ""
+		path, err := util.GetDocumentPath(reports[i].Home, lang)
+		if err != nil {
+			log.Error().Err(err).Msgf("failed to find home for:%s", lang)
+		}
 		ret_reports = append(ret_reports,
 			&models.ListRepoInfo{
 				RepoId:          reports[i].RepoID,
@@ -144,6 +158,7 @@ func convertQueryRepo(reports []db.QueryRepoRow) []*models.ListRepoInfo {
 				// LikeCount:       int32(reports[i].LikeCount),
 				UpdatedAt: timestamppb.New(reports[i].UpdatedAt),
 				CreatedAt: timestamppb.New(reports[i].CreatedAt),
+				Home:      path,
 			},
 		)
 	}

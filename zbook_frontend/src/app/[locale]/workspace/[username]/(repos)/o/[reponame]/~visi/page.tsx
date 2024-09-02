@@ -21,7 +21,7 @@ export default async function ListRepoVisi({
   params,
   searchParams,
 }: {
-  params: { username: string; reponame: string };
+  params: { username: string; reponame: string; locale: string };
   searchParams?: { query?: string; page?: string };
 }) {
   try {
@@ -51,6 +51,7 @@ export default async function ListRepoVisi({
             currentPage={currentPage}
             listType={ListDataType.LIST_REPO_VISI}
             repo_name={params.reponame}
+            lang={params.locale == "" ? "en" : params.locale}
           />
         </Suspense>
       </MainContentWrapper>

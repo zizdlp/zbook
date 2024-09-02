@@ -128,6 +128,7 @@ type Repo struct {
 	VisibilityLevel string      `json:"visibility_level"`
 	CommitID        string      `json:"commit_id"`
 	Config          string      `json:"config"`
+	Home            string      `json:"home"`
 	ThemeSidebar    string      `json:"theme_sidebar"`
 	ThemeColor      string      `json:"theme_color"`
 	CreatedAt       time.Time   `json:"created_at"`

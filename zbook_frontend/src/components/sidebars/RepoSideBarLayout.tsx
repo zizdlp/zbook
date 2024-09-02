@@ -61,7 +61,7 @@ export default async function RepoSideBarLayout({
           username={data.username}
           authname={authname}
           visibility_level={data.visibility_level}
-          first_path={data.first_path}
+          first_path={data.home}
         />
       );
     } else {

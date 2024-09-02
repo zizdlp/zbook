@@ -13,7 +13,7 @@ export default async function CasesPage({
   params,
   searchParams,
 }: {
-  params: { username: string };
+  params: { username: string; locale: string };
   searchParams?: { query?: string; page?: string };
 }) {
   return (

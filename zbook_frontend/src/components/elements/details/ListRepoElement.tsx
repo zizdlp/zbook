@@ -21,6 +21,7 @@ export default function ListRepoElement({
   updated_at,
   created_at,
   listType,
+  home,
 }: {
   authname: string;
   repo_name: string;
@@ -33,6 +34,7 @@ export default function ListRepoElement({
   updated_at: string;
   created_at: string;
   listType: ListDataType;
+  home: string;
 }) {
   const t = useTranslations("DataList");
   return (
@@ -47,7 +49,7 @@ export default function ListRepoElement({
 
             <div className="flex flex-col justify-begin overflow-scroll">
               <Link
-                href={`/workspace/${username}/o/${repo_name}`}
+                href={`/workspace/${username}/o/${repo_name}/${home}`}
                 className="cursor-pointer"
               >
                 <div

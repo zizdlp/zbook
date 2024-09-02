@@ -3,12 +3,14 @@ interface ListUserLikeRepoRequest {
   page_id: number;
   page_size: number;
   query: string;
+  lang: string;
 }
 interface ListUserOwnRepoRequest {
   username: string;
   page_id: number;
   page_size: number;
   query: string;
+  lang: string;
 }
 
 interface ListFollowerRequest {
@@ -109,6 +111,7 @@ interface ListRepoRequest {
   page_id: number;
   page_size: number;
   query: string;
+  lang: string;
 }
 interface ListSelectedUserByRepoRequest {
   page_id: number;

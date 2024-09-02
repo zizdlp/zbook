@@ -28,6 +28,7 @@ message ListRepoInfo {
   google.protobuf.Timestamp updated_at = 9;
   google.protobuf.Timestamp created_at = 10;
   string username                      = 11;
+  string home                          = 12;
 }
 
 message RepoCountInfo {
