@@ -15,6 +15,7 @@ export default async function ListElementWrapper({
   currentPage,
   repo_name,
   listType,
+  lang,
 }: {
   authname: string;
   username: string;
@@ -22,6 +23,7 @@ export default async function ListElementWrapper({
   currentPage: number;
   repo_name: string;
   listType: ListDataType;
+  lang: string;
 }) {
   try {
     const xforward = headers().get("x-forwarded-for") ?? "";
@@ -35,6 +37,7 @@ export default async function ListElementWrapper({
       page_id: currentPage,
       page_size: 10,
       query: query,
+      lang: lang,
     };
     let data_counts;
     let data_elements;

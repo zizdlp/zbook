@@ -12,6 +12,7 @@ CREATE TABLE "repos" (
   "visibility_level" varchar(255) NOT NULL,
   "commit_id" varchar(255) NOT NULL,
   "config" text NOT NULL DEFAULT '',
+  "home" text NOT NULL DEFAULT '',
   "theme_sidebar" text NOT NULL CHECK (length(trim(theme_sidebar)) > 0),
   "theme_color" text NOT NULL CHECK (length(trim(theme_color)) > 0),
   "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,

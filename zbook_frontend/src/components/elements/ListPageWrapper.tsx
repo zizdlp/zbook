@@ -9,7 +9,7 @@ export default async function ListPageWrapper({
   searchParams,
   listType,
 }: {
-  params: { username: string };
+  params: { username: string; locale: string };
   searchParams?: { query?: string; page?: string };
   listType: ListDataType;
 }) {
@@ -34,6 +34,7 @@ export default async function ListPageWrapper({
           currentPage={currentPage}
           listType={listType}
           repo_name={""}
+          lang={params.locale == "" ? "en" : params.locale}
         />
       </Suspense>
     </>

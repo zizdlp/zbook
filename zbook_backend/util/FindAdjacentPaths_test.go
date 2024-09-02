@@ -148,3 +148,72 @@ func TestGetFirstDocument(t *testing.T) {
 		}
 	}
 }
+
+func TestGetFirstDocumentMap(t *testing.T) {
+	// 创建测试配置
+	config := &RepoConfig{
+		Layout: map[string][]Layout{
+			"en": {
+				{
+					Title:        "doc1",
+					RelativePath: "doc1",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+				{
+					Title:        "doc2",
+					RelativePath: "doc2",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+			},
+			"zh": {
+				{
+					Title:        "文档1",
+					RelativePath: "doc1-zh",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+			},
+			"fr": {
+				{
+					Title:        "doc1-fr",
+					RelativePath: "doc1-fr",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+				{
+					Title:        "doc2-fr",
+					RelativePath: "doc2-fr",
+					Isdir:        false,
+					Sublayouts:   nil,
+				},
+			},
+		},
+	}
+
+	tests := []struct {
+		expectedDocs  map[string]string
+		expectedError bool
+	}{
+		{
+			expectedDocs: map[string]string{
+				"en": "doc1",
+				"zh": "doc1-zh",
+				"fr": "doc1-fr",
+			},
+			expectedError: false,
+		},
+	}
+
+	for _, tt := range tests {
+		docs, err := config.GetFirstDocumentMap()
+		if tt.expectedError {
+			require.Error(t, err)
+			require.Empty(t, docs)
+		} else {
+			require.NoError(t, err)
+			require.Equal(t, tt.expectedDocs, docs)
+		}
+	}
+}

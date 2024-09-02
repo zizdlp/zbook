@@ -3,6 +3,7 @@ package gapi
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
 	"github.com/zizdlp/zbook/pb/rpcs"
@@ -51,7 +52,7 @@ func (server *Server) ListUserLikeRepo(ctx context.Context, req *rpcs.ListUserLi
 		}
 
 		rsp := &rpcs.ListUserLikeRepoResponse{
-			Elements: convertQueryUserLikeRepo(repos),
+			Elements: convertQueryUserLikeRepo(repos, req.GetLang()),
 		}
 		return rsp, nil
 	} else {
@@ -70,7 +71,7 @@ func (server *Server) ListUserLikeRepo(ctx context.Context, req *rpcs.ListUserLi
 		}
 
 		rsp := &rpcs.ListUserLikeRepoResponse{
-			Elements: convertListUserLikeRepo(repos),
+			Elements: convertListUserLikeRepo(repos, req.GetLang()),
 		}
 		return rsp, nil
 	}
@@ -83,12 +84,20 @@ func validateListUserLikeRepoRequest(req *rpcs.ListUserLikeRepoRequest) (violati
 	if err := val.ValidateInt32ID(req.GetPageSize()); err != nil {
 		violations = append(violations, fieldViolation("page_size", err))
 	}
+	if err := val.ValidateLang(req.GetLang()); err != nil {
+		violations = append(violations, fieldViolation("lang", err))
+	}
 	return violations
 }
 
-func convertListUserLikeRepo(repos []db.ListUserLikeRepoRow) []*models.ListRepoInfo {
+func convertListUserLikeRepo(repos []db.ListUserLikeRepoRow, lang string) []*models.ListRepoInfo {
 	var ret_repos []*models.ListRepoInfo
 	for i := 0; i < len(repos); i++ {
+		path := ""
+		path, err := util.GetDocumentPath(repos[i].Home, lang)
+		if err != nil {
+			log.Error().Err(err).Msgf("failed to find home for:%s", lang)
+		}
 		ret_repos = append(ret_repos,
 			&models.ListRepoInfo{
 				RepoId:          repos[i].RepoID,
@@ -101,14 +110,20 @@ func convertListUserLikeRepo(repos []db.ListUserLikeRepoRow) []*models.ListRepoI
 				IsLiked:         repos[i].IsLiked,
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
+				Home:            path,
 			},
 		)
 	}
 	return ret_repos
 }
-func convertQueryUserLikeRepo(repos []db.QueryUserLikeRepoRow) []*models.ListRepoInfo {
+func convertQueryUserLikeRepo(repos []db.QueryUserLikeRepoRow, lang string) []*models.ListRepoInfo {
 	var ret_repos []*models.ListRepoInfo
 	for i := 0; i < len(repos); i++ {
+		path := ""
+		path, err := util.GetDocumentPath(repos[i].Home, lang)
+		if err != nil {
+			log.Error().Err(err).Msgf("failed to find home for:%s", lang)
+		}
 		ret_repos = append(ret_repos,
 			&models.ListRepoInfo{
 				RepoId:          repos[i].RepoID,
@@ -121,6 +136,7 @@ func convertQueryUserLikeRepo(repos []db.QueryUserLikeRepoRow) []*models.ListRep
 				IsLiked:         repos[i].IsLiked,
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
+				Home:            path,
 			},
 		)
 	}

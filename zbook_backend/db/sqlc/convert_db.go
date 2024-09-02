@@ -102,10 +102,20 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 		if err != nil {
 			return fmt.Errorf("generate repo config failed: %v", err)
 		}
+		home, err := config.GetFirstDocumentMap()
+		if err != nil {
+			return fmt.Errorf("generate repo home failed: %v", err)
+		}
+		// 将 docs 转换为 JSON 字符串
+		homeJSON, err := json.Marshal(home)
+		if err != nil {
+			return fmt.Errorf("marshal home docs to JSON failed: %v", err)
+		}
 		arg_update_repo_config := UpdateRepoConfigParams{
 			RepoID:   repoID,
 			Config:   string(configJSON),
 			CommitID: lastCommit,
+			Home:     string(homeJSON),
 		}
 		if err := q.UpdateRepoConfig(ctx, arg_update_repo_config); err != nil {
 			return fmt.Errorf("update repo config failed: %v", err)
@@ -117,10 +127,20 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 	if err != nil {
 		return fmt.Errorf("generate repo config failed: %v", err)
 	}
+	home, err := configFromFile.GetFirstDocumentMap()
+	if err != nil {
+		return fmt.Errorf("generate repo home failed: %v", err)
+	}
+	// 将 docs 转换为 JSON 字符串
+	homeJSON, err := json.Marshal(home)
+	if err != nil {
+		return fmt.Errorf("marshal home docs to JSON failed: %v", err)
+	}
 	arg_update_repo_config := UpdateRepoConfigParams{
 		RepoID:   repoID,
 		Config:   string(configJSON),
 		CommitID: lastCommit,
+		Home:     string(homeJSON),
 	}
 	if err := q.UpdateRepoConfig(ctx, arg_update_repo_config); err != nil {
 		return fmt.Errorf("update repo config failed: %v", err)

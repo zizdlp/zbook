@@ -1195,6 +1195,21 @@ func (mr *MockStoreMockRecorder) GetRepoConfig(arg0, arg1 interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoConfig", reflect.TypeOf((*MockStore)(nil).GetRepoConfig), arg0, arg1)
 }
 
+// GetRepoHome mocks base method.
+func (m *MockStore) GetRepoHome(arg0 context.Context, arg1 db.GetRepoHomeParams) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRepoHome", arg0, arg1)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRepoHome indicates an expected call of GetRepoHome.
+func (mr *MockStoreMockRecorder) GetRepoHome(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepoHome", reflect.TypeOf((*MockStore)(nil).GetRepoHome), arg0, arg1)
+}
+
 // GetRepoID mocks base method.
 func (m *MockStore) GetRepoID(arg0 context.Context, arg1 db.GetRepoIDParams) (int64, error) {
 	m.ctrl.T.Helper()

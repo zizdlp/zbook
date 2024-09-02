@@ -3,6 +3,7 @@ package gapi
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
 	"github.com/zizdlp/zbook/pb/models"
 	"github.com/zizdlp/zbook/pb/rpcs"
@@ -48,7 +49,7 @@ func (server *Server) ListUserOwnRepo(ctx context.Context, req *rpcs.ListUserOwn
 		}
 
 		rsp := &rpcs.ListUserOwnRepoResponse{
-			Elements: convertQueryUserOwnRepo(repos, req.GetUsername()),
+			Elements: convertQueryUserOwnRepo(repos, req.GetUsername(), req.GetLang()),
 		}
 		return rsp, nil
 	} else {
@@ -67,7 +68,7 @@ func (server *Server) ListUserOwnRepo(ctx context.Context, req *rpcs.ListUserOwn
 		}
 
 		rsp := &rpcs.ListUserOwnRepoResponse{
-			Elements: convertListUserOwnRepo(repos, req.GetUsername()),
+			Elements: convertListUserOwnRepo(repos, req.GetUsername(), req.GetLang()),
 		}
 		return rsp, nil
 	}
@@ -80,12 +81,20 @@ func validateListUserOwnRepoRequest(req *rpcs.ListUserOwnRepoRequest) (violation
 	if err := val.ValidateInt32ID(req.GetPageSize()); err != nil {
 		violations = append(violations, fieldViolation("page_size", err))
 	}
+	if err := val.ValidateLang(req.GetLang()); err != nil {
+		violations = append(violations, fieldViolation("lang", err))
+	}
 	return violations
 }
 
-func convertListUserOwnRepo(repos []db.ListUserOwnRepoRow, username string) []*models.ListRepoInfo {
+func convertListUserOwnRepo(repos []db.ListUserOwnRepoRow, username string, lang string) []*models.ListRepoInfo {
 	var ret_repos []*models.ListRepoInfo
 	for i := 0; i < len(repos); i++ {
+		path := ""
+		path, err := util.GetDocumentPath(repos[i].Home, lang)
+		if err != nil {
+			log.Error().Err(err).Msgf("failed to find home for:%s", lang)
+		}
 		ret_repos = append(ret_repos,
 			&models.ListRepoInfo{
 				RepoId:          repos[i].RepoID,
@@ -98,15 +107,21 @@ func convertListUserOwnRepo(repos []db.ListUserOwnRepoRow, username string) []*m
 				IsLiked:         repos[i].IsLiked,
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
+				Home:            path,
 			},
 		)
 	}
 	return ret_repos
 }
 
-func convertQueryUserOwnRepo(repos []db.QueryUserOwnRepoRow, username string) []*models.ListRepoInfo {
+func convertQueryUserOwnRepo(repos []db.QueryUserOwnRepoRow, username string, lang string) []*models.ListRepoInfo {
 	var ret_repos []*models.ListRepoInfo
 	for i := 0; i < len(repos); i++ {
+		path := ""
+		path, err := util.GetDocumentPath(repos[i].Home, lang)
+		if err != nil {
+			log.Error().Err(err).Msgf("failed to find home for:%s", lang)
+		}
 		ret_repos = append(ret_repos,
 			&models.ListRepoInfo{
 				RepoId:          repos[i].RepoID,
@@ -119,6 +134,7 @@ func convertQueryUserOwnRepo(repos []db.QueryUserOwnRepoRow, username string) []
 				LikeCount:       int32(repos[i].LikeCount),
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
+				Home:            path,
 			},
 		)
 	}

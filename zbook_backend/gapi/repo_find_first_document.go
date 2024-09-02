@@ -34,25 +34,21 @@ func (server *Server) GetFirstDocument(ctx context.Context, req *rpcs.GetFirstDo
 		return nil, err
 	}
 
-	arg_config := db.GetRepoConfigParams{Username: req.GetUsername(), RepoName: req.GetRepoName()}
-	repo_config, err := server.store.GetRepoConfig(ctx, arg_config)
+	arg_config := db.GetRepoHomeParams{Username: req.GetUsername(), RepoName: req.GetRepoName()}
+	homes, err := server.store.GetRepoHome(ctx, arg_config)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "get repo config not found error: %s", err)
 		}
 		return nil, status.Errorf(codes.Internal, "GetRepoConfig error : %s", err)
 	}
-	config, err := util.ParseRepoConfigFromString(repo_config.Config)
+	path, err := util.GetDocumentPath(homes, req.GetLang())
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "ParseRepoConfigFromString error : %s", err)
-	}
-	relative_path, err := config.GetFirstDocument(req.GetLang())
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "GetFirstDocument error : %s", err)
+		return nil, status.Errorf(codes.Internal, "parse home error : %s", err)
 	}
 
 	rsp := &rpcs.GetFirstDocumentResponse{
-		RelativePath: relative_path,
+		RelativePath: path,
 	}
 	return rsp, nil
 }

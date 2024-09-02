@@ -16,7 +16,7 @@ export default async function RepoPage({
   params,
   searchParams,
 }: {
-  params: { username: string };
+  params: { username: string; locale: string };
   searchParams?: { query?: string; page?: string };
 }) {
   return (

@@ -64,6 +64,7 @@ export default function ListElementContainer({
         is_liked={model.is_liked ?? false}
         created_at={model.created_at}
         listType={listType}
+        home={model.home ?? ""}
       />
     );
   } else if (listType === ListDataType.LIST_ADMIN_USER) {

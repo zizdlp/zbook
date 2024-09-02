@@ -1,6 +1,7 @@
 package util
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -74,4 +75,49 @@ func (config *RepoConfig) GetFirstDocument(lang string) (string, error) {
 	}
 
 	return "", fmt.Errorf("no documents found for language: %s", lang)
+}
+func (config *RepoConfig) GetFirstDocumentMap() (map[string]string, error) {
+	// 初始化返回的 map
+	firstDocs := make(map[string]string)
+
+	// 遍历所有的语言
+	for lang := range config.Layout {
+		// 获取当前语言的第一个文档
+		doc, err := config.GetFirstDocument(lang)
+		if err != nil {
+			// 如果找不到文档，跳过这个语言
+			continue
+		}
+		// 将语言和文档路径添加到 map 中
+		firstDocs[lang] = doc
+	}
+
+	// 如果没有找到任何文档，返回错误
+	if len(firstDocs) == 0 {
+		return nil, fmt.Errorf("no documents found for any language")
+	}
+
+	return firstDocs, nil
+}
+
+// GetDocumentPath 根据请求的语言从 JSON 字符串中获取文档路径，如果找不到则使用默认语言。
+func GetDocumentPath(homes string, lang string) (string, error) {
+	var restoredDocs map[string]string
+	err := json.Unmarshal([]byte(homes), &restoredDocs)
+	if err != nil {
+		return "", fmt.Errorf("parse home error : %s", err)
+	}
+
+	// 获取请求的语言文档路径
+	path, ok := restoredDocs[lang]
+	if !ok {
+		// 如果找不到请求的语言，尝试获取默认语言的文档路径
+		path, ok = restoredDocs["default"]
+		if !ok {
+			// 如果还找不到默认语言的文档路径，返回错误
+			return "", fmt.Errorf("document not found for language: %s", lang)
+		}
+	}
+
+	return path, nil
 }

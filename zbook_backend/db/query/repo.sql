@@ -18,7 +18,7 @@ RETURNING *;
 
 -- name: UpdateRepoConfig :exec
 UPDATE repos
-SET config=$2,commit_id=$3,updated_at=now()
+SET config=$2,commit_id=$3,home=$4,updated_at=now()
 WHERE repo_id = $1;
 
 -- name: UpdateRepoInfo :one
@@ -54,7 +54,12 @@ JOIN users on users.user_id= repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2;
 
 -- name: GetRepoConfig :one
-SELECT repos.repo_id,config,repos.user_id,visibility_level,repos.theme_sidebar,repos.theme_color FROM repos
+SELECT repos.repo_id,config,repos.user_id,visibility_level,repos.theme_sidebar,repos.theme_color,repos.home FROM repos
+JOIN users on users.user_id = repos.user_id
+WHERE users.username=$1 AND repos.repo_name=$2;
+
+-- name: GetRepoHome :one
+SELECT repos.home FROM repos
 JOIN users on users.user_id = repos.user_id
 WHERE users.username=$1 AND repos.repo_name=$2;
 

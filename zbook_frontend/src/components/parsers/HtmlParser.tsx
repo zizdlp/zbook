@@ -290,7 +290,7 @@ const parseHTMLString = (
         return (
           <iframe
             key={randomKey}
-            {...props}
+            src={props.src}
             className="w-full embed-video my-[1.25em] rounded-md"
           >
             {Array.from(node.childNodes).map(processNode)}
