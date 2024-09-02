@@ -92,6 +92,8 @@
     "SearchUser": "根据用户名搜索用户..."
   },
   "DataList": {
+    "Add": "添加",
+    "Remove": "移除",
     "Comment": "评论",
     "SearchPublicRepoTip": "根据仓库名搜索公开仓库...",
     "NoPublicRepoTip": "无公开仓库",

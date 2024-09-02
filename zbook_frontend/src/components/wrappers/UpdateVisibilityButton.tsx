@@ -2,6 +2,7 @@
 
 import { fetchServerWithAuthWrapper } from "@/fetchs/server_with_auth";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { MdOutlineVisibilityOff, MdVisibility } from "react-icons/md";
 export default function UpdateVisibleButton({
@@ -16,7 +17,7 @@ export default function UpdateVisibleButton({
   is_visible: boolean;
 }) {
   const [isVisible, setIsVisible] = useState(is_visible);
-
+  const t = useTranslations("DataList");
   async function updateFollowStatus() {
     if (isVisible) {
       fetchServerWithAuthWrapper({
@@ -56,7 +57,7 @@ export default function UpdateVisibleButton({
     >
       {isVisible ? <MdVisibility /> : <MdOutlineVisibilityOff />}
       <span className="flex-1 whitespace-nowrap">
-        {isVisible ? "取消" : "添加"}
+        {isVisible ? t("Add") : t("Remove")}
       </span>
     </div>
   );

@@ -87,6 +87,8 @@
     "ResourceDistribution": "resource distribution"
   },
   "DataList": {
+    "Add": "add",
+    "Remove": "remove",
     "Comment": "comment",
     "SearchPublicRepoTip": "search public repo by repo name...",
     "NoPublicRepoTip": "No Public Repository",
