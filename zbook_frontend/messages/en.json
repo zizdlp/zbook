@@ -143,7 +143,7 @@
     "SideBarTheme": "SideBar Theme",
     "ChooseSideBarTheme": "Choose SideBar Theme",
     "ThemeSideBarFold": "Fold",
-    "ThemeSideBarUnFold": "ThemeSideBarUnFold",
+    "ThemeSideBarUnFold": "UnFold",
     "GitProtocol": "https://",
     "InvalidRepoName": "Repository name is invalid",
     "Required": "Required",
