@@ -31,7 +31,7 @@ const options: HTMLReactParserOptions = {
                 </table>
               </div>
             </div>
-            <div className="absolute inset-0 pointer-events-none border border-black/5 rounded-xl dark:border-white/5"></div>
+            <div className="absolute inset-0 pointer-events-none border border-black/10 rounded-xl dark:border-white/5"></div>
           </div>
         </div>
       );
@@ -104,7 +104,7 @@ const options: HTMLReactParserOptions = {
         const index = siblings.indexOf(domNode);
 
         let className =
-          "border-b border-slate-100 dark:border-slate-700 p-4  text-left font-normal text-sm";
+          "border-b border-slate-200 dark:border-slate-700 p-4  text-left font-normal text-sm";
 
         if (index === 0) {
           className += " pl-8";
