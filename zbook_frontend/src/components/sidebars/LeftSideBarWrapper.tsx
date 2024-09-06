@@ -16,7 +16,7 @@ export default function LeftSideBarWrapper({
 
       <div className="hidden lg:block">
         <div
-          className={`z-40 hidden lg:block fixed bottom-0 right-auto w-[19.5rem]  top-[46px] lg:top-[54px]`}
+          className={`z-40 hidden lg:block fixed bottom-0 right-auto w-[18.5rem] top-[46px] lg:top-[54px]`}
         >
           {children}
         </div>
