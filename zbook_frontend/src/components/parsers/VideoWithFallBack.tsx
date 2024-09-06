@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { FaVideo, FaVideoSlash } from "react-icons/fa";
 
-const VideoWithFallBack = ({ src, alt }: { src: string; alt: string }) => {
+const VideoWithFallBack = ({ src }: { src: string }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
 

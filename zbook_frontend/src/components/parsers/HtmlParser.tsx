@@ -288,20 +288,7 @@ const parseHTMLString = (
           </strong>
         );
       } else if (tagName === "IFRAME") {
-        return (
-          <VideoWithFallBack
-            src={props.src}
-            alt="Landscape picture"
-            key={randomKey}
-          />
-          // <iframe
-          //   key={randomKey}
-          //   src={props.src}
-          //   className="w-full embed-video my-[1.25em] rounded-md"
-          // >
-          //   {Array.from(node.childNodes).map(processNode)}
-          // </iframe>
-        );
+        return <VideoWithFallBack src={props.src} key={randomKey} />;
       }
     } else if (node instanceof window.Text) {
       // 处理文本节点
