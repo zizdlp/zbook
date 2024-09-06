@@ -10,6 +10,7 @@ import ImageWithFallback from "./ImageWithFallback";
 import { ThemeColor } from "../TableOfContent";
 import { headers } from "next/headers";
 import { getAdmonitionType } from "@/utils/util";
+import VideoWithFallBack from "./VideoWithFallBack";
 interface Attribute {
   name: string;
   value: string;
@@ -288,13 +289,18 @@ const parseHTMLString = (
         );
       } else if (tagName === "IFRAME") {
         return (
-          <iframe
-            key={randomKey}
+          <VideoWithFallBack
             src={props.src}
-            className="w-full embed-video my-[1.25em] rounded-md"
-          >
-            {Array.from(node.childNodes).map(processNode)}
-          </iframe>
+            alt="Landscape picture"
+            key={randomKey}
+          />
+          // <iframe
+          //   key={randomKey}
+          //   src={props.src}
+          //   className="w-full embed-video my-[1.25em] rounded-md"
+          // >
+          //   {Array.from(node.childNodes).map(processNode)}
+          // </iframe>
         );
       }
     } else if (node instanceof window.Text) {

@@ -34,7 +34,7 @@ export default function CodeBlock({
   }, [codeString, t]);
 
   return (
-    <div className="relative z-10 my-[1.25em] pb-1 col-span-3 font-base rounded-md dark:bg-slate-800/50 dark:ring-1 ring-slate-200/50 dark:ring-slate-900/10 border-[0.01rem] border-slate-300 dark:border-0">
+    <div className="relative z-10 my-[1.25em] md:pb-4 pb-2 col-span-3 font-base rounded-md dark:bg-slate-800/50 dark:ring-1 ring-slate-200/50 dark:ring-slate-900/10 border-[0.01rem] border-slate-300 dark:border-0">
       <div className="relative py-1 md:py-2 space-x-4 rounded-t-md flex items-center justify-center text-slate-400 text-xs md:text-sm leading-6 border-b-[0.01rem] border-slate-300 dark:border-slate-700/30 dark:bg-slate-800/50">
         <div className="relative ml-2 md:ml-4 w-7 h-7 rounded-full text-white flex items-center justify-center">
           <AiFillCode className="w-5 h-5 md:w-6 md:h-6 text-slate-500 dark:text-slate-200" />
@@ -49,7 +49,7 @@ export default function CodeBlock({
           />
         </div>
       </div>
-      <div className="highlight px-2 md:px-4 mt-1 text-xs md:text-sm text-slate-800 dark:text-slate-200 scrollbar-thin scrollbar-thumb-rounded-md scrollbar-track-rounded-md overflow-auto">
+      <div className="highlight px-2 md:px-4 mt-2 md:mt-4 text-xs md:text-sm text-slate-800 dark:text-slate-200 scrollbar-thin scrollbar-thumb-rounded-md scrollbar-track-rounded-md overflow-auto">
         {lang === "mermaid" ? (
           <CodeMermaid graphDefinition={codeString} />
         ) : (
