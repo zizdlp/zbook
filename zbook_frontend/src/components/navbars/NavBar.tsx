@@ -12,7 +12,7 @@ export default async function NavBar() {
   return (
     <div
       className="sticky top-0 flex justify-center z-50 
-      xl:border-b border-slate-900/10 dark:border-slate-50/[0.06] print:hidden
+      border-b border-slate-900/10 dark:border-slate-50/[0.06] print:hidden
       backdrop-blur-xl xl:backdrop-blur supports-backdrop-blur:bg-white/60 bg-transparent"
     >
       <div

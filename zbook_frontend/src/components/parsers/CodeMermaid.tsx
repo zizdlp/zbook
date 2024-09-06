@@ -105,7 +105,6 @@ function CodeMermaid({ graphDefinition }: { graphDefinition: string }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted, resolvedTheme, mutationToggleTheme]);
-
   if (!mounted) {
     return (
       <MdOutlineCode className="w-full h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
