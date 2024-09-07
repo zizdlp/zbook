@@ -54,7 +54,7 @@ To run a local version of this project, please follow these simple steps.
 
 3. Then open the space in your web browser, using <http://localhost:3000/>
 
-4. 🍻 To use email services and third-party account login, please apply first. For details, please refer to [ZBook User Guide](https://github.com/zizdlp/zbook-user-guide).
+4. 🍻 To use email services and third-party account login, please apply first. For details, please refer to [ZBook Documentation](https://github.com/zizdlp/zbook-docs).
 
 ### CI and testing
 
@@ -89,7 +89,7 @@ ZBook does **not support online editing**. We believe that tools like Git in loc
 
 ## Deployment
 
-For privacy and other reasons (for private repositories, you may need to input an access token; although GitHub supports fine-grained access tokens that can grant specific permissions to specific repositories, such as read-only), we encourage you to deploy ZBook yourself. You can use docker-compose or a k8s cluster for deployment. For details, please refer to the [ZBook User Guide](https://github.com/zizdlp/zbook-user-guide).
+For privacy and other reasons (for private repositories, you may need to input an access token; although GitHub supports fine-grained access tokens that can grant specific permissions to specific repositories, such as read-only), we encourage you to deploy ZBook yourself. You can use docker-compose or a k8s cluster for deployment. For details, please refer to the [ZBook Documentation](https://github.com/zizdlp/zbook-docs).
 
 ## License
 
