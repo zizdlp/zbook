@@ -109,5 +109,6 @@ compose_build:
 	docker-compose --env-file compose.env -f docker-compose-build.yaml up  --remove-orphans 
 compose_pull:
 	docker-compose --env-file compose.env -f docker-compose-pull.yaml down --volumes
+	docker-compose --env-file compose.env -f docker-compose-pull.yaml pull
 	docker-compose --env-file compose.env -f docker-compose-pull.yaml up --remove-orphans
 .PHONY: database createdb dropdb migrateup migratedown sqlc mock test server next compose
