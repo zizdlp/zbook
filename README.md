@@ -49,7 +49,7 @@ To run a local version of this project, please follow these simple steps.
 2. Build & run your local development server
 
     ```shell
-    make compose
+    make compose_pull
     ```
 
 3. Then open the space in your web browser, using <http://localhost:3000/>

@@ -50,7 +50,7 @@
 2. 构建并运行本地开发服务器
 
     ```shell
-    make compose
+    make compose_pull
     ```
 
 3. 然后在你的网页浏览器中打开 <http://localhost:3000/>
