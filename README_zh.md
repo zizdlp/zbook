@@ -55,7 +55,7 @@
 
 3. 然后在你的网页浏览器中打开 <http://localhost:3000/>
 
-4. 🍻 要使用电子邮件服务和第三方账户登录，请先申请。详情请参阅 [ZBook 用户指南](https://github.com/zizdlp/zbook-user-guide).
+4. 🍻 要使用电子邮件服务和第三方账户登录，请先申请。详情请参阅 [ZBook 文档](https://github.com/zizdlp/zbook-docs).
 
 ### CI 和测试
 
@@ -90,7 +90,7 @@ ZBook 不支持**在线编辑**。我们认为 Git 在本地环境如 VS Code �
 
 ## 部署
 
-由于隐私和其他原因（对于私人仓库，你可能需要输入访问令牌；虽然 GitHub 支持细粒度访问令牌，可以授予特定仓库的特定权限，例如只读），我们鼓励你自行部署 ZBook。你可以使用 Docker Compose 或 k8s 集群进行部署。详情请参阅 [ZBook 用户指南](https://github.com/zizdlp/zbook-user-guide)。
+由于隐私和其他原因（对于私人仓库，你可能需要输入访问令牌；虽然 GitHub 支持细粒度访问令牌，可以授予特定仓库的特定权限，例如只读），我们鼓励你自行部署 ZBook。你可以使用 Docker Compose 或 k8s 集群进行部署。详情请参阅 [ZBook 文档](https://github.com/zizdlp/zbook-docs)。
 
 ## 许可
 

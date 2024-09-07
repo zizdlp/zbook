@@ -7,4 +7,5 @@ export enum FetchServerWithoutAuthWrapperEndPoint {
   LOGIN_USER = "login_user",
   LOGIN_BY_OAUTH = "login_by_oauth",
   LOG_VISITOR = "log_visitor",
+  AUTO_SYNC_REPO = "auto_sync_repo",
 }

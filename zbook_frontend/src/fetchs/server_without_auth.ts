@@ -13,6 +13,7 @@ import {
   createUserRequest,
   refreshTokenRequest,
   LogVisitorRequest,
+  AutoSyncRepoRequest,
 } from "./server_without_auth_request";
 import { FetchServerWithoutAuthWrapperEndPoint } from "./server_without_auth_util";
 import { fetchServer } from "./server_with_auth";
@@ -67,6 +68,17 @@ export async function fetchServerWithoutAuthWrapper({
 }: {
   endpoint: FetchServerWithoutAuthWrapperEndPoint.SEND_EMAIL_TO_RESET_PASSWORD;
   values: SendEmailToResetPasswordRequest;
+  xforward: string;
+  agent: string;
+}): Promise<any>;
+export async function fetchServerWithoutAuthWrapper({
+  endpoint,
+  values,
+  xforward,
+  agent,
+}: {
+  endpoint: FetchServerWithoutAuthWrapperEndPoint.AUTO_SYNC_REPO;
+  values: AutoSyncRepoRequest;
   xforward: string;
   agent: string;
 }): Promise<any>;

@@ -26,6 +26,11 @@ interface LoginUserRequest {
   email: string;
   password: string;
 }
+interface AutoSyncRepoRequest {
+  username: string;
+  repo_name: string;
+  sync_token: string;
+}
 interface LoginByOAuthRequest {
   oauth_type: string;
   app_id: string;
@@ -42,4 +47,5 @@ export type {
   LoginUserRequest,
   LoginByOAuthRequest,
   LogVisitorRequest,
+  AutoSyncRepoRequest,
 };
