@@ -169,7 +169,7 @@ export default function TableOfContent(props: TableOfContentProps) {
         {/* 确保父元素具有固定高度或最大高度 */}
         <div className="h-full">
           {/* 子元素充满父元素的高度 */}
-          <div className="text-gray-600 dark:text-gray-200 font-medium flex items-center space-x-2">
+          <div className="text-gray-600 dark:text-gray-200 font-medium flex items-center space-x-2 pb-3">
             <LuListMinus className="h-4 w-4" />
             <span>{t("OnThisPage")}</span>
           </div>
