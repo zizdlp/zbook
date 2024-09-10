@@ -57,7 +57,7 @@ const parseHTMLString = (
         if (level == 1) {
           return (
             <div key={randomKey}>
-              <div className={`h-5 ${activeClass} text-sm font-semibold`}>
+              <div className={`h-5 ${activeClass} text-sm font-semibold pb-4`}>
                 {prefixPath}
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold">
