@@ -1,9 +1,9 @@
 import { FooterSocial } from "@/types/interface";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/navigation";
-import IconFilter from "./IconFilter";
 import TimeElement from "./TimeElement";
 import { ThemeColor } from "./TableOfContent";
+import IconItem from "./IconComponent";
 export default async function MainContentFooter({
   prev,
   next,
@@ -66,9 +66,9 @@ export default async function MainContentFooter({
         <div className="flex mb-6 space-x-3 sm:mb-0">
           {footers?.map((footer: FooterSocial, index: any) => (
             <Link key={index} className="group" href={footer.url}>
-              <IconFilter
-                icon_name={footer.icon}
-                class_name="h-5 w-5 fill-slate-500 group-hover:fill-slate-700"
+              <IconItem
+                iconName={footer.icon}
+                className="h-5 w-5 fill-slate-500 group-hover:fill-slate-700"
               />
             </Link>
           ))}

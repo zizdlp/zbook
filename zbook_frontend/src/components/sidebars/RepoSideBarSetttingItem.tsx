@@ -1,8 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { IconType } from "react-icons/lib";
 import { ThemeColor } from "../TableOfContent";
+import IconItem from "../IconComponent";
 function getSettingColorClasses(color: ThemeColor) {
   return {
     hoverClass: `group-hover:bg-${color}-500`,
@@ -14,33 +13,20 @@ export default function RepoSideBarSettingItem({
   href,
   selected,
   text,
-  icon,
+  icon_name,
   theme_color,
   onClick,
 }: {
   href: string;
   selected: boolean;
   text: string;
-  icon: IconType;
+  icon_name: string;
   theme_color: ThemeColor;
   onClick?: any;
 }) {
   let { hoverClass, selectedClass, selectBgClass } =
     getSettingColorClasses(theme_color);
-  const t = useTranslations("SideBar");
-  const IconText = ({
-    Icon,
-    selected,
-  }: {
-    Icon: IconType;
-    selected: boolean;
-  }) => (
-    <Icon
-      className={`h-4 w-4  ${
-        selected ? "fill-white" : "group-hover:fill-white"
-      }`}
-    />
-  );
+
   return (
     <li onClick={onClick}>
       <a
@@ -63,7 +49,12 @@ export default function RepoSideBarSettingItem({
             }
           `}
         >
-          <IconText Icon={icon} selected={selected} />
+          <IconItem
+            iconName={icon_name}
+            className={`h-4 w-4  ${
+              selected ? "fill-white" : "group-hover:fill-white"
+            }`}
+          />
         </div>
         {text}
       </a>

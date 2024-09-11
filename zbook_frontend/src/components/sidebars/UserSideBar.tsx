@@ -8,7 +8,6 @@ import UserSideBarSocial from "./UserSideBarSocial";
 import UserSideBarAdmin from "./UserSideBarAdmin";
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import { getTranslations } from "next-intl/server";
-import SomeThingWrong from "../SomeThingWrong";
 import { FetchError } from "@/fetchs/util";
 import { logger } from "@/utils/logger";
 import OAuthWrapper from "./OAuthWrapper";

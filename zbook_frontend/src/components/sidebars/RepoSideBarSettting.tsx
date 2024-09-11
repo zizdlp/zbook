@@ -1,6 +1,5 @@
 "use client";
 import { toast } from "react-toastify";
-import { IoBook } from "react-icons/io5";
 import {
   fetchServerWithAuthWrapper,
   refreshPage,
@@ -8,10 +7,8 @@ import {
 import { FetchServerWithAuthWrapperEndPoint } from "@/fetchs/server_with_auth_util";
 import { useTranslations } from "next-intl";
 import { FetchError } from "@/fetchs/util";
-import { MdCloudSync, MdOutlineVisibility } from "react-icons/md";
 import { Anchor } from "@/types/interface";
 import RepoSideBarSettingItem from "./RepoSideBarSetttingItem";
-import { FaDiscord, FaGithub } from "react-icons/fa";
 import { ThemeColor } from "../TableOfContent";
 import { usePathname } from "@/navigation";
 export default function RepoSideBarSetting({
@@ -85,7 +82,7 @@ export default function RepoSideBarSetting({
       <RepoSideBarSettingItem
         href={`/workspace/${username}/o/${reponame}/${first_path}`}
         selected={page_type != "~visi"}
-        icon={IoBook}
+        icon_name={"IoBook"}
         text={t("RepoHome")}
         theme_color={theme_color}
       />
@@ -97,7 +94,7 @@ export default function RepoSideBarSetting({
             }}
             selected={false}
             href="#"
-            icon={MdCloudSync}
+            icon_name={"MdCloudSync"}
             text={t("SyncRepo")}
             theme_color={theme_color}
           />
@@ -107,7 +104,7 @@ export default function RepoSideBarSetting({
               href={`/workspace/${username}/o/${reponame}/~visi`}
               text={t("VisibleTo")}
               selected={page_type == "~visi"}
-              icon={MdOutlineVisibility}
+              icon_name={"MdOutlineVisibility"}
               theme_color={theme_color}
             />
           )}
@@ -118,7 +115,7 @@ export default function RepoSideBarSetting({
           key={index}
           href={item.url}
           selected={false}
-          icon={item.icon == "github" ? FaGithub : FaDiscord}
+          icon_name={item.icon}
           text={item.name}
           theme_color={theme_color}
         />
