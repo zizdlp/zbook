@@ -1,4 +1,4 @@
-# pull request
+# pull request guidelines
 
 - Describe the changes you made to the project.
 
