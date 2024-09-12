@@ -8,6 +8,7 @@ import { usePathname, Link, locales } from "../../navigation";
 const localeMap = {
   en: "English",
   zh: "简体中文",
+  de: "Deutsch",
   // Add other locales here
 };
 export default function NavLink() {

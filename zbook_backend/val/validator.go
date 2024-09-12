@@ -47,7 +47,7 @@ func ValidateRepoSideBarTheme(value string) error {
 	return nil
 }
 func ValidateLang(value string) error {
-	if value != util.LangEn && value != util.LangZh {
+	if value != util.LangEn && value != util.LangZh && value != util.LangDe {
 		return fmt.Errorf("invalid language")
 	}
 	return nil
