@@ -89,7 +89,7 @@ export default async function AdminOverviewPage({
                   <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
                     {visitors?.length ?? 0}
                   </h5>
-                  <p className="text-base font-normal text-gray-500 dark:text-gray-400">
+                  <p className="text-base font-normal text-gray-500 dark:text-gray-400 overflow-scroll">
                     {t("VisitorRegion")}
                   </p>
                 </div>

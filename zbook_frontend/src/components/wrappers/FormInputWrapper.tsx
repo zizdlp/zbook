@@ -17,7 +17,7 @@ export default function FormInputWrapper({
       placeholder={placeholder}
       autoComplete="on"
       className={`p-3 rounded-md border border-slate-300 dark:border-slate-500  dark:text-slate-400 grow  dark:bg-slate-800 w-full text-sm
-      placeholder:text-slate-400/75 dark:placeholder:text-slate-500/75 placeholder:text-sm  placeholder:font-base 
+      placeholder:text-slate-400/75 dark:placeholder:text-slate-500/75 placeholder:text-sm  placeholder:font-base
          ${
            error
              ? "focus:outline-pink-400 dark:focus:outline-pink-600 outline-1"

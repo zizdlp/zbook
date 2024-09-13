@@ -40,6 +40,7 @@ export default function AreaVisitorChart({
       ).reverse();
       setDates(generatedDates);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const totalCount = counts.reduce((sum, count) => sum + count, 0);

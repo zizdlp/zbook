@@ -70,6 +70,9 @@ ZBook 完全开源，并建立在 [Next.js](https://nextjs.org/)，[Golang](http
 
 ZBook 的用户界面使用一组翻译文件进行渲染，这些文件可以在 [`zbook_frontend/messages`](/zbook_frontend/messages/) 中找到。我们欢迎所有 UI 的额外翻译。
 
+如果您想提交新的语言支持，请首先参考文档 [语言支持](https://github.com/zizdlp/zbook-docs/blob/main/Development/LanguageSupport.md)，跟随其中的相关步骤修改代码。此外，可以参考这些提交: `ec05f3a1d75d3f88619489a44f77104a37295ba3`,
+`92e4b2933a9e23d08c15042b9b9085f4fea556f7`
+
 #### 错误
 
 遇到错误或找到你想修复的问题？帮助我们修复与 ZBook 相关的问题可以极大地改善所有人的体验。前往本仓库的问题部分，了解你可以帮助解决的错误类型。
@@ -87,6 +90,15 @@ ZBook 的用户界面使用一组翻译文件进行渲染，这些文件可以�
 不支持:
 
 ZBook 不支持**在线编辑**。我们认为 Git 在本地环境如 VS Code 和 Typora 中的工具足以用于编辑和协作内容。在线编辑不是必需的。此外，启用在线编辑需要授予 Git 仓库写权限，这可能带来**安全风险**。
+
+### TODO
+
+zbook计划支持如下功能：
+
+- [ ] 分支切换，动机是合并main分支之前，可以先查看特定分支的显示效果
+- [ ] 类似mkdocs的风格扩展
+- [ ] github 风格的admonition
+- [ ] mkdocs 风格的折叠式admonition
 
 ## 部署
 

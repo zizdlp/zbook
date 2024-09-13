@@ -69,6 +69,9 @@ We encourage you to contribute to ZBook to help us build the best tool for docum
 
 The ZBook UI is rendered using a set of translation files found in [`zbook_frontend/messages`](/zbook_frontend/messages/). We welcome all additional translations for the UI.
 
+If you are submitting new language support, please first refer to the documentation [Language Support](https://github.com/zizdlp/zbook-docs/blob/main/Development/LanguageSupport.md) and follow the necessary procedures. You can refer to these commits: `ec05f3a1d75d3f88619489a44f77104a37295ba3`,
+`92e4b2933a9e23d08c15042b9b9085f4fea556f7`
+
 #### Bugs
 
 Encounter a bug or find an issue you'd like to fix? Helping us fix issues related to ZBook greatly improves the experience for everyone. Head to the issues section of this repository to learn more about the types of bugs you can already help out with.
@@ -86,6 +89,15 @@ Support:
 Not Support:
 
 ZBook does **not support online editing**. We believe that tools like Git in local environments such as VS Code and Typora are sufficient for editing and collaborating on content. **Online editing is not essential** in our view. Additionally, enabling online editing would require granting write permissions to Git repositories, which could pose **security risks**.
+
+### TODO
+
+ZBook plans to support the following features:
+
+- [ ] Branch switching, allowing users to preview specific branches before merging into the main branch.
+- [ ] MkDocs-style theme extensions.
+- [ ] GitHub-style admonitions.
+- [ ] MkDocs-style collapsible admonitions.
 
 ## Deployment
 

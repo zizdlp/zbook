@@ -58,6 +58,7 @@ export default function AreaUserChart({
     }).then((data) => {
       setActiveUserCounts(data.counts);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const t = useTranslations("AdminOverView");
@@ -82,7 +83,7 @@ export default function AreaUserChart({
         <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
           {t("DailyUsers")}
         </h5>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 overflow-scroll">
           <EnableElement
             config_name="allow_login"
             label={t("allow_login")}

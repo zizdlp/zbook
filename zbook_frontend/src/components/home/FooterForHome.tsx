@@ -4,6 +4,7 @@ import { Link } from "@/navigation";
 import { getTranslations } from "next-intl/server";
 import { beian, doc_reponame, doc_username } from "@/utils/env_variable";
 import { IconType } from "react-icons/lib";
+import IconItem from "../IconComponent";
 
 const SocialLink = ({
   href,
@@ -97,29 +98,29 @@ export default async function FooterForHome() {
     {
       href: "https://discord.com/channels/1250069935594536960/1250069935594536963",
       ariaLabel: "ZBook on Discord",
-      icon: FaDiscord,
+      icon: "discord",
     },
     {
       href: "https://github.com/zizdlp/zbook",
       ariaLabel: "ZBook on GitHub",
-      icon: FaGithub,
+      icon: "github",
     },
     {
       href: "https://space.bilibili.com/1448262500",
       ariaLabel: "ZBook on Bilibili",
-      icon: FaBilibili,
+      icon: "bilibili",
     },
     {
       href: "https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg",
       ariaLabel: "ZBook on Youtube",
-      icon: FaYoutube,
+      icon: "youtube",
     },
   ];
 
   return (
     <footer className="bg-gradient-to-b from-[#e3d5b1] pt-16  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent text-slate-700 dark:text-slate-500">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-8 gap-4 gap-x-8 px-2 py-8">
+        <div className="grid grid-cols-8 gap-4 gap-x-8 px-2 py-8 overflow-scroll">
           {sections.map((section, index) => (
             <FooterSection
               key={index}
@@ -131,13 +132,18 @@ export default async function FooterForHome() {
 
         <div className="flex flex-col items-center border-t-[0.01rem] border-slate-400 dark:border-slate-700 py-10 sm:flex-row-reverse sm:justify-between">
           <div className="flex gap-x-6">
-            {socialLinks.map(({ href, ariaLabel, icon }) => (
-              <SocialLink
-                key={href}
+            {socialLinks.map(({ href, ariaLabel, icon }, index) => (
+              <Link
+                key={index}
+                className="group"
+                aria-label={ariaLabel}
                 href={href}
-                ariaLabel={ariaLabel}
-                Icon={icon}
-              />
+              >
+                <IconItem
+                  iconName={icon}
+                  className="h-5 w-5 fill-slate-500 group-hover:fill-slate-700"
+                />
+              </Link>
             ))}
           </div>
           {beian && (

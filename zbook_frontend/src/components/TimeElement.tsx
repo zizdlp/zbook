@@ -44,5 +44,5 @@ export default function TimeElement({ timeInfo }: { timeInfo: string }) {
       }
     }
   }
-  return <>{convertTime(timeInfo)}</>;
+  return <span className="whitespace-nowrap">{convertTime(timeInfo)}</span>;
 }
