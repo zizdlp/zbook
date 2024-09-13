@@ -132,14 +132,13 @@ export default async function FooterForHome() {
 
         <div className="flex flex-col items-center border-t-[0.01rem] border-slate-400 dark:border-slate-700 py-10 sm:flex-row-reverse sm:justify-between">
           <div className="flex gap-x-6">
-            {socialLinks.map(({ href, ariaLabel, icon }) => (
-              // <SocialLink
-              //   key={href}
-              //   href={href}
-              //   ariaLabel={ariaLabel}
-              //   Icon={icon}
-              // />
-              <Link className="group" aria-label={ariaLabel} href={href}>
+            {socialLinks.map(({ href, ariaLabel, icon }, index) => (
+              <Link
+                key={index}
+                className="group"
+                aria-label={ariaLabel}
+                href={href}
+              >
                 <IconItem
                   iconName={icon}
                   className="h-5 w-5 fill-slate-500 group-hover:fill-slate-700"

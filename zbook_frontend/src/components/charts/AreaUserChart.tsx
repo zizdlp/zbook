@@ -58,6 +58,7 @@ export default function AreaUserChart({
     }).then((data) => {
       setActiveUserCounts(data.counts);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const t = useTranslations("AdminOverView");
