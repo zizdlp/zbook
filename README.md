@@ -87,6 +87,15 @@ Not Support:
 
 ZBook does **not support online editing**. We believe that tools like Git in local environments such as VS Code and Typora are sufficient for editing and collaborating on content. **Online editing is not essential** in our view. Additionally, enabling online editing would require granting write permissions to Git repositories, which could pose **security risks**.
 
+### TODO
+
+ZBook plans to support the following features:
+
+- [ ] Branch switching, allowing users to preview specific branches before merging into the main branch.
+- [ ] MkDocs-style theme extensions.
+- [ ] GitHub-style admonitions.
+- [ ] MkDocs-style collapsible admonitions.
+
 ## Deployment
 
 For privacy and other reasons (for private repositories, you may need to input an access token; although GitHub supports fine-grained access tokens that can grant specific permissions to specific repositories, such as read-only), we encourage you to deploy ZBook yourself. You can use docker-compose or a k8s cluster for deployment. For details, please refer to the [ZBook Documentation](https://github.com/zizdlp/zbook-docs).

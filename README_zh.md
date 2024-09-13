@@ -88,6 +88,15 @@ ZBook 的用户界面使用一组翻译文件进行渲染，这些文件可以�
 
 ZBook 不支持**在线编辑**。我们认为 Git 在本地环境如 VS Code 和 Typora 中的工具足以用于编辑和协作内容。在线编辑不是必需的。此外，启用在线编辑需要授予 Git 仓库写权限，这可能带来**安全风险**。
 
+### TODO
+
+zbook计划支持如下功能：
+
+- [ ] 分支切换，动机是合并main分支之前，可以先查看特定分支的显示效果
+- [ ] 类似mkdocs的风格扩展
+- [ ] github 风格的admonition
+- [ ] mkdocs 风格的折叠式admonition
+
 ## 部署
 
 由于隐私和其他原因（对于私人仓库，你可能需要输入访问令牌；虽然 GitHub 支持细粒度访问令牌，可以授予特定仓库的特定权限，例如只读），我们鼓励你自行部署 ZBook。你可以使用 Docker Compose 或 k8s 集群进行部署。详情请参阅 [ZBook 文档](https://github.com/zizdlp/zbook-docs)。
