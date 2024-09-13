@@ -31,7 +31,7 @@ export default function EnableElement({
                   : t("TipInviation")
             }
           >
-            <div>{label}</div>
+            <span className="whitespace-nowrap">{label}</span>
           </ToolTip>
         </Switch.Label>
         <Switch

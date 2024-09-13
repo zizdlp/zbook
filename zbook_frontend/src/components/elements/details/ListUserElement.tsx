@@ -99,7 +99,11 @@ export default function ListUserElement({
             {listType == ListDataType.LIST_ADMIN_USER && (
               <ValueElement
                 tip={t("AccountVerification")}
-                content={verified ? t("Verified") : t("UnVerified")}
+                content={
+                  <span className="whitespace-nowrap">
+                    {verified ? t("Verified") : t("UnVerified")}
+                  </span>
+                }
               />
             )}
           </div>
