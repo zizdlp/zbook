@@ -87,7 +87,10 @@ export default async function UserSideBar({
           searchType={SearchType.USER_DOCUMENT}
         />
 
-        <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4">
+        <div
+          className="absolute inset-0 z-10 pb-10 pt-32 lg:pt-24 px-4
+        scrollbar scrollbar-thumb-sky-700 scrollbar-track-sky-300 overflow-y-scroll"
+        >
           <UserSideBarProfile
             avatar={data.user_image_info?.avatar}
             email={data.user_basic_info?.email}
