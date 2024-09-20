@@ -47,13 +47,21 @@ export default function ListRepoElement({
               className="flex-none w-8 h-8 rounded-full object-cover"
             />
 
-            <div className="flex flex-col justify-begin overflow-scroll">
+            <div
+              className="flex flex-col justify-begin overflow-x-scroll
+              scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+            scrollbar-thumb-slate-200 scrollbar-track-slate-100
+            dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+            >
               <Link
                 href={`/workspace/${username}/o/${repo_name}/${home}`}
                 className="cursor-pointer"
               >
                 <div
-                  className="text-sky-700 dark:text-sky-600 font-semibold text-base whitespace-nowrap overflow-scroll max-w-64
+                  className="text-sky-700 dark:text-sky-600 font-semibold text-base whitespace-nowrap overflow-x-scroll max-w-64
+                          scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+                        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+                        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]
                           hover:underline underline-offset-4 hover:text-sky-500 hover:dark:text-sky-500"
                 >
                   {repo_name}
