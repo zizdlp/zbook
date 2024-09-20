@@ -94,8 +94,9 @@ export default async function UserSideBar({
         <div
           className="absolute inset-0 z-10 pb-10 pt-32 lg:pt-24 px-4 overflow-y-scroll
           scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full
-  scrollbar-w-[1px]
-  scrollbar-thumb-red-700 scrollbar-track-red-300"
+  scrollbar-w-[6px]
+  scrollbar-thumb-slate-200 scrollbar-track-slate-100
+  dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
         >
           <UserSideBarProfile
             avatar={data.user_image_info?.avatar}
