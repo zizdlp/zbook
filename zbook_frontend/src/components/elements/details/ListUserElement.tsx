@@ -55,7 +55,11 @@ export default function ListUserElement({
                   {username}
                 </span>
               </Link>
-              <span className=" text-slate-700 dark:text-slate-400 text-xs overflow-scroll">
+              <span
+                className=" text-slate-700 dark:text-slate-400 text-xs overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+              >
                 {email}
               </span>
             </div>

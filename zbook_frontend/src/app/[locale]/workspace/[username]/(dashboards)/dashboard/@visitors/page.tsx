@@ -89,7 +89,11 @@ export default async function AdminOverviewPage({
                   <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
                     {visitors?.length ?? 0}
                   </h5>
-                  <p className="text-base font-normal text-gray-500 dark:text-gray-400 overflow-scroll">
+                  <p
+                    className="text-base font-normal text-gray-500 dark:text-gray-400 overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+                  scrollbar-thumb-slate-200 scrollbar-track-slate-100
+                  dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+                  >
                     {t("VisitorRegion")}
                   </p>
                 </div>
