@@ -5,12 +5,9 @@ import React, { useState, useEffect } from "react";
 import { LuListMinus } from "react-icons/lu";
 export enum ThemeColor {
   Violet = "violet",
-  Green = "green",
-  Red = "red",
   Yellow = "yellow",
   Teal = "teal",
   Sky = "sky",
-  Cyan = "cyan",
   Pink = "pink",
   Indigo = "indigo",
 }

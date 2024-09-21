@@ -233,7 +233,7 @@ const bgColorsMap = new Map<string, string>([
   ["note", "cyan"],
   ["warning", "yellow"],
   ["info", "green"],
-  ["tip", "lime"],
+  ["tip", "teal"],
   ["error", "red"],
 ]);
 

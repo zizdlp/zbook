@@ -53,7 +53,7 @@ func ValidateLang(value string) error {
 	return nil
 }
 func ValidateRepoThemeColor(value string) error {
-	if value != util.ThemeColorViolet && value != util.ThemeColorGreen && value != util.ThemeColorRed && value != util.ThemeColorYellow && value != util.ThemeColorTeal && value != util.ThemeColorSky && value != util.ThemeColorCyan && value != util.ThemeColorPink && value != util.ThemeColorIndigo {
+	if value != util.ThemeColorViolet && value != util.ThemeColorYellow && value != util.ThemeColorTeal && value != util.ThemeColorSky && value != util.ThemeColorPink && value != util.ThemeColorIndigo {
 		return fmt.Errorf("invalid theme color")
 	}
 	return nil

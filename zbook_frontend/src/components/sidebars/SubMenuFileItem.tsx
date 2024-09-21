@@ -4,7 +4,7 @@ import { isSameUrl } from "@/utils/util";
 import { ThemeColor } from "../TableOfContent";
 function getSideBarColorClasses(color: ThemeColor) {
   return {
-    activeClass: `bg-${color}-400/10 text-${color}-900 font-semibold dark:text-${color}-400 dark:bg-${color}-500/10`,
+    activeClass: `font-semibold  bg-${color}-400/10 dark:bg-${color}-500/10 text-${color}-900 dark:text-${color}-400`,
   };
 }
 export default function SubMenuFileItem({
