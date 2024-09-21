@@ -87,7 +87,6 @@ export default async function MarkdownPage({
     const sectionIds = markdown.table_content
       ? parseMarkdownList(markdown.table_content)
       : [];
-
     return (
       <WikiInfo
         markdowntext={markdownText}

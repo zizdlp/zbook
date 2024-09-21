@@ -11,6 +11,7 @@ import { ThemeColor } from "../TableOfContent";
 import { headers } from "next/headers";
 import { getAdmonitionType } from "@/utils/util";
 import VideoWithFallBack from "./VideoWithFallBack";
+import MarkdownImageClient from "../ImageClient";
 interface Attribute {
   name: string;
   value: string;
@@ -211,7 +212,6 @@ const parseHTMLString = (
         );
       } else if (tagName === "IMG") {
         const srcAttribute = (node as Element).getAttribute("src");
-
         if (srcAttribute && srcAttribute.startsWith("http")) {
           return (
             <ImageWithFallback
@@ -222,19 +222,26 @@ const parseHTMLString = (
           );
         } else {
           return (
-            <Suspense
-              key={randomKey}
-              fallback={
-                <CiImageOn className="w-full my-[1.25em] h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
-              }
-            >
-              <MarkdownImage
-                path={prefixPath + "/" + srcAttribute}
-                username={username}
-                repo_name={repo_name}
-              />
-            </Suspense>
+            <MarkdownImageClient
+              path={prefixPath + "/" + srcAttribute}
+              username={username}
+              repo_name={repo_name}
+            />
           );
+          // return (
+          //   <Suspense
+          //     key={randomKey}
+          //     fallback={
+          //       <CiImageOn className="w-full my-[1.25em] h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
+          //     }
+          //   >
+          //     <MarkdownImage
+          //       path={prefixPath + "/" + srcAttribute}
+          //       username={username}
+          //       repo_name={repo_name}
+          //     />
+          //   </Suspense>
+          // );
         }
       } else if (tagName === "DEL") {
         return (
