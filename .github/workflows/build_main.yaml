@@ -3,7 +3,7 @@ name: BUILD_MAIN
 on:
   push:
     branches:
-      - feature/scroll
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
