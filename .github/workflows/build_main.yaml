@@ -3,13 +3,13 @@ name: BUILD_MAIN
 on:
   push:
     branches:
-      - main
+      - debug/loading
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [zbook_backend, zbook_database, zbook_frontend]
+        service: [zbook_frontend]
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
