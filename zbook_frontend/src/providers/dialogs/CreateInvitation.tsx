@@ -70,10 +70,7 @@ export default function CreateInvitation() {
       showDialog={createInvitationOpen}
       setShowDialog={setCreateInvitationOpen}
     >
-      <form
-        className="w-fll flex lg:block md:overflow-hidden grow  justify-center overflow-auto  items-center  px-4 py-4  text-slate-700"
-        onSubmit={formik.handleSubmit}
-      >
+      <form className="px-4 py-4 text-slate-700" onSubmit={formik.handleSubmit}>
         <div className="sm:overflow-hidden sm:rounded-md w-full">
           <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
             <div className="col-span-6 justify-center flex-center">
