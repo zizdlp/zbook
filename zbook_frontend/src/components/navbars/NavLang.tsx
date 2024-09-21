@@ -41,7 +41,11 @@ export default function NavLink() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute mt-2 max-h-60 w-36 overflow-auto rounded-md bg-white dark:bg-slate-800 py-1 text-base border-[0.01rem] dark:border-slate-600 ring-1 ring-black/5 focus:outline-none sm:text-sm right-0">
+          <Listbox.Options
+            className="absolute mt-2 max-h-60 w-36 overflow-y-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16] rounded-md bg-white dark:bg-slate-800 py-1 text-base border-[0.01rem] dark:border-slate-600 ring-1 ring-black/5 focus:outline-none sm:text-sm right-0"
+          >
             {locales.map((lang, langIdx) => (
               <Link
                 href={pathname}

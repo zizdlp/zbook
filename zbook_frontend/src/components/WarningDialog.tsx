@@ -18,8 +18,12 @@ export default function WarngingDialog({
 }) {
   return (
     <DialogComponent showDialog={showDialog} setShowDialog={setShowDialog}>
-      <header className="justify-center px-4 py-4 overflow-auto relative flex  text-slate-700 flex-row items-center border-b border-slate-300/75 dark:border-slate-800/75">
-        <div className="flex lg:block md:overflow-hidden grow  justify-center overflow-auto  items-center ">
+      <header
+        className="justify-center px-4 py-4 overflow-x-auto relative flex  text-slate-700 flex-row items-center border-b border-slate-300/75 dark:border-slate-800/75 scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+      >
+        <div className="flex lg:block md:overflow-hidden grow  justify-center overflow-auto  items-center">
           <div className="sm:overflow-hidden sm:rounded-md">
             <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
               <div className="col-span-6 justify-center flex-center">

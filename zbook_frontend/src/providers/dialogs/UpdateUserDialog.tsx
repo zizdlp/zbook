@@ -102,7 +102,7 @@ export default function UpdateUserDialog() {
       setShowDialog={setUpdateUserOpen}
     >
       <form className="px-4 py-4 text-slate-700" onSubmit={formik.handleSubmit}>
-        <div className="sm:overflow-hidden sm:rounded-md w-full">
+        <div className="sm:rounded-md w-full">
           <div className="grid grid-cols-6 gap-4 gap-x-8 p-2">
             <div className="col-span-6 justify-center flex-center">
               <label
@@ -160,7 +160,7 @@ export default function UpdateUserDialog() {
                 <label className="block w-full">
                   <div className="w-full cursor-pointer flex">
                     <div
-                      className=" flex items-center overflow-scroll justify-center text-sm font-semibold py-2 px-4 bg-sky-400 dark:bg-slate-700 text-white dark:text-slate-200 
+                      className="flex items-center justify-center text-sm font-semibold py-2 px-4 bg-sky-400 dark:bg-slate-700 text-white dark:text-slate-200 
                   rounded-full border-0 mr-4 hover:bg-sky-500 dark:hover:bg-sky-600 
                   focus:none focus:outline-sky-200 focus:rounded-full dark:focus:outline-1 dark:focus:outline-slate-700	focus:outline-dashed 
                   "

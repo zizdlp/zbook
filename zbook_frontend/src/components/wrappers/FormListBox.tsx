@@ -46,8 +46,10 @@ export default function FormListBox({
           leaveTo="opacity-0"
         >
           <Listbox.Options
-            className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm
-                    overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-md scrollbar-track-rounded-md z-50 dark:border dark:border-slate-700"
+            className="absolute mt-1 max-h-60 w-full rounded-md bg-white dark:bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm
+                    overflow-y-auto  scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16] z-50 dark:border dark:border-slate-700"
           >
             {options.map((option, optionIdx) => (
               <Listbox.Option

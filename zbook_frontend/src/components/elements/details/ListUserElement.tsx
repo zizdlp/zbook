@@ -49,7 +49,9 @@ export default function ListUserElement({
             <div className="flex flex-col justify-begin">
               <Link href={`/workspace/${username}`} className="cursor-pointer">
                 <span
-                  className="text-sky-700 dark:text-sky-600 font-semibold text-lg whitespace-nowrap overflow-scroll
+                  className="text-sky-700 dark:text-sky-600 font-semibold text-lg whitespace-nowrap overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]
                                 hover:underline underline-offset-4 hover:text-sky-500 hover:dark:text-sky-500"
                 >
                   {username}

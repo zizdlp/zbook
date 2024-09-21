@@ -192,7 +192,12 @@ const parseHTMLString = (
         }
       } else if (tagName === "P") {
         return (
-          <p key={randomKey} className="overflow-scroll">
+          <p
+            key={randomKey}
+            className="overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+          >
             {Array.from(node.childNodes).map(processNode)}
           </p>
         );

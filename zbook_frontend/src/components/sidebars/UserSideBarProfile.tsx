@@ -32,7 +32,11 @@ export default function UserSideBarProfile({
       </div>
 
       <blockquote className="text-slate-700 dark:text-slate-300 text-sm">
-        <p className="overflow-x-auto">
+        <p
+          className="overflow-x-auto  scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+        >
           <span className="font-bold pr-2 text-sm">{bio}</span>
           {motto}
         </p>

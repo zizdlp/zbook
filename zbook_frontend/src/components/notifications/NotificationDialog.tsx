@@ -99,17 +99,21 @@ export default function NotificationDialog() {
     return index == 0
       ? systemUnreadedCount
       : index == 1
-      ? followerUnreadedCount
-      : index == 2
-      ? repoUnreadedCount
-      : commentUnreadedCount;
+        ? followerUnreadedCount
+        : index == 2
+          ? repoUnreadedCount
+          : commentUnreadedCount;
   }
   return (
     <DialogComponent
       showDialog={notiDialogOpen}
       setShowDialog={setNotiDialogOpen}
     >
-      <header className="justify-center px-4 py-4 overflow-auto relative flex flex-row items-center">
+      <header
+        className="justify-center px-4 py-4 overflow-x-auto relative flex flex-row items-center scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+      >
         <p className="text-lg md:text-xl py-2 text-slate-800 dark:text-slate-100">
           {t("Notifications")}
         </p>
@@ -145,7 +149,9 @@ export default function NotificationDialog() {
           <Tab.Panels
             className="my-2
           rounded-lg md:rounded-xl bg-gray-200/75 dark:bg-gray-900/75 px-3 py-1
-          overflow-y-auto md:h-96 h-[30rem] scrollbar-thin  scrollbar-thumb-rounded-md scrollbar-track-rounded-md"
+          overflow-y-auto md:h-96 h-[30rem] scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
           >
             <Tab.Panel key={0} className={"h-full"}>
               <ListNotifications notificationType="systemNotification" />
