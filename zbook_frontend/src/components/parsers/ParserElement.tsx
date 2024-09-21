@@ -21,8 +21,12 @@ const options: HTMLReactParserOptions = {
               className="absolute inset-0 bg-grid-light dark:bg-grid-dark [mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.6))]  dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"
               style={{ backgroundPosition: "10px 10px" }} // 使用对象格式
             ></div>
-            <div className="relative rounded-xl overflow-auto">
-              <div className="shadow-sm my-8 overflow-scroll">
+            <div
+              className="relative rounded-xl overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+            >
+              <div className="shadow-sm my-8">
                 <table
                   className="border-collapse table-auto w-full text-sm"
                   {...props}

@@ -83,7 +83,11 @@ export default function AreaUserChart({
         <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
           {t("DailyUsers")}
         </h5>
-        <div className="flex space-x-2 overflow-scroll">
+        <div
+          className="flex space-x-2 overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+        >
           <EnableElement
             config_name="allow_login"
             label={t("allow_login")}

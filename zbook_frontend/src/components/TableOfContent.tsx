@@ -133,11 +133,13 @@ export default function TableOfContent(props: TableOfContentProps) {
             <a
               {...props}
               onClick={handleClick}
-              className={`group flex items-start py-1   ${hoverClass} overflow-scroll ${
-                get_act() === props.href.substring(1)
-                  ? activeClass
-                  : "dark:text-slate-400"
-              }`}
+              className={`group flex items-start py-1   ${hoverClass} overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16] ${
+          get_act() === props.href.substring(1)
+            ? activeClass
+            : "dark:text-slate-400"
+        }`}
             >
               {domToReact(domNode.children, html_parser_options_list)}
             </a>
@@ -147,11 +149,13 @@ export default function TableOfContent(props: TableOfContentProps) {
           <a
             {...props}
             onClick={handleClick}
-            className={`group flex items-start py-1  ${hoverClass} overflow-scroll ${
-              get_act() === props.href.substring(1)
-                ? activeClass
-                : "dark:text-slate-400"
-            }`}
+            className={`group flex items-start py-1  ${hoverClass} overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16] ${
+          get_act() === props.href.substring(1)
+            ? activeClass
+            : "dark:text-slate-400"
+        }`}
           >
             {domToReact(domNode.children, html_parser_options_list)}
           </a>
@@ -163,7 +167,9 @@ export default function TableOfContent(props: TableOfContentProps) {
   return (
     <RightSideBarWrapper>
       <div
-        className="fixed overflow-auto w-[16rem]"
+        className="fixed overflow-y-auto w-[16rem] scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
         style={{ height: "calc(100vh - 128px)" }}
       >
         {/* 确保父元素具有固定高度或最大高度 */}

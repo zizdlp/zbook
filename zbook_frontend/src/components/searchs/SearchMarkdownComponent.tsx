@@ -49,11 +49,15 @@ export default function SearchMarkdownComponent(props: ProfileProps) {
           }
           className="flex items-center justify-between w-full px-2"
         >
-          <div className="flex items-center justify-center overflow-scroll">
+          <div
+            className="flex items-center justify-center overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+          >
             <div className="p-2">
               <CgHashtag className="w-5 h-5" />
             </div>
-            <div className="flex-grow overflow-scroll">
+            <div className="flex-grow">
               <span>{props.MarkdownBasicInfo.relative_path}</span>
               <br />
               <span>

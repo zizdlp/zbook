@@ -22,7 +22,11 @@ export default function UserSideBarLoading({
         </div>
         <div className="h-4 bg-gradient-to-b from-white dark:from-slate-900"></div>
       </div>
-      <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4">
+      <div
+        className="absolute inset-0 z-10 overflow-y-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16] pb-10 pt-32 lg:pt-24 px-4"
+      >
         <div className="animate-pulse">
           <div className="flex flex-col items-center justify-center">
             <LoadingElement className="h-24 rounded-full w-24 my-2" />

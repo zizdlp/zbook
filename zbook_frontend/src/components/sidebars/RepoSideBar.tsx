@@ -40,7 +40,11 @@ export default function RepoSideBar({
         searchType={SearchType.REPO_DOCUMENT}
       />
 
-      <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4">
+      <div
+        className="absolute inset-0 z-10 overflow-y-auto  scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16] pb-10 pt-32 lg:pt-24 px-4"
+      >
         <div className="pt-4"></div>
         <ul id="navigation-items">
           <RepoSideBarSetting

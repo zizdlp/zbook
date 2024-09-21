@@ -14,7 +14,7 @@ export default function SearchFooter() {
             </span>
           </h1>
         </Link>
-        <Link href="/" className="flex-none overflow-hidden ">
+        <Link href="/" className="flex-none overflow-hidden">
           <picture>
             <Image
               src="/logo_128.png"

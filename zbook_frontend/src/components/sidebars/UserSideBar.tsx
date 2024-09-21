@@ -86,8 +86,12 @@ export default async function UserSideBar({
           repo_name=""
           searchType={SearchType.USER_DOCUMENT}
         />
-
-        <div className="absolute inset-0 z-10 overflow-auto pb-10 pt-32 lg:pt-24 px-4">
+        <div
+          className="absolute inset-0 z-10 pb-10 pt-32 lg:pt-24 px-4 overflow-y-auto
+          scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+        >
           <UserSideBarProfile
             avatar={data.user_image_info?.avatar}
             email={data.user_basic_info?.email}

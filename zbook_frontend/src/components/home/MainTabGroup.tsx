@@ -42,7 +42,11 @@ export default function MainTabGroup() {
   return (
     <div className="max-w-5xl mx-auto py-24 px-2 md:px-4 pb-2 md:pb-4">
       <Tab.Group>
-        <Tab.List className="flex space-x-1 p-1 max-w-xl lg:max-w-2xl mx-auto border border-[#65b1e8]/50 rounded-full overflow-scroll">
+        <Tab.List
+          className="flex space-x-1 p-1 max-w-xl lg:max-w-2xl mx-auto border border-[#65b1e8]/50 rounded-full overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+        >
           {categories.map(({ label, icon: Icon }, index) => (
             <Tab
               key={index}

@@ -49,7 +49,11 @@ export default function CodeBlock({
           />
         </div>
       </div>
-      <div className="highlight px-2 md:px-4 mt-2 md:mt-4 text-xs md:text-sm text-slate-800 dark:text-slate-200 scrollbar-thin scrollbar-thumb-rounded-md scrollbar-track-rounded-md overflow-auto">
+      <div
+        className="highlight px-2 md:px-4 mt-2 md:mt-4 text-xs md:text-sm text-slate-800 dark:text-slate-200 overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+      >
         {lang === "mermaid" ? (
           <CodeMermaid graphDefinition={codeString} />
         ) : (

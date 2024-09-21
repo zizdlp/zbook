@@ -30,7 +30,9 @@ export default function SideBarTransition(props: SideBarTransitionProps) {
         leaveFrom="translate-x-0 opacity-100"
         leaveTo="-translate-x-full opacity-0"
         className={`fixed z-40 inset-0 w-[20rem] top-0 pt-8 lg:pt-12
-        overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-md scrollbar-track-rounded-md  bg-white dark:bg-gray-900 border-r-[0.01rem] border-slate-300 dark:border-slate-700`}
+        overflow-y-auto  scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-w-[6px]
+              scrollbar-thumb-slate-200 scrollbar-track-slate-100
+              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16] bg-white dark:bg-gray-900 border-r-[0.01rem] border-slate-300 dark:border-slate-700`}
       >
         {props.children}
       </Transition.Child>

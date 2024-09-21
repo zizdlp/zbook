@@ -120,7 +120,11 @@ export default async function FooterForHome() {
   return (
     <footer className="bg-gradient-to-b from-[#e3d5b1] pt-16  to-[#ffffff] dark:from-transparent dark:via-transparent dark:to-transparent text-slate-700 dark:text-slate-500">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-8 gap-4 gap-x-8 px-2 py-8 overflow-scroll">
+        <div
+          className="grid grid-cols-8 gap-4 gap-x-8 px-2 py-8 overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+        scrollbar-thumb-slate-200 scrollbar-track-slate-100
+        dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+        >
           {sections.map((section, index) => (
             <FooterSection
               key={index}
