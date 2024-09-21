@@ -3,7 +3,7 @@ name: BUILD_MAIN
 on:
   push:
     branches:
-      - main
+      - feature/image_client
 jobs:
   build:
     runs-on: ubuntu-latest
