@@ -1,9 +1,7 @@
 import { JSDOM } from "jsdom";
-import React, { Suspense } from "react";
 import MathDisplay from "./MathDisplay";
 import MathInline from "./MathInline";
-import MarkdownImage from "@/components/parsers/MarkdownImage";
-import { CiImageOn } from "react-icons/ci";
+
 import ParserElement from "./ParserElement";
 import CodeBlock from "./CodeBlock";
 import ImageWithFallback from "./ImageWithFallback";
@@ -11,6 +9,7 @@ import { ThemeColor } from "../TableOfContent";
 import { headers } from "next/headers";
 import { getAdmonitionType } from "@/utils/util";
 import VideoWithFallBack from "./VideoWithFallBack";
+import MarkdownImageClient from "./MarkdownImageClient";
 interface Attribute {
   name: string;
   value: string;
@@ -222,18 +221,11 @@ const parseHTMLString = (
           );
         } else {
           return (
-            <Suspense
-              key={randomKey}
-              fallback={
-                <CiImageOn className="w-full my-[1.25em] h-96 rounded-md py-40 bg-gray-200 dark:bg-gray-700/75 animate-pulse text-slate-500 dark:text-slate-400" />
-              }
-            >
-              <MarkdownImage
-                path={prefixPath + "/" + srcAttribute}
-                username={username}
-                repo_name={repo_name}
-              />
-            </Suspense>
+            <MarkdownImageClient
+              path={prefixPath + "/" + srcAttribute}
+              username={username}
+              repo_name={repo_name}
+            />
           );
         }
       } else if (tagName === "DEL") {
