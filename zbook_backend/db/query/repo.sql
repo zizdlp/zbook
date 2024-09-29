@@ -12,8 +12,9 @@ INSERT INTO repos (
   repo_description,
   sync_token,
   commit_id,
-  visibility_level
-) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) 
+  visibility_level,
+  branch
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) 
 RETURNING *;
 
 -- name: UpdateRepoConfig :exec

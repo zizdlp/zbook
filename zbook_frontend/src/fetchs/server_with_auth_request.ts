@@ -158,6 +158,7 @@ interface CreateRepoRequest {
   visibility_level: string;
   theme_sidebar: string;
   theme_color: string;
+  branch: string;
 }
 interface UpdateUserRequest {
   motto: string;

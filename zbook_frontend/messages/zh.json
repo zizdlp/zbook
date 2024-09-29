@@ -92,6 +92,7 @@
     "SearchUser": "根据用户名搜索用户..."
   },
   "DataList": {
+    "Branch": "分支",
     "Add": "添加",
     "Remove": "移除",
     "Comment": "评论",
@@ -186,6 +187,8 @@
     "CreateRepository": "创建仓库",
     "RepositoryName": "仓库名",
     "RepositoryNameTip": "请输入仓库名称",
+    "RepositoryBranch": "仓库分支",
+    "RepositoryBranchTip": "请输入仓库分支",
     "Home": "首页",
     "TokenPassword": "令牌/密码",
     "TokenPasswordTip": "对于私有仓库，需要给出令牌或者密码",

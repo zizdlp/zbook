@@ -9,9 +9,15 @@ import (
 )
 
 // Clone clones a git repository from the specified URL into the specified directory.
-func Clone(gitURL string, dir string) error {
-	// Create the git clone command with the directory parameter
-	cmd := exec.Command("git", "clone", gitURL, dir)
+// Optionally, a specific branch can be cloned if provided.
+func Clone(gitURL, dir, branch string) error {
+	// Create the git clone command with branch and directory parameter
+	args := []string{"clone", gitURL, dir}
+	if branch != "" {
+		args = append(args, "--branch", branch)
+	}
+
+	cmd := exec.Command("git", args...)
 
 	// Run the command and capture its output
 	output, err := cmd.CombinedOutput()
@@ -23,12 +29,18 @@ func Clone(gitURL string, dir string) error {
 
 // CloneWithPassword clones a git repository from the specified URL into the specified directory.
 // It supports cloning private repositories using either a personal access token (token)
-// or basic authentication (username and password).
-func CloneWithPassword(gitURL, dir, username, password string) error {
+// or basic authentication (username and password). Optionally, a specific branch can be cloned if provided.
+func CloneWithPassword(gitURL, dir, username, password, branch string) error {
 	// Construct the clone URL with username and password embedded
 	urlWithCredentials := embedCredentialsInURL(gitURL, username, password)
-	// Create the git clone command with the directory parameter
-	cmd := exec.Command("git", "clone", urlWithCredentials, dir)
+
+	// Create the git clone command with branch and directory parameter
+	args := []string{"clone", urlWithCredentials, dir}
+	if branch != "" {
+		args = append(args, "--branch", branch)
+	}
+
+	cmd := exec.Command("git", args...)
 
 	// Run the command and capture its output
 	output, err := cmd.CombinedOutput()
@@ -40,12 +52,18 @@ func CloneWithPassword(gitURL, dir, username, password string) error {
 }
 
 // CloneWithToken clones a git repository from the specified URL into the specified directory.
-// It supports cloning private repositories using a personal access token.
-func CloneWithToken(gitURL, dir, token string) error {
+// It supports cloning private repositories using a personal access token. Optionally, a specific branch can be cloned if provided.
+func CloneWithToken(gitURL, dir, token, branch string) error {
 	// Construct the clone URL with the token embedded
 	urlWithToken := embedTokenInURL(gitURL, token)
-	// Create the git clone command with the directory parameter
-	cmd := exec.Command("git", "clone", urlWithToken, dir)
+
+	// Create the git clone command with branch and directory parameter
+	args := []string{"clone", urlWithToken, dir}
+	if branch != "" {
+		args = append(args, "--branch", branch)
+	}
+
+	cmd := exec.Command("git", args...)
 
 	// Run the command and capture its output
 	output, err := cmd.CombinedOutput()

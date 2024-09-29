@@ -108,6 +108,7 @@ func convertListUserOwnRepo(repos []db.ListUserOwnRepoRow, username string, lang
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
 				Home:            path,
+				Branch:          repos[i].Branch,
 			},
 		)
 	}
@@ -135,6 +136,7 @@ func convertQueryUserOwnRepo(repos []db.QueryUserOwnRepoRow, username string, la
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
 				Home:            path,
+				Branch:          repos[i].Branch,
 			},
 		)
 	}

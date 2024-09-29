@@ -111,6 +111,7 @@ func convertListUserLikeRepo(repos []db.ListUserLikeRepoRow, lang string) []*mod
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
 				Home:            path,
+				Branch:          repos[i].Branch,
 			},
 		)
 	}
@@ -137,6 +138,7 @@ func convertQueryUserLikeRepo(repos []db.QueryUserLikeRepoRow, lang string) []*m
 				UpdatedAt:       timestamppb.New(repos[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(repos[i].CreatedAt),
 				Home:            path,
+				Branch:          repos[i].Branch,
 			},
 		)
 	}

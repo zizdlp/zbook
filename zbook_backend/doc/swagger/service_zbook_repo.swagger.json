@@ -509,6 +509,9 @@
         },
         "themeColor": {
           "type": "string"
+        },
+        "branch": {
+          "type": "string"
         }
       },
       "title": "1.CreateRepo"
@@ -690,6 +693,9 @@
           "type": "string"
         },
         "home": {
+          "type": "string"
+        },
+        "branch": {
           "type": "string"
         }
       }

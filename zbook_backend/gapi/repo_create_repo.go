@@ -44,6 +44,7 @@ func (server *Server) CreateRepo(ctx context.Context, req *rpcs.CreateRepoReques
 			VisibilityLevel: req.GetVisibilityLevel(),
 			ThemeSidebar:    req.GetThemeSidebar(),
 			ThemeColor:      req.GetThemeColor(),
+			Branch:          req.Branch,
 		},
 		Username: authPayload.Username,
 		AfterCreate: func(cloneDir string, repoID int64, userID int64, addedFiles []string, modifiedFiles []string, deletedFiles []string) error {
@@ -82,6 +83,9 @@ func validateCreateRepoRequest(req *rpcs.CreateRepoRequest) (violations []*errde
 	}
 	if err := val.ValidateRepoThemeColor(req.GetThemeColor()); err != nil {
 		violations = append(violations, fieldViolation("theme_color", err))
+	}
+	if err := val.ValidateString(req.GetBranch(), 0, 255); err != nil {
+		violations = append(violations, fieldViolation("branch", err))
 	}
 
 	return violations

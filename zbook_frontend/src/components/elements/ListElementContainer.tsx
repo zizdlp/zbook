@@ -65,6 +65,7 @@ export default function ListElementContainer({
         created_at={model.created_at}
         listType={listType}
         home={model.home ?? ""}
+        branch={model.branch ?? ""}
       />
     );
   } else if (listType === ListDataType.LIST_ADMIN_USER) {

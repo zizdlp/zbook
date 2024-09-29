@@ -22,7 +22,7 @@ func TestGetDiffFilesShouldOK(t *testing.T) {
 	}
 
 	// 调用 Clone 函数
-	err := Clone(gitURL, cloneDir)
+	err := Clone(gitURL, cloneDir, "")
 
 	// 验证没有返回错误
 	require.NoError(t, err)
@@ -76,7 +76,7 @@ func TestGetAllFilesShouldOK(t *testing.T) {
 	}
 
 	// 调用 Clone 函数
-	err := Clone(gitURL, cloneDir)
+	err := Clone(gitURL, cloneDir, "")
 
 	// 验证没有返回错误
 	require.NoError(t, err)
@@ -136,7 +136,7 @@ func TestGetDiffFilesRename(t *testing.T) {
 	}
 
 	// 调用 Clone 函数
-	err := Clone(gitURL, cloneDir)
+	err := Clone(gitURL, cloneDir, "")
 
 	// 验证没有返回错误
 	require.NoError(t, err)

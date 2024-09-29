@@ -17,6 +17,7 @@ CREATE TABLE "repos" (
   "theme_color" text NOT NULL CHECK (length(trim(theme_color)) > 0),
   "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updated_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "branch" varchar(255) NOT NULL DEFAULT '',
   "fts_repo_en" TSVECTOR,
   "fts_repo_zh" TSVECTOR
 );

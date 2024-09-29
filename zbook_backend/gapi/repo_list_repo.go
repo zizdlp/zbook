@@ -133,6 +133,7 @@ func convertListRepos(reports []db.ListRepoRow, lang string) []*models.ListRepoI
 				UpdatedAt:       timestamppb.New(reports[i].UpdatedAt),
 				CreatedAt:       timestamppb.New(reports[i].CreatedAt),
 				Home:            path,
+				Branch:          reports[i].Branch,
 			},
 		)
 	}
@@ -159,6 +160,7 @@ func convertQueryRepo(reports []db.QueryRepoRow, lang string) []*models.ListRepo
 				UpdatedAt: timestamppb.New(reports[i].UpdatedAt),
 				CreatedAt: timestamppb.New(reports[i].CreatedAt),
 				Home:      path,
+				Branch:    reports[i].Branch,
 			},
 		)
 	}
