@@ -14,6 +14,7 @@ message CreateRepoRequest {
   string visibility_level = 6;
   string theme_sidebar    = 7;
   string theme_color      = 8;
+  string branch           = 9;
 }
 message CreateRepoResponse {}
 

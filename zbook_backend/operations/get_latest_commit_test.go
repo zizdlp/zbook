@@ -21,7 +21,7 @@ func TestGetLatestCommitShouldOK(t *testing.T) {
 	}
 
 	// 调用 Clone 函数
-	err := Clone(gitURL, cloneDir)
+	err := Clone(gitURL, cloneDir, "")
 
 	// 验证没有返回错误
 	require.NoError(t, err)

@@ -39,18 +39,18 @@ func (store *SQLStore) ManualSyncRepoTx(ctx context.Context, arg ManualSyncRepoT
 		gitURL := util.GetGitURL(repo.GitProtocol, repo.GitHost, repo.GitUsername, repo.GitRepo)
 		if repo.GitAccessToken.Valid {
 			if repo.GitHost == "github" {
-				err = operations.CloneWithToken(gitURL, cloneDir, repo.GitAccessToken.String)
+				err = operations.CloneWithToken(gitURL, cloneDir, repo.GitAccessToken.String, repo.Branch)
 				if err != nil {
 					return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 				}
 			} else {
-				err = operations.CloneWithPassword(gitURL, cloneDir, repo.GitUsername, repo.GitAccessToken.String)
+				err = operations.CloneWithPassword(gitURL, cloneDir, repo.GitUsername, repo.GitAccessToken.String, repo.Branch)
 				if err != nil {
 					return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 				}
 			}
 		} else {
-			err = operations.Clone(gitURL, cloneDir)
+			err = operations.Clone(gitURL, cloneDir, repo.Branch)
 			if err != nil {
 				return status.Errorf(codes.Internal, "clone repo failed: %s", err)
 			}

@@ -12,6 +12,7 @@ import (
 func TestClone(t *testing.T) {
 	// 使用一个公开的 Git 仓库 URL 进行测试
 	gitURL := "https://github.com/zizdlp/zbook-user-guide.git"
+	branch := "main" // 你可以替换为要测试的具体分支
 
 	rsg := util.NewRandomStringGenerator()
 	randomString := rsg.RandomString(10)
@@ -21,8 +22,8 @@ func TestClone(t *testing.T) {
 		os.RemoveAll(cloneDir)
 	}
 
-	// 调用 Clone 函数
-	err := Clone(gitURL, cloneDir)
+	// 调用 Clone 函数并指定分支
+	err := Clone(gitURL, cloneDir, branch)
 
 	// 验证没有返回错误
 	require.NoError(t, err)
@@ -38,6 +39,7 @@ func TestCloneWithPassword(t *testing.T) {
 		t.Skip()
 	}
 	gitURL := "https://gitee.com/zizdlp/docs.git"
+	branch := "main" // 你可以替换为要测试的具体分支
 
 	rsg := util.NewRandomStringGenerator()
 	randomString := rsg.RandomString(10)
@@ -48,8 +50,8 @@ func TestCloneWithPassword(t *testing.T) {
 	}
 	password := os.Getenv("ZBOOK_TEST_PASSWORD")
 	username := "zizdlp"
-	// 调用 CloneWithPassword 函数
-	err := CloneWithPassword(gitURL, cloneDir, username, password)
+	// 调用 CloneWithPassword 函数并指定分支
+	err := CloneWithPassword(gitURL, cloneDir, username, password, branch)
 
 	// 验证没有返回错误
 	require.NoError(t, err)
@@ -65,6 +67,7 @@ func TestCloneWithToken(t *testing.T) {
 		t.Skip()
 	}
 	gitURL := "https://github.com/zizdlp/full-stack-guide.git"
+	branch := "main" // 你可以替换为要测试的具体分支
 
 	rsg := util.NewRandomStringGenerator()
 	randomString := rsg.RandomString(10)
@@ -74,8 +77,8 @@ func TestCloneWithToken(t *testing.T) {
 		os.RemoveAll(cloneDir)
 	}
 	token := os.Getenv("ZBOOK_TEST_TOKEN")
-	// 调用 CloneWithToken 函数
-	err := CloneWithToken(gitURL, cloneDir, token)
+	// 调用 CloneWithToken 函数并指定分支
+	err := CloneWithToken(gitURL, cloneDir, token, branch)
 
 	// 验证没有返回错误
 	require.NoError(t, err)

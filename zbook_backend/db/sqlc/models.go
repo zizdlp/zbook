@@ -133,6 +133,7 @@ type Repo struct {
 	ThemeColor      string      `json:"theme_color"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
+	Branch          string      `json:"branch"`
 	FtsRepoEn       string      `json:"fts_repo_en"`
 	FtsRepoZh       string      `json:"fts_repo_zh"`
 }

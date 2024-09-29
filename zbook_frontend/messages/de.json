@@ -85,6 +85,7 @@
     "ResourceDistribution": "Ressourcenverteilung"
   },
   "DataList": {
+    "Branch": "Zweig",
     "Add": "Hinzufügen",
     "Remove": "Entfernen",
     "Comment": "Kommentar",
@@ -155,6 +156,8 @@
     "EditRepository": "Repository bearbeiten",
     "RepositoryName": "Repository-Name",
     "RepositoryNameTip": "Bitte geben Sie den gewünschten Repository-Namen ein",
+    "RepositoryBranch": "Repository-Zweig",
+    "RepositoryBranchTip": "Bitte geben Sie den gewünschten Repository-Branch ein.",
     "Home": "Startseite",
     "TokenPassword": "Token/Passwort",
     "TokenPasswordTip": "Nur private Repositories erfordern dies",

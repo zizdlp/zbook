@@ -86,6 +86,7 @@ export default function CreateRepoDialog() {
       sync_token: "",
       theme_sidebar: "",
       theme_color: "",
+      branch: "",
     },
     validate: validateCreateRepo,
     onSubmit: onSubmit,
@@ -143,7 +144,7 @@ export default function CreateRepoDialog() {
             </div>
 
             <FormGroupWrapper
-              classType="col-span-6 sm:col-span-3"
+              classType="col-span-6 sm:col-span-6"
               nameKey="repo_name"
               showName={t("RepositoryName")}
               formik={formik}
@@ -209,6 +210,20 @@ export default function CreateRepoDialog() {
                 ]}
                 nameKey="theme_color"
                 formik={formik}
+              />
+            </FormGroupWrapper>
+            <FormGroupWrapper
+              classType="col-span-6 sm:col-span-3"
+              nameKey="branch"
+              showName={t("RepositoryBranch")}
+              formik={formik}
+            >
+              <FormInputWrapper
+                show={true}
+                name="branch"
+                placeholder={t("RepositoryBranchTip")}
+                formik={formik}
+                error={formik.errors.branch}
               />
             </FormGroupWrapper>
             <FormGroupWrapper

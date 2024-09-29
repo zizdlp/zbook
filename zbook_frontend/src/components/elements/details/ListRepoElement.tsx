@@ -22,6 +22,7 @@ export default function ListRepoElement({
   created_at,
   listType,
   home,
+  branch,
 }: {
   authname: string;
   repo_name: string;
@@ -35,6 +36,7 @@ export default function ListRepoElement({
   created_at: string;
   listType: ListDataType;
   home: string;
+  branch: string;
 }) {
   const t = useTranslations("DataList");
   return (
@@ -70,6 +72,8 @@ export default function ListRepoElement({
             </div>
           </div>
           <div className="flex space-x-1">
+            {branch && <ValueElement tip={t("Branch")} content={branch} />}
+
             <ValueElement
               tip={t("VisibilityLevel")}
               content={visibility_level}
