@@ -28,6 +28,7 @@ export default function SideBarToggle() {
         setSideBarOpen(!sideBarOpen);
         localStorage.setItem("sidebarValue", JSON.stringify(!sideBarOpen));
       }}
+      aria-label="sidebar toggle"
       mounted={true}
     />
   );

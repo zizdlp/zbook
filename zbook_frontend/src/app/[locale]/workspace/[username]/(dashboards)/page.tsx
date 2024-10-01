@@ -10,6 +10,7 @@ export async function generateMetadata({
   const t = await getTranslations("GenerateMetaData");
   return {
     title: params.username + " - " + t("Repo"),
+    description: params.username + " - " + t("Repo"),
   };
 }
 export default async function OwnRepoPage({

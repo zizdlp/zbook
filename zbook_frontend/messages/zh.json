@@ -292,6 +292,7 @@
     "DayAfter": "{duration} 天后"
   },
   "GenerateMetaData": {
+    "HomePageDescription": "这是 ZBook 的首页，用于展示 ZBook 的主要功能，以及一些关键入口。",
     "User": "用户",
     "Session": "会话",
     "Repo": "仓库",

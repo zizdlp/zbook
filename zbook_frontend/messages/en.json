@@ -289,6 +289,7 @@
     "DayAfter": "{duration, plural, =0 {just now} =1 {in # day} other {in # days} }"
   },
   "GenerateMetaData": {
+    "HomePageDescription": "This is the homepage of ZBook, showcasing its main features and providing key entry points.",
     "User": "User",
     "Session": "Session",
     "Repo": "Repo",

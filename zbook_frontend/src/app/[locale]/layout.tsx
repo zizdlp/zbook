@@ -39,6 +39,7 @@ export async function generateMetadata({
       template: "%s - ZBook",
       default: "ZBook | " + t("Slogan"), // a default is required when creating a template
     },
+    description: t("HomePageDescription"),
   };
 }
 

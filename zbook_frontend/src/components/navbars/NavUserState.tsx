@@ -17,12 +17,18 @@ export default async function UserState() {
           }}
         >
           <button type="submit">
-            <RiLogoutBoxLine className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer" />
+            <RiLogoutBoxLine
+              aria-label="Logout"
+              className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer"
+            />
           </button>
         </form>
         <GlobalSearchButton />
         <Link href={`/workspace/${session.username}`}>
-          <AiOutlineUser className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer" />
+          <AiOutlineUser
+            aria-label="User Center"
+            className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer"
+          />
         </Link>
       </>
     );
@@ -30,7 +36,10 @@ export default async function UserState() {
     return (
       <>
         <Link href={`/auth/login`}>
-          <RiLoginBoxLine className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer" />
+          <RiLoginBoxLine
+            aria-label="Login"
+            className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer"
+          />
         </Link>
       </>
     );

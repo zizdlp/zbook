@@ -285,6 +285,7 @@
     "DayAfter": "{duration, plural, =0 {gerade eben} =1 {in # Tag} other {in # Tagen} }"
   },
   "GenerateMetaData": {
+    "HomePageDescription": "Dies ist die Startseite von ZBook, die die Hauptfunktionen zeigt und wichtige Einstiegspunkte bietet.",
     "User": "Benutzer",
     "Session": "Sitzung",
     "Repo": "Repository",

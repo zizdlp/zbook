@@ -188,9 +188,9 @@ export default async function Home() {
                 <h1 className="max-w-2xl block">{t("SimpleDocumentation")}</h1>
                 <h1 className="max-w-2xl block">{t("VisuallyAppealing")}</h1>
               </div>
-              <div className="mt-3.5 flex justify-center">
-                <h3 className="max-w-sm">{t("DocumentationForTeam")}</h3>
-              </div>
+              <p className="mt-4 max-w-[26rem] mx-auto md:max-w-xl text-primary dark:text-primary-light/80 md:leading-loose">
+                {t("DocumentationForTeam")}
+              </p>
             </div>
             <div className="px-12 mt-8 flex justify-center items-center flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-10">
               <Link

@@ -13,6 +13,7 @@ export default function GlobalSearchButton() {
         setSearchType(SearchType.DOCUMENT);
         setSearchDialogOpen(true);
       }}
+      aria-label="search"
       className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer"
     />
   );

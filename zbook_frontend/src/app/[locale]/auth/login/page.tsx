@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("GenerateMetaData");
   return {
     title: t("Login"),
+    description: t("Login"),
   };
 }
 export default async function Login() {
