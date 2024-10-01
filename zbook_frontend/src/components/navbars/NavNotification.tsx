@@ -116,7 +116,10 @@ export default function NavNotification({
       }}
     >
       <Badge count={unReadCount} className="text-slate-700 dark:text-slate-200">
-        <MdOutlineNotificationsNone className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer" />
+        <MdOutlineNotificationsNone
+          aria-label="notifications"
+          className="block w-6 h-6  hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer"
+        />
       </Badge>
     </div>
   );
