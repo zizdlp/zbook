@@ -17,6 +17,8 @@ export async function generateMetadata({
   const t = await getTranslations("GenerateMetaData");
   return {
     title: params.username + " - " + t("DashBoard") + " - " + t("OverView"),
+    description:
+      params.username + " - " + t("DashBoard") + " - " + t("OverView"),
   };
 }
 export default async function AdminOverviewPage({

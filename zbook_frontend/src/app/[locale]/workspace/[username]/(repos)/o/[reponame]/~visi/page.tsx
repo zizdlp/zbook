@@ -15,6 +15,8 @@ export async function generateMetadata({
   const t = await getTranslations("GenerateMetaData");
   return {
     title: params.username + " - repo - " + params.reponame + t("WhoCanSee"),
+    description:
+      params.username + " - repo - " + params.reponame + t("WhoCanSee"),
   };
 }
 export default async function ListRepoVisi({

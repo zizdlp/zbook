@@ -6,6 +6,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("GenerateMetaData");
   return {
     title: t("Cases"),
+    description: t("Cases"),
   };
 }
 

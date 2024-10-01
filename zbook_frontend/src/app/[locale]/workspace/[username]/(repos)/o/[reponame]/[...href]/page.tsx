@@ -56,6 +56,7 @@ export async function generateMetadata({
   const [firstPart, lastPart] = [parts[0] ?? "", parts[parts.length - 1]];
   return {
     title: parts.length > 1 ? `${firstPart}: ${lastPart}` : lastPart,
+    description: parts.length > 1 ? `${firstPart}: ${lastPart}` : lastPart,
   };
 }
 

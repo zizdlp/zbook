@@ -10,6 +10,8 @@ export async function generateMetadata({
   const t = await getTranslations("GenerateMetaData");
   return {
     title: params.username + " - " + t("DashBoard") + " - " + t("Comments"),
+    description:
+      params.username + " - " + t("DashBoard") + " - " + t("Comments"),
   };
 }
 export default async function AdminCommentsPage({
