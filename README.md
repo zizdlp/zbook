@@ -1,6 +1,6 @@
 <h1 align="center">ZBook</h1>
 <p align="center">
-  <a href="https://github.com/zizdlp/zbook-docs">Documention</a> - <a href="https://github.com/zizdlp/zbook-helm-chart">Helm Chart</a>  - <a href="https://discord.com/channels/1250069935594536960/1250069935594536963">Discord</a> - <a href="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg">Youtube</a>
+  <a href="https://github.com/zizdlp/zbook-docs">Documentation</a> - <a href="https://github.com/zizdlp/zbook-helm-chart">Helm Chart</a>  - <a href="https://discord.com/channels/1250069935594536960/1250069935594536963">Discord</a> - <a href="https://www.youtube.com/channel/UC9D6VAJRoG7bD38dz8F9CSg">Youtube</a>
 </p>
 
 <div align="center">
