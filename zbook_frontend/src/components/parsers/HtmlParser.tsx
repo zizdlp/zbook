@@ -167,7 +167,12 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
             );
           } else if (classList.includes("adm-body")) {
             return (
-              <div key={randomKey} className="px-4 md:px-6 overflow-x-auto">
+              <div
+                key={randomKey}
+                className="px-4 md:px-6 overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+                scrollbar-thumb-slate-200 scrollbar-track-slate-100
+                dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+              >
                 {domToReact(domNode.children, options)}
               </div>
             );
