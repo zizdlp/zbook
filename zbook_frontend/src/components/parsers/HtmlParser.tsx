@@ -185,7 +185,7 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
           return (
             <p
               key={randomKey}
-              className="overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+              className="overflow-x-auto overflow-y-hidden scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
             scrollbar-thumb-slate-200 scrollbar-track-slate-100
             dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
             >
@@ -237,7 +237,7 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
                 className={`text-${theme_color}-500 hover:text-${theme_color}-600 text-xs no-underline`}
                 href={processedUrl || ""}
               >
-                [{domToReact(domNode.children, options)}]
+                {`[${domToReact(domNode.children, options)}]`}
               </a>
             );
           }
