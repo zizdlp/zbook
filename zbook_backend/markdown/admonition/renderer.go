@@ -32,11 +32,17 @@ func (r *Renderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
 func (r *Renderer) renderAdmonition(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*Admonition)
 	if entering {
-		triggerClass := "admonition admonition-" + string(n.TriggerChar)
+		// Add the TriggerChar to the class attribute
+		triggerClass := "admonition-" + string(n.TriggerChar)
 
-		// Write the opening div with the trigger class
-		_, _ = w.WriteString("<div class=\"" + triggerClass + "\">\n")
-		_, _ = w.WriteString(`  <div class="adm-title">` + string(util.EscapeHTML(n.Title)) + "</div>\n  <div class=\"adm-body\">\n")
+		if n.Attributes() != nil {
+			_, _ = w.WriteString("<div")
+			html.RenderAttributes(w, n, AdmonitionAttributeFilter)
+			_, _ = w.WriteString(">\n")
+		} else {
+			_, _ = w.WriteString("<div>\n")
+		}
+		_, _ = w.WriteString(`  <div class="adm-title ` + triggerClass + `">` + string(util.EscapeHTML(n.Title)) + "</div>\n  <div class=\"adm-body\">\n")
 	} else {
 		_, _ = w.WriteString("  </div>\n</div>\n")
 	}

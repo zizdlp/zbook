@@ -24,9 +24,11 @@ import ListLevelOneComment from "./comments/ListLevelOneComment";
 import TableOfContent, { ThemeColor } from "./TableOfContent";
 import { getTranslations } from "next-intl/server";
 import MainContentFooter from "./MainContentFooter";
+import { headers } from "next/headers";
 export default async function WikiInfo(props: WikiInfoProps) {
   const session = await auth();
   const t = await getTranslations("Footer");
+  const agent = headers().get("User-Agent") ?? "";
   return (
     <MainContentWrapper
       right_sidebar={
@@ -43,6 +45,7 @@ export default async function WikiInfo(props: WikiInfoProps) {
         username={props.username}
         repo_name={props.repo_name}
         theme_color={props.theme_color}
+        agent={agent}
       />
 
       <MainContentFooter

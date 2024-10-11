@@ -279,3 +279,20 @@ export function getAdmonitionType(parent: HTMLElement | null): {
     Icon: iconTypes[type],
   };
 }
+
+export function getClientAdmonitionType(admtype: string): {
+  bg: string;
+  Icon: IconType;
+} {
+  let type: ParentType = "note"; // 默认类型为 "note"
+  if (admtype == "note") type = "note";
+  else if (admtype == "warning") type = "warning";
+  else if (admtype == "info") type = "info";
+  else if (admtype == "tip") type = "tip";
+  else if (admtype == "error") type = "error";
+
+  return {
+    bg: getAdmonitionBackground(type),
+    Icon: iconTypes[type],
+  };
+}
