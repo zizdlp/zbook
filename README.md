@@ -97,7 +97,7 @@ ZBook plans to support the following features:
 - [x] Branch switching, allowing users to preview specific branches before merging into the main branch.
 - [ ] MkDocs-style theme extensions.
 - [ ] GitHub-style admonitions.
-- [ ] MkDocs-style collapsible admonitions.
+- [x] MkDocs-style collapsible admonitions.
 
 ## Deployment
 

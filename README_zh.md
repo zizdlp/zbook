@@ -98,7 +98,7 @@ zbook计划支持如下功能：
 - [x] 分支切换，动机是合并main分支之前，可以先查看特定分支的显示效果
 - [ ] 类似mkdocs的风格扩展
 - [ ] github 风格的admonition
-- [ ] mkdocs 风格的折叠式admonition
+- [x] mkdocs 风格的折叠式admonition
 
 ## 部署
 
