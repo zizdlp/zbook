@@ -68,7 +68,7 @@ func (b *admonitionParser) Open(parent ast.Node, reader text.Reader, pc parser.C
 	left := i + util.TrimLeftSpaceLength(rest)
 	right := len(line) - 1 - util.TrimRightSpaceLength(rest)
 
-	if left >= right {
+	if left > right { //[left,right]
 		// As above:
 		// If there are no attributes we can't create a div because we won't know
 		// if a "!!!" ends the last admonition or opens a new one
@@ -77,7 +77,7 @@ func (b *admonitionParser) Open(parent ast.Node, reader text.Reader, pc parser.C
 
 	// ========================================================================== //
 	// 	With attributes we construct the node
-	node := parseOpeningLine(reader, left)
+	node := parseOpeningLine(reader, left, admonitionChar)
 	admonitionID := genRandomString(24)
 	node.SetAttributeString("data-admonition", []byte(admonitionID))
 
@@ -104,8 +104,8 @@ func (b *admonitionParser) Open(parent ast.Node, reader text.Reader, pc parser.C
 	// 	 check if it's an empty block
 
 	line, _ = reader.PeekLine()
-	w, pos := util.IndentWidth(line, reader.LineOffset())
-	if close, _ := hasClosingTag(line, w, pos, fdata); w < fdata.indent || close {
+	w, _ := util.IndentWidth(line, reader.LineOffset())
+	if w < fdata.indent {
 		return node, parser.NoChildren
 	}
 	indentClose :=
@@ -121,8 +121,9 @@ func (b *admonitionParser) Open(parent ast.Node, reader text.Reader, pc parser.C
 // * admonition class
 // * admonition title
 // * attributes
-func parseOpeningLine(reader text.Reader, left int) *Admonition {
-	node := NewAdmonition()
+func parseOpeningLine(reader text.Reader, left int, triggerChar byte) *Admonition {
+	// Create a new Admonition node, passing the trigger character
+	node := NewAdmonition(triggerChar)
 	reader.Advance(left)
 
 	remainingLine, _ := reader.PeekLine()
@@ -230,22 +231,6 @@ func (b *admonitionParser) Continue(node ast.Node, reader text.Reader, pc parser
 		pc.Set(admonitionInfoKey, fdataMap)
 	}
 
-	// ========================================================================== //
-	// Are we closing the node?
-	// * Either the indentation is below the indentation of the opening tags
-	// * or it is at the level of the opening tags but the content was indented
-	// * or there is a closing tag and we're in the deepest admonition block
-	close, newline := hasClosingTag(line, w, pos, fdata)
-	if close && flevel == len(fdataMap)-1 {
-		reader.Advance(segment.Stop - segment.Start - newline + segment.Padding)
-
-		node.SetAttributeString("data-admonition", []byte(fmt.Sprint(flevel)))
-
-		fdataMap = fdataMap[:flevel]
-		pc.Set(admonitionInfoKey, fdataMap)
-
-		return parser.Close
-	}
 	//// w: 是新起一行文本的最左边位置
 	//// fdata.contentIndent：是admonition 应该的最左位置：！
 
@@ -282,26 +267,4 @@ func (b *admonitionParser) CanInterruptParagraph() bool {
 
 func (b *admonitionParser) CanAcceptIndentedLine() bool {
 	return false
-}
-
-func hasClosingTag(line []byte, w int, pos int, fdata *admonitionData) (bool, int) {
-	// else, check for the correct number of closing chars and provide the info
-	// necessary to advance the reader
-	if w == fdata.indent {
-		i := pos
-		for ; i < len(line) && line[i] == fdata.char; i++ {
-		}
-		length := i - pos
-
-		if length >= fdata.length && util.IsBlank(line[i:]) {
-			newline := 1
-			if line[len(line)-1] != '\n' {
-				newline = 0
-			}
-
-			return true, newline
-		}
-	}
-
-	return false, 0
 }
