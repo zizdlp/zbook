@@ -11,21 +11,21 @@ import (
 )
 
 type admonitionParser struct {
+	triggerChar byte // The character that triggers the admonition, e.g., '!' or '?'
 }
 
-var defaultAdmonitionParser = &admonitionParser{}
-
-// NewAdmonitionParser returns a new BlockParser that
-// parses admonition blocks.
-func NewAdmonitionParser() parser.BlockParser {
-	return defaultAdmonitionParser
+// NewAdmonitionParser creates a new admonition parser with a specified trigger character.
+func NewAdmonitionParser(char byte) parser.BlockParser {
+	return &admonitionParser{
+		triggerChar: char,
+	}
 }
 
 type admonitionData struct {
 	ID                string   // The ID of the admonition. This enables nested admonitions with indentation
-	char              byte     // Currently, this is always "!"
+	char              byte     // Trigger character, e.g., '!' or '?'
 	indent            int      // The indentation of the opening (and closing) tags (!!!{})
-	length            int      // The length of the admonition, e.g. is it !!! or !!!!?
+	length            int      // The length of the admonition, e.g. is it !!! or ???
 	node              ast.Node // The node of the admonition
 	contentIndent     int      // The indentation of the content relative to the previous admonition block. The first line of the content is taken as its indentation. If you want an admonition with just a code block you need to use backticks
 	contentHasStarted bool     // Only used as an indicator if contentIndent has been set already
@@ -34,13 +34,13 @@ type admonitionData struct {
 var admonitionInfoKey = parser.NewContextKey()
 
 func (b *admonitionParser) Trigger() []byte {
-	return []byte{'!'}
+	return []byte{b.triggerChar}
 }
 
 func (b *admonitionParser) Open(parent ast.Node, reader text.Reader, pc parser.Context) (ast.Node, parser.State) {
 	line, _ := reader.PeekLine()
 	pos := pc.BlockOffset()
-	if pos < 0 || line[pos] != '!' {
+	if pos < 0 || line[pos] != b.triggerChar {
 		return nil, parser.NoChildren
 	}
 	findent := pos
@@ -106,6 +106,12 @@ func (b *admonitionParser) Open(parent ast.Node, reader text.Reader, pc parser.C
 	line, _ = reader.PeekLine()
 	w, pos := util.IndentWidth(line, reader.LineOffset())
 	if close, _ := hasClosingTag(line, w, pos, fdata); w < fdata.indent || close {
+		return node, parser.NoChildren
+	}
+	indentClose :=
+		!util.IsBlank(line) &&
+			(w < fdata.indent || (w == fdata.indent && w <= fdata.contentIndent)) // mydebug:warning,这里w < fdata.contentIndent 修改添加=
+	if indentClose {
 		return node, parser.NoChildren
 	}
 	return node, parser.HasChildren

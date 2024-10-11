@@ -1,7 +1,6 @@
 package render
 
 import (
-	// admonitions "github.com/stefanfritsch/goldmark-admonitions"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
@@ -23,7 +22,7 @@ func GetMarkdownConfig() goldmark.Markdown {
 		),
 		goldmark.WithExtensions(extension.GFM),
 		goldmark.WithExtensions(
-			&admonitions.Extender{},
+			admonitions.NewExtender(100, []byte{'!', '?'}),
 		),
 		goldmark.WithExtensions(extension.NewCJK(extension.WithEastAsianLineBreaks(), extension.WithEscapedSpace())),
 		goldmark.WithExtensions(
