@@ -95,9 +95,10 @@ ZBook does **not support online editing**. We believe that tools like Git in loc
 ZBook plans to support the following features:
 
 - [x] Branch switching, allowing users to preview specific branches before merging into the main branch.
+- [x] MkDocs-style collapsible admonitions.
 - [ ] MkDocs-style theme extensions.
 - [ ] GitHub-style admonitions.
-- [ ] MkDocs-style collapsible admonitions.
+- [ ] Online Editing✍️
 
 ## Deployment
 

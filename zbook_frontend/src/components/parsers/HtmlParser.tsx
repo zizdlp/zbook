@@ -1,303 +1,12 @@
-import { JSDOM } from "jsdom";
+"use client";
+
 import MathDisplay from "./MathDisplay";
 import MathInline from "./MathInline";
-
-import ParserElement from "./ParserElement";
 import CodeBlock from "./CodeBlock";
 import ImageWithFallback from "./ImageWithFallback";
 import { ThemeColor } from "../TableOfContent";
-import { headers } from "next/headers";
-import { getAdmonitionType } from "@/utils/util";
 import VideoWithFallBack from "./VideoWithFallBack";
 import MarkdownImageClient from "./MarkdownImageClient";
-interface Attribute {
-  name: string;
-  value: string;
-}
-
-function attributesToProps(attributes: NamedNodeMap): {
-  [key: string]: string;
-} {
-  const props: { [key: string]: string } = {};
-
-  for (let i = 0; i < attributes.length; i++) {
-    const attribute: Attribute = attributes[i] as Attribute;
-    props[attribute.name] = attribute.value;
-  }
-
-  return props;
-}
-function getHeadColorClasses(color: ThemeColor) {
-  return {
-    activeClass: `text-${color}-700 dark:text-${color}-400`,
-  };
-}
-const parseHTMLString = (
-  htmlString: string,
-  prefixPath: string,
-  username: string,
-  repo_name: string,
-  theme_color: ThemeColor
-): React.ReactNode => {
-  const { window } = new JSDOM("");
-  const parser = new window.DOMParser();
-  const doc = parser.parseFromString(htmlString, "text/html");
-  let { activeClass } = getHeadColorClasses(theme_color);
-  const processNode = (node: Node): React.ReactNode => {
-    if (node instanceof window.Element) {
-      const tagName = node.tagName.toUpperCase();
-      const idAttribute = node.getAttribute("id");
-      const randomKey = Math.random().toString(36).substring(2);
-      const props = attributesToProps(node.attributes);
-      if (tagName.startsWith("H") && !isNaN(parseInt(tagName[1], 10))) {
-        const HeadingComponent =
-          tagName.toLowerCase() as keyof JSX.IntrinsicElements;
-        const level = parseInt(tagName.substring(1), 10);
-        if (level == 1) {
-          return (
-            <div key={randomKey}>
-              <div className={`h-5 ${activeClass} text-sm font-semibold pb-4`}>
-                {prefixPath}
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold">
-                {Array.from(node.childNodes).map(processNode)}
-              </h1>
-            </div>
-          );
-        }
-
-        return (
-          <HeadingComponent key={randomKey} id={idAttribute || undefined}>
-            {Array.from(node.childNodes).map(processNode)}
-          </HeadingComponent>
-        );
-      } else if (
-        node.classList.contains("math") &&
-        node.classList.contains("display")
-      ) {
-        return (
-          <MathDisplay key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </MathDisplay>
-        );
-      } else if (
-        node.classList.contains("math") &&
-        node.classList.contains("inline")
-      ) {
-        return (
-          <MathInline key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </MathInline>
-        );
-      } else if (tagName === "SPAN") {
-        return (
-          <span key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </span>
-        );
-      } else if (tagName === "CODE") {
-        const parent = node.parentElement;
-        const parentIsPre = parent?.tagName.toUpperCase() === "PRE";
-        if (parentIsPre) {
-          const lang = node.classList.value.substring("language-".length);
-          return (
-            <CodeBlock
-              key={randomKey}
-              codeString={node.textContent ?? ""}
-              lang={lang}
-            />
-          );
-        } else {
-          return (
-            <code key={randomKey} className="font-jetbrains" {...props}>
-              {Array.from(node.childNodes).map(processNode)}
-            </code>
-          );
-        }
-      } else if (tagName === "PRE") {
-        return (
-          <pre key={randomKey} {...props}>
-            {Array.from(node.childNodes).map(processNode)}
-          </pre>
-        );
-      } else if (tagName === "HR") {
-        return <hr key={randomKey} />;
-      } else if (tagName === "UL") {
-        return (
-          <ul key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </ul>
-        );
-      } else if (tagName === "OL") {
-        return (
-          <ol key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </ol>
-        );
-      } else if (tagName === "LI") {
-        return (
-          <li key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </li>
-        );
-      } else if (tagName === "SUP") {
-        return (
-          <sup key={randomKey} {...props}>
-            {Array.from(node.childNodes).map(processNode)}
-          </sup>
-        );
-      }
-
-      if (tagName === "DIV") {
-        const classAttribute = node.getAttribute("class");
-        if (classAttribute === "adm-title") {
-          const { bg, Icon } = getAdmonitionType(node.parentElement);
-          return (
-            <div
-              key={randomKey}
-              className={`relative py-1 md:py-2 space-x-4 rounded-t-md flex items-center justify-center text-slate-400 text-xs md:text-sm leading-6 ${bg}`}
-            >
-              <div className="relative ml-2 md:ml-4 w-7 h-7 text-white flex items-center justify-center">
-                <Icon className="w-5 h-5 md:w-6 md:h-6" />
-              </div>
-              <span className="flex-1 text-base font-medium text-white dark:text-slate-200">
-                {Array.from(node.childNodes).map(processNode)}
-              </span>
-            </div>
-          );
-        } else if (classAttribute === "adm-body") {
-          return (
-            <div key={randomKey} className="px-4 md:px-6 overflow-x-auto">
-              {Array.from(node.childNodes).map(processNode)}
-            </div>
-          );
-        } else if (classAttribute && classAttribute.includes("admonition")) {
-          return (
-            <div
-              key={randomKey}
-              className="my-[1.25em] bg-slate-100/50 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-900/10 rounded-md"
-            >
-              {Array.from(node.childNodes).map(processNode)}
-            </div>
-          );
-        } else if (classAttribute === "footnotes") {
-          return <ParserElement key={randomKey} node={node} />;
-        } else {
-          return (
-            <div key={randomKey}>
-              {Array.from(node.childNodes).map(processNode)}
-            </div>
-          );
-        }
-      } else if (tagName === "P") {
-        return (
-          <p
-            key={randomKey}
-            className="overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
-              scrollbar-thumb-slate-200 scrollbar-track-slate-100
-              dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
-          >
-            {Array.from(node.childNodes).map(processNode)}
-          </p>
-        );
-      } else if (tagName === "TABLE") {
-        return <ParserElement key={randomKey} node={node} />;
-      } else if (tagName === "BLOCKQUOTE") {
-        return (
-          <blockquote key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </blockquote>
-        );
-      } else if (tagName === "IMG") {
-        const srcAttribute = (node as Element).getAttribute("src");
-
-        if (srcAttribute && srcAttribute.startsWith("http")) {
-          return (
-            <ImageWithFallback
-              src={srcAttribute}
-              alt="Landscape picture"
-              key={randomKey}
-            />
-          );
-        } else {
-          return (
-            <MarkdownImageClient
-              path={prefixPath + "/" + srcAttribute}
-              username={username}
-              repo_name={repo_name}
-            />
-          );
-        }
-      } else if (tagName === "DEL") {
-        return (
-          <del key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </del>
-        );
-      } else if (tagName === "A") {
-        const parent = node.parentElement;
-        const parentAttr = parent !== null && parent.getAttribute !== undefined;
-        let urlhref = node.getAttribute("href");
-        if (
-          urlhref &&
-          (urlhref.startsWith("http") || urlhref.startsWith("#"))
-        ) {
-        } else if (urlhref && urlhref.endsWith(".md")) {
-          urlhref =
-            "/workspace/" +
-            username +
-            "/o/" +
-            repo_name +
-            "/" +
-            prefixPath +
-            "/" +
-            urlhref.substring(0, urlhref.length - 3);
-        }
-        if (parentAttr) {
-          const tag = parent.tagName;
-          if (tag === "SUP") {
-            return (
-              <a
-                key={randomKey}
-                className={`text-${theme_color}-500 hover:text-${theme_color}-600 text-xs no-underline`}
-                href={urlhref || ""}
-              >
-                {[
-                  `[${Array.from(node.childNodes).map(processNode).join(",")}]`,
-                ]}
-              </a>
-            );
-          }
-        }
-        return (
-          <a
-            key={randomKey}
-            className="underline hover:decoration-2 underline-offset-[0.22rem] text-slate-700 dark:text-gray-200"
-            href={urlhref || ""}
-          >
-            {Array.from(node.childNodes).map(processNode)}
-          </a>
-        );
-      } else if (tagName === "STRONG") {
-        return (
-          <strong key={randomKey}>
-            {Array.from(node.childNodes).map(processNode)}
-          </strong>
-        );
-      } else if (tagName === "IFRAME") {
-        return <VideoWithFallBack src={props.src} key={randomKey} />;
-      }
-    } else if (node instanceof window.Text) {
-      // 处理文本节点
-      return node.textContent;
-    } else {
-      return null; // 或者其他处理逻辑
-    }
-  };
-
-  // Start processing from the body of the parsed HTML
-  return Array.from(doc.body.childNodes).map(processNode);
-};
 
 interface HtmlParserProps {
   htmlString: string;
@@ -305,10 +14,24 @@ interface HtmlParserProps {
   username: string;
   repo_name: string;
   theme_color: ThemeColor;
+  agent: string;
 }
 function isSafari(userAgent: string): boolean {
   const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(userAgent);
   return isSafari;
+}
+import { StrictMode } from "react";
+import parse, {
+  Element,
+  domToReact,
+  attributesToProps,
+} from "html-react-parser";
+import type { DOMNode, HTMLReactParserOptions } from "html-react-parser";
+import Admonition from "./Admonition";
+function getHeadColorClasses(color: ThemeColor) {
+  return {
+    activeClass: `text-${color}-700 dark:text-${color}-400`,
+  };
 }
 const HtmlParser: React.FC<HtmlParserProps> = ({
   htmlString,
@@ -316,22 +39,300 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
   username,
   repo_name,
   theme_color,
+  agent,
 }) => {
-  const parsedHTML = parseHTMLString(
-    htmlString,
-    prefixPath,
-    username,
-    repo_name,
-    theme_color
-  );
-  const agent = headers().get("User-Agent") ?? "";
+  const options: HTMLReactParserOptions = {
+    replace(domNode: DOMNode) {
+      if (domNode instanceof Element && domNode.attribs) {
+        const tagName = domNode.tagName.toLowerCase();
+        const props = attributesToProps(domNode.attribs);
+        const randomKey = Math.random().toString(36).substring(2);
+        // Check for the class attribute in the attributes array
+        const classAttr = domNode.attributes.find(
+          (attr) => attr.name === "class"
+        );
+        const classList = classAttr ? classAttr.value.split(" ") : [];
+
+        if (/^h\d$/.test(tagName)) {
+          const level = parseInt(tagName[1], 10);
+          const HeadingComponent = `h${level}` as keyof JSX.IntrinsicElements;
+          let { activeClass } = getHeadColorClasses(theme_color);
+          if (level === 1) {
+            return (
+              <div key={randomKey}>
+                <div
+                  className={`h-5 ${activeClass} text-sm font-semibold pb-4`}
+                >
+                  {prefixPath}
+                </div>
+                <h1 className="text-2xl sm:text-3xl font-extrabold">
+                  {domToReact(domNode.children, options)}
+                </h1>
+              </div>
+            );
+          }
+          return (
+            <HeadingComponent {...props}>
+              {domToReact(domNode.children, options)}
+            </HeadingComponent>
+          );
+        } else if (
+          classList.includes("math") &&
+          classList.includes("display")
+        ) {
+          return (
+            <MathDisplay key={randomKey}>
+              {domToReact(domNode.children, options)}
+            </MathDisplay>
+          );
+        } else if (classList.includes("math") && classList.includes("inline")) {
+          return (
+            <MathInline key={randomKey}>
+              {domToReact(domNode.children, options)}
+            </MathInline>
+          );
+        } else if (tagName === "code") {
+          const parent = domNode.parentNode as Element | null; // Get the parent node
+          const parentIsPre = parent && parent.tagName.toLowerCase() === "pre"; // Check if the parent is a <pre> element
+
+          // If parent is a <pre>, handle as a CodeBlock
+          if (parentIsPre) {
+            const classAttr = domNode.attributes.find(
+              (attr) => attr.name === "class"
+            );
+            const lang = classAttr
+              ? classAttr.value.substring("language-".length)
+              : "";
+
+            const codeString = Array.from(domNode.childNodes)
+              .map((child) => {
+                return (child as unknown as Text).data; // Use TypeScript's type assertion for Text
+              })
+              .join("");
+
+            return (
+              <CodeBlock key={randomKey} codeString={codeString} lang={lang} />
+            );
+          } else {
+            // Otherwise, handle as inline code
+            return (
+              <code key={randomKey} className="font-jetbrains" {...props}>
+                {domToReact(domNode.children, options)}
+              </code>
+            );
+          }
+        } else if (tagName === "div") {
+          if (classList.includes("admonition")) {
+            return <Admonition domNode={domNode} options={options} />;
+          }
+        } else if (tagName === "p") {
+          return (
+            <p
+              key={randomKey}
+              className="overflow-x-auto overflow-y-hidden scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+            scrollbar-thumb-slate-200 scrollbar-track-slate-100
+            dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+            >
+              {domToReact(domNode.children, options)}
+            </p>
+          );
+        } else if (tagName === "img") {
+          const node = domNode as Element;
+          const srcAttribute = node.attribs.src; // Access attributes using `attribs`
+          if (srcAttribute && srcAttribute.startsWith("http")) {
+            return (
+              <ImageWithFallback
+                src={srcAttribute}
+                alt="Landscape picture"
+                key={randomKey}
+              />
+            );
+          } else {
+            return (
+              <MarkdownImageClient
+                path={`${prefixPath}/${srcAttribute}`}
+                username={username}
+                repo_name={repo_name}
+                key={randomKey} // Add key for the component
+              />
+            );
+          }
+        } else if (tagName === "a") {
+          const node = domNode as Element;
+          const parent = node.parentNode as Element; // Cast parent to Element
+          const urlhref = node.attribs.href; // Access href attribute
+
+          // Process the URL
+          let processedUrl = urlhref;
+          if (
+            processedUrl &&
+            (processedUrl.startsWith("http") || processedUrl.startsWith("#"))
+          ) {
+            // URL is valid
+          } else if (processedUrl && processedUrl.endsWith(".md")) {
+            processedUrl = `/workspace/${username}/o/${repo_name}/${prefixPath}/${processedUrl.substring(0, processedUrl.length - 3)}`;
+          }
+
+          // // Check parent tag
+          if (parent && parent.tagName.toUpperCase() === "SUP") {
+            return (
+              <a
+                key={randomKey}
+                className={`text-${theme_color}-500 hover:text-${theme_color}-600 text-xs no-underline`}
+                href={processedUrl || ""}
+              >
+                {`[${domToReact(domNode.children, options)}]`}
+              </a>
+            );
+          }
+
+          return (
+            <a
+              key={randomKey}
+              className="underline hover:decoration-2 underline-offset-[0.22rem] text-slate-700 dark:text-gray-200"
+              href={processedUrl || ""}
+            >
+              {domToReact(domNode.children, options)}
+            </a>
+          );
+        } else if (tagName === "iframe") {
+          return <VideoWithFallBack src={props.src} key={randomKey} />;
+        }
+      }
+
+      if (
+        domNode instanceof Element &&
+        domNode.attribs &&
+        domNode.name === "table"
+      ) {
+        const props = attributesToProps(domNode.attribs);
+        return (
+          <div className="mt-4 -mb-3">
+            <div className="relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
+              <div
+                className="absolute inset-0 bg-grid-light dark:bg-grid-dark [mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.6))]  dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"
+                style={{ backgroundPosition: "10px 10px" }} // 使用对象格式
+              ></div>
+              <div
+                className="relative rounded-xl overflow-x-auto scrollbar scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-h-[6px]
+                scrollbar-thumb-slate-200 scrollbar-track-slate-100
+                dark:scrollbar-thumb-slate-500/50 dark:scrollbar-track-slate-500/[0.16]"
+              >
+                <div className="shadow-sm my-8">
+                  <table
+                    className="border-collapse table-auto w-full text-sm"
+                    {...props}
+                  >
+                    {domToReact(domNode.children, options)}
+                  </table>
+                </div>
+              </div>
+              <div className="absolute inset-0 pointer-events-none border border-black/10 rounded-xl dark:border-white/5"></div>
+            </div>
+          </div>
+        );
+      } else if (
+        domNode instanceof Element &&
+        domNode.attribs &&
+        domNode.name === "thead"
+      ) {
+        const props = attributesToProps(domNode.attribs);
+        return (
+          <thead {...props}>{domToReact(domNode.children, options)}</thead>
+        );
+      } else if (
+        domNode instanceof Element &&
+        domNode.attribs &&
+        domNode.name === "th"
+      ) {
+        const props = attributesToProps(domNode.attribs);
+        const parent = domNode.parent;
+
+        if (parent && parent instanceof Element && parent.name === "tr") {
+          const siblings = parent.children.filter(
+            (child) => child instanceof Element && child.name === "th"
+          );
+          const index = siblings.indexOf(domNode);
+
+          let className =
+            "border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3   text-left";
+          if (index === 0) {
+            className += " pl-8";
+          } else if (index === siblings.length - 1) {
+            className += " pr-8";
+          }
+          return (
+            <th className={className} {...props}>
+              {domToReact(domNode.children, options)}
+            </th>
+          );
+        }
+        return (
+          <th
+            className="border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-left"
+            {...props}
+          >
+            {domToReact(domNode.children, options)}
+          </th>
+        );
+      } else if (
+        domNode instanceof Element &&
+        domNode.attribs &&
+        domNode.name === "td"
+      ) {
+        const props = attributesToProps(domNode.attribs);
+        const parent = domNode.parent;
+
+        if (parent && parent instanceof Element && parent.name === "tr") {
+          const siblings = parent.children.filter(
+            (child) => child instanceof Element && child.name === "td"
+          );
+          const index = siblings.indexOf(domNode);
+
+          let className =
+            "border-b border-slate-200 dark:border-slate-700 p-4  text-left font-normal text-sm";
+
+          if (index === 0) {
+            className += " pl-8";
+          } else if (index === siblings.length - 1) {
+            className += " pr-8";
+          }
+          return (
+            <th className={className} {...props}>
+              {domToReact(domNode.children, options)}
+            </th>
+          );
+        }
+        return (
+          <td
+            className="border-b border-slate-100 dark:border-slate-700 p-4 text-left font-normal text-sm"
+            {...props}
+          >
+            {domToReact(domNode.children, options)}
+          </td>
+        );
+      } else if (
+        domNode instanceof Element &&
+        domNode.attribs &&
+        domNode.name === "tbody"
+      ) {
+        const props = attributesToProps(domNode.attribs);
+        return (
+          <tbody className="bg-white dark:bg-slate-800" {...props}>
+            {domToReact(domNode.children, options)}
+          </tbody>
+        );
+      }
+    },
+  };
+
   return (
     <div
       className={`prose prose-sm lg:prose-base prose-slate max-w-none dark:prose-invert dark:text-slate-400
     prose-th:lg:ps-8 prose-th:ps-4 ${isSafari(agent) ? "prose-ol:list-inside" : ""}
     prose-pre:bg-inherit prose-pre:m-0 prose-pre:p-0 prose-table:p-0 prose-table:m-0`}
     >
-      {parsedHTML}
+      <StrictMode>{parse(htmlString, options)}</StrictMode>
     </div>
   );
 };

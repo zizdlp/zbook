@@ -32,6 +32,9 @@ func (r *Renderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
 func (r *Renderer) renderAdmonition(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*Admonition)
 	if entering {
+		// Add the TriggerChar to the class attribute
+		triggerClass := "admonition-" + string(n.TriggerChar)
+
 		if n.Attributes() != nil {
 			_, _ = w.WriteString("<div")
 			html.RenderAttributes(w, n, AdmonitionAttributeFilter)
@@ -39,7 +42,7 @@ func (r *Renderer) renderAdmonition(w util.BufWriter, source []byte, node ast.No
 		} else {
 			_, _ = w.WriteString("<div>\n")
 		}
-		_, _ = w.WriteString(`  <div class="adm-title">` + string(util.EscapeHTML(n.Title)) + "</div>\n  <div class=\"adm-body\">\n")
+		_, _ = w.WriteString(`  <div class="adm-title ` + triggerClass + `">` + string(util.EscapeHTML(n.Title)) + "</div>\n  <div class=\"adm-body\">\n")
 	} else {
 		_, _ = w.WriteString("  </div>\n</div>\n")
 	}

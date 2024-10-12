@@ -256,23 +256,16 @@ export function getAdmonitionBackground(admonitionType: string): string {
 
 type ParentType = "note" | "warning" | "info" | "tip" | "error";
 
-export function getAdmonitionType(parent: HTMLElement | null): {
+export function getClientAdmonitionType(admtype: string): {
   bg: string;
   Icon: IconType;
 } {
   let type: ParentType = "note"; // 默认类型为 "note"
-
-  if (parent) {
-    const classList = parent.getAttribute("class");
-    if (classList) {
-      if (classList.toLowerCase().includes("adm-note")) type = "note";
-      else if (classList.toLowerCase().includes("adm-warning"))
-        type = "warning";
-      else if (classList.toLowerCase().includes("adm-info")) type = "info";
-      else if (classList.toLowerCase().includes("adm-tip")) type = "tip";
-      else if (classList.toLowerCase().includes("adm-error")) type = "error";
-    }
-  }
+  if (admtype == "note") type = "note";
+  else if (admtype == "warning") type = "warning";
+  else if (admtype == "info") type = "info";
+  else if (admtype == "tip") type = "tip";
+  else if (admtype == "error") type = "error";
 
   return {
     bg: getAdmonitionBackground(type),
