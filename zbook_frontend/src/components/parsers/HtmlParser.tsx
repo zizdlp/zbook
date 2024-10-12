@@ -52,10 +52,8 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
           (attr) => attr.name === "class"
         );
         const classList = classAttr ? classAttr.value.split(" ") : [];
-        // Example for headings
-        if (tagName === "hr") {
-          return <hr key={randomKey} />;
-        } else if (tagName.startsWith("h")) {
+
+        if (/^h\d$/.test(tagName)) {
           const level = parseInt(tagName[1], 10);
           const HeadingComponent = `h${level}` as keyof JSX.IntrinsicElements;
           let { activeClass } = getHeadColorClasses(theme_color);
@@ -313,13 +311,6 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
             {domToReact(domNode.children, options)}
           </td>
         );
-      } else if (
-        domNode instanceof Element &&
-        domNode.attribs &&
-        domNode.name === "tr"
-      ) {
-        const props = attributesToProps(domNode.attribs);
-        return <tr {...props}>{domToReact(domNode.children, options)}</tr>;
       } else if (
         domNode instanceof Element &&
         domNode.attribs &&
