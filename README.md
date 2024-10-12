@@ -12,7 +12,7 @@
 
 </div>
 
-[中文版](README_zh.md)
+[中文版](docs/README_zh.md)
 
 ------
 <p align="center">Welcome to ZBook, a fully open-source full-stack knowledge base management software for teams.</p>
@@ -98,7 +98,6 @@ ZBook plans to support the following features:
 - [x] MkDocs-style collapsible admonitions.
 - [ ] MkDocs-style theme extensions.
 - [ ] GitHub-style admonitions.
-- [ ] Online Editing✍️
 
 ## Deployment
 
