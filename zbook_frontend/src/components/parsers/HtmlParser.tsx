@@ -30,6 +30,9 @@ import parse, {
   attributesToProps,
 } from "html-react-parser";
 import type { DOMNode, HTMLReactParserOptions } from "html-react-parser";
+import { MdOutlineContentCopy } from "react-icons/md";
+import { CiSquareChevLeft } from "react-icons/ci";
+import { LuChevronLeftSquare } from "react-icons/lu";
 function getHeadColorClasses(color: ThemeColor) {
   return {
     activeClass: `text-${color}-700 dark:text-${color}-400`,
@@ -129,6 +132,7 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
           if (classList.includes("adm-title")) {
             const parent = domNode.parentNode as Element | null; // Get the parent node
             let admtype = "note";
+            let trigger = "!";
             if (parent) {
               const classAttr = parent.attributes.find(
                 (attr) => attr.name === "class"
@@ -148,9 +152,13 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
                 } else {
                   admtype = "note"; // Default type if no match is found
                 }
+                if (classList.includes("admonition-!")) {
+                  trigger = "!";
+                } else if (classList.includes("admonition-?")) {
+                  trigger = "?";
+                }
               }
             }
-
             const { bg, Icon } = getClientAdmonitionType(admtype);
             return (
               <div
@@ -163,6 +171,11 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
                 <span className="flex-1 text-base font-medium text-white dark:text-slate-200">
                   {domToReact(domNode.children, options)}
                 </span>
+                {trigger == "!" && (
+                  <div className="absolute top-2 right-0 md:h-7 flex items-center md:pr-4 pr-2">
+                    <LuChevronLeftSquare className="w-5 h-5 md:w-6 md:h-6 cursor-pointer text-slate-100 dark:text-slate-300" />
+                  </div>
+                )}
               </div>
             );
           } else if (classList.includes("adm-body")) {
