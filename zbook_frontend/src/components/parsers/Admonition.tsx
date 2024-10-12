@@ -1,14 +1,8 @@
-import parse, {
-  Element,
-  domToReact,
-  attributesToProps,
-} from "html-react-parser";
+import { Element, domToReact } from "html-react-parser";
 import { getClientAdmonitionType } from "@/utils/util";
 import { motion } from "framer-motion";
-import type { DOMNode, HTMLReactParserOptions } from "html-react-parser";
-import { MdOutlineContentCopy } from "react-icons/md";
-import { CiSquareChevLeft } from "react-icons/ci";
-import { LuChevronLeftSquare } from "react-icons/lu";
+import type { HTMLReactParserOptions } from "html-react-parser";
+import { LuChevronLeftSquare, LuChevronDownSquare } from "react-icons/lu";
 import { useState } from "react";
 export default function Admonition({
   domNode,
@@ -84,7 +78,7 @@ export default function Admonition({
             >
               <LuChevronLeftSquare
                 className={`w-5 h-5 md:w-6 md:h-6 cursor-pointer text-slate-100 dark:text-slate-300 transform ${
-                  isBodyVisible ? "" : "rotate-180"
+                  isBodyVisible ? "" : "rotate-270"
                 }`}
               />
             </div>

@@ -2,12 +2,9 @@
 
 import MathDisplay from "./MathDisplay";
 import MathInline from "./MathInline";
-import { motion } from "framer-motion";
 import CodeBlock from "./CodeBlock";
 import ImageWithFallback from "./ImageWithFallback";
 import { ThemeColor } from "../TableOfContent";
-
-import { getClientAdmonitionType } from "@/utils/util";
 import VideoWithFallBack from "./VideoWithFallBack";
 import MarkdownImageClient from "./MarkdownImageClient";
 
@@ -23,16 +20,13 @@ function isSafari(userAgent: string): boolean {
   const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(userAgent);
   return isSafari;
 }
-import { StrictMode, useState } from "react";
+import { StrictMode } from "react";
 import parse, {
   Element,
   domToReact,
   attributesToProps,
 } from "html-react-parser";
 import type { DOMNode, HTMLReactParserOptions } from "html-react-parser";
-import { MdOutlineContentCopy } from "react-icons/md";
-import { CiSquareChevLeft } from "react-icons/ci";
-import { LuChevronLeftSquare } from "react-icons/lu";
 import Admonition from "./Admonition";
 function getHeadColorClasses(color: ThemeColor) {
   return {
@@ -264,7 +258,6 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
 
           let className =
             "border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3   text-left";
-
           if (index === 0) {
             className += " pl-8";
           } else if (index === siblings.length - 1) {
