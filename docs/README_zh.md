@@ -99,7 +99,6 @@ zbook计划支持如下功能：
 - [x] mkdocs 风格的折叠式admonition
 - [ ] 类似mkdocs的风格扩展
 - [ ] github 风格的admonition
-- [ ] 在线编辑✍️
 
 ## 部署
 
