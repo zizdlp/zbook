@@ -96,9 +96,10 @@ ZBook 不支持**在线编辑**。我们认为 Git 在本地环境如 VS Code �
 zbook计划支持如下功能：
 
 - [x] 分支切换，动机是合并main分支之前，可以先查看特定分支的显示效果
+- [x] mkdocs 风格的折叠式admonition
 - [ ] 类似mkdocs的风格扩展
 - [ ] github 风格的admonition
-- [x] mkdocs 风格的折叠式admonition
+- [ ] 在线编辑✍️
 
 ## 部署
 
