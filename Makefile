@@ -56,6 +56,9 @@ jtest:
 next:
 	cd zbook_frontend && \
 	npm run dev
+story:
+	cd zbook_frontend && \
+	npm run storybook
 #########################################################
 ################## local database  ######################
 database:
