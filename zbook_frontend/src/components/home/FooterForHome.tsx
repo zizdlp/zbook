@@ -85,11 +85,6 @@ export default async function FooterForHome() {
       links: [
         { url: "/terms", label: t("Terms") },
         { url: "/privacy", label: t("Privacy") },
-        { url: "https://linchat.zizdlp.com", label: t("LinChatWeb") },
-        {
-          url: "https://apps.apple.com/cn/app/%E9%82%BB%E4%BF%A1-%E8%93%9D%E7%89%99%E7%95%85%E8%81%8A/id6472197439",
-          label: t("LinChatApp"),
-        },
       ],
     },
   ];
