@@ -17,7 +17,7 @@ class BlockMenu extends React.Component<BlockMenuProps> {
 
   clearSearch = () => {
     const { state, dispatch } = this.props.view;
-    const parent = findParentNode(node => !!node)(state.selection);
+    const parent = findParentNode((node) => !!node)(state.selection);
 
     if (parent) {
       dispatch(state.tr.insertText("", parent.pos, state.selection.to));
