@@ -15,6 +15,7 @@ interface HtmlParserProps {
   repo_name: string;
   theme_color: ThemeColor;
   agent: string;
+  show_caption: boolean;
 }
 function isSafari(userAgent: string): boolean {
   const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(userAgent);
@@ -40,6 +41,7 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
   repo_name,
   theme_color,
   agent,
+  show_caption,
 }) => {
   const options: HTMLReactParserOptions = {
     replace(domNode: DOMNode) {
@@ -143,8 +145,9 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
             return (
               <ImageWithFallback
                 src={srcAttribute}
-                alt="Landscape picture"
+                alt={props.alt}
                 key={randomKey}
+                show_caption={show_caption}
               />
             );
           } else {
@@ -153,7 +156,9 @@ const HtmlParser: React.FC<HtmlParserProps> = ({
                 path={`${prefixPath}/${srcAttribute}`}
                 username={username}
                 repo_name={repo_name}
+                alt={props.alt}
                 key={randomKey} // Add key for the component
+                show_caption={show_caption}
               />
             );
           }
