@@ -12,14 +12,17 @@ export default function MarkdownImageClient({
   path,
   username,
   repo_name,
+  alt,
+  show_caption,
 }: {
   path: string;
   username: string;
   repo_name: string;
+  alt: string;
+  show_caption: boolean;
 }) {
   const [imageSrc, setImageSrc] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
-
   useEffect(() => {
     async function fetchImage() {
       try {
@@ -70,13 +73,20 @@ export default function MarkdownImageClient({
 
   if (imageSrc != undefined) {
     return (
-      <Image
-        src={imageSrc}
-        className="rounded-md w-full my-[2em]"
-        alt="image"
-        width={256}
-        height={256}
-      />
+      <div className="not-prose">
+        <Image
+          src={imageSrc}
+          className="rounded-md w-full my-[1.25em]"
+          alt="image"
+          width={256}
+          height={256}
+        />
+        {alt != "" && show_caption && (
+          <p className="font-medium text-sm italic text-slate-500 mb-[1.25em] font-mono text-center dark:text-slate-400">
+            {alt}
+          </p>
+        )}
+      </div>
     );
   } else {
     return (

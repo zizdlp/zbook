@@ -46,6 +46,11 @@ export default async function WikiInfo(props: WikiInfoProps) {
         repo_name={props.repo_name}
         theme_color={props.theme_color}
         agent={agent}
+        show_caption={
+          process.env.SHOW_CAPTION && process.env.SHOW_CAPTION == "true"
+            ? true
+            : false
+        }
       />
 
       <MainContentFooter
