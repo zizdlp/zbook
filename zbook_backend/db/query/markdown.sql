@@ -3,10 +3,9 @@ INSERT INTO markdowns (
   relative_path,
   user_id,
   repo_id,
-  main_content,
-  table_content
+  content
 ) VALUES (
-  $1, $2, $3,$4,$5
+  $1, $2, $3,$4
 ) RETURNING *;
 
 -- name: CreateMarkdownMulti :exec
@@ -14,14 +13,12 @@ INSERT INTO markdowns  (
   relative_path,
   user_id,
   repo_id,
-  main_content,
-  table_content
+  content
 )
 SELECT unnest(@relative_path::text[]) AS relative_path,
   unnest(@user_id::bigint[]) AS user_id,
   unnest(@repo_id::bigint[]) AS repo_id,
-  unnest(@main_content::text[]) AS main_content,
-  unnest(@table_content::text[]) AS table_content;
+  unnest(@content::text[]) AS content;
 
 
 -- name: GetMarkdownContent :one
@@ -48,13 +45,12 @@ WHERE
 
 -- name: UpdateMarkdownMulti :exec
 UPDATE markdowns AS m
-SET main_content=tmp.main_content,table_content=tmp.table_content,relative_path=new_relative_path,updated_at=now()
+SET content=tmp.content,relative_path=new_relative_path,updated_at=now()
 FROM (
   SELECT 
   unnest(@relative_path::text[]) AS relative_path,
   unnest(@new_relative_path::text[]) AS new_relative_path,
-  unnest(@main_content::text[]) AS main_content,
-  unnest(@table_content::text[]) AS table_content,
+  unnest(@content::text[]) AS content,
   unnest(@repo_id::bigint[]) AS repo_id
 ) AS tmp
 WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id;
@@ -68,9 +64,9 @@ WHERE (relative_path, repo_id) IN (
 );
 -- name: QueryMarkdown :many
 select 
-  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,content,
   ROUND(ts_rank(fts_zh, plainto_tsquery($3))) + ROUND(ts_rank(fts_en, plainto_tsquery($3))) as rank,
-  COALESCE(ts_headline(main_content,plainto_tsquery($3),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+  COALESCE(ts_headline(content,plainto_tsquery($3),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
 from markdowns 
 JOIN repos as r on r.repo_id = markdowns.repo_id
 JOIN users on users.user_id = r.user_id
@@ -96,9 +92,9 @@ OFFSET $2;
 
 -- name: QueryUserMarkdown :many
 select 
-  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,content,
   ROUND(ts_rank(fts_zh, plainto_tsquery($4))) + ROUND(ts_rank(fts_en, plainto_tsquery($4))) as rank,
-  COALESCE(ts_headline(main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+  COALESCE(ts_headline(content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
 from markdowns 
 JOIN repos as r on r.repo_id = markdowns.repo_id
 JOIN users on users.user_id = r.user_id
@@ -123,9 +119,9 @@ OFFSET $2;
 
 -- name: QueryRepoMarkdown :many
 select 
-  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,content,
   ROUND(ts_rank(fts_zh, plainto_tsquery($4))) + ROUND(ts_rank(fts_en, plainto_tsquery($4))) as rank,
-  COALESCE(ts_headline(main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+  COALESCE(ts_headline(content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
 from markdowns 
 JOIN repos as r on r.repo_id = markdowns.repo_id
 JOIN users on users.user_id = r.user_id

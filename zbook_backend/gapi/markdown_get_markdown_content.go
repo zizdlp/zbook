@@ -6,6 +6,8 @@ import (
 
 	"github.com/rs/zerolog/log"
 	db "github.com/zizdlp/zbook/db/sqlc"
+	"github.com/zizdlp/zbook/markdown/convert"
+	md "github.com/zizdlp/zbook/markdown/render"
 	"github.com/zizdlp/zbook/pb/models"
 	"github.com/zizdlp/zbook/pb/rpcs"
 	"github.com/zizdlp/zbook/util"
@@ -66,9 +68,12 @@ func (server *Server) GetMarkdownContent(ctx context.Context, req *rpcs.GetMarkd
 		prev = ""
 		next = ""
 	}
-
+	content, err := convertMarkdown(markdown)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "parser markdown failed: %s", err)
+	}
 	rsp := &rpcs.GetMarkdownContentResponse{
-		Markdown:   convertMarkdown(markdown),
+		Markdown:   content,
 		Prev:       prev,
 		Next:       next,
 		Footers:    convertFooters(config.FooterSocials),
@@ -91,17 +96,29 @@ func validateGetMarkdownContentRequest(req *rpcs.GetMarkdownContentRequest) (vio
 	}
 	return violations
 }
-func convertMarkdown(markdown db.Markdown) *models.Markdown {
+func convertMarkdown(markdown db.Markdown) (*models.Markdown, error) {
+
+	html := ""
+	htmlList := ""
+	if len(markdown.Content) != 0 {
+		md := md.GetMarkdownConfig()
+		table, main, err := convert.ConvertMarkdownBuffer([]byte(markdown.Content), md)
+		if err != nil {
+			return nil, err
+		}
+		html = main.String()
+		htmlList = table.String()
+	}
+
 	return &models.Markdown{
 		MarkdownId:   markdown.MarkdownID,
 		RelativePath: markdown.RelativePath,
 		UserId:       markdown.UserID,
 		RepoId:       markdown.RepoID,
-		MainContent:  markdown.MainContent,
-		TableContent: markdown.TableContent,
-
-		CreatedAt: timestamppb.New(markdown.CreatedAt),
-	}
+		MainContent:  html,
+		TableContent: htmlList,
+		CreatedAt:    timestamppb.New(markdown.CreatedAt),
+	}, nil
 }
 
 func convertFooters(footers []util.FooterSocial) []*models.FooterSocial {

@@ -98,8 +98,7 @@ type Markdown struct {
 	RelativePath string    `json:"relative_path"`
 	UserID       int64     `json:"user_id"`
 	RepoID       int64     `json:"repo_id"`
-	MainContent  string    `json:"main_content"`
-	TableContent string    `json:"table_content"`
+	Content      string    `json:"content"`
 	UpdatedAt    time.Time `json:"updated_at"`
 	CreatedAt    time.Time `json:"created_at"`
 	FtsZh        string    `json:"fts_zh"`
