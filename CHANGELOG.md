@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - hange the stored Markdown data from Goldmark-rendered results to raw Markdown text in order to support future editing operations.
-- Due to database changes, this is not compatible with the previous version.
+- Due to database changes, this is **not compatible** with the previous version.
 
 ## [0.2.2] - 2024-10-12
 
