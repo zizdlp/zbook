@@ -14,19 +14,17 @@ INSERT INTO markdowns (
   relative_path,
   user_id,
   repo_id,
-  main_content,
-  table_content
+  content
 ) VALUES (
-  $1, $2, $3,$4,$5
-) RETURNING markdown_id, relative_path, user_id, repo_id, main_content, table_content, updated_at, created_at, fts_zh, fts_en
+  $1, $2, $3,$4
+) RETURNING markdown_id, relative_path, user_id, repo_id, content, updated_at, created_at, fts_zh, fts_en
 `
 
 type CreateMarkdownParams struct {
 	RelativePath string `json:"relative_path"`
 	UserID       int64  `json:"user_id"`
 	RepoID       int64  `json:"repo_id"`
-	MainContent  string `json:"main_content"`
-	TableContent string `json:"table_content"`
+	Content      string `json:"content"`
 }
 
 func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) (Markdown, error) {
@@ -34,8 +32,7 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 		arg.RelativePath,
 		arg.UserID,
 		arg.RepoID,
-		arg.MainContent,
-		arg.TableContent,
+		arg.Content,
 	)
 	var i Markdown
 	err := row.Scan(
@@ -43,8 +40,7 @@ func (q *Queries) CreateMarkdown(ctx context.Context, arg CreateMarkdownParams) 
 		&i.RelativePath,
 		&i.UserID,
 		&i.RepoID,
-		&i.MainContent,
-		&i.TableContent,
+		&i.Content,
 		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.FtsZh,
@@ -58,22 +54,19 @@ INSERT INTO markdowns  (
   relative_path,
   user_id,
   repo_id,
-  main_content,
-  table_content
+  content
 )
 SELECT unnest($1::text[]) AS relative_path,
   unnest($2::bigint[]) AS user_id,
   unnest($3::bigint[]) AS repo_id,
-  unnest($4::text[]) AS main_content,
-  unnest($5::text[]) AS table_content
+  unnest($4::text[]) AS content
 `
 
 type CreateMarkdownMultiParams struct {
 	RelativePath []string `json:"relative_path"`
 	UserID       []int64  `json:"user_id"`
 	RepoID       []int64  `json:"repo_id"`
-	MainContent  []string `json:"main_content"`
-	TableContent []string `json:"table_content"`
+	Content      []string `json:"content"`
 }
 
 func (q *Queries) CreateMarkdownMulti(ctx context.Context, arg CreateMarkdownMultiParams) error {
@@ -81,8 +74,7 @@ func (q *Queries) CreateMarkdownMulti(ctx context.Context, arg CreateMarkdownMul
 		arg.RelativePath,
 		arg.UserID,
 		arg.RepoID,
-		arg.MainContent,
-		arg.TableContent,
+		arg.Content,
 	)
 	return err
 }
@@ -107,7 +99,7 @@ func (q *Queries) DeleteMarkdownMulti(ctx context.Context, arg DeleteMarkdownMul
 }
 
 const getMarkdownByID = `-- name: GetMarkdownByID :one
-SELECT markdown_id, relative_path, user_id, repo_id, main_content, table_content, updated_at, created_at, fts_zh, fts_en FROM markdowns
+SELECT markdown_id, relative_path, user_id, repo_id, content, updated_at, created_at, fts_zh, fts_en FROM markdowns
 WHERE markdown_id = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -120,8 +112,7 @@ func (q *Queries) GetMarkdownByID(ctx context.Context, markdownID int64) (Markdo
 		&i.RelativePath,
 		&i.UserID,
 		&i.RepoID,
-		&i.MainContent,
-		&i.TableContent,
+		&i.Content,
 		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.FtsZh,
@@ -132,7 +123,7 @@ func (q *Queries) GetMarkdownByID(ctx context.Context, markdownID int64) (Markdo
 
 const getMarkdownContent = `-- name: GetMarkdownContent :one
 SELECT 
-  markdowns.markdown_id, markdowns.relative_path, markdowns.user_id, markdowns.repo_id, markdowns.main_content, markdowns.table_content, markdowns.updated_at, markdowns.created_at, markdowns.fts_zh, markdowns.fts_en
+  markdowns.markdown_id, markdowns.relative_path, markdowns.user_id, markdowns.repo_id, markdowns.content, markdowns.updated_at, markdowns.created_at, markdowns.fts_zh, markdowns.fts_en
 FROM markdowns
 WHERE markdowns.relative_path = $1  and markdowns.repo_id = $2
 LIMIT 1
@@ -151,8 +142,7 @@ func (q *Queries) GetMarkdownContent(ctx context.Context, arg GetMarkdownContent
 		&i.RelativePath,
 		&i.UserID,
 		&i.RepoID,
-		&i.MainContent,
-		&i.TableContent,
+		&i.Content,
 		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.FtsZh,
@@ -179,9 +169,9 @@ func (q *Queries) GetMarkdownRepoID(ctx context.Context, markdownID int64) (int6
 
 const queryMarkdown = `-- name: QueryMarkdown :many
 select 
-  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,content,
   ROUND(ts_rank(fts_zh, plainto_tsquery($3))) + ROUND(ts_rank(fts_en, plainto_tsquery($3))) as rank,
-  COALESCE(ts_headline(main_content,plainto_tsquery($3),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+  COALESCE(ts_headline(content,plainto_tsquery($3),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
 from markdowns 
 JOIN repos as r on r.repo_id = markdowns.repo_id
 JOIN users on users.user_id = r.user_id
@@ -221,7 +211,7 @@ type QueryMarkdownRow struct {
 	RelativePath string      `json:"relative_path"`
 	UserID       int64       `json:"user_id"`
 	RepoID       int64       `json:"repo_id"`
-	MainContent  string      `json:"main_content"`
+	Content      string      `json:"content"`
 	Rank         int32       `json:"rank"`
 	Coalesce     interface{} `json:"coalesce"`
 }
@@ -249,7 +239,7 @@ func (q *Queries) QueryMarkdown(ctx context.Context, arg QueryMarkdownParams) ([
 			&i.RelativePath,
 			&i.UserID,
 			&i.RepoID,
-			&i.MainContent,
+			&i.Content,
 			&i.Rank,
 			&i.Coalesce,
 		); err != nil {
@@ -265,9 +255,9 @@ func (q *Queries) QueryMarkdown(ctx context.Context, arg QueryMarkdownParams) ([
 
 const queryRepoMarkdown = `-- name: QueryRepoMarkdown :many
 select 
-  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,content,
   ROUND(ts_rank(fts_zh, plainto_tsquery($4))) + ROUND(ts_rank(fts_en, plainto_tsquery($4))) as rank,
-  COALESCE(ts_headline(main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+  COALESCE(ts_headline(content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
 from markdowns 
 JOIN repos as r on r.repo_id = markdowns.repo_id
 JOIN users on users.user_id = r.user_id
@@ -293,7 +283,7 @@ type QueryRepoMarkdownRow struct {
 	RelativePath string      `json:"relative_path"`
 	UserID       int64       `json:"user_id"`
 	RepoID       int64       `json:"repo_id"`
-	MainContent  string      `json:"main_content"`
+	Content      string      `json:"content"`
 	Rank         int32       `json:"rank"`
 	Coalesce     interface{} `json:"coalesce"`
 }
@@ -320,7 +310,7 @@ func (q *Queries) QueryRepoMarkdown(ctx context.Context, arg QueryRepoMarkdownPa
 			&i.RelativePath,
 			&i.UserID,
 			&i.RepoID,
-			&i.MainContent,
+			&i.Content,
 			&i.Rank,
 			&i.Coalesce,
 		); err != nil {
@@ -336,9 +326,9 @@ func (q *Queries) QueryRepoMarkdown(ctx context.Context, arg QueryRepoMarkdownPa
 
 const queryUserMarkdown = `-- name: QueryUserMarkdown :many
 select 
-  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,main_content,
+  users.username,r.repo_name, markdown_id,relative_path,users.user_id,r.repo_id,content,
   ROUND(ts_rank(fts_zh, plainto_tsquery($4))) + ROUND(ts_rank(fts_en, plainto_tsquery($4))) as rank,
-  COALESCE(ts_headline(main_content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
+  COALESCE(ts_headline(content,plainto_tsquery($4),'MaxFragments=10, MaxWords=7, MinWords=3'),'')
 from markdowns 
 JOIN repos as r on r.repo_id = markdowns.repo_id
 JOIN users on users.user_id = r.user_id
@@ -379,7 +369,7 @@ type QueryUserMarkdownRow struct {
 	RelativePath string      `json:"relative_path"`
 	UserID       int64       `json:"user_id"`
 	RepoID       int64       `json:"repo_id"`
-	MainContent  string      `json:"main_content"`
+	Content      string      `json:"content"`
 	Rank         int32       `json:"rank"`
 	Coalesce     interface{} `json:"coalesce"`
 }
@@ -408,7 +398,7 @@ func (q *Queries) QueryUserMarkdown(ctx context.Context, arg QueryUserMarkdownPa
 			&i.RelativePath,
 			&i.UserID,
 			&i.RepoID,
-			&i.MainContent,
+			&i.Content,
 			&i.Rank,
 			&i.Coalesce,
 		); err != nil {
@@ -424,14 +414,13 @@ func (q *Queries) QueryUserMarkdown(ctx context.Context, arg QueryUserMarkdownPa
 
 const updateMarkdownMulti = `-- name: UpdateMarkdownMulti :exec
 UPDATE markdowns AS m
-SET main_content=tmp.main_content,table_content=tmp.table_content,relative_path=new_relative_path,updated_at=now()
+SET content=tmp.content,relative_path=new_relative_path,updated_at=now()
 FROM (
   SELECT 
   unnest($1::text[]) AS relative_path,
   unnest($2::text[]) AS new_relative_path,
-  unnest($3::text[]) AS main_content,
-  unnest($4::text[]) AS table_content,
-  unnest($5::bigint[]) AS repo_id
+  unnest($3::text[]) AS content,
+  unnest($4::bigint[]) AS repo_id
 ) AS tmp
 WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id
 `
@@ -439,8 +428,7 @@ WHERE m.relative_path = tmp.relative_path and m.repo_id=tmp.repo_id
 type UpdateMarkdownMultiParams struct {
 	RelativePath    []string `json:"relative_path"`
 	NewRelativePath []string `json:"new_relative_path"`
-	MainContent     []string `json:"main_content"`
-	TableContent    []string `json:"table_content"`
+	Content         []string `json:"content"`
 	RepoID          []int64  `json:"repo_id"`
 }
 
@@ -448,8 +436,7 @@ func (q *Queries) UpdateMarkdownMulti(ctx context.Context, arg UpdateMarkdownMul
 	_, err := q.db.Exec(ctx, updateMarkdownMulti,
 		arg.RelativePath,
 		arg.NewRelativePath,
-		arg.MainContent,
-		arg.TableContent,
+		arg.Content,
 		arg.RepoID,
 	)
 	return err

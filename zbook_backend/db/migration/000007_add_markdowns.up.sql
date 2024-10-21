@@ -3,8 +3,7 @@ CREATE TABLE "markdowns" (
   "relative_path" text NOT NULL,
   "user_id" bigint NOT NULL,
   "repo_id" bigint NOT NULL,
-  "main_content" text NOT NULL,
-  "table_content" text NOT NULL,
+  "content" text NOT NULL,
   "updated_at"  timestamptz NOT NULL DEFAULT (now()),
   "created_at"  timestamptz NOT NULL DEFAULT (now()),
   fts_zh tsvector,
@@ -19,26 +18,26 @@ CREATE UNIQUE INDEX ON "markdowns" ("repo_id","relative_path");
 
 UPDATE "markdowns"
 SET fts_zh = setweight(to_tsvector('jiebacfg', "relative_path"), 'A') ||
-          setweight(to_tsvector('jiebacfg', "main_content"), 'B');
+          setweight(to_tsvector('jiebacfg', "content"), 'B');
 
 
 UPDATE "markdowns"
 SET fts_en = setweight(to_tsvector('english', "relative_path"), 'A') ||
-          setweight(to_tsvector('english', "main_content"), 'B');
+          setweight(to_tsvector('english', "content"), 'B');
 
 
 CREATE INDEX markdowns_fts_zh_gin_index ON "markdowns" USING gin (fts_zh);
 CREATE INDEX markdowns_fts_en_gin_index ON "markdowns" USING gin (fts_en);
 
 CREATE TRIGGER trig_markdowns_insert_update_zh
-  BEFORE INSERT OR UPDATE OF "relative_path","main_content"
+  BEFORE INSERT OR UPDATE OF "relative_path","content"
   ON "markdowns"
   FOR EACH ROW
-EXECUTE PROCEDURE tsvector_update_trigger(fts_zh, 'public.jiebacfg', "relative_path", "main_content");
+EXECUTE PROCEDURE tsvector_update_trigger(fts_zh, 'public.jiebacfg', "relative_path", "content");
 
 
 CREATE TRIGGER trig_markdowns_insert_update_en
-  BEFORE INSERT OR UPDATE OF "relative_path","main_content"
+  BEFORE INSERT OR UPDATE OF "relative_path","content"
   ON "markdowns"
   FOR EACH ROW
-EXECUTE PROCEDURE tsvector_update_trigger(fts_en, 'pg_catalog.english', "relative_path", "main_content");
+EXECUTE PROCEDURE tsvector_update_trigger(fts_en, 'pg_catalog.english', "relative_path", "content");

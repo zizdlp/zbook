@@ -9,8 +9,6 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	convert "github.com/zizdlp/zbook/markdown/convert"
-	md "github.com/zizdlp/zbook/markdown/render"
 	"github.com/zizdlp/zbook/operations"
 	"github.com/zizdlp/zbook/util"
 )
@@ -21,7 +19,6 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 		".md": true,
 	}
 
-	markdown := md.GetMarkdownConfig()
 	createParams := &util.CreateParams{}
 	updateParams := &util.UpdateParams{}
 	deleteParams := &util.DeleteParams{}
@@ -34,17 +31,17 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 			if err != nil {
 				continue
 			}
-			table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
-			if err != nil {
-				continue
-			}
-			html := main.String()
-			htmlList := table.String()
+			// table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
+			// if err != nil {
+			// 	continue
+			// }
+			// html := main.String()
+			// htmlList := table.String()
 			relativePath := strings.ToLower(strings.TrimSuffix(filteredMarkdown, ".md"))
 			if isCreate {
-				createParams.Append(relativePath, userID, repoID, html, htmlList)
+				createParams.Append(relativePath, userID, repoID, string(data))
 			} else {
-				updateParams.Append(relativePath, relativePath, repoID, html, htmlList)
+				updateParams.Append(relativePath, relativePath, repoID, string(data))
 			}
 		}
 	}
@@ -70,13 +67,13 @@ func ConvertFile2DB(ctx context.Context, q *Queries, cloneDir string, repoID int
 		if err != nil {
 			continue
 		}
-		table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
-		if err != nil {
-			continue
-		}
-		html := main.String()
-		htmlList := table.String()
-		updateParams.Append(relativePath, newrelativePath, repoID, html, htmlList)
+		// table, main, err := convert.ConvertMarkdownBuffer(data, markdown)
+		// if err != nil {
+		// 	continue
+		// }
+		// html := main.String()
+		// htmlList := table.String()
+		updateParams.Append(relativePath, newrelativePath, repoID, string(data))
 	}
 
 	// Execute database operations
@@ -168,8 +165,7 @@ func createMarkdownFiles(ctx context.Context, q *Queries, params *util.CreatePar
 		RelativePath: params.RelativePath,
 		UserID:       params.UserID,
 		RepoID:       params.RepoID,
-		MainContent:  params.MainContent,
-		TableContent: params.TableContent,
+		Content:      params.Content,
 	}
 	err := q.CreateMarkdownMulti(ctx, argCreate)
 	if err != nil {
@@ -183,8 +179,7 @@ func updateMarkdownFiles(ctx context.Context, q *Queries, params *util.UpdatePar
 		RelativePath:    params.RelativePath,
 		NewRelativePath: params.NewRelativePath,
 		RepoID:          params.RepoID,
-		MainContent:     params.MainContent,
-		TableContent:    params.TableContent,
+		Content:         params.Content,
 	}
 	err := q.UpdateMarkdownMulti(ctx, argUpdate)
 	if err != nil {

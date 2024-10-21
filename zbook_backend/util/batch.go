@@ -10,32 +10,29 @@ type CreateParams struct {
 	RelativePath []string
 	UserID       []int64
 	RepoID       []int64
-	MainContent  []string
-	TableContent []string
+	Content      []string
 }
 
-func (params *CreateParams) Append(relativePath string, userID int64, repoID int64, mainContent string, tableContent string) {
+func (params *CreateParams) Append(relativePath string, userID int64, repoID int64, content string) {
 	params.RelativePath = append(params.RelativePath, relativePath)
 	params.UserID = append(params.UserID, userID)
 	params.RepoID = append(params.RepoID, repoID)
-	params.MainContent = append(params.MainContent, mainContent)
-	params.TableContent = append(params.TableContent, tableContent)
+	params.Content = append(params.Content, content)
+
 }
 
 type UpdateParams struct {
 	RelativePath    []string
 	NewRelativePath []string
 	RepoID          []int64
-	MainContent     []string
-	TableContent    []string
+	Content         []string
 }
 
-func (params *UpdateParams) Append(RelativePath string, NewRelativePath string, RepoID int64, MainContent string, TableContent string) {
+func (params *UpdateParams) Append(RelativePath string, NewRelativePath string, RepoID int64, Content string) {
 	params.RelativePath = append(params.RelativePath, RelativePath)
 	params.NewRelativePath = append(params.NewRelativePath, NewRelativePath)
 	params.RepoID = append(params.RepoID, RepoID)
-	params.MainContent = append(params.MainContent, MainContent)
-	params.TableContent = append(params.TableContent, TableContent)
+	params.Content = append(params.Content, Content)
 }
 
 type DeleteParams struct {

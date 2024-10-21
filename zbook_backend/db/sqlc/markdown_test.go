@@ -17,8 +17,7 @@ func testCreateRandomMarkdown(t *testing.T) Markdown {
 		RelativePath: util.RandomString(32),
 		UserID:       repo.UserID,
 		RepoID:       repo.RepoID,
-		MainContent:  util.RandomString(32),
-		TableContent: util.RandomString(32),
+		Content:      util.RandomString(32),
 	}
 	markdown, err := testStore.CreateMarkdown(context.Background(), arg)
 	require.NoError(t, err)
@@ -52,22 +51,20 @@ func TestCreateMarkdownMulti(t *testing.T) {
 	RelativePath := make([]string, 0)
 	UserID := make([]int64, 0)
 	RepoID := make([]int64, 0)
-	MainContent := make([]string, 0)
-	TableContent := make([]string, 0)
+	Content := make([]string, 0)
 
 	for i := 0; i < lens; i++ {
 		RelativePath = append(RelativePath, util.RandomString(32)+".md")
 		UserID = append(UserID, user.UserID)
 		RepoID = append(RepoID, repo.RepoID)
-		MainContent = append(MainContent, util.RandomString(32000))
-		TableContent = append(TableContent, util.RandomString(320))
+		Content = append(Content, util.RandomString(32000))
+
 	}
 	arg := CreateMarkdownMultiParams{
 		RelativePath: RelativePath,
 		UserID:       UserID,
 		RepoID:       RepoID,
-		MainContent:  MainContent,
-		TableContent: TableContent,
+		Content:      Content,
 	}
 
 	s := time.Now()
@@ -88,7 +85,7 @@ func TestGetMarkdownContent(t *testing.T) {
 	require.Equal(t, markdown.MarkdownID, ret.MarkdownID)
 	require.Equal(t, markdown.RelativePath, ret.RelativePath)
 	require.Equal(t, markdown.RepoID, ret.RepoID)
-	require.Equal(t, markdown.MainContent, ret.MainContent)
+	require.Equal(t, markdown.Content, ret.Content)
 }
 
 func TestGetMarkdownByID(t *testing.T) {
@@ -130,23 +127,19 @@ func TestUpdateMarkdownMulti(t *testing.T) {
 	RelativePath := []string{}
 	UserID := []int64{}
 	RepoID := []int64{}
-	MainContent := []string{}
-	TableContent := []string{}
+	Content := []string{}
 
 	for i := 0; i < lens; i++ {
 		RelativePath = append(RelativePath, util.RandomString(32)+".md")
 		UserID = append(UserID, user.UserID)
 		RepoID = append(RepoID, repo.RepoID)
-		MainContent = append(MainContent, util.RandomString(32))
-		TableContent = append(TableContent, util.RandomString(32))
-
+		Content = append(Content, util.RandomString(32))
 	}
 	arg := CreateMarkdownMultiParams{
 		RelativePath: RelativePath,
 		UserID:       UserID,
 		RepoID:       RepoID,
-		MainContent:  MainContent,
-		TableContent: TableContent,
+		Content:      Content,
 	}
 
 	s := time.Now()
@@ -156,14 +149,12 @@ func TestUpdateMarkdownMulti(t *testing.T) {
 	require.NoError(t, err)
 
 	for i := 0; i < lens; i++ {
-		MainContent[i] = "newmain_content"
-		TableContent[i] = "newtable_content"
+		Content[i] = "newmain_content"
 	}
 	arg_key := UpdateMarkdownMultiParams{
 		RelativePath:    RelativePath,
 		NewRelativePath: RelativePath,
-		MainContent:     MainContent,
-		TableContent:    TableContent,
+		Content:         Content,
 		RepoID:          RepoID,
 	}
 	s = time.Now()
@@ -197,22 +188,19 @@ func TestDeleteMarkdownMulti(t *testing.T) {
 	RelativePath := make([]string, 0)
 	UserID := make([]int64, 0)
 	RepoID := make([]int64, 0)
-	MainContent := make([]string, 0)
-	TableContent := make([]string, 0)
+	Content := make([]string, 0)
 
 	for i := 0; i < lens; i++ {
 		RelativePath = append(RelativePath, util.RandomString(32)+".md")
 		UserID = append(UserID, user.UserID)
 		RepoID = append(RepoID, repo.RepoID)
-		MainContent = append(MainContent, util.RandomString(32000))
-		TableContent = append(TableContent, util.RandomString(320))
+		Content = append(Content, util.RandomString(32000))
 	}
 	arg := CreateMarkdownMultiParams{
 		RelativePath: RelativePath,
 		UserID:       UserID,
 		RepoID:       RepoID,
-		MainContent:  MainContent,
-		TableContent: TableContent,
+		Content:      Content,
 	}
 
 	s := time.Now()
@@ -235,8 +223,7 @@ func testCreateRandomMarkdownForQuery(t *testing.T) Markdown {
 		RelativePath: util.RandomString(32),
 		UserID:       repo.UserID,
 		RepoID:       repo.RepoID,
-		MainContent:  "fox",
-		TableContent: util.RandomString(32),
+		Content:      "fox",
 	}
 	markdown, err := testStore.CreateMarkdown(context.Background(), arg)
 	require.NoError(t, err)
@@ -250,7 +237,7 @@ func TestQueryUserMarkdown(t *testing.T) {
 		Limit:          10,
 		Offset:         0,
 		UserID:         m1.UserID,
-		PlaintoTsquery: m1.MainContent,
+		PlaintoTsquery: m1.Content,
 		Role:           util.AdminRole,
 		Signed:         true,
 		CurUserID:      0,
@@ -267,7 +254,7 @@ func TestQueryRepoMarkdown(t *testing.T) {
 		Offset:         0,
 		UserID:         m1.UserID,
 		RepoID:         m1.RepoID,
-		PlaintoTsquery: m1.MainContent,
+		PlaintoTsquery: m1.Content,
 	}
 	rets, err := testStore.QueryRepoMarkdown(context.Background(), arg)
 	require.NoError(t, err)
