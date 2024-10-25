@@ -5,9 +5,9 @@
 
 <div align="center">
 
-[![Actions Status](https://github.com/zizdlp/zbook/workflows/BUILD_MAIN/badge.svg)](https://github.com/zizdlp/zbook/actions)
-[![Actions Status](https://github.com/zizdlp/zbook/workflows/TEST_BACKEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
-[![Actions Status](https://github.com/zizdlp/zbook/workflows/TEST_FRONTEND/badge.svg)](https://github.com/zizdlp/zbook/actions)
+[![BUILD_MAIN](https://github.com/zizdlp/zbook/actions/workflows/build_main.yml/badge.svg?branch=main)](https://github.com/zizdlp/zbook/actions/workflows/build_main.yml)
+[![TEST_BACKEND](https://github.com/zizdlp/zbook/actions/workflows/test_backend.yml/badge.svg?branch=main)](https://github.com/zizdlp/zbook/actions/workflows/test_backend.yml)
+[![TEST_FRONTEND](https://github.com/zizdlp/zbook/actions/workflows/test_frontend.yml/badge.svg?branch=main)](https://github.com/zizdlp/zbook/actions/workflows/test_frontend.yml)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/zizdlp/zbook/tree/release.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/zizdlp/zbook/tree/release)
 
 </div>
