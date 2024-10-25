@@ -1,6 +1,9 @@
 name: TEST_FRONTEND
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
 jobs:
   test:
